@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--mui-palette-background-default);
+  color: var(--mui-palette-text-primary);
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+input:not(.MuiInputBase-input),
+select:not(.MuiNativeSelect-select),
+textarea:not(.MuiInputBase-input) {
+  width: 100%;
+  border: 1px solid var(--mui-palette-divider);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: var(--mui-palette-background-paper);
+  font: inherit;
+}
+
+label:not(.MuiFormLabel-root) {
+  display: grid;
+  gap: 6px;
+  color: var(--mui-palette-text-primary);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+table:not(.MuiTable-root) {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th:not(.MuiTableCell-root),
+td:not(.MuiTableCell-root) {
+  border-bottom: 1px solid var(--mui-palette-divider);
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th:not(.MuiTableCell-root) {
+  color: var(--mui-palette-text-secondary);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+::selection {
+  background: var(--mui-palette-primary-light);
+  color: var(--mui-palette-primary-dark);
+}
+
+* {
+  scrollbar-color: var(--mui-palette-divider) transparent;
+  scrollbar-width: thin;
+}

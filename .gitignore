@@ -1,0 +1,48 @@
+# Dependencies (root and every workspace)
+node_modules/
+.pnpm-store/
+
+# Framework/build outputs
+.next/
+.nuxt/
+.output/
+.svelte-kit/
+.angular/
+dist/
+build/
+out/
+coverage/
+
+# Monorepo and tooling caches
+.turbo/
+.nx/
+.cache/
+.parcel-cache/
+.eslintcache
+*.tsbuildinfo
+
+# Local environment files and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Hosting-provider local state
+.vercel/
+.netlify/
+
+# OS and editor-local files
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+*.swo

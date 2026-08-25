@@ -1,0 +1,21 @@
+:root {
+  --df-color-background: #f8fafc;
+  --df-color-surface: #ffffff;
+  --df-color-primary: #3972f6;
+  --df-color-primary-dark: #2457d6;
+  --df-color-primary-light: #eaf1ff;
+  --df-color-secondary: #0891b2;
+  --df-color-success: #059669;
+  --df-color-warning: #d97706;
+  --df-color-error: #dc2626;
+  --df-color-text: #0f172a;
+  --df-color-text-secondary: #66758c;
+  --df-color-text-disabled: #94a3b8;
+  --df-color-divider: #e5ebf3;
+  --df-radius-sm: 7px;
+  --df-radius-md: 10px;
+  --df-radius-lg: 14px;
+  --df-shell-header-height: 56px;
+  --df-shell-sidebar-expanded: 264px;
+  --df-shell-sidebar-collapsed: 84px;
+}

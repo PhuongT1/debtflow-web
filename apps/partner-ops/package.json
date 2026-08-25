@@ -1,0 +1,41 @@
+{
+  "name": "@debtflow/partner-ops",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3001",
+    "build": "next build",
+    "start": "next start --port 3001",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@debtflow/contracts": "*",
+    "@debtflow/platform-sdk": "*",
+    "@debtflow/react-app-shell": "*",
+    "@debtflow/react-ui": "*",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@hookform/resolvers": "^5.4.0",
+    "@mui/material": "^9.1.1",
+    "@mui/x-date-pickers": "^9.6.0",
+    "@tanstack/react-query": "^5.101.0",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.21",
+    "next": "^15.3.4",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-hook-form": "^7.80.0",
+    "tailwind-merge": "^2.6.0",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.6",
+    "@types/node": "^22.15.32",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "eslint": "^9.29.0",
+    "eslint-config-next": "^15.3.4",
+    "typescript": "^5.8.3"
+  }
+}
