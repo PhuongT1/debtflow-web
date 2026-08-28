@@ -1,0 +1,36 @@
+name: Frontend Architecture
+
+on:
+  pull_request:
+    paths:
+      - "apps/*/package.json"
+      - "apps/*/tsconfig*.json"
+      - "packages/**"
+      - "platform/**"
+      - "scripts/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/architecture.yml"
+  push:
+    branches: [main]
+    paths:
+      - "apps/*/package.json"
+      - "apps/*/tsconfig*.json"
+      - "packages/**"
+      - "platform/**"
+      - "scripts/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/architecture.yml"
+
+jobs:
+  boundaries-and-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run check:architecture

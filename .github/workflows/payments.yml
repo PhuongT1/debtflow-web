@@ -1,0 +1,35 @@
+name: Payments (Angular)
+
+on:
+  pull_request:
+    paths:
+      - "apps/payments/**"
+      - "packages/**"
+      - "platform/**"
+      - "scripts/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/payments.yml"
+  push:
+    branches: [main]
+    paths:
+      - "apps/payments/**"
+      - "packages/**"
+      - "platform/**"
+      - "scripts/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/payments.yml"
+
+jobs:
+  check-payments:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run check:payments
+      - run: npm run test -w @debtflow/payments -- --watch=false

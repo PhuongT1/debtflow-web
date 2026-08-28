@@ -1,0 +1,56 @@
+{
+  "$schema": "../../../platform/manifests/schema.json",
+  "schemaVersion": 2,
+  "applications": [
+    {
+      "name": "partner-ops",
+      "package": "@debtflow/partner-ops",
+      "version": "0.1.0",
+      "framework": "next",
+      "enabledEnv": "PARTNER_OPS_ENABLED",
+      "originEnv": "PARTNER_OPS_ORIGIN",
+      "healthPath": "/api/health",
+      "contracts": {
+        "api": 1,
+        "events": 1
+      },
+      "composition": {
+        "integration": "iframe",
+        "layout": "main",
+        "publicPath": "/parties",
+        "proxyPath": "/__mfe/partner-ops",
+        "remoteBasePath": "",
+        "entryPath": "/__embed/parties"
+      },
+      "assetRoutes": [
+        {
+          "source": "/partner-ops-static/:path+",
+          "destination": "/partner-ops-static/:path+"
+        }
+      ]
+    },
+    {
+      "name": "payments",
+      "package": "@debtflow/payments",
+      "version": "0.1.0",
+      "framework": "angular",
+      "enabledEnv": "PAYMENTS_ENABLED",
+      "originEnv": "PAYMENTS_ORIGIN",
+      "healthPath": "/health.json",
+      "contracts": {
+        "api": 1,
+        "events": 1
+      },
+      "composition": {
+        "integration": "web-component",
+        "layout": "main",
+        "publicPath": "/payments",
+        "proxyPath": "/__mfe/payments",
+        "remoteBasePath": "",
+        "entryPath": "/remote-manifest.json",
+        "elementName": "debtflow-payments"
+      },
+      "assetRoutes": []
+    }
+  ]
+}

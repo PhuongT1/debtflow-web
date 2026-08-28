@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "name": "payments",
+  "version": "0.1.0",
+  "element": "debtflow-payments",
+  "scripts": ["main.js"],
+  "styles": ["styles.css"]
+}

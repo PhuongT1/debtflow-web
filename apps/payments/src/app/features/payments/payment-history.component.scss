@@ -1,0 +1,127 @@
+:host {
+  display: block;
+  min-width: 0;
+  width: 100%;
+}
+.page {
+  min-height: calc(100vh - 104px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.page > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.page h1 {
+  margin: 0;
+  font-size: 28px;
+}
+.page p {
+  margin: 6px 0 0;
+  color: var(--df-color-text-secondary);
+}
+.help {
+  padding: 10px 16px;
+  border: 1px solid var(--df-color-divider);
+  border-radius: var(--df-radius-md);
+  color: var(--df-color-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+.card {
+  flex: 1;
+  display: flex;
+  min-height: 420px;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--df-color-divider);
+  border-radius: var(--df-radius-md);
+  overflow: hidden;
+}
+.table-wrap {
+  overflow: auto;
+  flex: 1;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 920px;
+}
+th {
+  background: #f4f7fb;
+  color: var(--df-color-text-secondary);
+  font-size: 12px;
+  text-align: left;
+  text-transform: uppercase;
+}
+th,
+td {
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--df-color-divider);
+}
+td a {
+  color: var(--df-color-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+.right {
+  text-align: right;
+}
+.amount {
+  font-weight: 750;
+}
+td button {
+  border: 1px solid #fecaca;
+  color: var(--df-color-error);
+  background: #fff;
+  border-radius: 8px;
+  padding: 7px 12px;
+  cursor: pointer;
+}
+.state {
+  flex: 1;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  color: var(--df-color-text-secondary);
+  gap: 7px;
+}
+.error {
+  padding: 12px 18px;
+  background: #fef2f2;
+  color: var(--df-color-error);
+}
+footer {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 12px 18px;
+  border-top: 1px solid var(--df-color-divider);
+}
+footer > span:first-child {
+  margin-right: auto;
+}
+footer select,
+footer button {
+  border: 1px solid var(--df-color-divider);
+  background: #fff;
+  border-radius: 8px;
+  padding: 7px 10px;
+}
+footer button:disabled {
+  opacity: 0.4;
+}
+@media (max-width: 700px) {
+  .page h1 {
+    font-size: 23px;
+  }
+  footer {
+    flex-wrap: wrap;
+  }
+  footer > span:first-child {
+    width: 100%;
+  }
+}

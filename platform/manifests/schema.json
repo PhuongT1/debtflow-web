@@ -1,0 +1,193 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Debtflow Micro Frontend Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "applications"],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": 2
+    },
+    "applications": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "package",
+          "version",
+          "framework",
+          "enabledEnv",
+          "originEnv",
+          "healthPath",
+          "contracts",
+          "composition",
+          "assetRoutes"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "package": {
+            "type": "string",
+            "pattern": "^@debtflow/[a-z][a-z0-9-]*$"
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$"
+          },
+          "framework": {
+            "type": "string",
+            "enum": [
+              "angular",
+              "next",
+              "react",
+              "vue",
+              "web-component",
+              "other"
+            ]
+          },
+          "enabledEnv": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]*_ENABLED$"
+          },
+          "originEnv": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]*_ORIGIN$"
+          },
+          "healthPath": {
+            "$ref": "#/definitions/path"
+          },
+          "contracts": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["api", "events"],
+            "properties": {
+              "api": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "events": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          },
+          "composition": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "integration",
+              "layout",
+              "publicPath",
+              "proxyPath",
+              "remoteBasePath",
+              "entryPath"
+            ],
+            "properties": {
+              "integration": {
+                "type": "string",
+                "enum": ["web-component", "iframe", "route"]
+              },
+              "layout": {
+                "type": "string",
+                "enum": ["main", "minimal", "none"]
+              },
+              "publicPath": {
+                "$ref": "#/definitions/path"
+              },
+              "proxyPath": {
+                "$ref": "#/definitions/internalProxyPath"
+              },
+              "remoteBasePath": {
+                "type": "string",
+                "pattern": "^(|/(?!/)[^?\u0023]*)$"
+              },
+              "entryPath": {
+                "$ref": "#/definitions/path"
+              },
+              "elementName": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9]*-[a-z0-9-]+$"
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "integration": {
+                      "const": "web-component"
+                    }
+                  }
+                },
+                "then": {
+                  "required": ["elementName"]
+                },
+                "else": {
+                  "not": {
+                    "required": ["elementName"]
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "layout": {
+                      "const": "none"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "integration": {
+                      "const": "route"
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "integration": {
+                      "enum": ["web-component", "iframe"]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "assetRoutes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["source", "destination"],
+              "properties": {
+                "source": {
+                  "$ref": "#/definitions/path"
+                },
+                "destination": {
+                  "$ref": "#/definitions/path"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "path": {
+      "type": "string",
+      "pattern": "^/(?!/)[^?\u0023]*$"
+    },
+    "internalProxyPath": {
+      "type": "string",
+      "pattern": "^/__mfe/[a-z][a-z0-9-]*$"
+    }
+  }
+}
