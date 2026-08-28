@@ -61,10 +61,16 @@ const partyFilterSchema = z
     createdFrom: z.string(),
     createdTo: z.string(),
   })
-  .refine((values) => !values.createdFrom || !values.createdTo || values.createdFrom <= values.createdTo, {
-    message: "Ngày kết thúc phải sau hoặc bằng ngày bắt đầu",
-    path: ["createdTo"],
-  });
+  .refine(
+    (values) =>
+      !values.createdFrom ||
+      !values.createdTo ||
+      values.createdFrom <= values.createdTo,
+    {
+      message: "Ngày kết thúc phải sau hoặc bằng ngày bắt đầu",
+      path: ["createdTo"],
+    },
+  );
 
 type PartyFilterValues = z.infer<typeof partyFilterSchema>;
 
@@ -75,13 +81,35 @@ const typeLabel: Record<PartyType, string> = {
 };
 
 const weekdayFormatter = new Intl.DateTimeFormat("vi-VN", { weekday: "short" });
-const dateFormatter = new Intl.DateTimeFormat("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" });
+const dateFormatter = new Intl.DateTimeFormat("vi-VN", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+});
+
+const API_FILTER_KEYS = [
+  "q",
+  "type",
+  "assignedToId",
+  "createdFrom",
+  "createdTo",
+  "page",
+  "pageSize",
+] as const;
 
 function getFilters(searchParams: URLSearchParams) {
-  return Object.fromEntries(searchParams.entries()) as Record<string, string | undefined>;
+  return Object.fromEntries(
+    API_FILTER_KEYS.flatMap((key) => {
+      const value = searchParams.get(key);
+      return value === null ? [] : [[key, value]];
+    }),
+  ) as Record<(typeof API_FILTER_KEYS)[number], string | undefined>;
 }
 
-function getApiPath(path: string, filters?: Record<string, string | undefined>) {
+function getApiPath(
+  path: string,
+  filters?: Record<string, string | undefined>,
+) {
   const searchParams = new URLSearchParams();
 
   Object.entries(filters ?? {}).forEach(([key, value]) => {
@@ -107,7 +135,13 @@ export function PartiesClient() {
       createdTo: params.get("createdTo") ?? "",
     };
   }, [searchKey]);
-  const { control, handleSubmit, register, reset, formState: { errors: filterErrors } } = useForm<PartyFilterValues>({
+  const {
+    control,
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors: filterErrors },
+  } = useForm<PartyFilterValues>({
     defaultValues: filterDefaults,
     resolver: zodResolver(partyFilterSchema),
   });
@@ -125,21 +159,35 @@ export function PartiesClient() {
   }
 
   function clearFilters() {
-    reset({ q: "", type: "", assignedToId: "", createdFrom: "", createdTo: "" });
+    reset({
+      q: "",
+      type: "",
+      assignedToId: "",
+      createdFrom: "",
+      createdTo: "",
+    });
     router.replace("/parties", { scroll: false });
   }
 
   const partiesQuery = useQuery({
     queryKey: ["parties", searchKey],
-    queryFn: () => requestJson<Paginated<Party>>(getApiPath("/api/parties", filters)),
+    queryFn: () =>
+      requestJson<Paginated<Party>>(getApiPath("/api/parties", filters)),
   });
   const usersQuery = useQuery({
     queryKey: ["active-users"],
-    queryFn: () => requestJson<UserSummary[]>("/api/users"),
+    queryFn: () => requestJson<UserSummary[]>("/api/users/options"),
     staleTime: 5 * 60_000,
   });
-  const parties = partiesQuery.data ?? { items: [], total: 0, page: Number(filters.page ?? 1), pageSize: Number(filters.pageSize ?? 20) };
-  const activeUsers = (usersQuery.data ?? []).filter((user) => user.status === "ACTIVE").sort((a, b) => a.name.localeCompare(b.name));
+  const parties = partiesQuery.data ?? {
+    items: [],
+    total: 0,
+    page: Number(filters.page ?? 1),
+    pageSize: Number(filters.pageSize ?? 20),
+  };
+  const activeUsers = (usersQuery.data ?? [])
+    .filter((user) => user.status === "ACTIVE")
+    .sort((a, b) => a.name.localeCompare(b.name));
   const error = partiesQuery.error ?? usersQuery.error;
   const isLoading = partiesQuery.isLoading || usersQuery.isLoading;
   const columns: Array<DataTableColumn<Party>> = [
@@ -147,7 +195,10 @@ export function PartiesClient() {
     {
       ...partyTableColumns.name,
       render: (party) => (
-        <Link className="font-semibold text-blue-600" href={`/parties/${party.id}`}>
+        <Link
+          className="font-semibold text-blue-600"
+          href={`/parties/${party.id}`}
+        >
           <ClampedText title={party.name}>{party.name}</ClampedText>
         </Link>
       ),
@@ -155,12 +206,23 @@ export function PartiesClient() {
     {
       ...partyTableColumns.type,
       render: (party) => (
-        <Badge tone={party.type === "CUSTOMER" ? "blue" : party.type === "SUPPLIER" ? "amber" : "slate"}>
+        <Badge
+          tone={
+            party.type === "CUSTOMER"
+              ? "blue"
+              : party.type === "SUPPLIER"
+                ? "amber"
+                : "slate"
+          }
+        >
           {typeLabel[party.type]}
         </Badge>
       ),
     },
-    { ...partyTableColumns.sale, render: (party) => party.assignedTo?.name ?? "-" },
+    {
+      ...partyTableColumns.sale,
+      render: (party) => party.assignedTo?.name ?? "-",
+    },
     {
       ...partyTableColumns.createdAt,
       render: (party) => {
@@ -169,12 +231,18 @@ export function PartiesClient() {
         return (
           <div>
             <p className="font-semibold">{dateFormatter.format(createdAt)}</p>
-            <p className="text-xs text-slate-500">{weekdayFormatter.format(createdAt)}</p>
+            <p className="text-xs text-slate-500">
+              {weekdayFormatter.format(createdAt)}
+            </p>
           </div>
         );
       },
     },
-    { ...partyTableColumns.creditLimit, render: (party) => (party.creditLimit ? formatMoney(party.creditLimit) : "-") },
+    {
+      ...partyTableColumns.creditLimit,
+      render: (party) =>
+        party.creditLimit ? formatMoney(party.creditLimit) : "-",
+    },
     {
       ...partyTableColumns.contact,
       render: (party) => (
@@ -235,44 +303,66 @@ export function PartiesClient() {
         title="Khách hàng / Nhà cung cấp"
         actions={
           <>
-          <FormDialog buttonLabel="Thêm đối tác" description="Tạo khách hàng hoặc nhà cung cấp mới." title="Thêm đối tác">
-            <PartyForm users={activeUsers} />
-          </FormDialog>
-          <HelpModal
-            title="Cách quản lý khách hàng"
-            description="Mỗi khách chỉ nên tạo một lần, sau đó mọi công nợ và thanh toán sẽ gom về hồ sơ khách đó."
-            steps={[
-              "Tạo khách mới với tên, số điện thoại, mã số thuế nếu có.",
-              "Gán sale phụ trách để biết ai phải theo dõi công nợ của khách này.",
-              "Nhập hạn mức công nợ nếu shop/công ty có giới hạn cho khách mua thiếu.",
-              "Bấm vào tên khách để xem Customer 360: tổng nợ, quá hạn, lịch sử công nợ.",
-            ]}
-            tips={[
-              "Không cần tạo khách trùng nhiều lần như Excel. Tìm khách trước khi tạo mới.",
-              "Với shop nhỏ, có thể chỉ nhập tên và số điện thoại là đủ để bắt đầu.",
-            ]}
-          />
+            <FormDialog
+              buttonLabel="Thêm đối tác"
+              description="Tạo khách hàng hoặc nhà cung cấp mới."
+              title="Thêm đối tác"
+            >
+              <PartyForm users={activeUsers} />
+            </FormDialog>
+            <HelpModal
+              title="Cách quản lý khách hàng"
+              description="Mỗi khách chỉ nên tạo một lần, sau đó mọi công nợ và thanh toán sẽ gom về hồ sơ khách đó."
+              steps={[
+                "Tạo khách mới với tên, số điện thoại, mã số thuế nếu có.",
+                "Gán sale phụ trách để biết ai phải theo dõi công nợ của khách này.",
+                "Nhập hạn mức công nợ nếu shop/công ty có giới hạn cho khách mua thiếu.",
+                "Bấm vào tên khách để xem Customer 360: tổng nợ, quá hạn, lịch sử công nợ.",
+              ]}
+              tips={[
+                "Không cần tạo khách trùng nhiều lần như Excel. Tìm khách trước khi tạo mới.",
+                "Với shop nhỏ, có thể chỉ nhập tên và số điện thoại là đủ để bắt đầu.",
+              ]}
+            />
           </>
         }
       />
 
-      {error ? <Alert severity="error">{error instanceof Error ? error.message : "Không thể tải danh sách đối tác"}</Alert> : null}
+      {error ? (
+        <Alert severity="error">
+          {error instanceof Error
+            ? error.message
+            : "Không thể tải danh sách đối tác"}
+        </Alert>
+      ) : null}
       <DataTable
         columns={columns}
         emptyMessage="Không có khách hàng / nhà cung cấp"
         fillHeight
         hrefForPage={(page) => hrefWithPage("/parties", filters, page)}
-        hrefForPageSize={(pageSize) => hrefWithPageSize("/parties", filters, pageSize)}
+        hrefForPageSize={(pageSize) =>
+          hrefWithPageSize("/parties", filters, pageSize)
+        }
         loading={isLoading}
         page={parties.page}
         pageSize={parties.pageSize}
         rows={parties.items}
         toolbar={
           <DataTableToolbar
-            columns={{ xs: "1fr", sm: "repeat(2, minmax(0, 1fr))", lg: "2fr repeat(2, minmax(150px, 1fr))", xl: "2fr repeat(4, minmax(140px, 1fr)) auto" }}
+            columns={{
+              xs: "1fr",
+              sm: "repeat(2, minmax(0, 1fr))",
+              lg: "2fr repeat(2, minmax(150px, 1fr))",
+              xl: "2fr repeat(4, minmax(140px, 1fr)) auto",
+            }}
             onSubmit={handleSubmit(applyFilters)}
           >
-            <AppInput autoComplete="off" label="Tìm khách" placeholder="Tên, mã, MST, điện thoại..." {...register("q")} />
+            <AppInput
+              autoComplete="off"
+              label="Tìm khách"
+              placeholder="Tên, mã, MST, điện thoại..."
+              {...register("q")}
+            />
             <Controller
               control={control}
               name="type"
@@ -289,7 +379,11 @@ export function PartiesClient() {
               control={control}
               name="assignedToId"
               render={({ field }) => (
-                <AppSelect label="Sale phụ trách" {...field} value={field.value ?? ""}>
+                <AppSelect
+                  label="Sale phụ trách"
+                  {...field}
+                  value={field.value ?? ""}
+                >
                   <MenuItem value="">Tất cả</MenuItem>
                   {activeUsers.map((user) => (
                     <MenuItem key={user.id} value={user.id}>
@@ -299,8 +393,32 @@ export function PartiesClient() {
                 </AppSelect>
               )}
             />
-            <Controller control={control} name="createdFrom" render={({ field }) => <AppDatePicker error={Boolean(filterErrors.createdFrom)} helperText={filterErrors.createdFrom?.message} label="Tạo từ ngày" onChange={field.onChange} value={field.value} />} />
-            <Controller control={control} name="createdTo" render={({ field }) => <AppDatePicker error={Boolean(filterErrors.createdTo)} helperText={filterErrors.createdTo?.message} label="Đến ngày" onChange={field.onChange} value={field.value} />} />
+            <Controller
+              control={control}
+              name="createdFrom"
+              render={({ field }) => (
+                <AppDatePicker
+                  error={Boolean(filterErrors.createdFrom)}
+                  helperText={filterErrors.createdFrom?.message}
+                  label="Tạo từ ngày"
+                  onChange={field.onChange}
+                  value={field.value}
+                />
+              )}
+            />
+            <Controller
+              control={control}
+              name="createdTo"
+              render={({ field }) => (
+                <AppDatePicker
+                  error={Boolean(filterErrors.createdTo)}
+                  helperText={filterErrors.createdTo?.message}
+                  label="Đến ngày"
+                  onChange={field.onChange}
+                  value={field.value}
+                />
+              )}
+            />
             <FilterActions onReset={clearFilters} resetHref="/parties" />
           </DataTableToolbar>
         }

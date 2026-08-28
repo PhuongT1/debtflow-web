@@ -5,6 +5,8 @@ on:
     paths:
       - "apps/partner-ops/**"
       - "packages/**"
+      - "platform/**"
+      - "scripts/**"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/partner-ops.yml"
@@ -13,6 +15,8 @@ on:
     paths:
       - "apps/partner-ops/**"
       - "packages/**"
+      - "platform/**"
+      - "scripts/**"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/partner-ops.yml"

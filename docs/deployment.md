@@ -1,43 +1,31 @@
-# Deployment guide
+# Deployment
 
-## Required topology
+Deploy độc lập: apps/platform (Next), apps/partner-ops (Next), apps/payments (Angular static dist/payments/browser). Public product URL là Platform.
 
-Deploy three independent services:
+Internal runtime proxy:
 
-1. `debtflow-api` (NestJS)
-2. `@debtflow/shell`
-3. `@debtflow/partner-ops`
+- /__mfe/partner-ops/** -> Partner origin.
+- /partner-ops-static/** -> Partner assets.
 
-The public router sends `/parties/**` and `/partner-ops-static/**` to Partner Operations and everything else to Shell. On Vercel, the shell rewrite currently provides this composition. On another provider, reproduce the same route table with its gateway/ingress.
+Payments is a standalone static remote. Platform reads its runtime manifest and assets directly from `PAYMENTS_ORIGIN`; enable CORS for static assets. This prevents the Platform proxy namespace from becoming a public Payments URL.
 
-## Build commands
+User vẫn dùng /parties và /payments nên Header/Sidebar không rời Platform.
 
-From repository root:
+## Vercel
 
-```bash
-npm ci
-npm run build:shell
-npm run build:partner-ops
+Mỗi app là một Vercel Project/Root Directory. Install: npm ci --prefix=../... Build: npm run build. Angular output: dist/payments/browser.
+
+Deploy remotes trước rồi cấu hình Platform:
+
+```env
+PARTNER_OPS_ENABLED=true
+PARTNER_OPS_ORIGIN=https://<partner-project>
+PAYMENTS_ENABLED=true
+PAYMENTS_ORIGIN=https://<payments-project>
 ```
 
-For independent CI jobs use:
+Deploy Platform cuối và smoke-test health/runtime manifest/direct artifact/composed route.
 
-```bash
-npm run check:shell
-npm run check:partner-ops
-```
+## Provider khác và rollback
 
-Both Next.js apps use `output: "standalone"`. Each `.next/standalone` artifact contains the runtime files traced for that app and can be packaged/deployed separately; the development root `node_modules` is not copied as the production runtime.
-
-## Release order
-
-1. Deploy Partner Operations without changing production traffic.
-2. Verify `/api/health` and direct `/parties` rendering.
-3. Deploy Shell with the new `PARTNER_OPS_ORIGIN`.
-4. Enable `PARTNER_OPS_ENABLED=true`.
-5. Smoke-test login, list, detail, create/update and cross-zone navigation.
-6. Roll back by disabling the flag if the zone is unhealthy.
-
-## Production migrations
-
-Frontend deployment must not execute database migrations. Deploy `debtflow-api` migrations as a separate release job before deploying code that requires the new schema.
+Nginx/Ingress/Cloudflare tái tạo internal prefixes, giữ forwarded cookies/host/protocol. Release app độc lập, kiểm tra contract/health, đổi *_ORIGIN/flag rồi smoke test. Rollback origin/deployment; không phục hồi duplicate UI trong Platform. Database migration thuộc API pipeline.

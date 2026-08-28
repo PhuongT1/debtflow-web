@@ -15,7 +15,7 @@ import { SectionCard } from "@/components/ui/section-card";
 import { DebtForm } from "@/features/debts/debt-form";
 import { listDebts } from "@/features/debts/service";
 import { listParties } from "@/features/debts/party-options-service";
-import { listUsers } from "@/features/users/service";
+import { listUserOptions } from "@/features/users/service";
 import { CollectionStatus, DebtStatus, DebtType } from "@/lib/domain";
 import { API_URL } from "@/lib/env";
 import { hrefWithPage, hrefWithPageSize } from "@/lib/pagination";
@@ -70,7 +70,7 @@ export default async function DebtsPage({
   const [debts, parties, users] = await Promise.all([
     listDebts(filters),
     listParties({ pageSize: 100 }),
-    listUsers(),
+    listUserOptions(),
   ]);
   const activeUsers = users.filter((user) => user.status === "ACTIVE").sort((a, b) => a.name.localeCompare(b.name));
   const dueDayGroups = getDueDayGroups(debts.items);

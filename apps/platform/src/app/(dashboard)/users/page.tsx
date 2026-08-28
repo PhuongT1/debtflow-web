@@ -12,11 +12,8 @@ export default async function UsersPage({
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
   const filters = await searchParams;
-  const page = Math.max(1, Number(filters.page ?? 1));
-  const pageSize = Math.min(100, Math.max(1, Number(filters.pageSize ?? 20)));
-  const allUsers = await listUsers();
-  const total = allUsers.length;
-  const users = allUsers.slice((page - 1) * pageSize, page * pageSize);
+  const result = await listUsers(filters);
+  const { items: users, page, pageSize, total } = result;
   const columns: Array<DataTableColumn<(typeof users)[number]>> = [
     { key: "name", header: "Tên", render: (user) => <span className="font-semibold">{user.name}</span> },
     { key: "email", header: "Email", render: (user) => user.email },

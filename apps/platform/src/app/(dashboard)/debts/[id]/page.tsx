@@ -9,7 +9,7 @@ import { SectionCard } from "@/components/ui/section-card";
 import { CollectionForm } from "@/features/debts/collection-form";
 import { getDebt } from "@/features/debts/service";
 import { PaymentForm } from "@/features/payments/payment-form";
-import { listUsers } from "@/features/users/service";
+import { listUserOptions } from "@/features/users/service";
 import { hrefWithPage, hrefWithPageSize } from "@/lib/pagination";
 import { formatMoney } from "@/lib/utils";
 
@@ -26,7 +26,7 @@ export default async function DebtDetailPage({
   const pageSize = Math.min(100, Math.max(1, Number(filters.pageSize ?? 20)));
   const [debt, users] = await Promise.all([
     getDebt((await params).id),
-    listUsers(),
+    listUserOptions(),
   ]);
   const activeUsers = users.filter((user) => user.status === "ACTIVE").sort((a, b) => a.name.localeCompare(b.name));
   const remaining = debt.originalAmount.minus(debt.paidAmount);
