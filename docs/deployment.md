@@ -14,15 +14,17 @@ Each application in `apps/` is independently buildable, deployable, and scalable
 
 ---
 
-## 2. Vercel Multi-Project Deployment
+## 2. Vercel Multi-Project Deployment (Native Monorepo Standard)
 
-In Vercel or similar platforms, create three separate projects pointing to the same repository with distinct **Root Directory** settings:
+Vercel natively supports NPM/Turborepo monorepos via `turbo.json`. **No complex CLI commands or override scripts are required.**
+
+In Vercel, create three separate projects pointing to the same repository with the following standard settings:
 
 ### Project 1: `@debtflow/shell` (Host)
 - **Root Directory:** `apps/shell`
-- **Install Command:** `npm ci --prefix=../..`
-- **Build Command:** `npm run build`
-- **Output Directory:** `.next`
+- **Include files outside root directory:** ✅ **YES / Enabled** (Default in Vercel Monorepo)
+- **Install Command:** *(Leave default / disabled)*
+- **Build Command:** *(Leave default / disabled)*
 - **Environment Variables:**
   ```env
   AUTH_SECRET=your_32_byte_secret
@@ -35,9 +37,9 @@ In Vercel or similar platforms, create three separate projects pointing to the s
 
 ### Project 2: `@debtflow/partner-ops` (Remote)
 - **Root Directory:** `apps/partner-ops`
-- **Install Command:** `npm ci --prefix=../..`
-- **Build Command:** `npm run build`
-- **Output Directory:** `.next`
+- **Include files outside root directory:** ✅ **YES / Enabled**
+- **Install Command:** *(Leave default / disabled)*
+- **Build Command:** *(Leave default / disabled)*
 - **Environment Variables:**
   ```env
   PLATFORM_INTERNAL_ORIGIN=https://app.yourdomain.com
@@ -46,10 +48,10 @@ In Vercel or similar platforms, create three separate projects pointing to the s
 
 ### Project 3: `@debtflow/payments` (Remote)
 - **Root Directory:** `apps/payments`
-- **Install Command:** `npm ci --prefix=../..`
-- **Build Command:** `npm run build`
+- **Include files outside root directory:** ✅ **YES / Enabled**
+- **Framework Preset:** `Angular` (or Other)
 - **Output Directory:** `dist/payments/browser`
-- **Important:** Ensure CORS headers (`Access-Control-Allow-Origin: *`) are enabled for static assets (`*.js`, `*.css`, `remote-manifest.json`).
+- **Important:** Ensure CORS headers (`Access-Control-Allow-Origin: *`) are enabled for static assets via `apps/payments/vercel.json`.
 
 ---
 
