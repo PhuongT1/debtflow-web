@@ -24,7 +24,7 @@ export function PartiesPageSkeleton() {
   );
 
   return (
-    <Page fillAvailable>
+    <Page contentWidth="wide" fillAvailable>
       <PageHeader
         compact
         title="Khách hàng / Nhà cung cấp"

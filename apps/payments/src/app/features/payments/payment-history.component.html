@@ -1,33 +1,34 @@
 <section class="page">
   <header>
     <div>
-      <h1>Lịch sử thanh toán</h1>
-      <p>Theo dõi các khoản thanh toán một phần hoặc tất toán.</p>
+      <h1>{{ locale() === 'en' ? 'Payment History' : 'Lịch sử thanh toán' }}</h1>
+      <p>{{ locale() === 'en' ? 'Track partial and full settlement payments.' : 'Theo dõi các khoản thanh toán một phần hoặc tất toán.' }}</p>
     </div>
-    <a class="help" href="/docs" target="_blank">? Hướng dẫn</a>
+    <a class="help" href="/docs" target="_blank">{{ locale() === 'en' ? '? Help Guide' : '? Hướng dẫn' }}</a>
   </header>
   <div class="card">
     @if (error()) {
       <div class="error">{{ error() }}</div>
     }
     @if (loading()) {
-      <div class="state">Đang tải...</div>
+      <div class="state">{{ locale() === 'en' ? 'Loading...' : 'Đang tải...' }}</div>
     } @else if (result().items.length === 0) {
       <div class="state">
-        <strong>Chưa có lịch sử thanh toán</strong><span>Các khoản thu sẽ xuất hiện tại đây.</span>
+        <strong>{{ locale() === 'en' ? 'No payment history yet' : 'Chưa có lịch sử thanh toán' }}</strong
+        ><span>{{ locale() === 'en' ? 'Recorded payments will appear here.' : 'Các khoản thu sẽ xuất hiện tại đây.' }}</span>
       </div>
     } @else {
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Ngày</th>
-              <th>Mã công nợ</th>
-              <th>Đối tác</th>
-              <th class="right">Số tiền</th>
-              <th>Phương thức</th>
-              <th>Người ghi nhận</th>
-              <th>Thao tác</th>
+              <th>{{ locale() === 'en' ? 'Date' : 'Ngày' }}</th>
+              <th>{{ locale() === 'en' ? 'Debt Code' : 'Mã công nợ' }}</th>
+              <th>{{ locale() === 'en' ? 'Partner' : 'Đối tác' }}</th>
+              <th class="right">{{ locale() === 'en' ? 'Amount' : 'Số tiền' }}</th>
+              <th>{{ locale() === 'en' ? 'Method' : 'Phương thức' }}</th>
+              <th>{{ locale() === 'en' ? 'Recorded By' : 'Người ghi nhận' }}</th>
+              <th>{{ locale() === 'en' ? 'Actions' : 'Thao tác' }}</th>
             </tr>
           </thead>
           <tbody>
@@ -41,7 +42,7 @@
                 <td class="right amount">{{ money(payment.amount) }}</td>
                 <td>{{ method(payment.method) }}</td>
                 <td>{{ payment.createdBy?.name || '-' }}</td>
-                <td><button type="button" (click)="remove(payment)">Xóa</button></td>
+                <td><button type="button" (click)="remove(payment)">{{ locale() === 'en' ? 'Delete' : 'Xóa' }}</button></td>
               </tr>
             }
           </tbody>
@@ -49,9 +50,9 @@
       </div>
     }
     <footer>
-      <span>Hiển thị {{ result().items.length }} / {{ result().total }} dòng</span
+      <span>{{ locale() === 'en' ? 'Showing ' + result().items.length + ' / ' + result().total + ' rows' : 'Hiển thị ' + result().items.length + ' / ' + result().total + ' dòng' }}</span
       ><label
-        >Số dòng
+        >{{ locale() === 'en' ? 'Rows' : 'Số dòng' }}
         <select [value]="result().pageSize" (change)="go(1, +$any($event.target).value)">
           <option>10</option>
           <option>20</option>
@@ -59,7 +60,7 @@
           <option>100</option>
         </select></label
       ><button [disabled]="result().page <= 1" (click)="go(result().page - 1)">‹</button
-      ><span>Trang {{ result().page }}/{{ totalPages() }}</span
+      ><span>{{ locale() === 'en' ? 'Page ' + result().page + '/' + totalPages() : 'Trang ' + result().page + '/' + totalPages() }}</span
       ><button [disabled]="result().page >= totalPages()" (click)="go(result().page + 1)">›</button>
     </footer>
   </div>

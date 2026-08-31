@@ -1,11 +1,12 @@
-# @debtflow/payments
+# @debtflow/payments (Payments Micro Frontend)
 
-Angular Payments MFE chạy độc lập tại domain root (local: http://localhost:3002/) và xuất custom element <debtflow-payments>.
+Angular 19 Micro Frontend running independently at root (local: `http://localhost:3002/`) and compiled as a W3C Custom Web Component (`<debtflow-payments>`).
 
-Composed mode: Platform tải runtime manifest trực tiếp từ PAYMENTS_ORIGIN, kiểm tra name/version/element, lazy-load main.js và mount dưới MainLayout. Standalone mode dùng cùng business UI tại root; không copy Header/Sidebar. API đi qua /api: ở local proxy chuyển đến Platform BFF, còn production cấu hình API gateway/Auth domain theo deployment.
+- **Standalone Mode** (`http://localhost:3002/`): Standalone test harness for rapid feature development.
+- **Composed Mode** (`http://localhost:3000/payments`): The Shell host fetches the runtime manifest directly from `PAYMENTS_ORIGIN`, validates compatibility, lazy-loads `main.js`, and mounts the `<debtflow-payments>` element within `AppShell`.
 
 ```bash
-npm ci
+npm install
 npm run dev:payments-stack
 # open http://localhost:3000/payments
 
@@ -13,8 +14,6 @@ npm run dev:payments
 # isolation: http://localhost:3002/
 
 npm run check:payments
-npm run test -w @debtflow/payments -- --watch=false
 npm run build:payments
 ```
 
-Artifact dist/payments/browser chứa main.js, styles.css, remote-manifest.json và health file. Platform từ chối mount nếu version/element không tương thích.

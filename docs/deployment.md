@@ -1,31 +1,78 @@
-# Deployment
+# Production Deployment & Hosting Guide
 
-Deploy độc lập: apps/platform (Next), apps/partner-ops (Next), apps/payments (Angular static dist/payments/browser). Public product URL là Platform.
+This document outlines the independent deployment strategy for all micro frontend applications and shared assets within the **Debt Flow Web** workspace.
 
-Internal runtime proxy:
+---
 
-- /__mfe/partner-ops/** -> Partner origin.
-- /partner-ops-static/** -> Partner assets.
+## 1. Deployment Topology
 
-Payments is a standalone static remote. Platform reads its runtime manifest and assets directly from `PAYMENTS_ORIGIN`; enable CORS for static assets. This prevents the Platform proxy namespace from becoming a public Payments URL.
+Each application in `apps/` is independently buildable, deployable, and scalable:
 
-User vẫn dùng /parties và /payments nên Header/Sidebar không rời Platform.
+- **Host App (`apps/shell`):** Next.js 15 App Router running in Node.js/Serverless environment.
+- **Partner Operations (`apps/partner-ops`):** Next.js 15 App Router running in Node.js/Serverless environment.
+- **Payments (`apps/payments`):** Angular 19 compiled to static assets (`dist/payments/browser/`). Can be hosted on any Static Web Hosting / CDN (AWS S3, Cloudflare Pages, Vercel Static, Nginx).
 
-## Vercel
+---
 
-Mỗi app là một Vercel Project/Root Directory. Install: npm ci --prefix=../... Build: npm run build. Angular output: dist/payments/browser.
+## 2. Vercel Multi-Project Deployment
 
-Deploy remotes trước rồi cấu hình Platform:
+In Vercel or similar platforms, create three separate projects pointing to the same repository with distinct **Root Directory** settings:
 
-```env
-PARTNER_OPS_ENABLED=true
-PARTNER_OPS_ORIGIN=https://<partner-project>
-PAYMENTS_ENABLED=true
-PAYMENTS_ORIGIN=https://<payments-project>
-```
+### Project 1: `@debtflow/shell` (Host)
+- **Root Directory:** `apps/shell`
+- **Install Command:** `npm ci --prefix=../..`
+- **Build Command:** `npm run build`
+- **Output Directory:** `.next`
+- **Environment Variables:**
+  ```env
+  AUTH_SECRET=your_32_byte_secret
+  API_URL=https://api.yourdomain.com/api
+  PARTNER_OPS_ENABLED=true
+  PARTNER_OPS_ORIGIN=https://partner-ops.yourdomain.com
+  PAYMENTS_ENABLED=true
+  PAYMENTS_ORIGIN=https://payments.yourdomain.com
+  ```
 
-Deploy Platform cuối và smoke-test health/runtime manifest/direct artifact/composed route.
+### Project 2: `@debtflow/partner-ops` (Remote)
+- **Root Directory:** `apps/partner-ops`
+- **Install Command:** `npm ci --prefix=../..`
+- **Build Command:** `npm run build`
+- **Output Directory:** `.next`
+- **Environment Variables:**
+  ```env
+  PLATFORM_INTERNAL_ORIGIN=https://app.yourdomain.com
+  PARTNER_OPS_ASSET_PREFIX=https://partner-ops.yourdomain.com
+  ```
 
-## Provider khác và rollback
+### Project 3: `@debtflow/payments` (Remote)
+- **Root Directory:** `apps/payments`
+- **Install Command:** `npm ci --prefix=../..`
+- **Build Command:** `npm run build`
+- **Output Directory:** `dist/payments/browser`
+- **Important:** Ensure CORS headers (`Access-Control-Allow-Origin: *`) are enabled for static assets (`*.js`, `*.css`, `remote-manifest.json`).
 
-Nginx/Ingress/Cloudflare tái tạo internal prefixes, giữ forwarded cookies/host/protocol. Release app độc lập, kiểm tra contract/health, đổi *_ORIGIN/flag rồi smoke test. Rollback origin/deployment; không phục hồi duplicate UI trong Platform. Database migration thuộc API pipeline.
+---
+
+## 3. Custom Server / Nginx / Docker Deployment
+
+When deploying to private cloud or VPS environments (Docker / Kubernetes):
+
+1. **Build Step:**
+   ```bash
+   npm ci
+   npm run build
+   ```
+2. **Reverse Proxy (Nginx / Ingress):**
+   - Route `https://app.yourdomain.com/` to `apps/shell` container (Port 3000).
+   - Route `https://app.yourdomain.com/__mfe/partner-ops/` and `/__embed/` to `apps/partner-ops` container (Port 3001).
+   - Serve `apps/payments/dist/payments/browser` directly from Nginx static path with CORS allowed.
+   - Route `https://app.yourdomain.com/api/` to `debtflow-api` NestJS backend (Port 4000).
+
+---
+
+## 4. Zero-Downtime Rollback Strategy
+
+Because micro frontends are decoupled:
+1. **Remote Rollback:** Roll back a problematic remote app instantly by changing its deployment version or pointing `PARTNER_OPS_ORIGIN` / `PAYMENTS_ORIGIN` back to the previous stable release.
+2. **Feature Toggle:** If a remote app fails critically in production, set `PARTNER_OPS_ENABLED=false` or `PAYMENTS_ENABLED=false` in the Shell environment variables to gracefully degrade that specific section without taking down the entire website.
+

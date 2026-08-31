@@ -5,5 +5,8 @@
   "type": "module",
   "exports": { ".": "./src/index.ts" },
   "scripts": { "typecheck": "tsc --noEmit" },
+  "dependencies": {
+    "@debtflow/contracts": "*"
+  },
   "devDependencies": { "typescript": "^5.8.3" }
 }

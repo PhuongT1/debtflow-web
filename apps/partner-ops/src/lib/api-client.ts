@@ -1,6 +1,6 @@
 "use client";
 
-import { unwrapApiResponse } from "@/lib/api-response";
+import { unwrapApiResponse, getStoredLocale } from "@debtflow/contracts";
 
 export type ApiFieldError = {
   field: string;
@@ -72,6 +72,9 @@ export async function requestJson<T>(url: string, init?: RequestInit): Promise<T
       : new Headers({ "Content-Type": "application/json", ...init?.headers });
 
   headers.set("x-frontend-zone", "partner-ops");
+  if (!headers.has("Accept-Language")) {
+    headers.set("Accept-Language", getStoredLocale());
+  }
 
   const response = await fetch(url, {
     ...init,

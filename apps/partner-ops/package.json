@@ -12,7 +12,7 @@
   "dependencies": {
     "@debtflow/contracts": "*",
     "@debtflow/platform-sdk": "*",
-    "@debtflow/react-app-shell": "*",
+    "@debtflow/navigation": "*",
     "@debtflow/react-ui": "*",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",

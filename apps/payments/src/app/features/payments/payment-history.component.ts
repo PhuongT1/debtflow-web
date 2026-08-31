@@ -7,7 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import type { PaginatedResult, PaymentRecord } from '@debtflow/contracts';
+import { getStoredLocale, type AppLocale, type PaginatedResult, type PaymentRecord } from '@debtflow/contracts';
 import { PaymentApiService } from './payment-api.service';
 
 @Component({
@@ -19,6 +19,7 @@ import { PaymentApiService } from './payment-api.service';
 export class PaymentHistoryComponent {
   private readonly api = inject(PaymentApiService);
   private readonly destroyRef = inject(DestroyRef);
+  protected readonly locale = signal<AppLocale>(getStoredLocale());
   protected readonly loading = signal(true);
   protected readonly error = signal('');
   protected readonly result = signal<PaginatedResult<PaymentRecord>>({
@@ -39,7 +40,8 @@ export class PaymentHistoryComponent {
   }
 
   protected money(value: string | number) {
-    return new Intl.NumberFormat('vi-VN', {
+    const isEn = this.locale() === 'en';
+    return new Intl.NumberFormat(isEn ? 'en-US' : 'vi-VN', {
       style: 'currency',
       currency: 'VND',
       maximumFractionDigits: 0,
@@ -47,10 +49,19 @@ export class PaymentHistoryComponent {
   }
 
   protected date(value: string) {
-    return new Intl.DateTimeFormat('vi-VN').format(new Date(value));
+    const isEn = this.locale() === 'en';
+    return new Intl.DateTimeFormat(isEn ? 'en-US' : 'vi-VN').format(new Date(value));
   }
 
   protected method(value: string) {
+    const isEn = this.locale() === 'en';
+    if (isEn) {
+      return (
+        ({ CASH: 'Cash', BANK_TRANSFER: 'Bank Transfer', OTHER: 'Other' } as Record<string, string>)[
+          value
+        ] ?? value
+      );
+    }
     return (
       (
         { CASH: 'Tiền mặt', BANK_TRANSFER: 'Chuyển khoản', OTHER: 'Khác' } as Record<string, string>
@@ -67,13 +78,22 @@ export class PaymentHistoryComponent {
   }
 
   protected remove(payment: PaymentRecord) {
-    if (!confirm('Bạn chắc chắn muốn xóa thanh toán này? Số dư công nợ sẽ được tính lại.')) return;
+    const isEn = this.locale() === 'en';
+    const confirmMsg = isEn
+      ? 'Are you sure you want to delete this payment? Debt balance will be recalculated.'
+      : 'Bạn chắc chắn muốn xóa thanh toán này? Số dư công nợ sẽ được tính lại.';
+
+    if (!confirm(confirmMsg)) return;
+
     this.api
       .remove(payment.id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => this.load(this.result().page, this.result().pageSize),
-        error: () => this.error.set('Không thể xóa thanh toán. Vui lòng thử lại.'),
+        error: () =>
+          this.error.set(
+            isEn ? 'Failed to delete payment. Please try again.' : 'Không thể xóa thanh toán. Vui lòng thử lại.',
+          ),
       });
   }
 

@@ -1,7 +1,29 @@
 import Link from "next/link";
 import { Box, Breadcrumbs, Link as MuiLink, Typography } from "@mui/material";
 
-export function Page({ children, fillAvailable = false }: { children: React.ReactNode; fillAvailable?: boolean }) {
+export type PageContentWidth = "narrow" | "standard" | "wide" | "fluid";
+
+const contentWidths: Record<PageContentWidth, number | "none"> = {
+  narrow: 760,
+  standard: 1200,
+  wide: 1440,
+  fluid: "none",
+};
+
+/**
+ * Route-level content policy. Chrome belongs to the app layout; a page selects
+ * only the width of its own domain content. This keeps standalone and embedded
+ * rendering consistent without putting layout flags in the URL.
+ */
+export function Page({
+  children,
+  fillAvailable = false,
+  contentWidth = fillAvailable ? "wide" : "standard",
+}: {
+  children: React.ReactNode;
+  fillAvailable?: boolean;
+  contentWidth?: PageContentWidth;
+}) {
   return (
     <Box
       sx={{
@@ -11,7 +33,7 @@ export function Page({ children, fillAvailable = false }: { children: React.Reac
         height: fillAvailable ? { xs: "auto", md: "100%" } : undefined,
         minHeight: fillAvailable ? { md: 0 } : undefined,
         mx: "auto",
-        maxWidth: fillAvailable ? "none" : 1500,
+        maxWidth: contentWidths[contentWidth],
         width: "100%",
       }}
     >

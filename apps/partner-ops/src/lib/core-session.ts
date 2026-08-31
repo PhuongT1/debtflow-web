@@ -5,7 +5,7 @@ import { partnerOpsEnv } from "@/lib/env";
 export async function getCoreIdentity(): Promise<CoreIdentity | null> {
   const requestHeaders = await headers();
   const cookie = requestHeaders.get("cookie");
-  const coreOrigin = partnerOpsEnv.CORE_APP_ORIGIN;
+  const coreOrigin = partnerOpsEnv.PLATFORM_INTERNAL_ORIGIN;
 
   if (!cookie) return null;
 
