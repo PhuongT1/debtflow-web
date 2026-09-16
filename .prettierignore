@@ -1,0 +1,8 @@
+**/node_modules/**
+**/.next/**
+**/.angular/**
+**/dist/**
+**/coverage/**
+**/src/generated/**
+**/*.generated.ts
+package-lock.json

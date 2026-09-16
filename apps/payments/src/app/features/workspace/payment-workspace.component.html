@@ -1,0 +1,18 @@
+@if (!embedded) {
+  <div class="standalone-workspace">
+    <header class="workspace-header"><div class="workspace-header__content">
+      <a class="brand" [attr.href]="hasPlatformOrigin ? platformUrl() : null" aria-label="Debt Flow Platform"><span class="brand__mark">DF</span><span><strong>{{ t('workspace.name') }}</strong><small>{{ t('workspace.subtitle') }}</small></span></a>
+      <div class="workspace-actions">
+        <div class="locale-switcher" role="group" [attr.aria-label]="t('workspace.language')"><button type="button" [class.active]="locale() === 'vi'" (click)="selectLocale('vi')">🇻🇳 VI</button><button type="button" [class.active]="locale() === 'en'" (click)="selectLocale('en')">🇬🇧 EN</button></div>
+        @if (user(); as currentUser) {
+          @if (hasPlatformOrigin) {
+            <details class="account-menu"><summary class="identity"><span><strong>{{ currentUser.name }}</strong><small>{{ currentUser.role }}</small></span><span class="avatar" aria-hidden="true">{{ initials(currentUser.name) }}</span></summary><div class="account-menu__panel"><strong>{{ currentUser.name }}</strong><small>{{ currentUser.email }}</small><small class="account-menu__role">{{ currentUser.role }}</small><a [href]="platformUrl('/api/auth/signout')">{{ t('workspace.signOut') }}</a></div></details>
+          } @else { <div class="identity" [title]="currentUser.email"><span><strong>{{ currentUser.name }}</strong><small>{{ currentUser.role }}</small></span><span class="avatar" aria-hidden="true">{{ initials(currentUser.name) }}</span></div> }
+        } @else if (hasPlatformOrigin) { <a class="sign-in" [href]="platformUrl('/login')">{{ t('workspace.signIn') }}</a> }
+        @if (hasPlatformOrigin) { <a class="platform-link" [href]="platformUrl()">Platform</a> }
+      </div>
+    </div></header>
+    <nav class="workspace-nav" [attr.aria-label]="t('workspace.navigation')"><div class="workspace-nav__content">@if (hasPlatformOrigin) { <a [href]="platformUrl()">{{ t('workspace.overview') }}</a> }<a class="active" href="/">{{ t('workspace.payments') }}</a></div></nav>
+    <main class="workspace-main"><df-payment-history /></main>
+  </div>
+} @else { <main class="embedded-workspace-main"><df-payment-history /></main> }

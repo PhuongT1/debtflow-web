@@ -1,0 +1,69 @@
+{
+  "PartnerHeader": {
+    "title": "Debt Flow · Đối tác",
+    "subtitle": "Workspace quản lý khách hàng và nhà cung cấp",
+    "openAccountMenu": "Mở menu tài khoản",
+    "signOut": "Đăng xuất"
+  },
+  "Navigation": {
+    "overview": "Giới thiệu",
+    "partners": "Đối tác"
+  },
+  "Parties": {
+    "title": "Khách hàng / Nhà cung cấp",
+    "add": "Thêm đối tác",
+    "addDescription": "Tạo khách hàng hoặc nhà cung cấp mới.",
+    "payments": "Thanh toán",
+    "viewPayments": "Xem thanh toán",
+    "view": "Xem",
+    "viewDialog": "Xem {name}",
+    "viewDescription": "Xem và cập nhật thông tin khách hàng hoặc nhà cung cấp.",
+    "save": "Lưu thay đổi",
+    "delete": "Xóa",
+    "deleteMessage": "Bạn chắc chắn muốn xóa khách này? Khách còn công nợ chưa tất toán sẽ không xóa được.",
+    "empty": "Không có khách hàng / nhà cung cấp",
+    "loadError": "Không thể tải danh sách đối tác",
+    "search": "Tìm khách",
+    "searchPlaceholder": "Tên, mã, MST, điện thoại...",
+    "type": "Loại",
+    "all": "Tất cả",
+    "customer": "Khách hàng",
+    "supplier": "Nhà cung cấp",
+    "both": "Cả hai",
+    "owner": "Sale phụ trách",
+    "createdFrom": "Tạo từ ngày",
+    "createdTo": "Đến ngày",
+    "code": "Mã",
+    "name": "Tên",
+    "sale": "Sale",
+    "createdAt": "Ngày tạo",
+    "creditLimit": "Hạn mức",
+    "contact": "Liên hệ",
+    "debts": "Công nợ",
+    "actions": "Thao tác",
+    "help": "Hướng dẫn",
+    "invalidDateRange": "Ngày kết thúc phải sau hoặc bằng ngày bắt đầu",
+    "balance": "Số dư công nợ",
+    "allBalances": "Tất cả đối tác",
+    "receivable": "Họ nợ bạn",
+    "payable": "Bạn nợ họ",
+    "customerOwes": "Khách đang nợ bạn",
+    "supplierOwed": "Bạn đang nợ nhà cung cấp",
+    "partnerType": "Loại đối tác"
+  },
+  "Filters": {
+    "apply": "Lọc",
+    "clear": "Xóa lọc"
+  },
+  "Table": {
+    "records": "{count} bản ghi",
+    "emptyHint": "Thử đổi bộ lọc hoặc tạo dữ liệu mới."
+  },
+  "Pagination": {
+    "summary": "Hiển thị {from}-{to} / {total} dòng",
+    "rows": "Số dòng",
+    "previous": "Trang trước",
+    "next": "Trang sau",
+    "page": "Trang {page}/{totalPages}"
+  }
+}

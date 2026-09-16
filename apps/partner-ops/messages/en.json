@@ -1,0 +1,69 @@
+{
+  "PartnerHeader": {
+    "title": "Debt Flow · Partners",
+    "subtitle": "Customer and supplier operations workspace",
+    "openAccountMenu": "Open account menu",
+    "signOut": "Sign out"
+  },
+  "Navigation": {
+    "overview": "Overview",
+    "partners": "Partners"
+  },
+  "Parties": {
+    "title": "Customers / Suppliers",
+    "add": "Add partner",
+    "addDescription": "Create a customer or supplier.",
+    "payments": "Payments",
+    "viewPayments": "View payments",
+    "view": "View",
+    "viewDialog": "View {name}",
+    "viewDescription": "View and update customer or supplier information.",
+    "save": "Save changes",
+    "delete": "Delete",
+    "deleteMessage": "Are you sure you want to delete this partner? Partners with unsettled debts cannot be deleted.",
+    "empty": "No customers or suppliers",
+    "loadError": "Could not load partners",
+    "search": "Search partners",
+    "searchPlaceholder": "Name, code, tax ID, phone...",
+    "type": "Type",
+    "all": "All",
+    "customer": "Customer",
+    "supplier": "Supplier",
+    "both": "Both",
+    "owner": "Account owner",
+    "createdFrom": "Created from",
+    "createdTo": "Created to",
+    "code": "Code",
+    "name": "Name",
+    "sale": "Owner",
+    "createdAt": "Created",
+    "creditLimit": "Credit limit",
+    "contact": "Contact",
+    "debts": "Debts",
+    "actions": "Actions",
+    "help": "Help",
+    "invalidDateRange": "End date must be on or after start date",
+    "balance": "Outstanding balance",
+    "allBalances": "All partners",
+    "receivable": "They owe you",
+    "payable": "You owe them",
+    "customerOwes": "Customers who owe you",
+    "supplierOwed": "Suppliers you need to pay",
+    "partnerType": "Partner type"
+  },
+  "Filters": {
+    "apply": "Filter",
+    "clear": "Clear"
+  },
+  "Table": {
+    "records": "{count} records",
+    "emptyHint": "Try changing filters or creating new data."
+  },
+  "Pagination": {
+    "summary": "Showing {from}-{to} of {total} rows",
+    "rows": "Rows",
+    "previous": "Previous page",
+    "next": "Next page",
+    "page": "Page {page}/{totalPages}"
+  }
+}
