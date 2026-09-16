@@ -1,2 +1,1 @@
-export { AppShell, type AppShellIdentity } from "./app-shell";
-
+export { AppShell, type AppShellIdentity } from './app-shell';

@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import dayjs, { type Dayjs } from "dayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs, { type Dayjs } from 'dayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export function toDateInput(value: Dayjs | null) {
-  return value?.isValid() ? value.format("YYYY-MM-DD") : "";
+  return value?.isValid() ? value.format('YYYY-MM-DD') : '';
 }
 
 export function fromDateInput(value?: string | null) {
@@ -29,14 +29,14 @@ export function AppDatePicker({
   return (
     <DatePicker
       format="DD/MM/YYYY"
-      label={`${label}${required ? " *" : ""}`}
+      label={`${label}${required ? ' *' : ''}`}
       onChange={(nextValue) => onChange(toDateInput(nextValue))}
       slotProps={{
         textField: {
           error,
           fullWidth: true,
           helperText,
-          size: "small",
+          size: 'small',
         },
       }}
       value={fromDateInput(value)}

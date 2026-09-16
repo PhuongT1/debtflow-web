@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-export const emptyToUndefined = (value: unknown) => (value === "" ? undefined : value);
+export const emptyToUndefined = (value: unknown) => (value === '' ? undefined : value);
 
 export function optionalQueryEnum(schema: z.ZodTypeAny) {
   return z.preprocess(emptyToUndefined, schema.optional());

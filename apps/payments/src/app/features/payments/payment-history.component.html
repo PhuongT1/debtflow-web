@@ -1,67 +1,26 @@
 <section class="page">
   <header>
-    <div>
-      <h1>{{ locale() === 'en' ? 'Payment History' : 'Lịch sử thanh toán' }}</h1>
-      <p>{{ locale() === 'en' ? 'Track partial and full settlement payments.' : 'Theo dõi các khoản thanh toán một phần hoặc tất toán.' }}</p>
-    </div>
-    <a class="help" href="/docs" target="_blank">{{ locale() === 'en' ? '? Help Guide' : '? Hướng dẫn' }}</a>
+    <div><h1>{{ t('history.title') }}</h1><p>{{ t('history.description') }}</p></div>
+    <a class="help" href="/docs" target="_blank">{{ t('history.help') }}</a>
+    @if (partyId()) { <p class="filter-note">{{ t('history.partnerFilter') }}</p> }
   </header>
   <div class="card">
-    @if (error()) {
-      <div class="error">{{ error() }}</div>
-    }
-    @if (loading()) {
-      <div class="state">{{ locale() === 'en' ? 'Loading...' : 'Đang tải...' }}</div>
-    } @else if (result().items.length === 0) {
-      <div class="state">
-        <strong>{{ locale() === 'en' ? 'No payment history yet' : 'Chưa có lịch sử thanh toán' }}</strong
-        ><span>{{ locale() === 'en' ? 'Recorded payments will appear here.' : 'Các khoản thu sẽ xuất hiện tại đây.' }}</span>
-      </div>
-    } @else {
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>{{ locale() === 'en' ? 'Date' : 'Ngày' }}</th>
-              <th>{{ locale() === 'en' ? 'Debt Code' : 'Mã công nợ' }}</th>
-              <th>{{ locale() === 'en' ? 'Partner' : 'Đối tác' }}</th>
-              <th class="right">{{ locale() === 'en' ? 'Amount' : 'Số tiền' }}</th>
-              <th>{{ locale() === 'en' ? 'Method' : 'Phương thức' }}</th>
-              <th>{{ locale() === 'en' ? 'Recorded By' : 'Người ghi nhận' }}</th>
-              <th>{{ locale() === 'en' ? 'Actions' : 'Thao tác' }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (payment of result().items; track payment.id) {
-              <tr>
-                <td>{{ date(payment.paidAt) }}</td>
-                <td>
-                  <a [href]="'/debts/' + payment.debtId">{{ payment.debt.code }}</a>
-                </td>
-                <td>{{ payment.debt.party.name }}</td>
-                <td class="right amount">{{ money(payment.amount) }}</td>
-                <td>{{ method(payment.method) }}</td>
-                <td>{{ payment.createdBy?.name || '-' }}</td>
-                <td><button type="button" (click)="remove(payment)">{{ locale() === 'en' ? 'Delete' : 'Xóa' }}</button></td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
+    @if (error()) { <div class="error">{{ error() }}</div> }
+    @if (loading()) { <div class="state">{{ t('history.loading') }}</div> }
+    @else if (result().items.length === 0) { <div class="state"><strong>{{ t('history.emptyTitle') }}</strong><span>{{ t('history.emptyDescription') }}</span></div> }
+    @else {
+      <div class="table-wrap"><table><thead><tr>
+        <th>{{ t('history.date') }}</th><th>{{ t('history.debtCode') }}</th><th>{{ t('history.partner') }}</th><th class="right">{{ t('history.amount') }}</th><th>{{ t('history.method') }}</th><th>{{ t('history.recordedBy') }}</th><th>{{ t('history.actions') }}</th>
+      </tr></thead><tbody>
+        @for (payment of result().items; track payment.id) { <tr>
+          <td>{{ date(payment.paidAt) }}</td><td>{{ allocationCodes(payment) }}</td><td>{{ payment.party.name }}</td><td class="right amount">{{ money(payment.amount) }}</td><td>{{ method(payment.method) }}</td><td>{{ payment.createdBy?.name || '-' }}</td><td><button type="button" (click)="remove(payment)">{{ t('history.delete') }}</button></td>
+        </tr> }
+      </tbody></table></div>
     }
     <footer>
-      <span>{{ locale() === 'en' ? 'Showing ' + result().items.length + ' / ' + result().total + ' rows' : 'Hiển thị ' + result().items.length + ' / ' + result().total + ' dòng' }}</span
-      ><label
-        >{{ locale() === 'en' ? 'Rows' : 'Số dòng' }}
-        <select [value]="result().pageSize" (change)="go(1, +$any($event.target).value)">
-          <option>10</option>
-          <option>20</option>
-          <option>50</option>
-          <option>100</option>
-        </select></label
-      ><button [disabled]="result().page <= 1" (click)="go(result().page - 1)">‹</button
-      ><span>{{ locale() === 'en' ? 'Page ' + result().page + '/' + totalPages() : 'Trang ' + result().page + '/' + totalPages() }}</span
-      ><button [disabled]="result().page >= totalPages()" (click)="go(result().page + 1)">›</button>
+      <span>{{ t('history.summary', { shown: result().items.length, total: result().total }) }}</span>
+      <label>{{ t('history.rows') }} <select [value]="result().pageSize" (change)="go(1, +$any($event.target).value)"><option>10</option><option>20</option><option>50</option><option>100</option></select></label>
+      <button [disabled]="result().page <= 1" (click)="go(result().page - 1)">‹</button><span>{{ t('history.page', { page: result().page, totalPages: totalPages() }) }}</span><button [disabled]="result().page >= totalPages()" (click)="go(result().page + 1)">›</button>
     </footer>
   </div>
 </section>

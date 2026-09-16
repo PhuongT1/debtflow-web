@@ -13,9 +13,8 @@ npm run start:shell
 
 ## Environment Configuration
 
-| Variable | Description |
-| --- | --- |
-| `AUTH_URL` | Public origin of the Shell host app. |
-| `AUTH_ALLOWED_RETURN_ORIGINS` | Whitelist of allowed redirect return origins after authentication. |
+| Variable                                | Description                                                                                         |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `AUTH_URL`                              | Public origin of the Shell host app.                                                                |
+| `AUTH_ALLOWED_RETURN_ORIGINS`           | Whitelist of allowed redirect return origins after authentication.                                  |
 | `PARTNER_OPS_ORIGIN`, `PAYMENTS_ORIGIN` | Runtime base URLs for remotes (`http://localhost:3001` and `http://localhost:3002` in development). |
-

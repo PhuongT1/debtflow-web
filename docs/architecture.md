@@ -22,13 +22,13 @@ flowchart TD
     subgraph HostLayer ["📦 apps/shell — Host Container & Root Orchestrator (Next.js 15 App Router | Port 3000)"]
         direction TB
         AppShell["🖥️ AppShell Component (@debtflow/react-ui)<br/>• Unified Top Header (56px) & Collapsible Sidebar (264px / 84px)<br/>• Authentication Session & User Identity Badge<br/>• Global Language Switcher (🇬🇧 EN / 🇻🇳 VI) & Cookie Synchronizer"]:::component
-        
+
         RouterCatchAll["🔀 Generic Remote Resolver: [...mfe] Route<br/>• Dynamic Catch-All Router driven by manifest.json<br/>• Remote Life-cycle Manager (Loading / Timeout / Local Error Boundary)"]:::component
 
         BFFProxy["🛡️ Backend-For-Frontend (BFF) Proxy (/api/[...path])<br/>• HttpOnly Session Cookie to Bearer JWT Converter<br/>• Automatic Accept-Language Header Forwarding"]:::component
 
         NativePages["⚡ Shell Native Server-Rendered Pages (RSC)<br/>• Dashboard (/), Debts (/debts), Overdue (/overdue)<br/>• Aging Reports (/reports/aging), User Access Control (/users)"]:::component
-        
+
         AppShell --> RouterCatchAll
         AppShell --> NativePages
     end
@@ -50,7 +50,7 @@ flowchart TD
     %% Shared Monorepo Packages
     subgraph SharedPackages ["📚 packages/* — Framework-Agnostic Foundation & Shared Libraries"]
         direction TB
-        
+
         Contracts["📋 @debtflow/contracts<br/>• Auth & User Models (AuthUser, UserRole)<br/>• Payment DTOs (PaymentRecord, PaymentMethod)<br/>• Standard API Response Envelope (ApiResponseEnvelope&lt;T&gt;)<br/>• Multi-Language Core Definitions (AppLocale, DEFAULT_LOCALE)"]:::component
 
         DesignTokens["🎨 @debtflow/design-tokens<br/>• CSS Variables (--df-color-*, --df-shell-header-height: 56px)<br/>• Centralized Layout Spacing & Typography Design Tokens"]:::component
@@ -91,11 +91,11 @@ flowchart TD
 
 ## 2. Micro Frontend Integration Mechanisms
 
-| Integration Technique | Target Micro App | Technology Stack | Architectural Justification |
-| :--- | :--- | :--- | :--- |
-| **Web Components**<br/>*(Custom Elements)* | **`apps/payments`** | **Angular 19**<br/>`@angular/elements` | **W3C Web Standard.** Angular compiles into a standalone `<debtflow-payments>` custom HTML tag. Injected dynamically at runtime into React DOM. CSS is scoped, zero framework collision, lightweight bundle (~45 kB gzipped). |
-| **Isolated Frame**<br/>*(Same-origin Iframe)* | **`apps/partner-ops`** | **Next.js 15**<br/>*(Full-stack SSR)* | Next.js exports a full HTML document (Head, Body, Router). Embedding via a same-origin isolated frame (`/__embed/parties`) guarantees 100% router, React version, and context isolation without risk of layout breakage. Gathers dialog/navigation events via versioned `postMessage`. |
-| **Native Host Routing**<br/>*(React Server Components)* | **`apps/shell`** | **Next.js 15**<br/>**React 19 (RSC)** | Core pages (Dashboard, Debts, Overdue, User management) run directly on the Host for maximum initial page load speed, SEO performance, and centralized HttpOnly cookie authentication management. |
+| Integration Technique                                   | Target Micro App       | Technology Stack                       | Architectural Justification                                                                                                                                                                                                                                                            |
+| :------------------------------------------------------ | :--------------------- | :------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Web Components**<br/>_(Custom Elements)_              | **`apps/payments`**    | **Angular 19**<br/>`@angular/elements` | **W3C Web Standard.** Angular compiles into a standalone `<debtflow-payments>` custom HTML tag. Injected dynamically at runtime into React DOM. CSS is scoped, zero framework collision, lightweight bundle (~45 kB gzipped).                                                          |
+| **Isolated Frame**<br/>_(Same-origin Iframe)_           | **`apps/partner-ops`** | **Next.js 15**<br/>_(Full-stack SSR)_  | Next.js exports a full HTML document (Head, Body, Router). Embedding via a same-origin isolated frame (`/__embed/parties`) guarantees 100% router, React version, and context isolation without risk of layout breakage. Gathers dialog/navigation events via versioned `postMessage`. |
+| **Native Host Routing**<br/>_(React Server Components)_ | **`apps/shell`**       | **Next.js 15**<br/>**React 19 (RSC)**  | Core pages (Dashboard, Debts, Overdue, User management) run directly on the Host for maximum initial page load speed, SEO performance, and centralized HttpOnly cookie authentication management.                                                                                      |
 
 ---
 
@@ -141,6 +141,7 @@ neutral packages -X-------------> UI frameworks       (BLOCKED: Contracts & SDKs
 ```
 
 Automated verification scripts:
+
 ```bash
 npm run check:boundaries  # Validates dependency and import boundaries
 npm run check:manifest    # Validates micro frontend manifest against JSON schema

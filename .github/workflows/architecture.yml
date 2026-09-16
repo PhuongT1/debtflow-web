@@ -3,25 +3,33 @@ name: Frontend Architecture
 on:
   pull_request:
     paths:
-      - "apps/*/package.json"
-      - "apps/*/tsconfig*.json"
-      - "packages/**"
-      - "platform/**"
-      - "scripts/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/architecture.yml"
+      - 'apps/**'
+      - 'packages/**'
+      - 'platform/**'
+      - 'scripts/**'
+      - 'tooling/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'eslint.config.mjs'
+      - 'prettier.config.mjs'
+      - '.prettierignore'
+      - '.editorconfig'
+      - '.github/workflows/architecture.yml'
   push:
     branches: [main]
     paths:
-      - "apps/*/package.json"
-      - "apps/*/tsconfig*.json"
-      - "packages/**"
-      - "platform/**"
-      - "scripts/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/architecture.yml"
+      - 'apps/**'
+      - 'packages/**'
+      - 'platform/**'
+      - 'scripts/**'
+      - 'tooling/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'eslint.config.mjs'
+      - 'prettier.config.mjs'
+      - '.prettierignore'
+      - '.editorconfig'
+      - '.github/workflows/architecture.yml'
 
 jobs:
   boundaries-and-manifest:
@@ -33,4 +41,6 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      - run: npm run format:check
+      - run: npm run lint:packages
       - run: npm run check:architecture

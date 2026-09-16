@@ -1,16 +1,10 @@
-"use client";
+'use client';
 
-import { createContext, useContext, useMemo, useState } from "react";
-import {
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import { AppIcon, type AppIconName } from "@/components/ui/app-icon";
-import { AppDialog } from "@/components/ui/app-dialog";
-import { Button } from "@/components/ui/button";
+import { createContext, useContext, useMemo, useState } from 'react';
+import { DialogContent, DialogTitle, IconButton, Tooltip, Typography } from '@mui/material';
+import { AppIcon, type AppIconName } from '@/components/ui/app-icon';
+import { AppDialog } from '@/components/ui/app-dialog';
+import { Button } from '@/components/ui/button';
 
 const FormDialogContext = createContext<{ closeDialog: () => void }>({
   closeDialog: () => undefined,
@@ -23,8 +17,8 @@ export function useFormDialog() {
 export function FormDialog({
   buttonLabel,
   buttonIcon,
-  buttonSize = "medium",
-  buttonVariant = "primary",
+  buttonSize = 'medium',
+  buttonVariant = 'primary',
   iconOnly = false,
   title,
   description,
@@ -32,25 +26,21 @@ export function FormDialog({
 }: {
   buttonLabel: string;
   buttonIcon?: AppIconName;
-  buttonSize?: "small" | "medium";
-  buttonVariant?: "primary" | "secondary" | "danger";
+  buttonSize?: 'small' | 'medium';
+  buttonVariant?: 'primary' | 'secondary' | 'danger';
   iconOnly?: boolean;
   title: string;
   description?: string;
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
-  const dialogContext = useMemo(
-    () => ({ closeDialog: () => setOpen(false) }),
-    [],
-  );
-  const triggerIcon =
-    buttonIcon ?? (buttonLabel.toLowerCase().includes("sửa") ? "edit" : "add");
+  const dialogContext = useMemo(() => ({ closeDialog: () => setOpen(false) }), []);
+  const triggerIcon = buttonIcon ?? (buttonLabel.toLowerCase().includes('sửa') ? 'edit' : 'add');
   const trigger = iconOnly ? (
     <Tooltip title={buttonLabel}>
       <IconButton
         aria-label={buttonLabel}
-        color={buttonVariant === "danger" ? "error" : "primary"}
+        color={buttonVariant === 'danger' ? 'error' : 'primary'}
         onClick={() => setOpen(true)}
         size={buttonSize}
       >
@@ -72,12 +62,7 @@ export function FormDialog({
   return (
     <>
       {trigger}
-      <AppDialog
-        fullWidth
-        maxWidth="md"
-        open={open}
-        onClose={() => setOpen(false)}
-      >
+      <AppDialog fullWidth maxWidth="md" open={open} onClose={() => setOpen(false)}>
         <DialogTitle sx={{ pr: 6 }}>
           <Typography component="div" sx={{ fontSize: 20, fontWeight: 900 }}>
             {title}
@@ -90,18 +75,13 @@ export function FormDialog({
           <IconButton
             aria-label="Đóng"
             onClick={() => setOpen(false)}
-            sx={{ position: "absolute", right: 12, top: 12 }}
+            sx={{ position: 'absolute', right: 12, top: 12 }}
           >
             <AppIcon fontSize="small" name="close" />
           </IconButton>
         </DialogTitle>
-        <DialogContent
-          sx={{ bgcolor: "background.default", borderColor: "divider" }}
-          dividers
-        >
-          <FormDialogContext.Provider value={dialogContext}>
-            {children}
-          </FormDialogContext.Provider>
+        <DialogContent sx={{ bgcolor: 'background.default', borderColor: 'divider' }} dividers>
+          <FormDialogContext.Provider value={dialogContext}>{children}</FormDialogContext.Provider>
         </DialogContent>
       </AppDialog>
     </>

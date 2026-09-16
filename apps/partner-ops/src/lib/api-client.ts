@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { unwrapApiResponse, getStoredLocale } from "@debtflow/contracts";
+import { unwrapApiResponse, getStoredLocale } from '@debtflow/contracts';
 
 export type ApiFieldError = {
   field: string;
@@ -14,7 +14,7 @@ export class ApiClientError extends Error {
 
   constructor(message: string, options: { fieldErrors?: ApiFieldError[]; status: number }) {
     super(message);
-    this.name = "ApiClientError";
+    this.name = 'ApiClientError';
     this.fieldErrors = options.fieldErrors ?? [];
     this.status = options.status;
   }
@@ -23,7 +23,7 @@ export class ApiClientError extends Error {
 type UnknownRecord = Record<string, unknown>;
 
 function asRecord(value: unknown): UnknownRecord | null {
-  return value !== null && typeof value === "object" ? (value as UnknownRecord) : null;
+  return value !== null && typeof value === 'object' ? (value as UnknownRecord) : null;
 }
 
 function getErrorDetails(body: unknown): UnknownRecord[] {
@@ -41,27 +41,27 @@ function getErrorDetails(body: unknown): UnknownRecord[] {
 function getApiErrorMessage(body: unknown) {
   const record = asRecord(body);
   const nestedError = asRecord(record?.error);
-  const firstFieldError = getErrorDetails(body).find((error) => typeof error.message === "string");
+  const firstFieldError = getErrorDetails(body).find((error) => typeof error.message === 'string');
 
-  return typeof record?.message === "string"
+  return typeof record?.message === 'string'
     ? record.message
-    : typeof nestedError?.message === "string"
+    : typeof nestedError?.message === 'string'
       ? nestedError.message
-      : typeof firstFieldError?.message === "string"
+      : typeof firstFieldError?.message === 'string'
         ? firstFieldError.message
-        : "Không thể thực hiện thao tác";
+        : 'Không thể thực hiện thao tác';
 }
 
 function getApiFieldErrors(body: unknown): ApiFieldError[] {
   return getErrorDetails(body)
     .filter(
       (error): error is UnknownRecord & { field: string; message: string } =>
-        typeof error.field === "string" && typeof error.message === "string",
+        typeof error.field === 'string' && typeof error.message === 'string',
     )
     .map((error) => ({
       field: error.field,
       message: error.message,
-      code: typeof error.code === "string" ? error.code : undefined,
+      code: typeof error.code === 'string' ? error.code : undefined,
     }));
 }
 
@@ -69,11 +69,11 @@ export async function requestJson<T>(url: string, init?: RequestInit): Promise<T
   const headers =
     init?.body instanceof FormData
       ? new Headers(init.headers)
-      : new Headers({ "Content-Type": "application/json", ...init?.headers });
+      : new Headers({ 'Content-Type': 'application/json', ...init?.headers });
 
-  headers.set("x-frontend-zone", "partner-ops");
-  if (!headers.has("Accept-Language")) {
-    headers.set("Accept-Language", getStoredLocale());
+  headers.set('x-frontend-zone', 'partner-ops');
+  if (!headers.has('Accept-Language')) {
+    headers.set('Accept-Language', getStoredLocale());
   }
 
   const response = await fetch(url, {
@@ -84,7 +84,7 @@ export async function requestJson<T>(url: string, init?: RequestInit): Promise<T
 
   if (!response.ok) {
     if (response.status === 401) {
-      throw new ApiClientError("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.", {
+      throw new ApiClientError('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.', {
         fieldErrors: [],
         status: response.status,
       });

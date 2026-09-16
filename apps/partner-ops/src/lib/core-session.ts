@@ -1,20 +1,20 @@
-import { headers } from "next/headers";
-import type { CoreIdentity } from "@debtflow/contracts";
-import { partnerOpsEnv } from "@/lib/env";
+import { headers } from 'next/headers';
+import type { CoreIdentity } from '@debtflow/contracts';
+import { partnerOpsEnv } from '@/lib/env';
 
 export async function getCoreIdentity(): Promise<CoreIdentity | null> {
   const requestHeaders = await headers();
-  const cookie = requestHeaders.get("cookie");
+  const cookie = requestHeaders.get('cookie');
   const coreOrigin = partnerOpsEnv.PLATFORM_INTERNAL_ORIGIN;
 
   if (!cookie) return null;
 
   try {
     const response = await fetch(`${coreOrigin}/api/mfe/session`, {
-      cache: "no-store",
+      cache: 'no-store',
       headers: {
         cookie,
-        "x-frontend-zone": "partner-ops",
+        'x-frontend-zone': 'partner-ops',
       },
     });
 

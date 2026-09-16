@@ -3,23 +3,33 @@ name: Payments (Angular)
 on:
   pull_request:
     paths:
-      - "apps/payments/**"
-      - "packages/**"
-      - "platform/**"
-      - "scripts/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/payments.yml"
+      - 'apps/payments/**'
+      - 'packages/**'
+      - 'platform/**'
+      - 'scripts/**'
+      - 'tooling/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'eslint.config.mjs'
+      - 'prettier.config.mjs'
+      - '.prettierignore'
+      - '.editorconfig'
+      - '.github/workflows/payments.yml'
   push:
     branches: [main]
     paths:
-      - "apps/payments/**"
-      - "packages/**"
-      - "platform/**"
-      - "scripts/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/payments.yml"
+      - 'apps/payments/**'
+      - 'packages/**'
+      - 'platform/**'
+      - 'scripts/**'
+      - 'tooling/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'eslint.config.mjs'
+      - 'prettier.config.mjs'
+      - '.prettierignore'
+      - '.editorconfig'
+      - '.github/workflows/payments.yml'
 
 jobs:
   check-payments:

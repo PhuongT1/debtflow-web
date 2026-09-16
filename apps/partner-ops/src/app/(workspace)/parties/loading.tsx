@@ -1,6 +1,5 @@
-import { PartiesPageSkeleton } from "@/features/parties/parties-page-skeleton";
+import { PartiesPageSkeleton } from '@/features/parties';
 
-export default function PartiesLoading() {
+export default function Loading() {
   return <PartiesPageSkeleton />;
 }
-

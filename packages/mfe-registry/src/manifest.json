@@ -25,7 +25,7 @@
       "assetRoutes": [
         {
           "source": "/partner-ops-static/:path+",
-          "destination": "/partner-ops-static/:path+"
+          "destination": "/:path+"
         }
       ]
     },

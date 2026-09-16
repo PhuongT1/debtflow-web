@@ -7,12 +7,13 @@ import {
   type PaymentRecord,
 } from '@debtflow/contracts';
 import { map } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { environment } from '@env/environment';
 @Injectable({ providedIn: 'root' })
 export class PaymentApiService {
   private readonly http = inject(HttpClient);
-  list(page: number, pageSize: number) {
-    const params = new HttpParams().set('page', page).set('pageSize', pageSize);
+  list(page: number, pageSize: number, partyId?: string) {
+    let params = new HttpParams().set('page', page).set('pageSize', pageSize);
+    if (partyId) params = params.set('partyId', partyId);
     return this.http
       .get<ApiEnvelope<PaymentRecord[]>>(environment.apiBasePath + '/payments', {
         params,

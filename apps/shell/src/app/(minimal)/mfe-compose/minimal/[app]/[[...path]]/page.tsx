@@ -1,9 +1,9 @@
-import { notFound } from "next/navigation";
-import { microfrontendManifest } from "@debtflow/mfe-registry";
+import { notFound } from 'next/navigation';
+import { microfrontendManifest } from '@debtflow/mfe-registry';
 import {
   ComposedApplication,
   type SearchValues,
-} from "@/components/microfrontends/composed-application";
+} from '@/components/microfrontends/composed-application';
 
 export default async function MinimalLayoutMicrofrontendPage({
   params,
@@ -14,19 +14,16 @@ export default async function MinimalLayoutMicrofrontendPage({
 }) {
   const [{ app, path = [] }, query] = await Promise.all([params, searchParams]);
   const application = microfrontendManifest.applications.find(
-    (candidate) =>
-      candidate.name === app && candidate.composition.layout === "minimal",
+    (candidate) => candidate.name === app && candidate.composition.layout === 'minimal',
   );
-  if (!application || process.env[application.enabledEnv] !== "true") {
+  if (!application || process.env[application.enabledEnv] !== 'true') {
     notFound();
   }
 
   const remoteOrigin = process.env[application.originEnv];
   if (!remoteOrigin) notFound();
 
-  const pathname = [application.composition.publicPath, ...path]
-    .join("/")
-    .replace(/\/+/g, "/");
+  const pathname = [application.composition.publicPath, ...path].join('/').replace(/\/+/g, '/');
   return (
     <ComposedApplication
       application={application}

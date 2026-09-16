@@ -22,3 +22,38 @@ npm run build:partner-ops
 npm run start:partner-ops
 ```
 
+## Internationalization (no locale routing)
+
+Partner Ops uses `next-intl` with the App Router. Locale is deliberately not part of the URL: routes stay `/parties` in both Vietnamese and English. The current locale comes from the shared `df_locale` cookie and is synchronized at runtime from Platform using the versioned MFE event contract.
+
+```text
+messages/
+  vi.json                 # Vietnamese catalog
+  en.json                 # English catalog
+src/i18n/request.ts       # Reads df_locale for Server Components
+src/components/providers/partner-intl-provider.tsx
+                            # Runtime client provider for MFE events
+```
+
+### Add or change a translation
+
+1. Add the same namespace/key to both `messages/vi.json` and `messages/en.json`.
+2. In a Client Component, use `const t = useTranslations("Namespace")` and render `t("key")`.
+3. For date, number and currency formatting, use `const format = useFormatter()` rather than creating a locale-specific formatter in the feature.
+
+```tsx
+'use client';
+import { useFormatter, useTranslations } from 'next-intl';
+
+export function Example() {
+  const t = useTranslations('Parties');
+  const format = useFormatter();
+  return (
+    <p>
+      {t('title')} — {format.dateTime(new Date(), { dateStyle: 'short' })}
+    </p>
+  );
+}
+```
+
+Do not add `[locale]` routes, call `window.location.reload()`, or keep feature-local translation dictionaries. `NextIntlClientProvider` receives `locale:changed` after Platform or standalone language selection, so client UI changes language without remounting the MFE.

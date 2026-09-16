@@ -3,23 +3,33 @@ name: Partner Operations
 on:
   pull_request:
     paths:
-      - "apps/partner-ops/**"
-      - "packages/**"
-      - "platform/**"
-      - "scripts/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/partner-ops.yml"
+      - 'apps/partner-ops/**'
+      - 'packages/**'
+      - 'platform/**'
+      - 'scripts/**'
+      - 'tooling/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'eslint.config.mjs'
+      - 'prettier.config.mjs'
+      - '.prettierignore'
+      - '.editorconfig'
+      - '.github/workflows/partner-ops.yml'
   push:
     branches: [main]
     paths:
-      - "apps/partner-ops/**"
-      - "packages/**"
-      - "platform/**"
-      - "scripts/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/partner-ops.yml"
+      - 'apps/partner-ops/**'
+      - 'packages/**'
+      - 'platform/**'
+      - 'scripts/**'
+      - 'tooling/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'eslint.config.mjs'
+      - 'prettier.config.mjs'
+      - '.prettierignore'
+      - '.editorconfig'
+      - '.github/workflows/partner-ops.yml'
 
 jobs:
   check-partner-ops:

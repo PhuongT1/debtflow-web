@@ -1,6 +1,6 @@
-import { type UserRole } from "@/lib/domain";
+import { type OrganizationKind, type UserRole } from '@/lib/domain/enums';
 
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session {
     user: {
       id: string;
@@ -8,9 +8,11 @@ declare module "next-auth" {
       email?: string | null;
       image?: string | null;
       role: UserRole;
+      organization?: { id: string; name: string; slug: string; kind: OrganizationKind; role: UserRole; membershipId: string };
     };
     accessToken?: string;
-    error?: "RefreshTokenError";
+    organization?: { id: string; name: string; slug: string; kind: OrganizationKind; role: UserRole; membershipId: string };
+    error?: 'RefreshTokenError';
   }
 
   interface User {
@@ -21,12 +23,12 @@ declare module "next-auth" {
   }
 }
 
-declare module "next-auth/jwt" {
+declare module 'next-auth/jwt' {
   interface JWT {
     role?: UserRole;
     accessToken?: string;
     accessTokenExpiresAt?: number;
     refreshToken?: string;
-    error?: "RefreshTokenError";
+    error?: 'RefreshTokenError';
   }
 }

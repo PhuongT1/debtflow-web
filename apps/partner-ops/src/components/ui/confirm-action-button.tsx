@@ -1,41 +1,39 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import {
-  alpha,
-  Box,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Typography,
-} from "@mui/material";
-import { ApiErrorNotice } from "@/components/ui/api-error-notice";
-import { AppDialog } from "@/components/ui/app-dialog";
-import { AppIcon } from "@/components/ui/app-icon";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@debtflow/react-ui";
-import { requestJson } from "@/lib/api-client";
+import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { alpha, Box, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
+import { ApiErrorNotice } from '@/components/ui/api-error-notice';
+import { AppDialog } from '@/components/ui/app-dialog';
+import { AppIcon } from '@/components/ui/app-icon';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@debtflow/react-ui';
+import { requestJson } from '@/lib/api-client';
 
-type ConfirmIntent = "delete" | "warning" | "info";
+type ConfirmIntent = 'delete' | 'warning' | 'info';
 
-const intentConfig: Record<ConfirmIntent, { color: "error" | "warning" | "primary"; title: string }> = {
-  delete: { color: "error", title: "Xác nhận xóa" },
-  warning: { color: "warning", title: "Xác nhận thao tác" },
-  info: { color: "primary", title: "Xác nhận" },
+const intentConfig: Record<
+  ConfirmIntent,
+  { color: 'error' | 'warning' | 'primary'; title: string }
+> = {
+  delete: { color: 'error', title: 'Xác nhận xóa' },
+  warning: { color: 'warning', title: 'Xác nhận thao tác' },
+  info: { color: 'primary', title: 'Xác nhận' },
 };
 
 function IntentIcon({ intent }: { intent: ConfirmIntent }) {
-  return <AppIcon name={intent === "delete" ? "delete" : intent === "warning" ? "warning" : "info"} />;
+  return (
+    <AppIcon name={intent === 'delete' ? 'delete' : intent === 'warning' ? 'warning' : 'info'} />
+  );
 }
 
 export function ConfirmActionButton({
   endpoint,
-  label = "Xóa",
-  confirmMessage = "Bạn chắc chắn muốn xóa dữ liệu này?",
+  label = 'Xóa',
+  confirmMessage = 'Bạn chắc chắn muốn xóa dữ liệu này?',
   title,
-  intent = "delete",
+  intent = 'delete',
   invalidateQueryKey,
   refreshRoute = true,
 }: {
@@ -53,7 +51,7 @@ export function ConfirmActionButton({
   const { showToast } = useToast();
   const config = intentConfig[intent];
   const mutation = useMutation({
-    mutationFn: () => requestJson(endpoint, { method: "DELETE" }),
+    mutationFn: () => requestJson(endpoint, { method: 'DELETE' }),
     onSuccess: () => {
       setOpen(false);
       showToast({ message: `${label} dữ liệu thành công.` });
@@ -64,21 +62,32 @@ export function ConfirmActionButton({
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} size="small" startIcon={<IntentIcon intent={intent} />} tone={config.color} variant="secondary">
+      <Button
+        onClick={() => setOpen(true)}
+        size="small"
+        startIcon={<IntentIcon intent={intent} />}
+        tone={config.color}
+        variant="secondary"
+      >
         {label}
       </Button>
-      <AppDialog fullWidth maxWidth="xs" open={open} onClose={() => (mutation.isPending ? undefined : setOpen(false))}>
+      <AppDialog
+        fullWidth
+        maxWidth="xs"
+        open={open}
+        onClose={() => (mutation.isPending ? undefined : setOpen(false))}
+      >
         <DialogTitle>
-          <Box sx={{ alignItems: "center", display: "flex", gap: 1.5 }}>
+          <Box sx={{ alignItems: 'center', display: 'flex', gap: 1.5 }}>
             <Box
               sx={(theme) => ({
-                alignItems: "center",
+                alignItems: 'center',
                 bgcolor: alpha(theme.palette[config.color].main, 0.1),
-                borderRadius: "50%",
+                borderRadius: '50%',
                 color: `${config.color}.main`,
-                display: "grid",
+                display: 'grid',
                 height: 42,
-                placeItems: "center",
+                placeItems: 'center',
                 width: 42,
               })}
             >
@@ -94,7 +103,7 @@ export function ConfirmActionButton({
             </Box>
           </Box>
         </DialogTitle>
-        <DialogContent sx={{ display: "grid", gap: 2 }}>
+        <DialogContent sx={{ display: 'grid', gap: 2 }}>
           <Typography>{confirmMessage}</Typography>
           <ApiErrorNotice error={mutation.error} />
         </DialogContent>
@@ -102,7 +111,11 @@ export function ConfirmActionButton({
           <Button disabled={mutation.isPending} onClick={() => setOpen(false)} variant="secondary">
             Hủy
           </Button>
-          <Button loading={mutation.isPending} onClick={() => mutation.mutate()} tone={config.color}>
+          <Button
+            loading={mutation.isPending}
+            onClick={() => mutation.mutate()}
+            tone={config.color}
+          >
             {label}
           </Button>
         </DialogActions>

@@ -1,15 +1,15 @@
-import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { NextResponse } from 'next/server';
+import { auth } from '@/lib/auth/session';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   const session = await auth();
 
-  if (!session?.user || session.error === "RefreshTokenError") {
+  if (!session?.user || session.error === 'RefreshTokenError') {
     return NextResponse.json(
-      { message: "Phiên đăng nhập không hợp lệ." },
-      { status: 401, headers: { "Cache-Control": "no-store" } },
+      { message: 'Phiên đăng nhập không hợp lệ.' },
+      { status: 401, headers: { 'Cache-Control': 'no-store' } },
     );
   }
 
@@ -22,6 +22,6 @@ export async function GET() {
         role: session.user.role,
       },
     },
-    { headers: { "Cache-Control": "no-store" } },
+    { headers: { 'Cache-Control': 'no-store' } },
   );
 }

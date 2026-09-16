@@ -1,6 +1,5 @@
-import { Suspense } from "react";
-import { PartiesClient } from "@/features/parties/parties-client";
-import { PartiesPageSkeleton } from "@/features/parties/parties-page-skeleton";
+import { Suspense } from 'react';
+import { PartiesClient, PartiesPageSkeleton } from '@/features/parties';
 
 export default function PartiesPage() {
   return (
@@ -9,4 +8,3 @@ export default function PartiesPage() {
     </Suspense>
   );
 }
-

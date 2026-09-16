@@ -27,6 +27,7 @@
             "inlineStyleLanguage": "scss",
             "baseHref": "/",
             "outputPath": "dist/payments",
+            "preserveSymlinks": true,
             "assets": [
               {
                 "glob": "**/*",
@@ -67,6 +68,15 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "prebundle": {
+              "exclude": [
+                "@debtflow/contracts",
+                "@debtflow/design-tokens",
+                "@debtflow/platform-sdk"
+              ]
+            }
+          },
           "configurations": {
             "production": {
               "buildTarget": "payments:build:production"

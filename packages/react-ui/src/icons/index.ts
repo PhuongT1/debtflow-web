@@ -1,1 +1,1 @@
-export { AppIcon, type AppIconName } from "./app-icon";
+export { AppIcon, type AppIconName } from './app-icon';

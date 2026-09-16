@@ -21,10 +21,11 @@ Vercel natively supports NPM/Turborepo monorepos via `turbo.json`. **No complex 
 In Vercel, create three separate projects pointing to the same repository with the following standard settings:
 
 ### Project 1: `@debtflow/shell` (Host)
+
 - **Root Directory:** `apps/shell`
 - **Include files outside root directory:** ✅ **YES / Enabled** (Default in Vercel Monorepo)
-- **Install Command:** *(Leave default / disabled)*
-- **Build Command:** *(Leave default / disabled)*
+- **Install Command:** _(Leave default / disabled)_
+- **Build Command:** _(Leave default / disabled)_
 - **Environment Variables:**
   ```env
   AUTH_SECRET=your_32_byte_secret
@@ -36,10 +37,11 @@ In Vercel, create three separate projects pointing to the same repository with t
   ```
 
 ### Project 2: `@debtflow/partner-ops` (Remote)
+
 - **Root Directory:** `apps/partner-ops`
 - **Include files outside root directory:** ✅ **YES / Enabled**
-- **Install Command:** *(Leave default / disabled)*
-- **Build Command:** *(Leave default / disabled)*
+- **Install Command:** _(Leave default / disabled)_
+- **Build Command:** _(Leave default / disabled)_
 - **Environment Variables:**
   ```env
   PLATFORM_INTERNAL_ORIGIN=https://app.yourdomain.com
@@ -47,6 +49,7 @@ In Vercel, create three separate projects pointing to the same repository with t
   ```
 
 ### Project 3: `@debtflow/payments` (Remote)
+
 - **Root Directory:** `apps/payments`
 - **Include files outside root directory:** ✅ **YES / Enabled**
 - **Framework Preset:** `Angular` (or Other)
@@ -75,6 +78,6 @@ When deploying to private cloud or VPS environments (Docker / Kubernetes):
 ## 4. Zero-Downtime Rollback Strategy
 
 Because micro frontends are decoupled:
+
 1. **Remote Rollback:** Roll back a problematic remote app instantly by changing its deployment version or pointing `PARTNER_OPS_ORIGIN` / `PAYMENTS_ORIGIN` back to the previous stable release.
 2. **Feature Toggle:** If a remote app fails critically in production, set `PARTNER_OPS_ENABLED=false` or `PAYMENTS_ENABLED=false` in the Shell environment variables to gracefully degrade that specific section without taking down the entire website.
-

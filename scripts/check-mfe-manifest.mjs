@@ -1,15 +1,12 @@
-import Ajv from "ajv";
-import { readFile, readdir } from "node:fs/promises";
-import path from "node:path";
+import Ajv from 'ajv';
+import { readFile, readdir } from 'node:fs/promises';
+import path from 'node:path';
 
 const root = process.cwd();
-const readJson = async (file) => JSON.parse(await readFile(file, "utf8"));
-const schemaPath = path.join(root, "platform/manifests/schema.json");
-const manifestPath = path.join(root, "packages/mfe-registry/src/manifest.json");
-const [schema, manifest] = await Promise.all([
-  readJson(schemaPath),
-  readJson(manifestPath),
-]);
+const readJson = async (file) => JSON.parse(await readFile(file, 'utf8'));
+const schemaPath = path.join(root, 'platform/manifests/schema.json');
+const manifestPath = path.join(root, 'packages/mfe-registry/src/manifest.json');
+const [schema, manifest] = await Promise.all([readJson(schemaPath), readJson(manifestPath)]);
 
 const validate = new Ajv({
   allErrors: true,
@@ -17,38 +14,32 @@ const validate = new Ajv({
   strictRequired: false,
 }).compile(schema);
 if (!validate(manifest)) {
-  console.error("Invalid Micro Frontend manifest:");
+  console.error('Invalid Micro Frontend manifest:');
   for (const error of validate.errors ?? []) {
-    console.error(`- ${error.instancePath || "/"} ${error.message}`);
+    console.error(`- ${error.instancePath || '/'} ${error.message}`);
   }
   process.exit(1);
 }
 
-const appDirectories = (
-  await readdir(path.join(root, "apps"), { withFileTypes: true })
-)
+const appDirectories = (await readdir(path.join(root, 'apps'), { withFileTypes: true }))
   .filter((entry) => entry.isDirectory())
-  .map((entry) => path.join(root, "apps", entry.name));
+  .map((entry) => path.join(root, 'apps', entry.name));
 
 const appPackages = new Map();
 for (const directory of appDirectories) {
   try {
-    const packageJson = await readJson(path.join(directory, "package.json"));
+    const packageJson = await readJson(path.join(directory, 'package.json'));
     appPackages.set(packageJson.name, { directory, packageJson });
   } catch (error) {
-    if (error?.code !== "ENOENT") throw error;
+    if (error?.code !== 'ENOENT') throw error;
   }
 }
 
 const contractsVersion = Number(
-  (
-    await readJson(path.join(root, "packages/contracts/package.json"))
-  ).version.split(".")[0],
+  (await readJson(path.join(root, 'packages/contracts/package.json'))).version.split('.')[0],
 );
 const eventsVersion = Number(
-  (
-    await readJson(path.join(root, "packages/platform-sdk/package.json"))
-  ).version.split(".")[0],
+  (await readJson(path.join(root, 'packages/platform-sdk/package.json'))).version.split('.')[0],
 );
 
 const errors = [];
@@ -59,8 +50,7 @@ const publicPaths = new Map();
 const proxyPaths = new Map();
 
 for (const application of manifest.applications) {
-  if (names.has(application.name))
-    errors.push(`duplicate application name: ${application.name}`);
+  if (names.has(application.name)) errors.push(`duplicate application name: ${application.name}`);
   names.add(application.name);
 
   if (packages.has(application.package))
@@ -74,9 +64,7 @@ for (const application of manifest.applications) {
 
   const workspace = appPackages.get(application.package);
   if (!workspace) {
-    errors.push(
-      `${application.name} references missing workspace ${application.package}`,
-    );
+    errors.push(`${application.name} references missing workspace ${application.package}`);
   } else if (workspace.packageJson.version !== application.version) {
     errors.push(
       `${application.name} manifest version ${application.version} does not match package version ${workspace.packageJson.version}`,
@@ -96,10 +84,10 @@ for (const application of manifest.applications) {
 
   const { composition } = application;
   if (
-    composition.publicPath === "/mfe-compose" ||
-    composition.publicPath.startsWith("/mfe-compose/") ||
-    composition.publicPath === "/__mfe" ||
-    composition.publicPath.startsWith("/__mfe/")
+    composition.publicPath === '/mfe-compose' ||
+    composition.publicPath.startsWith('/mfe-compose/') ||
+    composition.publicPath === '/__mfe' ||
+    composition.publicPath.startsWith('/__mfe/')
   ) {
     errors.push(
       `${application.name} publicPath uses a Platform-reserved namespace: ${composition.publicPath}`,
@@ -107,40 +95,31 @@ for (const application of manifest.applications) {
   }
 
   for (const [registry, value, label] of [
-    [publicPaths, composition.publicPath, "public path"],
-    [proxyPaths, composition.proxyPath, "proxy path"],
+    [publicPaths, composition.publicPath, 'public path'],
+    [proxyPaths, composition.proxyPath, 'proxy path'],
   ]) {
     const owner = registry.get(value);
-    if (owner)
-      errors.push(
-        `${label} ${value} is owned by both ${owner} and ${application.name}`,
-      );
+    if (owner) errors.push(`${label} ${value} is owned by both ${owner} and ${application.name}`);
     registry.set(value, application.name);
   }
 
-  if (composition.integration === "web-component" && !composition.elementName) {
-    errors.push(
-      `${application.name} web-component integration requires elementName`,
-    );
+  if (composition.integration === 'web-component' && !composition.elementName) {
+    errors.push(`${application.name} web-component integration requires elementName`);
   }
-  if (composition.integration !== "web-component" && composition.elementName) {
-    errors.push(
-      `${application.name} may only declare elementName for web-component integration`,
-    );
+  if (composition.integration !== 'web-component' && composition.elementName) {
+    errors.push(`${application.name} may only declare elementName for web-component integration`);
   }
-  if (composition.layout === "none" && composition.integration !== "route") {
+  if (composition.layout === 'none' && composition.integration !== 'route') {
     errors.push(`${application.name} layout=none requires route integration`);
   }
-  if (composition.integration === "route" && composition.layout !== "none") {
+  if (composition.integration === 'route' && composition.layout !== 'none') {
     errors.push(`${application.name} route integration requires layout=none`);
   }
   if (
-    ["main", "minimal"].includes(composition.layout) &&
-    !["web-component", "iframe"].includes(composition.integration)
+    ['main', 'minimal'].includes(composition.layout) &&
+    !['web-component', 'iframe'].includes(composition.integration)
   ) {
-    errors.push(
-      `${application.name} composed layouts require web-component or iframe integration`,
-    );
+    errors.push(`${application.name} composed layouts require web-component or iframe integration`);
   }
 }
 
@@ -149,7 +128,7 @@ for (let index = 0; index < sortedPublicPaths.length; index += 1) {
   for (let nested = index + 1; nested < sortedPublicPaths.length; nested += 1) {
     const left = sortedPublicPaths[index];
     const right = sortedPublicPaths[nested];
-    if (right.startsWith(left + "/")) {
+    if (right.startsWith(left + '/')) {
       errors.push(`public route namespaces overlap: ${left} and ${right}`);
     }
   }
@@ -157,8 +136,8 @@ for (let index = 0; index < sortedPublicPaths.length; index += 1) {
 
 if (errors.length) {
   console.error(
-    "Micro Frontend manifest violations:\n" +
-      [...new Set(errors)].map((error) => `- ${error}`).join("\n"),
+    'Micro Frontend manifest violations:\n' +
+      [...new Set(errors)].map((error) => `- ${error}`).join('\n'),
   );
   process.exit(1);
 }

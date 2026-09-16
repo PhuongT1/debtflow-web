@@ -1,17 +1,16 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+import type { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: "Partner Operations | Debt Flow",
-  description:
-    "Micro frontend quản lý khách hàng và nhà cung cấp trong hệ thống Debt Flow.",
+  title: 'Partner Operations | Debt Flow',
+  description: 'Micro frontend quản lý khách hàng và nhà cung cấp trong hệ thống Debt Flow.',
 };
-import { Box, Button, Chip, Stack, Typography } from "@mui/material";
+import { Box, Button, Chip, Stack, Typography } from '@mui/material';
 
 const capabilities = [
-  "Danh mục khách hàng và nhà cung cấp",
-  "Tìm kiếm, lọc và phân trang dữ liệu đối tác",
-  "Quản lý hạn mức, liên hệ và người phụ trách",
+  'Danh mục khách hàng và nhà cung cấp',
+  'Tìm kiếm, lọc và phân trang dữ liệu đối tác',
+  'Quản lý hạn mức, liên hệ và người phụ trách',
 ];
 
 export default function PartnerOpsLandingPage() {
@@ -19,15 +18,15 @@ export default function PartnerOpsLandingPage() {
     <Box
       component="section"
       sx={{
-        display: "grid",
-        flex: "1 1 auto",
+        display: 'grid',
+        flex: '1 1 auto',
         minHeight: 0,
-        placeItems: "center",
+        placeItems: 'center',
         px: { xs: 2, md: 4 },
         py: { xs: 5, md: 8 },
       }}
     >
-      <Box sx={{ maxWidth: 760, width: "100%" }}>
+      <Box sx={{ maxWidth: 760, width: '100%' }}>
         <Chip color="primary" label="Debt Flow · Partner Operations" size="small" />
         <Typography
           component="h1"
@@ -50,16 +49,17 @@ export default function PartnerOpsLandingPage() {
             mt: 2.5,
           }}
         >
-          Partner Ops là micro frontend phụ trách khách hàng và nhà cung cấp trong hệ thống Debt Flow. Đăng nhập và phiên làm việc được Platform quản lý tập trung.
+          Partner Ops là micro frontend phụ trách khách hàng và nhà cung cấp trong hệ thống Debt
+          Flow. Đăng nhập và phiên làm việc được Platform quản lý tập trung.
         </Typography>
-        <Stack component="ul" spacing={1.25} sx={{ color: "text.secondary", mt: 3.5, pl: 2.5 }}>
+        <Stack component="ul" spacing={1.25} sx={{ color: 'text.secondary', mt: 3.5, pl: 2.5 }}>
           {capabilities.map((capability) => (
             <Typography component="li" key={capability}>
               {capability}
             </Typography>
           ))}
         </Stack>
-        <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} sx={{ mt: 4 }}>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} sx={{ mt: 4 }}>
           <Button component={Link} href="/parties" size="large" variant="contained">
             Mở workspace
           </Button>

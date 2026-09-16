@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { forwardRef } from "react";
-import { Dialog, Slide, type DialogProps, type SlideProps } from "@mui/material";
+import { forwardRef } from 'react';
+import { Dialog, Slide, type DialogProps, type SlideProps } from '@mui/material';
 
 const DialogTransition = forwardRef(function DialogTransition(
   props: SlideProps,

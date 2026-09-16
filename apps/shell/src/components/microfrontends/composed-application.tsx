@@ -1,6 +1,6 @@
-import { notFound } from "next/navigation";
-import type { MicrofrontendApplication } from "@debtflow/mfe-registry";
-import { IframeHost, WebComponentHost } from "./remote-host";
+import { notFound } from 'next/navigation';
+import type { MicrofrontendApplication } from '@debtflow/mfe-registry';
+import { IframeHost, WebComponentHost } from './remote-host';
 
 export type SearchValues = Record<string, string | string[] | undefined>;
 
@@ -17,7 +17,7 @@ export function ComposedApplication({
 }) {
   const { composition } = application;
 
-  if (composition.integration === "web-component" && composition.elementName) {
+  if (composition.integration === 'web-component' && composition.elementName) {
     return (
       <WebComponentHost
         appName={application.name}
@@ -29,13 +29,10 @@ export function ComposedApplication({
     );
   }
 
-  if (composition.integration === "iframe") {
+  if (composition.integration === 'iframe') {
     const suffix = pathname.slice(composition.publicPath.length);
-    const remotePath = (composition.entryPath + suffix).replace(/\/+/g, "/");
-    const url = new URL(
-      composition.proxyPath + remotePath,
-      "http://debtflow.local",
-    );
+    const remotePath = (composition.entryPath + suffix).replace(/\/+/g, '/');
+    const url = new URL(composition.proxyPath + remotePath, 'http://debtflow.local');
     for (const [key, value] of Object.entries(query)) {
       if (Array.isArray(value)) {
         value.forEach((item) => url.searchParams.append(key, item));

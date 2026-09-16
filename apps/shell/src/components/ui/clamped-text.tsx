@@ -1,4 +1,4 @@
-import { Box, Tooltip } from "@mui/material";
+import { Box, Tooltip } from '@mui/material';
 
 export function ClampedText({
   children,
@@ -14,11 +14,11 @@ export function ClampedText({
       <Box
         component="span"
         sx={{
-          WebkitBoxOrient: "vertical",
+          WebkitBoxOrient: 'vertical',
           WebkitLineClamp: lines,
-          display: "-webkit-box",
-          overflow: "hidden",
-          overflowWrap: "anywhere",
+          display: '-webkit-box',
+          overflow: 'hidden',
+          overflowWrap: 'anywhere',
         }}
       >
         {children}

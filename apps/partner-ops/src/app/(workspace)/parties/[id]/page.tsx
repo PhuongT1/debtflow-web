@@ -1,6 +1,11 @@
-import { PartyDetailClient } from "@/features/parties/party-detail-client";
+import { PartyDetailClient } from '@/features/parties';
 
-export default async function PartyDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  return <PartyDetailClient partyId={(await params).id} />;
+type PartyDetailPageProps = {
+  params: Promise<{ id: string }>;
+};
+
+export default async function PartyDetailPage({ params }: PartyDetailPageProps) {
+  const { id } = await params;
+
+  return <PartyDetailClient partyId={id} />;
 }
-

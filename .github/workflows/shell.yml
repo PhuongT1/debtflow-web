@@ -3,23 +3,33 @@ name: Shell
 on:
   pull_request:
     paths:
-      - "apps/shell/**"
-      - "packages/**"
-      - "platform/**"
-      - "scripts/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/shell.yml"
+      - 'apps/shell/**'
+      - 'packages/**'
+      - 'platform/**'
+      - 'scripts/**'
+      - 'tooling/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'eslint.config.mjs'
+      - 'prettier.config.mjs'
+      - '.prettierignore'
+      - '.editorconfig'
+      - '.github/workflows/shell.yml'
   push:
     branches: [main]
     paths:
-      - "apps/shell/**"
-      - "packages/**"
-      - "platform/**"
-      - "scripts/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/shell.yml"
+      - 'apps/shell/**'
+      - 'packages/**'
+      - 'platform/**'
+      - 'scripts/**'
+      - 'tooling/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'eslint.config.mjs'
+      - 'prettier.config.mjs'
+      - '.prettierignore'
+      - '.editorconfig'
+      - '.github/workflows/shell.yml'
 
 jobs:
   check-shell:

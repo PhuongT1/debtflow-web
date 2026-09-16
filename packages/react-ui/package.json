@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "exports": { ".": "./src/index.ts" },
-  "scripts": { "typecheck": "tsc --noEmit" },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
   "peerDependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
@@ -19,7 +23,8 @@
     "@debtflow/contracts": "*",
     "@debtflow/design-tokens": "*",
     "@debtflow/navigation": "*",
-    "@debtflow/platform-sdk": "*"
+    "@debtflow/platform-sdk": "*",
+    "@tanstack/react-query-devtools": "^5.102.8"
   },
   "devDependencies": {
     "@emotion/react": "^11.14.0",

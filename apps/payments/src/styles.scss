@@ -20,3 +20,9 @@ debtflow-payments *::before,
 debtflow-payments *::after {
   box-sizing: border-box;
 }
+
+body.df-payments-standalone {
+  margin: 0;
+  min-width: 320px;
+  background: var(--df-color-background);
+}

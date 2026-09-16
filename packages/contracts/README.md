@@ -13,5 +13,5 @@ npm run typecheck -w @debtflow/contracts
 Import example:
 
 ```ts
-import type { ApiEnvelope, CoreIdentity } from "@debtflow/contracts";
+import type { ApiEnvelope, CoreIdentity } from '@debtflow/contracts';
 ```

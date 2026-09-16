@@ -2,7 +2,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { createApplication } from '@angular/platform-browser';
 import { createCustomElement } from '@angular/elements';
 import { credentialsInterceptor } from '@core/http/credentials.interceptor';
-import { PaymentHistoryComponent } from '@features/payments/payment-history.component';
+import { PaymentWorkspaceComponent } from '@features/workspace/payment-workspace.component';
 
 const ELEMENT_NAME = 'debtflow-payments';
 
@@ -12,7 +12,7 @@ async function register() {
   const application = await createApplication({
     providers: [provideHttpClient(withInterceptors([credentialsInterceptor]))],
   });
-  const element = createCustomElement(PaymentHistoryComponent, {
+  const element = createCustomElement(PaymentWorkspaceComponent, {
     injector: application.injector,
   });
   customElements.define(ELEMENT_NAME, element);

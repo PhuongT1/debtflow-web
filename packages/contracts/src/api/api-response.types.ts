@@ -29,7 +29,7 @@ export interface ApiResponseEnvelope<T> {
 export type ApiEnvelope<T> = ApiResponseEnvelope<T>;
 
 export function unwrapApiResponse<T>(body: unknown): T {
-  if (!body || typeof body !== "object" || !("data" in body)) {
+  if (!body || typeof body !== 'object' || !('data' in body)) {
     return body as T;
   }
 

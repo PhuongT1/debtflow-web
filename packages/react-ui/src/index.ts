@@ -1,9 +1,11 @@
 // Shell components
-export * from "./shell";
+export * from './shell';
 
 // Icons
-export * from "./icons";
+export * from './icons';
 
 // Providers
-export * from "./providers";
+export * from './providers';
 
+// Reusable data-display primitives
+export * from './components';

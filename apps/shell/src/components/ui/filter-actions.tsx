@@ -1,30 +1,39 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { Box } from "@mui/material";
-import { AppIcon } from "@/components/ui/app-icon";
-import { Button } from "@/components/ui/button";
+import Link from 'next/link';
+import { Box } from '@mui/material';
+import { useTranslations } from 'next-intl';
+import { AppIcon } from '@/components/ui/app-icon';
+import { Button } from '@/components/ui/button';
 
 export function FilterActions({ resetHref, onReset }: { resetHref: string; onReset?: () => void }) {
+  const t = useTranslations('Filters');
   const resetButton = onReset ? (
-    <Button onClick={onReset} startIcon={<AppIcon fontSize="small" name="refresh" />} type="button" variant="secondary">
-      Xóa lọc
+    <Button
+      onClick={onReset}
+      startIcon={<AppIcon fontSize="small" name="refresh" />}
+      type="button"
+      variant="secondary"
+    >
+      {t('clear')}
     </Button>
   ) : (
     <Button
       component={Link}
       href={resetHref}
-      onClick={(event) => event.currentTarget.closest("form")?.reset()}
+      onClick={(event) => event.currentTarget.closest('form')?.reset()}
       startIcon={<AppIcon fontSize="small" name="refresh" />}
       variant="secondary"
     >
-      Xóa lọc
+      {t('clear')}
     </Button>
   );
 
   return (
-    <Box sx={{ alignItems: "center", display: "flex", gap: 1 }}>
-      <Button startIcon={<AppIcon fontSize="small" name="filter" />} type="submit">Lọc</Button>
+    <Box sx={{ alignItems: 'center', display: 'flex', gap: 1 }}>
+      <Button startIcon={<AppIcon fontSize="small" name="filter" />} type="submit">
+        {t('apply')}
+      </Button>
       {resetButton}
     </Box>
   );

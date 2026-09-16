@@ -1,7 +1,7 @@
-import manifest from "./manifest.json";
+import manifest from './manifest.json';
 
-export type PlatformLayout = "main" | "minimal" | "none";
-export type IntegrationType = "web-component" | "iframe" | "route";
+export type PlatformLayout = 'main' | 'minimal' | 'none';
+export type IntegrationType = 'web-component' | 'iframe' | 'route';
 
 export type MicrofrontendApplication = {
   name: string;

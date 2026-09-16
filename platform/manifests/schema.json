@@ -44,14 +44,7 @@
           },
           "framework": {
             "type": "string",
-            "enum": [
-              "angular",
-              "next",
-              "react",
-              "vue",
-              "web-component",
-              "other"
-            ]
+            "enum": ["angular", "next", "react", "vue", "web-component", "other"]
           },
           "enabledEnv": {
             "type": "string",

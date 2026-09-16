@@ -24,7 +24,7 @@
     "typecheck:shell": "npm run typecheck -w @debtflow/shell",
     "typecheck:partner-ops": "npm run typecheck -w @debtflow/partner-ops",
     "typecheck:payments": "npm run typecheck -w @debtflow/payments",
-    "lint": "npm run lint --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present && npm run lint:packages",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "check:boundaries": "node scripts/check-frontend-boundaries.mjs",
     "clean": "rimraf apps/*/.next apps/*/dist apps/*/tsconfig.tsbuildinfo packages/*/tsconfig.tsbuildinfo",
@@ -42,14 +42,22 @@
     "dev:shell:partner": "cross-env PARTNER_OPS_ENABLED=true PARTNER_OPS_ORIGIN=http://localhost:3001 PAYMENTS_ENABLED=false npm run dev -w @debtflow/shell",
     "dev:shell:payments": "cross-env PARTNER_OPS_ENABLED=false PAYMENTS_ENABLED=true PAYMENTS_ORIGIN=http://localhost:3002 npm run dev -w @debtflow/shell",
     "dev:shell:all": "cross-env PARTNER_OPS_ENABLED=true PARTNER_OPS_ORIGIN=http://localhost:3001 PAYMENTS_ENABLED=true PAYMENTS_ORIGIN=http://localhost:3002 npm run dev -w @debtflow/shell",
-    "dev:payments:standalone": "npm run dev:standalone -w @debtflow/payments"
+    "dev:payments:standalone": "npm run dev:standalone -w @debtflow/payments",
+    "lint:packages": "eslint packages",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "ajv": "^8.20.0",
     "concurrently": "^9.2.1",
     "cross-env": "^7.0.3",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.9.6",
     "rimraf": "^6.0.1",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.69.0"
   },
   "engines": {
     "node": ">=20.0.0",

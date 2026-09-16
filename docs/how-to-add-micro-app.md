@@ -5,6 +5,7 @@ This step-by-step guide explains how to add a new Micro Frontend to the **Debt F
 ---
 
 ### Step 1: Create the Application in `apps/<your-app-name>`
+
 - Initialize an independent project using your framework of choice (React, Angular, Vue, Svelte, Next.js, etc.).
 - Create its own `package.json`, `tsconfig.json`, linter configuration, and build scripts.
 - **Architectural Boundary:** You may only import from framework-neutral shared packages (`@debtflow/contracts`, `@debtflow/design-tokens`, `@debtflow/platform-sdk`). **Never import source files across different apps**.
@@ -12,6 +13,7 @@ This step-by-step guide explains how to add a new Micro Frontend to the **Debt F
 ---
 
 ### Step 2: Choose the Integration Mechanism
+
 - **Option A — Lightweight SPA / Widget (Angular, Vue, React, Svelte):**
   - Package your app as a **Custom Web Component** (e.g., `<debtflow-analytics>`).
   - Output a `remote-manifest.json` describing entry scripts and stylesheets.
@@ -22,7 +24,9 @@ This step-by-step guide explains how to add a new Micro Frontend to the **Debt F
 ---
 
 ### Step 3: Register in the Manifest (`packages/mfe-registry/src/manifest.json`)
+
 Declare the new application metadata in the central registry:
+
 ```json
 {
   "name": "analytics",
@@ -52,7 +56,9 @@ Declare the new application metadata in the central registry:
 ---
 
 ### Step 4: Add Navigation Menu Item (`packages/navigation/src/index.ts`)
+
 Add the route and menu entry with bilingual labels and role permissions:
+
 ```ts
 {
   href: "/analytics",
@@ -66,10 +72,11 @@ Add the route and menu entry with bilingual labels and role permissions:
 ---
 
 ### Step 5: Verify & Build
+
 Run automated architecture checks and validation tests before submitting changes:
+
 ```bash
 npm run check:boundaries  # Verifies that no forbidden cross-app imports exist
 npm run check:manifest    # Validates manifest structure against JSON Schema
 npm run check             # Runs complete linting, typechecking, and production builds across all workspaces
 ```
-

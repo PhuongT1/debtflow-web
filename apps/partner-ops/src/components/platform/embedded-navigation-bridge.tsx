@@ -1,6 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
+import { useEffect } from 'react';
+import { isMfeLocaleChangedMessage } from '@debtflow/contracts';
+import { setStoredLocale } from '@debtflow/platform-sdk';
 
 const MESSAGE_VERSION = 1;
 
@@ -8,7 +10,7 @@ function shellPath(value: string | URL | null | undefined) {
   if (!value) return null;
   const target = new URL(String(value), window.location.href);
   if (target.origin !== window.location.origin) return null;
-  if (!target.pathname.startsWith("/")) return null;
+  if (!target.pathname.startsWith('/')) return null;
   return target.pathname + target.search + target.hash;
 }
 
@@ -17,9 +19,9 @@ export function EmbeddedNavigationBridge() {
     const postNavigation = (path: string) => {
       window.parent.postMessage(
         {
-          source: "partner-ops",
+          source: 'partner-ops',
           version: MESSAGE_VERSION,
-          type: "debtflow:navigate",
+          type: 'debtflow:navigate',
           path,
         },
         window.location.origin,
@@ -37,15 +39,8 @@ export function EmbeddedNavigationBridge() {
       )
         return;
 
-      const anchor = (
-        event.target as Element | null
-      )?.closest<HTMLAnchorElement>("a[href]");
-      if (
-        !anchor ||
-        anchor.target === "_blank" ||
-        anchor.hasAttribute("download")
-      )
-        return;
+      const anchor = (event.target as Element | null)?.closest<HTMLAnchorElement>('a[href]');
+      if (!anchor || anchor.target === '_blank' || anchor.hasAttribute('download')) return;
       const path = shellPath(anchor.href);
       if (!path) return;
 
@@ -54,36 +49,33 @@ export function EmbeddedNavigationBridge() {
       postNavigation(path);
     };
 
-    const originalPushState = window.history.pushState.bind(window.history);
-    const originalReplaceState = window.history.replaceState.bind(
-      window.history,
-    );
+    // Next.js owns history for in-app state such as list filters and pagination.
+    // Only explicit anchor navigation is forwarded to the Shell.
 
-    window.history.pushState = (data, unused, url) => {
-      const path = shellPath(url);
-      if (path) postNavigation(path);
-      else originalPushState(data, unused, url);
-    };
-    window.history.replaceState = (data, unused, url) => {
-      const path = shellPath(url);
-      if (path) postNavigation(path);
-      else originalReplaceState(data, unused, url);
+    const onMessage = (event: MessageEvent) => {
+      if (
+        event.source === window.parent &&
+        event.origin === window.location.origin &&
+        isMfeLocaleChangedMessage(event.data)
+      ) {
+        setStoredLocale(event.data.locale);
+      }
     };
 
-    document.addEventListener("click", onClick, true);
+    document.addEventListener('click', onClick, true);
+    window.addEventListener('message', onMessage);
     window.parent.postMessage(
       {
-        source: "partner-ops",
+        source: 'partner-ops',
         version: MESSAGE_VERSION,
-        type: "debtflow:ready",
+        type: 'debtflow:ready',
       },
       window.location.origin,
     );
 
     return () => {
-      document.removeEventListener("click", onClick, true);
-      window.history.pushState = originalPushState;
-      window.history.replaceState = originalReplaceState;
+      document.removeEventListener('click', onClick, true);
+      window.removeEventListener('message', onMessage);
     };
   }, []);
 
