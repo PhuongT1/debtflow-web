@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Alert, Box, Typography } from '@mui/material';
 import { Badge } from '@/components/ui/badge';
 import { StatCard } from '@/components/ui/card';
-import { DataTable, type DataTableColumn } from '@/components/ui/data-table';
+import { DataTable, type DataTableColumn } from '@/components/tables';
 import { DetailList } from '@/components/ui/detail-list';
 import { MetricGrid, Page, PageHeader, PageSplit } from '@/components/ui/page';
 import { SectionCard } from '@/components/ui/section-card';

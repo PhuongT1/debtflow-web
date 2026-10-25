@@ -2,4 +2,4 @@
 applyTo: 'apps/partner-ops/**/*'
 ---
 
-Follow the [Partner Ops instructions](../../apps/partner-ops/AGENTS.md) and its linked canonical rules.
+Follow the [Partner Ops instructions](../../apps/partner-ops/AGENTS.md) and only its linked canonical rules matching the changed responsibilities.

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Engineering Documentation</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/viewer.css" />
+    <script type="module" src="/viewer.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header">
+      <button
+        id="menu"
+        class="mobile-menu"
+        aria-label="Toggle documentation navigation"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
+      <a class="brand" href="/?doc=docs%2Fgetting-started%2FREADME.md"
+        ><span class="brand-mark">E</span>Engineering <span>docs</span></a
+      >
+      <nav class="top-nav" aria-label="Documentation sections"></nav>
+      <button id="search-open" class="search-trigger">
+        <span>⌕</span> Search documentation <kbd>⌘ K</kbd>
+      </button>
+    </header>
+    <div class="docs-layout">
+      <aside class="sidebar" aria-label="Documentation navigation">
+        <div class="section-context">
+          <span id="section-icon" class="context-icon"></span>
+          <div><strong id="section-name"></strong><small id="section-description"></small></div>
+          <span class="context-chevron" aria-hidden="true">⌄</span>
+          <select id="section-select" aria-label="Documentation section"></select>
+        </div>
+        <nav id="tree" aria-label="Rule files and folders"></nav>
+        <p class="sidebar-foot">Versioned Markdown.<br />One source for your team and agents.</p>
+      </aside>
+      <main id="content" tabindex="-1">
+        <nav id="breadcrumbs" aria-label="Breadcrumb"></nav>
+        <div class="page-meta">
+          <code id="document-path" aria-label="Source file"></code>
+          <div>
+            <a id="source" target="_blank" rel="noopener">View Markdown</a
+            ><button id="copy-path">Copy path</button><button id="copy">Copy Markdown</button>
+          </div>
+        </div>
+        <h1 id="page-title">Engineering Rules</h1>
+        <details class="inline-toc">
+          <summary>On this page</summary>
+          <nav id="inline-toc" aria-label="Page sections"></nav>
+        </details>
+        <section id="diagram-section" hidden aria-label="Interactive workflow">
+          <div class="toolbar" role="group" aria-label="Diagram controls">
+            <button id="zoom-out" aria-label="Zoom out">−</button
+            ><output id="zoom" aria-live="polite">100%</output
+            ><button id="zoom-in" aria-label="Zoom in">+</button
+            ><button id="fit">Fit diagram</button><button id="reset">Actual size</button>
+          </div>
+          <p class="hint">Scroll to zoom · Drag to pan · Select a step to open its instructions</p>
+          <svg id="diagram" tabindex="0" aria-label="Workflow diagram"></svg>
+        </section>
+        <p id="diagram-warning" role="status"></p>
+        <article id="details"></article>
+        <footer class="page-footer">
+          <span>Engineering standards</span
+          ><a
+            href="/?doc=.ai-rules%2Fworkflows%2Frule-maintenance%2FREADME.md"
+            data-doc=".ai-rules/core/workflows/rule-maintenance/README.md"
+            >How to update these rules →</a
+          >
+        </footer>
+      </main>
+      <aside class="toc-panel">
+        <p>ON THIS PAGE</p>
+        <nav id="toc" aria-label="On this page"></nav>
+      </aside>
+    </div>
+    <dialog id="search-dialog" aria-labelledby="search-title">
+      <div class="search-header">
+        <label id="search-title" for="search-input">Search documentation</label
+        ><button id="search-close" aria-label="Close search">Esc</button>
+      </div>
+      <input
+        id="search-input"
+        type="search"
+        placeholder="Search rules, workflows, or a file path…"
+        autocomplete="off"
+      />
+      <p id="search-status" role="status">Try “approval”, “component”, or “UI”.</p>
+      <div id="search-results" aria-label="Search results"></div>
+      <p class="search-footer">↑ ↓ Navigate <span>Enter Open</span> <span>Esc Close</span></p>
+    </dialog>
+    <p id="status" role="status"></p>
+  </body>
+</html>

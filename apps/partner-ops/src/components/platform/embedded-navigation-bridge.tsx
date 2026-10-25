@@ -1,7 +1,12 @@
 'use client';
 
 import { useEffect } from 'react';
-import { isMfeLocaleChangedMessage } from '@debtflow/contracts';
+import {
+  isMfeLocaleChangedMessage,
+  isMfeRouteChangedMessage,
+  MFE_ROUTE_SYNC_CAPABILITY,
+} from '@debtflow/contracts';
+import { useRouter } from 'next/navigation';
 import { setStoredLocale } from '@debtflow/platform-sdk';
 
 const MESSAGE_VERSION = 1;
@@ -15,6 +20,7 @@ function shellPath(value: string | URL | null | undefined) {
 }
 
 export function EmbeddedNavigationBridge() {
+  const router = useRouter();
   useEffect(() => {
     const postNavigation = (path: string) => {
       window.parent.postMessage(
@@ -49,16 +55,30 @@ export function EmbeddedNavigationBridge() {
       postNavigation(path);
     };
 
-    // Next.js owns history for in-app state such as list filters and pagination.
-    // Only explicit anchor navigation is forwarded to the Shell.
-
     const onMessage = (event: MessageEvent) => {
-      if (
-        event.source === window.parent &&
-        event.origin === window.location.origin &&
-        isMfeLocaleChangedMessage(event.data)
-      ) {
+      if (event.source !== window.parent || event.origin !== window.location.origin) return;
+      if (isMfeLocaleChangedMessage(event.data)) {
         setStoredLocale(event.data.locale);
+      }
+      if (isMfeRouteChangedMessage(event.data)) {
+        const target = new URL(event.data.path, window.location.origin);
+        const embedEntry = '/__embed/parties';
+        const entryIndex = window.location.pathname.indexOf(embedEntry);
+        if (entryIndex < 0) return;
+        const base = window.location.pathname.slice(0, entryIndex) + embedEntry;
+        if (target.pathname !== base && !target.pathname.startsWith(base + '/')) return;
+        const path = target.pathname + target.search + target.hash;
+        if (path === window.location.pathname + window.location.search + window.location.hash)
+          return;
+        if (target.pathname === window.location.pathname) {
+          // Next integrates native history with useSearchParams. Query state is
+          // fetched by the feature's Query layer; no RSC or document reload.
+          window.history.replaceState(null, '', path);
+        } else {
+          // Keep RSC requests on the remote proxy, never the Shell's /parties.
+          // Only the host creates browser history entries.
+          router.replace(path, { scroll: false });
+        }
       }
     };
 
@@ -69,6 +89,7 @@ export function EmbeddedNavigationBridge() {
         source: 'partner-ops',
         version: MESSAGE_VERSION,
         type: 'debtflow:ready',
+        capabilities: [MFE_ROUTE_SYNC_CAPABILITY],
       },
       window.location.origin,
     );
@@ -77,7 +98,7 @@ export function EmbeddedNavigationBridge() {
       document.removeEventListener('click', onClick, true);
       window.removeEventListener('message', onMessage);
     };
-  }, []);
+  }, [router]);
 
   return null;
 }

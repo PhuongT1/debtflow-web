@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ConfirmActionButton } from '@/components/ui/confirm-action-button';
-import type { DataTableColumn } from '@/components/ui/data-table';
+import type { DataTableColumn } from '@/components/tables';
 import type { Debt } from '@/services/debt.server';
 import { formatMoney } from '@/lib/presentation/formatters';
 import { CollectionStatus, DebtStatus, type DebtType } from '@/lib/domain/enums';
@@ -39,7 +39,7 @@ export function getDebtListColumns(t: Translate): Array<DataTableColumn<Debt>> {
   return [
     {
       key: 'code',
-      header: t('code'),
+      title: t('code'),
       render: (debt) => (
         <div>
           <Link className="font-semibold text-blue-600" href={`/debts/${debt.id}`}>
@@ -53,7 +53,7 @@ export function getDebtListColumns(t: Translate): Array<DataTableColumn<Debt>> {
     },
     {
       key: 'party',
-      header: t('partner'),
+      title: t('partner'),
       render: (debt) => (
         <a className="font-semibold text-slate-900" href={`/parties/${debt.partyId}`}>
           {debt.party.name}
@@ -62,7 +62,7 @@ export function getDebtListColumns(t: Translate): Array<DataTableColumn<Debt>> {
     },
     {
       key: 'document',
-      header: t('document'),
+      title: t('document'),
       render: (debt) => (
         <div>
           <p>{debt.invoiceNo ?? debt.orderNo ?? '-'}</p>
@@ -72,7 +72,7 @@ export function getDebtListColumns(t: Translate): Array<DataTableColumn<Debt>> {
     },
     {
       key: 'items',
-      header: t('goods'),
+      title: t('goods'),
       render: (debt) =>
         debt.items?.length ? (
           <div>
@@ -88,11 +88,11 @@ export function getDebtListColumns(t: Translate): Array<DataTableColumn<Debt>> {
           '-'
         ),
     },
-    { key: 'sale', header: t('owner'), render: (debt) => debt.assignedTo?.name ?? '-' },
-    { key: 'type', header: t('type'), render: (debt) => debtTypeLabels[debt.type] },
+    { key: 'sale', title: t('owner'), render: (debt) => debt.assignedTo?.name ?? '-' },
+    { key: 'type', title: t('type'), render: (debt) => debtTypeLabels[debt.type] },
     {
       key: 'remaining',
-      header: t('balance'),
+      title: t('balance'),
       align: 'right',
       render: (debt) => (
         <span className="font-semibold">
@@ -102,7 +102,7 @@ export function getDebtListColumns(t: Translate): Array<DataTableColumn<Debt>> {
     },
     {
       key: 'dueDate',
-      header: t('due'),
+      title: t('due'),
       render: (debt) => {
         const lateDays = Math.floor((Date.now() - debt.dueDate.getTime()) / 86_400_000);
         return (
@@ -119,7 +119,7 @@ export function getDebtListColumns(t: Translate): Array<DataTableColumn<Debt>> {
     },
     {
       key: 'collection',
-      header: t('collection'),
+      title: t('collection'),
       render: (debt) => (
         <div>
           <Badge
@@ -143,7 +143,7 @@ export function getDebtListColumns(t: Translate): Array<DataTableColumn<Debt>> {
     },
     {
       key: 'actions',
-      header: t('actions'),
+      title: t('actions'),
       render: (debt) => (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
           <Button component={Link} href={`/debts/${debt.id}`} variant="secondary">

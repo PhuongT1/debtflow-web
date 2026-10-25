@@ -49,12 +49,12 @@ export const appTheme = createTheme({
     borderRadius: designTokens.radius.md,
   },
   typography: {
-    fontFamily: 'Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+    fontFamily: designTokens.typography.fontFamily,
     h1: { fontSize: '2rem', fontWeight: 800, lineHeight: 1.2 },
     h2: { fontSize: '1.5rem', fontWeight: 800, lineHeight: 1.25 },
     h3: { fontSize: '1.25rem', fontWeight: 750, lineHeight: 1.3 },
     h6: { fontWeight: 750 },
-    body1: { lineHeight: 1.55 },
+    body1: { ...designTokens.typography.body },
     body2: { lineHeight: 1.5 },
     button: {
       fontWeight: 700,
@@ -182,8 +182,7 @@ export const appTheme = createTheme({
         head: ({ theme }) => ({
           backgroundColor: theme.palette.action.hover,
           color: theme.palette.text.secondary,
-          fontSize: 12,
-          fontWeight: 750,
+          ...designTokens.typography.tableHead,
           paddingBottom: 10,
           paddingTop: 10,
           textTransform: 'uppercase',

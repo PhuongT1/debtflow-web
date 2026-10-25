@@ -1,44 +1,25 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { alpha, Alert, Box, IconButton, InputAdornment, Typography } from '@mui/material';
+import { Alert, Box, IconButton, InputAdornment, Typography } from '@mui/material';
 import { signIn } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
-import { AppIcon, type AppIconName } from '@/components/ui/app-icon';
+import { AppIcon } from '@/components/ui/app-icon';
 import { AppInput } from '@/components/ui/input';
+import { getLoginErrorKey } from './login-error';
+import { LoginBrandPanel } from './login-brand-panel';
 
 const loginSchema = z.object({
-  email: z.string().trim().email('Email không hợp lệ'),
-  password: z.string().min(1, 'Vui lòng nhập mật khẩu'),
+  email: z.string().trim().email('invalidEmail'),
+  password: z.string().min(1, 'passwordRequired'),
 });
 
 type LoginValues = z.infer<typeof loginSchema>;
-
-function FeatureIcon({ icon, tone }: { icon: AppIconName; tone: 'blue' | 'cyan' | 'green' }) {
-  const paletteTones = { blue: 'primary', cyan: 'info', green: 'success' } as const;
-  const paletteTone = paletteTones[tone];
-
-  return (
-    <Box
-      sx={(theme) => ({
-        backgroundColor: alpha(theme.palette[paletteTone].light, 0.16),
-        borderRadius: '8px',
-        color: `${paletteTone}.light`,
-        display: 'grid',
-        flex: '0 0 auto',
-        height: 38,
-        placeItems: 'center',
-        width: 38,
-      })}
-    >
-      <AppIcon fontSize="small" name={icon} />
-    </Box>
-  );
-}
 
 export function LoginForm({
   initialError,
@@ -48,32 +29,42 @@ export function LoginForm({
   returnTo: string;
 }) {
   const router = useRouter();
+  const t = useTranslations('Login');
   const [submitError, setSubmitError] = useState<string | null>(initialError);
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: 'admin@debtflow.local', password: 'Admin@123456' },
+    defaultValues: {
+      email: 'owner@anphu-fashion.demo',
+      password: 'Demo@123456',
+    },
   });
 
   async function onSubmit(values: LoginValues) {
     setSubmitError(null);
-    const result = await signIn('credentials', {
-      email: values.email,
-      password: values.password,
-      redirect: false,
-    });
+    try {
+      const result = await signIn('credentials', {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+      });
 
-    if (result?.error) {
-      setSubmitError('Email hoặc mật khẩu không đúng.');
+      if (!result || result.error || !result.ok) {
+        setSubmitError(result?.error ?? 'Configuration');
+        return;
+      }
+    } catch {
+      setSubmitError('Configuration');
       return;
     }
 
     if (returnTo.startsWith('http://') || returnTo.startsWith('https://')) {
-      window.location.assign(returnTo);
+      window.location.replace(returnTo);
       return;
     }
 
@@ -83,11 +74,10 @@ export function LoginForm({
 
   return (
     <Box
-      component="main"
       sx={{
         bgcolor: 'background.default',
         display: 'grid',
-        minHeight: '100vh',
+        flex: 1,
         placeItems: 'center',
         p: { xs: 2, sm: 3 },
       }}
@@ -107,83 +97,7 @@ export function LoginForm({
           width: '100%',
         }}
       >
-        <Box
-          sx={{
-            bgcolor: 'primary.dark',
-            color: 'primary.contrastText',
-            display: { xs: 'none', md: 'flex' },
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            p: 5,
-          }}
-        >
-          <Box>
-            <Box sx={{ alignItems: 'center', display: 'flex', gap: 1.25 }}>
-              <Box
-                sx={{
-                  bgcolor: 'primary.main',
-                  borderRadius: '9px',
-                  display: 'grid',
-                  fontSize: 15,
-                  fontWeight: 850,
-                  height: 42,
-                  placeItems: 'center',
-                  width: 42,
-                }}
-              >
-                DF
-              </Box>
-              <Box>
-                <Typography sx={{ fontSize: 18, fontWeight: 850 }}>Debt Flow</Typography>
-                <Typography
-                  sx={(theme) => ({
-                    color: alpha(theme.palette.primary.contrastText, 0.72),
-                    fontSize: 12,
-                  })}
-                >
-                  Finance workspace
-                </Typography>
-              </Box>
-            </Box>
-            <Typography
-              component="h1"
-              sx={{ fontSize: 32, fontWeight: 820, lineHeight: 1.25, mt: 7, maxWidth: 360 }}
-            >
-              Kiểm soát công nợ. Chủ động dòng tiền.
-            </Typography>
-            <Typography
-              sx={(theme) => ({
-                color: alpha(theme.palette.primary.contrastText, 0.78),
-                fontSize: 15,
-                lineHeight: 1.7,
-                mt: 2,
-                maxWidth: 360,
-              })}
-            >
-              Một không gian làm việc rõ ràng cho sales, kế toán và quản lý cùng theo dõi.
-            </Typography>
-          </Box>
-          <Box sx={{ display: 'grid', gap: 2.25 }}>
-            {[
-              ['Theo dõi phải thu, phải trả theo thời gian thực', 'dashboard', 'blue'],
-              ['Nhận diện khoản quá hạn cần ưu tiên', 'calendar', 'cyan'],
-              ['Lưu lịch sử thanh toán minh bạch', 'payments', 'green'],
-            ].map(([label, icon, tone]) => (
-              <Box key={label} sx={{ alignItems: 'center', display: 'flex', gap: 1.5 }}>
-                <FeatureIcon icon={icon as AppIconName} tone={tone as 'blue' | 'cyan' | 'green'} />
-                <Typography
-                  sx={(theme) => ({
-                    color: alpha(theme.palette.primary.contrastText, 0.9),
-                    fontSize: 13.5,
-                    fontWeight: 600,
-                  })}
-                >
-                  {label}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
-        </Box>
+        <LoginBrandPanel />
 
         <Box sx={{ alignSelf: 'center', p: { xs: 3, sm: 5, md: 6 } }}>
           <Box sx={{ alignItems: 'center', display: { xs: 'flex', md: 'none' }, gap: 1, mb: 4 }}>
@@ -204,11 +118,11 @@ export function LoginForm({
             </Box>
             <Typography sx={{ fontSize: 17, fontWeight: 850 }}>Debt Flow</Typography>
           </Box>
-          <Typography component="h2" sx={{ fontSize: { xs: 26, sm: 30 }, fontWeight: 850 }}>
-            Chào mừng trở lại
+          <Typography component="h1" sx={{ fontSize: { xs: 26, sm: 30 }, fontWeight: 850 }}>
+            {t('welcome')}
           </Typography>
           <Typography color="text.secondary" sx={{ mt: 1 }}>
-            Đăng nhập để tiếp tục quản lý công nợ hôm nay.
+            {t('signInDescription')}
           </Typography>
 
           <Box
@@ -221,8 +135,8 @@ export function LoginForm({
               autoComplete="email"
               autoFocus
               error={Boolean(errors.email)}
-              helperText={errors.email?.message}
-              label="Email"
+              helperText={errors.email ? t('invalidEmail') : undefined}
+              label={t('email')}
               required
               type="email"
               {...register('email')}
@@ -230,8 +144,8 @@ export function LoginForm({
             <AppInput
               autoComplete="current-password"
               error={Boolean(errors.password)}
-              helperText={errors.password?.message}
-              label="Mật khẩu"
+              helperText={errors.password ? t('passwordRequired') : undefined}
+              label={t('password')}
               required
               type={showPassword ? 'text' : 'password'}
               {...register('password')}
@@ -240,7 +154,7 @@ export function LoginForm({
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
-                        aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+                        aria-label={t(showPassword ? 'hidePassword' : 'showPassword')}
                         edge="end"
                         onClick={() => setShowPassword((current) => !current)}
                         size="small"
@@ -255,13 +169,27 @@ export function LoginForm({
                 },
               }}
             />
-            {submitError ? <Alert severity="error">{submitError}</Alert> : null}
+            {submitError ? (
+              <Alert severity="error">{t(getLoginErrorKey(submitError))}</Alert>
+            ) : null}
+            <Button
+              disabled={isSubmitting}
+              onClick={() => {
+                reset();
+                setSubmitError(null);
+                setShowPassword(false);
+              }}
+              type="button"
+              variant="secondary"
+            >
+              {t('useDemoAccount')}
+            </Button>
             <Button loading={isSubmitting} size="large" sx={{ mt: 0.5 }} type="submit">
-              Đăng nhập
+              {t('signIn')}
             </Button>
           </Box>
           <Typography color="text.secondary" sx={{ fontSize: 11.5, mt: 4, textAlign: 'center' }}>
-            Phiên đăng nhập được bảo vệ bằng mã hóa bảo mật.
+            {t('securityNote')}
           </Typography>
         </Box>
       </Box>

@@ -5,13 +5,12 @@ import { StandaloneWorkspaceHeader } from '@/components/layouts/standalone-works
 import { EmbeddedNavigationBridge } from '@/components/platform/embedded-navigation-bridge';
 import { getCoreIdentity } from '@/lib/core-session';
 import { partnerOpsEnv } from '@/lib/env';
+import { buildLoginUrl } from '@debtflow/platform-sdk';
 
 export const dynamic = 'force-dynamic';
 
 function loginUrlFor(returnTo: string | null) {
-  const loginUrl = new URL('/login', partnerOpsEnv.PLATFORM_ORIGIN);
-  if (returnTo) loginUrl.searchParams.set('returnTo', returnTo);
-  return loginUrl.toString();
+  return buildLoginUrl(partnerOpsEnv.PLATFORM_ORIGIN, returnTo ?? '/');
 }
 
 export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {

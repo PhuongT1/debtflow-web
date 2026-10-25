@@ -46,3 +46,17 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# AI toolkit generated outputs (managed by rules:setup)
+/.agents/skills/
+/.ai-rules/.toolkit-generated.json
+/.ai-rules/CATALOG.md
+/.ai-rules/generated/INSTRUCTIONS.md
+/.ai-rules/tools.local.json
+/.claude/agents/
+/.claude/rules/ai-toolkit.md
+/.claude/skills/
+/.cursor/rules/ai-toolkit.mdc
+/.cursor/skills/
+/.github/instructions/ai-toolkit.instructions.md
+# End AI toolkit generated outputs

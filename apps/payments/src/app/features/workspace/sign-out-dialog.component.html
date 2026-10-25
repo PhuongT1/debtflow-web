@@ -1,0 +1,27 @@
+<dialog
+  #dialog
+  aria-labelledby="payments-sign-out-title"
+  aria-describedby="payments-sign-out-description"
+  (cancel)="cancel($event)"
+  (close)="restoreFocus()"
+>
+  <h2 id="payments-sign-out-title">{{ t('workspace.signOut') }}</h2>
+  <p id="payments-sign-out-description">{{ t('workspace.signOutConfirmation') }}</p>
+  @if (hasError()) {
+    <p role="alert" class="error">{{ t('workspace.signOutError') }}</p>
+  }
+  <div class="actions">
+    <button type="button" autofocus [disabled]="isPending()" (click)="cancel()">
+      {{ t('workspace.cancel') }}
+    </button>
+    <button
+      type="button"
+      class="confirm"
+      [disabled]="isPending()"
+      [attr.aria-busy]="isPending()"
+      (click)="confirm()"
+    >
+      {{ t('workspace.signOut') }}
+    </button>
+  </div>
+</dialog>

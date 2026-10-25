@@ -2,8 +2,9 @@
 
 import { Box, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import { useTranslations } from 'next-intl';
-import { AppTable } from '@/components/ui/app-table';
+import { DataTableCell, DataTableContainer } from '@debtflow/react-ui';
 import { Badge } from '@/components/ui/badge';
+import { TruncatedText } from '@/components/ui/clamped-text';
 import { FormDialog } from '@/components/ui/form-dialog';
 import { PaymentForm } from '@/features/payments/payment-form';
 import { formatMoney } from '@/lib/presentation/formatters';
@@ -40,18 +41,33 @@ export function PartnerDebtsTable({ debts, locale, onPaymentRecorded, t }: Props
   }
 
   return (
-    <AppTable fillAvailable minWidth={1120} size="small">
+    <DataTableContainer
+      bordered={false}
+      containerSx={{ bgcolor: 'background.paper' }}
+      fillAvailable
+      scroll={{ x: 1470 }}
+      size="small"
+      sx={{ bgcolor: 'background.paper', tableLayout: 'fixed' }}
+    >
       <TableHead>
         <TableRow>
-          <TableCell>{t('code')}</TableCell>
-          <TableCell>{t('document')}</TableCell>
-          <TableCell>{t('type')}</TableCell>
-          <TableCell>{t('due')}</TableCell>
-          <TableCell align="right">{t('originalAmount')}</TableCell>
-          <TableCell align="right">{t('paidAmount')}</TableCell>
-          <TableCell align="right">{t('balance')}</TableCell>
-          <TableCell>{t('status')}</TableCell>
-          <TableCell align="right">{t('actions')}</TableCell>
+          <TableCell sx={{ width: 150 }}>{t('code')}</TableCell>
+          <TableCell sx={{ width: 250 }}>{t('document')}</TableCell>
+          <TableCell sx={{ width: 100 }}>{t('type')}</TableCell>
+          <TableCell sx={{ width: 120 }}>{t('due')}</TableCell>
+          <TableCell align="right" sx={{ width: 160 }}>
+            {t('originalAmount')}
+          </TableCell>
+          <TableCell align="right" sx={{ width: 160 }}>
+            {t('paidAmount')}
+          </TableCell>
+          <TableCell align="right" sx={{ width: 160 }}>
+            {t('balance')}
+          </TableCell>
+          <TableCell sx={{ width: 150 }}>{t('status')}</TableCell>
+          <DataTableCell align="right" fixed="right" sx={{ width: 220 }}>
+            {t('actions')}
+          </DataTableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -61,19 +77,31 @@ export function PartnerDebtsTable({ debts, locale, onPaymentRecorded, t }: Props
 
           return (
             <TableRow key={debt.id}>
-              <TableCell sx={{ fontWeight: 700 }}>{debt.code}</TableCell>
-              <TableCell>{debt.invoiceNo ?? debt.orderNo ?? debt.title}</TableCell>
-              <TableCell>{debt.type === 'RECEIVABLE' ? t('receivable') : t('payable')}</TableCell>
-              <TableCell>{new Date(debt.dueDate).toLocaleDateString(locale)}</TableCell>
-              <TableCell align="right">{formatMoney(debt.originalAmount)}</TableCell>
-              <TableCell align="right">{formatMoney(debt.paidAmount)}</TableCell>
-              <TableCell align="right" sx={{ fontWeight: 700 }}>
+              <TableCell sx={{ fontWeight: 700, whiteSpace: 'nowrap' }}>{debt.code}</TableCell>
+              <TableCell>
+                <TruncatedText title={debt.invoiceNo ?? debt.orderNo ?? debt.title}>
+                  {debt.invoiceNo ?? debt.orderNo ?? debt.title}
+                </TruncatedText>
+              </TableCell>
+              <TableCell sx={{ whiteSpace: 'nowrap' }}>
+                {debt.type === 'RECEIVABLE' ? t('receivable') : t('payable')}
+              </TableCell>
+              <TableCell sx={{ whiteSpace: 'nowrap' }}>
+                {new Date(debt.dueDate).toLocaleDateString(locale)}
+              </TableCell>
+              <TableCell align="right" sx={{ whiteSpace: 'nowrap' }}>
+                {formatMoney(debt.originalAmount)}
+              </TableCell>
+              <TableCell align="right" sx={{ whiteSpace: 'nowrap' }}>
+                {formatMoney(debt.paidAmount)}
+              </TableCell>
+              <TableCell align="right" sx={{ fontWeight: 700, whiteSpace: 'nowrap' }}>
                 {formatMoney(remainingAmount)}
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ whiteSpace: 'nowrap' }}>
                 <Badge tone={statusTone[debt.status]}>{t(statusKey[debt.status])}</Badge>
               </TableCell>
-              <TableCell align="right">
+              <DataTableCell align="right" fixed="right" sx={{ whiteSpace: 'nowrap', width: 220 }}>
                 {canRecordPayment ? (
                   <FormDialog
                     buttonIcon="payments"
@@ -96,11 +124,11 @@ export function PartnerDebtsTable({ debts, locale, onPaymentRecorded, t }: Props
                     {t('noActionNeeded')}
                   </Typography>
                 )}
-              </TableCell>
+              </DataTableCell>
             </TableRow>
           );
         })}
       </TableBody>
-    </AppTable>
+    </DataTableContainer>
   );
 }

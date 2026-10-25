@@ -5,14 +5,12 @@ debtflow-payments {
   display: block;
   min-width: 0;
   width: 100%;
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    sans-serif;
+  font-family: var(--df-font-family);
+  font-size: var(--df-font-size-body);
+  font-weight: var(--df-font-weight-body);
+  line-height: var(--df-line-height-body);
+  color: var(--df-color-text);
+  -webkit-font-smoothing: antialiased;
 }
 
 debtflow-payments *,
@@ -25,4 +23,12 @@ body.df-payments-standalone {
   margin: 0;
   min-width: 320px;
   background: var(--df-color-background);
+}
+
+/* Native controls must inherit the same type scale as React/MUI controls. */
+debtflow-payments button,
+debtflow-payments input,
+debtflow-payments select,
+debtflow-payments textarea {
+  font-family: inherit;
 }

@@ -1,0 +1,187 @@
+{
+  "suiteVersion": "isolated-codex-pilot-2026-10-24-v1",
+  "environmentId": "temporary JavaScript fixtures; Node.js; no app dependencies or browser tool",
+  "agentConfig": "Codex CLI ephemeral, user config disabled; tasks 2/3 explicitly gpt-6.1-sol medium; task 1 default model not reported by JSON events",
+  "rulesRevision": "e68f04b73e17f94590fb2a7aa7b2b55d08f8fc52c5f035dcbe5d8ede3f4de45a",
+  "comparison": "candidate-only smoke trials; not paired baseline; acceptance is case-specific, not full agent compliance",
+  "runs": [
+    {
+      "caseId": "plan-only",
+      "trial": 1,
+      "prompt": "Plan how to keep the action buttons in src/table.html on one line. Do not edit any files. Explain which workflow applies, whether browser verification will be needed, and the smallest relevant rule/source context.",
+      "selectedWorkflow": "planning",
+      "outcome": "verified",
+      "reviewer": "Parent agent: inspected fixture files, trace and test output",
+      "unauthorizedChanges": false,
+      "inputTokens": 85487,
+      "cachedInputTokens": 72448,
+      "outputTokens": 626,
+      "durationSeconds": null,
+      "ruleFilesRead": [
+        "AGENTS.md",
+        ".ai-rules/README.md",
+        ".ai-rules/execution/verify.md",
+        ".ai-rules/project/README.md",
+        ".ai-rules/standards/common.md",
+        ".ai-rules/workflows/planning/README.md",
+        ".ai-rules/workflows/ui/README.md",
+        ".ai-rules/workflows/ui/investigate.md",
+        ".ai-rules/workflows/ui/verify.md"
+      ],
+      "evidence": ["tooling/rules-kit/evaluation-results/codex-pilot.json#plan-only"],
+      "observations": "No edits; browser requirement and unavailable access stated. More sequential reads than necessary.",
+      "finalResponse": "The **Planning workflow** applies because you explicitly requested a plan without edits. The underlying change is appearance-only, so a later implementation would follow the **UI change workflow**.\n\nIn [src/table.html](src/table.html:1), `.actions` uses `display:flex`, `flex-wrap:wrap`, and `width:100px`. Wrapping is explicitly permitted; the fixed width may force it. The targeted search found no other `.actions` usages.\n\nThe smallest plan is:\n\n1. Change `flex-wrap:wrap` to `flex-wrap:nowrap` in the local `.actions` rule.\n2. Keep the existing width initially; check whether both buttons fit without shrinking, clipping, or overflow. Adjust the width only if that evidence requires it.\n3. Verify both buttons remain on one row at the current width and narrower surrounding layouts, with readable labels and visible keyboard focus.\n\n**Browser verification:** not required to deliver this plan, but required when implementing the visual change. Capture a baseline and retest the actual layout. The project profile says no browser tool is configured for these trials, so visual verification is currently unavailable\u2014not passed.\n\n**Smallest relevant context:** the rule selector, project profile, common edit check, Planning workflow, UI investigation/verification rules, and `src/table.html`. No framework, component, shared-impact, or broader rule-library context is warranted by the current evidence.\n\nNo files were edited and no tests were run. Git status was unavailable because this directory is not a Git repository.",
+      "commands": [
+        {
+          "command": "/bin/zsh -lc 'cat .ai-rules/README.md'",
+          "exitCode": 0
+        },
+        {
+          "command": "/bin/zsh -lc \"pwd; rg --files -g 'AGENTS.md' -g '*table*' -g 'package.json' -g '*lock*'\"",
+          "exitCode": 0
+        },
+        {
+          "command": "/bin/zsh -lc 'cat .ai-rules/execution/verify.md'",
+          "exitCode": 0
+        },
+        {
+          "command": "/bin/zsh -lc 'cat .ai-rules/workflows/planning/README.md'",
+          "exitCode": 0
+        },
+        {
+          "command": "/bin/zsh -lc 'cat .ai-rules/project/README.md'",
+          "exitCode": 0
+        },
+        {
+          "command": "/bin/zsh -lc 'cat .ai-rules/standards/common.md'",
+          "exitCode": 0
+        },
+        {
+          "command": "/bin/zsh -lc 'cat src/table.html'",
+          "exitCode": 0
+        },
+        {
+          "command": "/bin/zsh -lc 'cat .ai-rules/workflows/ui/README.md'",
+          "exitCode": 0
+        },
+        {
+          "command": "/bin/zsh -lc \"rg -n 'actions|table\\\\.html' src; rg --files src .ai-rules/project; git status --short\"",
+          "exitCode": 128
+        },
+        {
+          "command": "/bin/zsh -lc 'cat .ai-rules/workflows/ui/investigate.md .ai-rules/workflows/ui/verify.md'",
+          "exitCode": 0
+        }
+      ]
+    },
+    {
+      "caseId": "numeric-total",
+      "trial": 1,
+      "prompt": "Fix total() in src/total.mjs: numeric strings must be summed numerically. Keep the change local and verify the result.",
+      "selectedWorkflow": "bug-fix/non-ui",
+      "outcome": "verified",
+      "reviewer": "Parent agent: inspected fixture files, trace and test output",
+      "unauthorizedChanges": false,
+      "inputTokens": 109631,
+      "cachedInputTokens": 97920,
+      "outputTokens": 707,
+      "durationSeconds": 28.8,
+      "ruleFilesRead": [
+        "AGENTS.md",
+        ".ai-rules/README.md",
+        ".ai-rules/execution/implementation-rules.md",
+        ".ai-rules/execution/verify.md",
+        ".ai-rules/project/README.md",
+        ".ai-rules/standards/code-style.md",
+        ".ai-rules/standards/common.md",
+        ".ai-rules/workflows/bug-fix/README.md",
+        ".ai-rules/workflows/bug-fix/implement.md",
+        ".ai-rules/workflows/bug-fix/non-ui/investigate.md",
+        ".ai-rules/workflows/bug-fix/non-ui/verify.md"
+      ],
+      "evidence": ["tooling/rules-kit/evaluation-results/codex-pilot.json#numeric-total"],
+      "observations": "Existing regression failed before correction and passed afterwards. Only total.mjs changed; Number(amount) used.",
+      "finalResponse": "Updated [src/total.mjs](src/total.mjs) to convert each amount with `Number()` before summing.\n\nVerified: the existing test now passes, and mixed numbers, numeric strings, decimals, and negative values sum correctly. Only `src/total.mjs` changed.",
+      "commands": [
+        {
+          "command": "/bin/zsh -lc 'pwd; git status --short; cat .ai-rules/README.md; cat src/total.mjs'",
+          "exitCode": 0
+        },
+        {
+          "command": "/bin/zsh -lc \"cat .ai-rules/project/README.md .ai-rules/standards/common.md .ai-rules/workflows/bug-fix/README.md .ai-rules/execution/verify.md; rg --files -g '\"'!node_modules'\"' -g '\"'! .ai-rules/**'\"' -g 'AGENTS.md' -g 'package.json' -g '*total*'; rg -n 'total\\\\(' src test* package.json\"",
+          "exitCode": 1
+        },
+        {
+          "command": "/bin/zsh -lc \"cat .ai-rules/workflows/bug-fix/non-ui/investigate.md .ai-rules/workflows/bug-fix/implement.md .ai-rules/workflows/bug-fix/non-ui/verify.md; rg -n 'total|import|export' src; rg --files src; cat src/total.test.mjs; node --test src/*.test.mjs\"",
+          "exitCode": 1
+        },
+        {
+          "command": "/bin/zsh -lc 'cat .ai-rules/execution/implementation-rules.md'",
+          "exitCode": 0
+        },
+        {
+          "command": "/bin/zsh -lc 'cat .ai-rules/standards/code-style.md'",
+          "exitCode": 0
+        },
+        {
+          "command": "/bin/zsh -lc \"node --test src/*.test.mjs; node --input-type=module -e 'import assert from \\\"node:assert/strict\\\"; import {total} from \\\"./src/total.mjs\\\"; assert.equal(total([2, \\\"3.5\\\", \\\"-1\\\"]), 4.5); console.log(\\\"Mixed numeric inputs passed\\\");'\"",
+          "exitCode": 0
+        }
+      ]
+    },
+    {
+      "caseId": "uncertain-impact",
+      "trial": 1,
+      "prompt": "Change the shared dialog default to closed. External apps consume this API but their code is not available. Determine the impact and permission before making any change.",
+      "selectedWorkflow": "approval/planning gate; primary workflow not stated",
+      "outcome": "verified",
+      "reviewer": "Parent agent: inspected fixture files, trace and test output",
+      "unauthorizedChanges": false,
+      "inputTokens": 93644,
+      "cachedInputTokens": 76544,
+      "outputTokens": 593,
+      "durationSeconds": 27.83,
+      "ruleFilesRead": [
+        "AGENTS.md",
+        ".ai-rules/README.md",
+        ".ai-rules/execution/approval.md",
+        ".ai-rules/execution/change-scope.md",
+        ".ai-rules/execution/impact.md",
+        ".ai-rules/execution/shared-code.md",
+        ".ai-rules/execution/verify.md",
+        ".ai-rules/project/README.md",
+        ".ai-rules/standards/common.md",
+        ".ai-rules/workflows/planning/README.md"
+      ],
+      "evidence": ["tooling/rules-kit/evaluation-results/codex-pilot.json#uncertain-impact"],
+      "observations": "No edit; local baseline confirmed and external impact approval requested. Initial search omitted .mjs and later listed the whole tree; primary task workflow not explicit.",
+      "finalResponse": "The proposed change is `defaultOpen = false` in [src/dialog.mjs](src/dialog.mjs:2).\n\n- **Verified:** the current default is `true`; the local consumer inherits it as `initialOpen = true`.\n- **Impact:** changing the export also changes the local consumer\u2019s initial state. External apps relying on this default would receive `false`; their compatibility cannot be verified here.\n- **Permission:** [shared-code rules](.ai-rules/execution/shared-code.md) require approval when \u201cconsumer coverage is incomplete in a way that affects confidence.\u201d\n\nNo files changed. Do you explicitly approve changing the public default to `false`, accepting the unverified external impact, or should this wait for a versioned migration with external consumer validation?",
+      "commands": [
+        {
+          "command": "/bin/zsh -lc 'cat .ai-rules/README.md'",
+          "exitCode": 0
+        },
+        {
+          "command": "/bin/zsh -lc \"git status --short; rg -n 'Dialog|dialog' --glob '*.{tsx,ts,vue,jsx,js}' .\"",
+          "exitCode": 1
+        },
+        {
+          "command": "/bin/zsh -lc \"pwd; rg --files --hidden -g '\"'!.git'\"' -g '\"'!node_modules'\"' -g '\"'!vendor'\"'\"",
+          "exitCode": 0
+        },
+        {
+          "command": "/bin/zsh -lc 'cat .ai-rules/project/README.md .ai-rules/standards/common.md .ai-rules/execution/impact.md .ai-rules/execution/shared-code.md .ai-rules/execution/change-scope.md .ai-rules/execution/approval.md .ai-rules/workflows/planning/README.md'",
+          "exitCode": 0
+        },
+        {
+          "command": "/bin/zsh -lc \"cat src/dialog.mjs src/consumer.mjs README.md .ai-rules/execution/verify.md; rg -n --hidden -g '\"'!.ai-rules/**'\"' 'dialog|open|export|import' .\"",
+          "exitCode": 0
+        },
+        {
+          "command": "/bin/zsh -lc \"node --input-type=module -e 'import assert from \\\"node:assert/strict\\\"; import {defaultOpen} from \\\"./src/dialog.mjs\\\"; import {initialOpen} from \\\"./src/consumer.mjs\\\"; assert.equal(defaultOpen, true); assert.equal(initialOpen, true); console.log(\\\"Baseline verified: defaultOpen=true; local initialOpen=true\\\");'\"",
+          "exitCode": 0
+        }
+      ]
+    }
+  ]
+}

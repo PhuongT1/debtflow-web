@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Avatar, Box, Divider, ListItemIcon, Menu, MenuItem, Typography } from '@mui/material';
 import type { AppLocale } from '@debtflow/contracts';
+import { designTokens } from '@debtflow/design-tokens';
 import { AppIcon } from '../icons';
 import type { AppShellIdentity } from './app-shell.types';
 
@@ -10,16 +11,27 @@ type AppShellAccountMenuProps = {
   identity: AppShellIdentity;
   locale: AppLocale;
   signOutHref: string;
+  onSignOut?: () => void;
 };
 
-export function AppShellAccountMenu({ identity, locale, signOutHref }: AppShellAccountMenuProps) {
+export function AppShellAccountMenu({
+  identity,
+  locale,
+  signOutHref,
+  onSignOut,
+}: AppShellAccountMenuProps) {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+  const [isSignOutRequested, setIsSignOutRequested] = useState(false);
   const displayName = identity.name ?? (locale === 'en' ? 'User' : 'Người dùng');
 
   return (
     <>
       <Box
         component="button"
+        type="button"
+        aria-label={locale === 'en' ? 'Account menu' : 'Menu tài khoản'}
+        aria-haspopup="menu"
+        aria-expanded={Boolean(anchor)}
         onClick={(event) => setAnchor(event.currentTarget)}
         sx={{
           alignItems: 'center',
@@ -37,9 +49,13 @@ export function AppShellAccountMenu({ identity, locale, signOutHref }: AppShellA
         }}
       >
         <Box sx={{ display: { xs: 'none', sm: 'block' }, textAlign: 'right' }}>
-          <Typography sx={{ fontSize: 12.5, fontWeight: 750 }}>{displayName}</Typography>
-          <Typography color="text.secondary" noWrap sx={{ fontSize: 10.5 }}>
-            {identity.organization ? `${identity.organization.kind === 'BUSINESS' ? (locale === 'en' ? 'Business' : 'Doanh nghiệp') : (locale === 'en' ? 'Personal shop' : 'Shop cá nhân')} · ${identity.organization.name}` : (locale === 'en' ? 'Active' : 'Đang hoạt động')}
+          <Typography sx={designTokens.typography.identity}>{displayName}</Typography>
+          <Typography color="text.secondary" noWrap sx={designTokens.typography.caption}>
+            {identity.organization
+              ? `${identity.organization.kind === 'BUSINESS' ? (locale === 'en' ? 'Business' : 'Doanh nghiệp') : locale === 'en' ? 'Personal shop' : 'Shop cá nhân'} · ${identity.organization.name}`
+              : locale === 'en'
+                ? 'Active'
+                : 'Đang hoạt động'}
           </Typography>
         </Box>
         <Avatar
@@ -55,7 +71,21 @@ export function AppShellAccountMenu({ identity, locale, signOutHref }: AppShellA
           {displayName.trim().charAt(0).toUpperCase()}
         </Avatar>
       </Box>
-      <Menu anchorEl={anchor} onClose={() => setAnchor(null)} open={Boolean(anchor)}>
+      <Menu
+        anchorEl={anchor}
+        onClose={() => setAnchor(null)}
+        open={Boolean(anchor)}
+        slotProps={{
+          transition: {
+            onExited: () => {
+              if (isSignOutRequested) {
+                setIsSignOutRequested(false);
+                onSignOut?.();
+              }
+            },
+          },
+        }}
+      >
         <Box sx={{ px: 2, py: 1.25 }}>
           <Typography noWrap sx={{ fontSize: 13.5, fontWeight: 750 }}>
             {displayName}
@@ -67,7 +97,14 @@ export function AppShellAccountMenu({ identity, locale, signOutHref }: AppShellA
           ) : null}
           {identity.organization ? (
             <Typography color="text.secondary" noWrap sx={{ fontSize: 12, mt: 0.5 }}>
-              {identity.organization.kind === 'BUSINESS' ? (locale === 'en' ? 'Business workspace' : 'Tổ chức doanh nghiệp') : (locale === 'en' ? 'Personal workspace' : 'Không gian cá nhân')}: {identity.organization.name}
+              {identity.organization.kind === 'BUSINESS'
+                ? locale === 'en'
+                  ? 'Business workspace'
+                  : 'Tổ chức doanh nghiệp'
+                : locale === 'en'
+                  ? 'Personal workspace'
+                  : 'Không gian cá nhân'}
+              : {identity.organization.name}
             </Typography>
           ) : null}
           {identity.role ? (
@@ -77,7 +114,15 @@ export function AppShellAccountMenu({ identity, locale, signOutHref }: AppShellA
           ) : null}
         </Box>
         <Divider />
-        <MenuItem component="a" href={signOutHref} sx={{ color: 'error.main', fontWeight: 650 }}>
+        <MenuItem
+          component={onSignOut ? 'li' : 'a'}
+          href={onSignOut ? undefined : signOutHref}
+          onClick={() => {
+            setAnchor(null);
+            if (onSignOut) setIsSignOutRequested(true);
+          }}
+          sx={{ color: 'error.main', fontWeight: 650 }}
+        >
           <ListItemIcon sx={{ color: 'inherit' }}>
             <AppIcon name="logout" />
           </ListItemIcon>

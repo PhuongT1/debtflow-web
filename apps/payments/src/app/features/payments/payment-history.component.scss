@@ -16,14 +16,18 @@
 }
 .page h1 {
   margin: 0;
-  font-size: 28px;
+  font-size: var(--df-font-size-page-title);
+  font-weight: var(--df-font-weight-page-title);
+  line-height: var(--df-line-height-page-title);
 }
 .page p {
   margin: 6px 0 0;
   color: var(--df-color-text-secondary);
 }
 .help {
-  padding: 10px 16px;
+  padding: 8px 18px;
+  font-size: var(--df-font-size-control);
+  line-height: var(--df-line-height-control);
   border: 1px solid var(--df-color-divider);
   border-radius: var(--df-radius-md);
   color: var(--df-color-primary);
@@ -52,7 +56,9 @@ table {
 th {
   background: #f4f7fb;
   color: var(--df-color-text-secondary);
-  font-size: 12px;
+  font-size: var(--df-font-size-table-head);
+  font-weight: var(--df-font-weight-table-head);
+  line-height: var(--df-line-height-table-head);
   text-align: left;
   text-transform: uppercase;
 }
@@ -60,6 +66,11 @@ th,
 td {
   padding: 15px 18px;
   border-bottom: 1px solid var(--df-color-divider);
+}
+td {
+  font-size: var(--df-font-size-table);
+  font-weight: var(--df-font-weight-table);
+  line-height: var(--df-line-height-table);
 }
 td a {
   color: var(--df-color-primary);
@@ -94,6 +105,8 @@ td button {
   color: var(--df-color-error);
 }
 footer {
+  font-size: var(--df-font-size-control);
+  line-height: var(--df-line-height-table);
   display: flex;
   gap: 14px;
   align-items: center;
@@ -116,7 +129,7 @@ footer button:disabled {
 }
 @media (max-width: 700px) {
   .page h1 {
-    font-size: 23px;
+    font-size: var(--df-font-size-page-title);
   }
   footer {
     flex-wrap: wrap;

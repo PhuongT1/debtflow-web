@@ -2,6 +2,7 @@
 
 import { alpha, Box, IconButton, Tooltip, Typography, useTheme } from '@mui/material';
 import type { AppLocale } from '@debtflow/contracts';
+import { designTokens } from '@debtflow/design-tokens';
 import { AppIcon } from '../icons';
 import { AppShellAccountMenu } from './app-shell-account-menu';
 import { AppShellLocaleMenu } from './app-shell-locale-menu';
@@ -17,6 +18,7 @@ type AppShellHeaderProps = {
   onSidebarToggle: () => void;
   sidebarWidth: number;
   signOutHref: string;
+  onSignOut?: () => void;
 };
 
 export function AppShellHeader({
@@ -29,8 +31,13 @@ export function AppShellHeader({
   onSidebarToggle,
   sidebarWidth,
   signOutHref,
+  onSignOut,
 }: AppShellHeaderProps) {
   const theme = useTheme();
+  const brand =
+    locale === 'vi'
+      ? { title: 'Web công nợ', subtitle: 'Phải thu · phải trả' }
+      : { title: 'Debt Flow', subtitle: 'Receivables · payables' };
 
   return (
     <Box
@@ -54,7 +61,10 @@ export function AppShellHeader({
           display: 'flex',
           flex: hasNavigation ? { xs: '0 1 auto', md: `0 0 ${sidebarWidth}px` } : '0 1 auto',
           gap: 1,
+          justifyContent:
+            collapsed && hasNavigation ? { xs: 'flex-start', md: 'center' } : 'flex-start',
           minWidth: 0,
+          position: 'relative',
           px: 1.5,
         }}
       >
@@ -72,31 +82,41 @@ export function AppShellHeader({
         <Box
           sx={{
             bgcolor: 'primary.main',
-            borderRadius: 2,
+            border: '1px solid',
+            borderColor: alpha(theme.palette.primary.contrastText, 0.18),
+            borderRadius: '10px',
+            boxShadow: `0 5px 14px ${alpha(theme.palette.primary.main, 0.28)}`,
             color: 'primary.contrastText',
             display: 'grid',
             flex: '0 0 auto',
-            fontSize: 13,
-            fontWeight: 850,
-            height: 34,
+            height: 36,
             placeItems: 'center',
-            width: 34,
+            width: 36,
           }}
         >
-          DF
+          <AppIcon aria-hidden name="debts" sx={{ fontSize: 21 }} />
         </Box>
         {!collapsed || !hasNavigation ? (
           <Box sx={{ display: { xs: 'none', sm: 'block' }, minWidth: 0 }}>
-            <Typography noWrap sx={{ fontSize: 15, fontWeight: 850, lineHeight: 1.15 }}>
-              Debt Flow
+            <Typography noWrap sx={designTokens.typography.headerTitle}>
+              {brand.title}
             </Typography>
-            <Typography color="text.secondary" noWrap sx={{ fontSize: 10.5 }}>
-              Finance workspace
+            <Typography color="text.secondary" noWrap sx={designTokens.typography.headerSubtitle}>
+              {brand.subtitle}
             </Typography>
           </Box>
         ) : null}
         {hasNavigation ? (
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, ml: 'auto' }}>
+          <Box
+            sx={{
+              display: { xs: 'none', md: 'flex' },
+              position: 'absolute',
+              right: -15,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              zIndex: 1,
+            }}
+          >
             <Tooltip
               title={
                 collapsed
@@ -112,9 +132,24 @@ export function AppShellHeader({
                 aria-label={locale === 'en' ? 'Toggle sidebar' : 'Đóng/mở sidebar'}
                 onClick={onSidebarToggle}
                 size="small"
-                sx={{ transform: collapsed ? 'rotate(180deg)' : 'none' }}
+                sx={{
+                  bgcolor: 'background.paper',
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  boxShadow: `0 2px 8px ${alpha(theme.palette.common.black, 0.08)}`,
+                  height: 30,
+                  width: 30,
+                  '&:hover': { bgcolor: 'action.hover' },
+                }}
               >
-                <AppIcon name="collapse" />
+                <AppIcon
+                  name="collapse"
+                  sx={{
+                    fontSize: 20,
+                    transform: collapsed ? 'rotate(180deg)' : 'none',
+                    transition: theme.transitions.create('transform'),
+                  }}
+                />
               </IconButton>
             </Tooltip>
           </Box>
@@ -122,7 +157,12 @@ export function AppShellHeader({
       </Box>
       <Box sx={{ flex: 1 }} />
       <AppShellLocaleMenu locale={locale} onLocaleChange={onLocaleChange} />
-      <AppShellAccountMenu identity={identity} locale={locale} signOutHref={signOutHref} />
+      <AppShellAccountMenu
+        identity={identity}
+        locale={locale}
+        signOutHref={signOutHref}
+        onSignOut={onSignOut}
+      />
     </Box>
   );
 }

@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { DataTable, type DataTableColumn } from '@/components/ui/data-table';
+import { DataTable, type DataTableColumn } from '@/components/tables';
 import { Page, PageHeader } from '@/components/ui/page';
 import { AppSkeleton } from '@/components/ui/skeleton';
 import { partyTableColumns } from '@/features/parties/table-config';

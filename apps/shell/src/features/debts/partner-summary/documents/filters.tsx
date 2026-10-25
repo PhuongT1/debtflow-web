@@ -1,13 +1,12 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import { MenuItem } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import { DataTableToolbar } from '@/components/ui/data-table-toolbar';
 import { FilterActions } from '@/components/ui/filter-actions';
 import { AppDatePicker } from '@/components/ui/app-date-picker';
 import { AppInput } from '@/components/ui/input';
-import { AppSelect } from '@/components/ui/select';
+import { Select } from '@/components/ui/select';
 
 type Filters = {
   dueDateFrom: string;
@@ -28,12 +27,13 @@ export function DocumentFilters({
   const t = useTranslations('Debts');
   const [dueDateFrom, setDueDateFrom] = useState(filters.dueDateFrom);
   const [dueDateTo, setDueDateTo] = useState(filters.dueDateTo);
+  const [status, setStatus] = useState(filters.status);
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     onApply({
       q: String(data.get('q') ?? '').trim(),
-      status: String(data.get('status') ?? ''),
+      status,
       dueDateFrom,
       dueDateTo,
     });
@@ -50,16 +50,29 @@ export function DocumentFilters({
         name="q"
         placeholder={t('partnerDebtSearchPlaceholder')}
       />
-      <AppSelect defaultValue={filters.status} label={t('status')} name="status">
-        <MenuItem value="">{t('all')}</MenuItem>
-        <MenuItem value="OPEN">{t('open')}</MenuItem>
-        <MenuItem value="PARTIAL">{t('partial')}</MenuItem>
-        <MenuItem value="PAID">{t('paid')}</MenuItem>
-        <MenuItem value="CANCELLED">{t('cancelled')}</MenuItem>
-      </AppSelect>
+      <Select
+        allowClear
+        onChange={(value) => setStatus(typeof value === 'string' ? value : '')}
+        options={[
+          { label: t('open'), value: 'OPEN' },
+          { label: t('partial'), value: 'PARTIAL' },
+          { label: t('paid'), value: 'PAID' },
+          { label: t('cancelled'), value: 'CANCELLED' },
+        ]}
+        placeholder={t('status')}
+        value={status}
+      />
       <AppDatePicker label={t('dueDateFrom')} onChange={setDueDateFrom} value={dueDateFrom} />
       <AppDatePicker label={t('dueDateTo')} onChange={setDueDateTo} value={dueDateTo} />
-      <FilterActions onReset={onReset} resetHref="/debts" />
+      <FilterActions
+        onReset={() => {
+          setDueDateFrom('');
+          setDueDateTo('');
+          setStatus('');
+          onReset();
+        }}
+        resetHref="/debts"
+      />
     </DataTableToolbar>
   );
 }

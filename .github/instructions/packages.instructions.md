@@ -2,4 +2,4 @@
 applyTo: 'packages/**/*'
 ---
 
-Follow the [shared packages instructions](../../packages/AGENTS.md) and its linked canonical rules.
+Follow the [shared packages instructions](../../packages/AGENTS.md) and only its linked canonical rules matching the changed responsibilities.

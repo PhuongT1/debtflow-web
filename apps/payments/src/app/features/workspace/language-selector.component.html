@@ -1,0 +1,42 @@
+<button
+  #trigger
+  type="button"
+  class="trigger"
+  [attr.aria-label]="label('workspace.language')"
+  aria-haspopup="menu"
+  [attr.aria-expanded]="isOpen()"
+  [attr.aria-controls]="isOpen() ? 'payments-language-menu' : null"
+  (click)="toggle()"
+  (keydown.arrowdown)="$event.preventDefault(); openMenu(0)"
+  (keydown.arrowup)="$event.preventDefault(); openMenu(1)"
+>
+  {{ locale() === 'vi' ? '🇻🇳 VI' : '🇬🇧 EN' }}
+</button>
+<div
+  id="payments-language-menu"
+  class="menu"
+  role="menu"
+  tabindex="-1"
+  [attr.aria-label]="label('workspace.language')"
+  [hidden]="!isOpen()"
+  (keydown)="menuKeydown($event)"
+>
+  <button
+    type="button"
+    role="menuitemradio"
+    tabindex="-1"
+    [attr.aria-checked]="locale() === 'vi'"
+    (click)="select('vi')"
+  >
+    {{ label('workspace.languageVi') }}
+  </button>
+  <button
+    type="button"
+    role="menuitemradio"
+    tabindex="-1"
+    [attr.aria-checked]="locale() === 'en'"
+    (click)="select('en')"
+  >
+    {{ label('workspace.languageEn') }}
+  </button>
+</div>

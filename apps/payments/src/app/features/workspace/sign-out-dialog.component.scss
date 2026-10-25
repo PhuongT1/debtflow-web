@@ -1,0 +1,51 @@
+dialog {
+  box-sizing: border-box;
+  width: min(440px, calc(100vw - 48px));
+  max-height: calc(100dvh - 48px);
+  overflow: auto;
+  padding: 24px;
+  border: 1px solid var(--df-color-divider);
+  border-radius: var(--df-radius-md);
+  background: var(--df-color-surface);
+  color: var(--df-color-text);
+  box-shadow: 0 16px 48px rgb(15 23 42 / 24%);
+}
+
+dialog::backdrop {
+  background: rgb(15 23 42 / 45%);
+}
+h2 {
+  margin: 0 0 16px;
+  font-size: 20px;
+}
+p {
+  margin: 0 0 24px;
+  color: var(--df-color-text-secondary);
+}
+.error {
+  color: var(--df-color-error);
+}
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+button {
+  padding: 9px 16px;
+  border: 1px solid var(--df-color-divider);
+  border-radius: var(--df-radius-md);
+  background: var(--df-color-surface);
+  color: var(--df-color-text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+button.confirm {
+  border-color: var(--df-color-error);
+  background: var(--df-color-error);
+  color: #fff;
+}
+button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}

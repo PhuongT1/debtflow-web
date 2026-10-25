@@ -1,15 +1,16 @@
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
-import { AppShell } from '@debtflow/react-ui';
+import { AuthenticatedShell } from '@/features/auth';
 import { type AppLocale, DEFAULT_LOCALE, LOCALE_COOKIE_NAME } from '@debtflow/contracts';
 import { auth } from '@/lib/auth/session';
+import { getRequestedLoginUrl } from '@/lib/auth/login-navigation';
 
 export const dynamic = 'force-dynamic';
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [session, cookieStore] = await Promise.all([auth(), cookies()]);
   if (!session?.user || session.error === 'RefreshTokenError') {
-    redirect('/login');
+    redirect(await getRequestedLoginUrl());
   }
 
   const rawLocale = cookieStore.get(LOCALE_COOKIE_NAME)?.value;
@@ -17,7 +18,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     rawLocale === 'en' || rawLocale === 'vi' ? rawLocale : DEFAULT_LOCALE;
 
   return (
-    <AppShell
+    <AuthenticatedShell
       currentZone="shell"
       initialLocale={initialLocale}
       initialSidebarCollapsed={cookieStore.get('debt-flow-sidebar-collapsed')?.value === 'true'}
@@ -29,6 +30,6 @@ export default async function DashboardLayout({ children }: { children: React.Re
       }}
     >
       {children}
-    </AppShell>
+    </AuthenticatedShell>
   );
 }

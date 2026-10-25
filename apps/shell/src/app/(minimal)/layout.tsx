@@ -1,17 +1,18 @@
 import { redirect } from 'next/navigation';
-import { AppShell } from '@debtflow/react-ui';
+import { AuthenticatedShell } from '@/features/auth';
 import { auth } from '@/lib/auth/session';
+import { getRequestedLoginUrl } from '@/lib/auth/login-navigation';
 
 export const dynamic = 'force-dynamic';
 
 export default async function MinimalLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
   if (!session?.user || session.error === 'RefreshTokenError') {
-    redirect('/login');
+    redirect(await getRequestedLoginUrl());
   }
 
   return (
-    <AppShell
+    <AuthenticatedShell
       currentZone="shell"
       identity={{
         email: session.user.email,
@@ -22,6 +23,6 @@ export default async function MinimalLayout({ children }: { children: React.Reac
       variant="minimal"
     >
       {children}
-    </AppShell>
+    </AuthenticatedShell>
   );
 }

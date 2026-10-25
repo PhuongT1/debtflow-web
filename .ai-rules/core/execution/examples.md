@@ -1,0 +1,18 @@
+# Selection and Permission Review Cases
+
+Optional examples for maintainers/new members. Canonical decisions belong to the root selector and execution modules. These are documentation review cases, not an automated classifier test.
+
+| Prompt / evidence                                          | Expected selection                                                                                              | Permission boundary                                                                          |
+| ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| “Fix owner-label wrapping in the customer table”           | UI-change → bounded feature investigation → local impact → styling rules → responsive/long-content verification | Do not alter generic table defaults without shared assessment                                |
+| “Fix logout returning to the wrong app”                    | Bug-fix → browser investigation → auth/integration rules                                                        | Shared helper changes require actual caller/callback contract assessment                     |
+| “Add loading and retry to this existing component”         | Modify-component → impact → affected props/state/data topics                                                    | Keep unrelated consumers/UX unchanged unless requested                                       |
+| “Extract duplicated renderer without changing behavior”    | Refactor → consumer/export analysis → structure/import/rendering topics                                         | Do not combine behavior changes or architecture migration                                    |
+| “Create a reusable modal”                                  | Create-component → existing primitives/owner → relevant contract/UI topics                                      | Reuse alone does not authorize rewriting every existing dialog                               |
+| “Explain this hook”                                        | Read-only → hook and needed caller only                                                                         | No edits, implementation workflow, or unrelated rule bundle                                  |
+| “Plan only: fix the filter”                                | Planning + necessary bounded bug investigation                                                                  | Stop before implementation until explicit approval                                           |
+| “Fix spacing”; target is a shared token used by three apps | UI-change + shared-code assessment                                                                              | Prefer safe local correction; unknown cross-app impact requires approval before token edit   |
+| A layout investigation reveals stale query data            | Switch to bug/state/data responsibilities                                                                       | Preserve original outcome; added rule selection does not authorize unrelated feature changes |
+| Consumer is dynamically registered and cannot be resolved  | Impact/shared-code → bounded registration search → approval if still uncertain                                  | State missing evidence; no assumed compatible patch                                          |
+
+For each case, review category, required modules, excluded modules, relevant source search boundary, and edit/approval decision. A future routing change must preserve these distinctions or explain the intentional policy change.

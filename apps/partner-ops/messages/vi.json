@@ -1,6 +1,12 @@
 {
+  "SignOut": {
+    "title": "Đăng xuất",
+    "confirmation": "Bạn có chắc chắn muốn đăng xuất không?",
+    "cancel": "Hủy",
+    "error": "Không thể đăng xuất. Vui lòng thử lại."
+  },
   "PartnerHeader": {
-    "title": "Debt Flow · Đối tác",
+    "title": "Đối tác",
     "subtitle": "Workspace quản lý khách hàng và nhà cung cấp",
     "openAccountMenu": "Mở menu tài khoản",
     "signOut": "Đăng xuất"

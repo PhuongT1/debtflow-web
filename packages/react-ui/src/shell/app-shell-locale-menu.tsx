@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { Button, Box, Menu, MenuItem } from '@mui/material';
 import type { AppLocale } from '@debtflow/contracts';
+import { designTokens } from '@debtflow/design-tokens';
 
 type AppShellLocaleMenuProps = {
   locale: AppLocale;
@@ -10,6 +11,7 @@ type AppShellLocaleMenuProps = {
 };
 
 export function AppShellLocaleMenu({ locale, onLocaleChange }: AppShellLocaleMenuProps) {
+  const menuId = useId();
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
 
   function selectLocale(nextLocale: AppLocale) {
@@ -20,14 +22,17 @@ export function AppShellLocaleMenu({ locale, onLocaleChange }: AppShellLocaleMen
   return (
     <Box sx={{ mr: 1.5 }}>
       <Button
+        aria-label={locale === 'vi' ? 'Chọn ngôn ngữ' : 'Choose language'}
+        aria-controls={anchor ? menuId : undefined}
+        aria-haspopup="menu"
+        aria-expanded={Boolean(anchor)}
         color="inherit"
         onClick={(event) => setAnchor(event.currentTarget)}
         size="small"
         sx={{
           bgcolor: 'action.hover',
           borderRadius: 2,
-          fontSize: 12,
-          fontWeight: 750,
+          ...designTokens.typography.locale,
           minWidth: 64,
           px: 1.25,
           py: 0.5,
@@ -36,7 +41,7 @@ export function AppShellLocaleMenu({ locale, onLocaleChange }: AppShellLocaleMen
       >
         {locale === 'vi' ? '🇻🇳 VI' : '🇬🇧 EN'}
       </Button>
-      <Menu anchorEl={anchor} onClose={() => setAnchor(null)} open={Boolean(anchor)}>
+      <Menu id={menuId} anchorEl={anchor} onClose={() => setAnchor(null)} open={Boolean(anchor)}>
         <MenuItem onClick={() => selectLocale('vi')} selected={locale === 'vi'}>
           🇻🇳 Tiếng Việt (VI)
         </MenuItem>

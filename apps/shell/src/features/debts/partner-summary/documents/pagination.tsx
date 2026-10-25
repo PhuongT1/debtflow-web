@@ -4,6 +4,7 @@ import { Box, MenuItem, Typography } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import { AppPagination } from '@/components/ui/app-pagination';
 import { AppSelect } from '@/components/ui/select';
+import { TablePaginationBar } from '@debtflow/react-ui';
 
 export function DocumentPagination({
   page,
@@ -25,37 +26,19 @@ export function DocumentPagination({
   const to = Math.min(total, page * pageSize);
 
   return (
-    <Box
-      sx={{
-        alignItems: 'center',
-        columnGap: 1.5,
-        display: 'grid',
-        flexShrink: 0,
-        gridTemplateColumns: { xs: '1fr', md: 'minmax(0, 1fr) auto auto' },
-        rowGap: 1,
-        mt: 2,
-      }}
+    <TablePaginationBar
+      summary={
+        <Typography variant="body2">{t('paginationSummary', { from, to, total })}</Typography>
+      }
     >
-      <Typography color="text.secondary" sx={{ alignSelf: 'center' }} variant="body2">
-        {t('paginationSummary', { from, to, total })}
-      </Typography>
-      <Box
-        sx={{
-          alignItems: 'center',
-          display: 'flex',
-          flexShrink: 0,
-          gap: 1,
-          justifySelf: { md: 'end' },
-          whiteSpace: 'nowrap',
-        }}
-      >
+      <Box sx={{ alignItems: 'center', display: 'flex', flexShrink: 0, gap: 1 }}>
         <Typography color="text.secondary" sx={{ whiteSpace: 'nowrap' }} variant="body2">
           {t('rowsPerPage')}
         </Typography>
         <AppSelect
           disabled={loading}
           size="small"
-          sx={{ minWidth: 84 }}
+          sx={{ minWidth: 92, width: 92 }}
           value={String(pageSize)}
           onChange={(event) => onPageSizeChange(Number(event.target.value))}
         >
@@ -73,6 +56,6 @@ export function DocumentPagination({
           onPageChange={onPageChange}
         />
       </Box>
-    </Box>
+    </TablePaginationBar>
   );
 }

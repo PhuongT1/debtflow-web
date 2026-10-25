@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { StatCard } from '@/components/ui/card';
 import { ConfirmActionButton } from '@/components/ui/confirm-action-button';
-import { DataTable, type DataTableColumn } from '@/components/ui/data-table';
+import { DataTable, type DataTableColumn } from '@/components/tables';
 import { DetailList } from '@/components/ui/detail-list';
 import { HelpModal } from '@/components/ui/help-modal';
 import { MetricGrid, Page, PageHeader, PageSplit } from '@/components/ui/page';
@@ -36,25 +36,25 @@ export default async function DebtDetailPage({
   const paymentColumns: Array<DataTableColumn<(typeof payments)[number]>> = [
     {
       key: 'paidAt',
-      header: 'Ngày',
+      title: 'Ngày',
       render: (payment) => payment.paidAt.toLocaleDateString('vi-VN'),
     },
     {
       key: 'amount',
-      header: 'Số tiền',
+      title: 'Số tiền',
       align: 'right',
       render: (payment) => <span className="font-semibold">{formatMoney(payment.amount)}</span>,
     },
-    { key: 'method', header: 'Phương thức', render: (payment) => payment.method },
-    { key: 'referenceNo', header: 'Tham chiếu', render: (payment) => payment.referenceNo ?? '-' },
+    { key: 'method', title: 'Phương thức', render: (payment) => payment.method },
+    { key: 'referenceNo', title: 'Tham chiếu', render: (payment) => payment.referenceNo ?? '-' },
     {
       key: 'createdBy',
-      header: 'Người ghi nhận',
+      title: 'Người ghi nhận',
       render: (payment) => payment.createdBy?.name ?? '-',
     },
     {
       key: 'actions',
-      header: 'Thao tác',
+      title: 'Thao tác',
       render: (payment) => (
         <ConfirmActionButton
           endpoint={`/api/payments/${payment.id}`}
@@ -204,7 +204,8 @@ export default async function DebtDetailPage({
         hrefForPage={(nextPage) => hrefWithPage(`/debts/${debt.id}`, filters, nextPage)}
         hrefForPageSize={(pageSize) => hrefWithPageSize(`/debts/${debt.id}`, filters, pageSize)}
         paginationMeta={{ page, pageSize, total: payments.length }}
-        rows={pagedPayments}
+        rowKey="id"
+        dataSource={pagedPayments}
       />
     </Page>
   );

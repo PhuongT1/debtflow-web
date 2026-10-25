@@ -1,4 +1,31 @@
 {
+  "SignOut": {
+    "title": "Đăng xuất",
+    "confirmation": "Bạn có chắc chắn muốn đăng xuất không?",
+    "cancel": "Hủy",
+    "error": "Không thể đăng xuất. Vui lòng thử lại."
+  },
+  "Login": {
+    "useDemoAccount": "Dùng tài khoản demo",
+    "workspace": "Không gian quản lý tài chính",
+    "headline": "Kiểm soát công nợ. Chủ động dòng tiền.",
+    "description": "Một không gian làm việc rõ ràng cho sales, kế toán và quản lý cùng theo dõi.",
+    "trackDebts": "Theo dõi phải thu, phải trả theo thời gian thực",
+    "prioritizeOverdue": "Nhận diện khoản quá hạn cần ưu tiên",
+    "paymentHistory": "Lưu lịch sử thanh toán minh bạch",
+    "welcome": "Chào mừng trở lại",
+    "signInDescription": "Đăng nhập để tiếp tục quản lý công nợ hôm nay.",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "showPassword": "Hiện mật khẩu",
+    "hidePassword": "Ẩn mật khẩu",
+    "signIn": "Đăng nhập",
+    "securityNote": "Phiên đăng nhập được bảo vệ bằng mã hóa bảo mật.",
+    "invalidEmail": "Email không hợp lệ",
+    "passwordRequired": "Vui lòng nhập mật khẩu",
+    "invalidCredentials": "Email hoặc mật khẩu không đúng.",
+    "systemError": "Không thể đăng nhập do lỗi hệ thống. Vui lòng thử lại sau hoặc liên hệ quản trị viên."
+  },
   "Filters": {
     "apply": "Lọc",
     "clear": "Xóa lọc",
@@ -146,6 +173,8 @@
     "allBalances": "Tất cả số dư",
     "filter": "Lọc",
     "clearFilters": "Xóa lọc",
+    "focusTable": "Phóng to bảng",
+    "exitTableFocus": "Thoát phóng to",
     "loadingDebtData": "Đang tải dữ liệu công nợ...",
     "displayedRows": "Hiển thị {first}-{last} / {total} dòng",
     "rowsPerPage": "Số dòng",

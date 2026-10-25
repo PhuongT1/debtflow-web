@@ -4,6 +4,36 @@
  * postMessage payload without importing host implementation details.
  */
 export const MFE_HOST_MESSAGE_VERSION = 1 as const;
+export const MFE_ROUTE_SYNC_CAPABILITY = 'route-sync-v1' as const;
+
+export function isMfeRoutePath(value: unknown): value is string {
+  return (
+    typeof value === 'string' &&
+    value.startsWith('/') &&
+    !value.startsWith('//') &&
+    !value.includes('\\') &&
+    [...value].every((character) => character.charCodeAt(0) > 32)
+  );
+}
+
+/** Host-directed navigation within an already mounted iframe application. */
+export interface MfeRouteChangedMessage {
+  source: 'platform';
+  version: typeof MFE_HOST_MESSAGE_VERSION;
+  type: 'debtflow:route-changed';
+  path: string;
+}
+
+export function isMfeRouteChangedMessage(value: unknown): value is MfeRouteChangedMessage {
+  if (!value || typeof value !== 'object') return false;
+  const message = value as Record<string, unknown>;
+  return (
+    message['source'] === 'platform' &&
+    message['version'] === MFE_HOST_MESSAGE_VERSION &&
+    message['type'] === 'debtflow:route-changed' &&
+    isMfeRoutePath(message['path'])
+  );
+}
 
 import type { AppLocale } from '../i18n/locale.types';
 

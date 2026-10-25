@@ -9,6 +9,6 @@ Payments is an independently deployable Angular domain MFE. Start with the [repo
 
 ## Shared rules often needed here
 
-- [Angular](../../.ai-rules/frameworks/angular.md)
-- [Micro frontend boundaries](../../.ai-rules/microfrontend.md)
-- [Authentication](../../.ai-rules/concerns/authentication.md), [i18n](../../.ai-rules/concerns/i18n.md), or [contracts](../../.ai-rules/concerns/api-contracts.md) when relevant.
+- [Angular](../../.ai-rules/core/frameworks/angular/README.md)
+- [Micro frontend boundaries](../../.ai-rules/core/standards/microfrontend.md)
+- [Authentication](../../.ai-rules/core/concerns/authentication.md), [i18n](../../.ai-rules/core/concerns/i18n.md), or [contracts](../../.ai-rules/core/concerns/api-contracts.md) when relevant.

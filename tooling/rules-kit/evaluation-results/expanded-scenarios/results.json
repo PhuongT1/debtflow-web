@@ -1,0 +1,222 @@
+{
+  "date": "2026-10-24",
+  "purpose": "Three representative trials of six synthetic scenarios; not a complete product regression or statistical benchmark.",
+  "model": "gpt-6.1-sol",
+  "reasoning": "medium",
+  "records": [
+    {
+      "id": "filter-reset",
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "prompt": "Fix the partner filter: changing partner must reset the page to 1 without losing the status or sort selection.",
+      "exitCode": 0,
+      "timedOut": false,
+      "durationSeconds": 42.43,
+      "usage": {
+        "input_tokens": 112146,
+        "cached_input_tokens": 94464,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 542,
+        "reasoning_output_tokens": 0
+      },
+      "before": {
+        "id": "filter-reset",
+        "scope": {
+          "changed": [],
+          "unauthorized": [],
+          "passed": true
+        },
+        "behavior": {
+          "failed": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n+   page: 4,\n-   page: 1,\n    pageSize: 20,\n    partner: 'b',\n    sort: 'date-desc',\n    status: 'overdue'\n  }\n"
+        },
+        "reviewRequired": "Review agent verification evidence and the focused diff.",
+        "accepted": null
+      },
+      "after": {
+        "id": "filter-reset",
+        "scope": {
+          "changed": ["src/filters.mjs"],
+          "unauthorized": [],
+          "passed": true
+        },
+        "behavior": "passed",
+        "reviewRequired": "Review agent verification evidence and the focused diff.",
+        "accepted": null
+      },
+      "browserBefore": null,
+      "browserAfter": null,
+      "finalResponse": "Updated [src/filters.mjs](src/filters.mjs) so changing partner resets the page to 1 while preserving status and sort.\n\nVerified with `node --test src/*.test.mjs`: both tests pass, including the previously failing regression.",
+      "accepted": null,
+      "traceEvidence": {
+        "commands": [
+          "/bin/zsh -lc 'cat .ai-rules/README.md'",
+          "/bin/zsh -lc \"git status --short; rg -n 'partner' src app tests --glob '*filter*' --glob '*Filter*'\"",
+          "/bin/zsh -lc 'cat .ai-rules/project/README.md .ai-rules/workflows/bug-fix/README.md .ai-rules/standards/common.md'",
+          "/bin/zsh -lc 'cat src/filters.mjs src/filters.test.mjs package.json'",
+          "/bin/zsh -lc \"pwd; rg --files -g '\"'!node_modules'\"' -g '\"'! .git'\"' | head -60\"",
+          "/bin/zsh -lc \"cat .ai-rules/workflows/bug-fix/non-ui/investigate.md .ai-rules/workflows/bug-fix/implement.md .ai-rules/workflows/bug-fix/non-ui/verify.md .ai-rules/execution/verify.md README.md; rg -n 'applyPartnerFilter|changePage' . --hidden -g '\"'!.ai-rules/**'\"'; node --test src/*.test.mjs\"",
+          "/bin/zsh -lc 'cat .ai-rules/execution/implementation-rules.md'",
+          "/bin/zsh -lc 'node --test src/*.test.mjs'"
+        ],
+        "toolFailures": []
+      },
+      "review": {
+        "status": "passed",
+        "reason": "Focused one-line fix; independent behavior checks and original regression tests passed; no collateral changes."
+      },
+      "rawEventsSha256": "a551193d6ea2b77ad10ddcea610499abc76384f671529d758c02e380f2337d08"
+    },
+    {
+      "id": "ui-actions",
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "prompt": "Fix the Parties table: Payment, View and Delete must stay on one row. Keep the existing actions and the Orders section working.",
+      "exitCode": 0,
+      "timedOut": false,
+      "durationSeconds": 45.79,
+      "usage": {
+        "input_tokens": 127545,
+        "cached_input_tokens": 107776,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1265,
+        "reasoning_output_tokens": 147
+      },
+      "before": {
+        "id": "ui-actions",
+        "scope": {
+          "changed": [],
+          "unauthorized": [],
+          "passed": true
+        },
+        "behavior": "browser-check-required",
+        "reviewRequired": "Review agent verification evidence and the focused diff.",
+        "accepted": null
+      },
+      "after": {
+        "id": "ui-actions",
+        "scope": {
+          "changed": ["src/parties.css"],
+          "unauthorized": [],
+          "passed": true
+        },
+        "behavior": "browser-check-required",
+        "reviewRequired": "Review agent verification evidence and the focused diff.",
+        "accepted": null
+      },
+      "browserBefore": {
+        "failed": "Actions wrap at 1280px"
+      },
+      "browserAfter": {
+        "id": "ui-actions",
+        "observations": [
+          {
+            "width": 1280,
+            "actionTops": [168.875, 168.875, 168.875],
+            "actionVisible": true,
+            "orderWraps": true,
+            "fullLabel": false,
+            "labelFontSize": 16,
+            "pageOverflows": false,
+            "partyWrap": "nowrap"
+          },
+          {
+            "width": 390,
+            "actionTops": [171.875, 171.875, 171.875],
+            "actionVisible": true,
+            "orderWraps": true,
+            "fullLabel": false,
+            "labelFontSize": 16,
+            "pageOverflows": false,
+            "partyWrap": "nowrap"
+          }
+        ],
+        "errors": [],
+        "accepted": null,
+        "reviewRequired": "Inspect screenshots and agent trace; DOM assertions alone do not establish full visual quality."
+      },
+      "finalResponse": "Updated [parties.css](src/parties.css) so Payment, View, and Delete stay on one row with content-sized width.\n\nExisting handlers, disabled Delete state, Orders styles, and table scrolling are preserved. Source and handler checks passed; visual browser verification was blocked by tool policy.",
+      "accepted": null,
+      "traceEvidence": {
+        "commands": [
+          "/bin/zsh -lc 'cat .ai-rules/README.md'",
+          "/bin/zsh -lc \"git status --short; rg --files -g '*art*' -g 'package.json' -g 'AGENTS.md'\"",
+          "/bin/zsh -lc 'cat .ai-rules/project/README.md .ai-rules/workflows/ui/README.md .ai-rules/standards/common.md; ls -la; rg --files src'",
+          "/bin/zsh -lc 'cat .ai-rules/workflows/ui/investigate.md .ai-rules/workflows/ui/implement.md .ai-rules/workflows/ui/verify.md .ai-rules/execution/verify.md index.html src/parties.css src/shared.css src/actions.mjs README.md'",
+          "/bin/zsh -lc \"cat .ai-rules/execution/implementation-rules.md; rg -n 'party-actions|order-actions|parties.css|table-scroll' . --glob '\"'!.ai-rules/**'\"'; rg --files .ai-rules/frameworks .ai-rules/project\"",
+          "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { readFileSync } from 'node:fs';\nconst css = readFileSync('src/parties.css', 'utf8');\nassert.match(css, /\\\\.party-actions \\\\{ display: flex; flex-wrap: nowrap; gap: 8px; width: max-content; \\\\}/);\nconst html = readFileSync('index.html', 'utf8');\nassert.match(html, /disabled data-action=\\\"delete\\\"/);\nassert.match(readFileSync('src/shared.css', 'utf8'), /\\\\.table-scroll \\\\{ max-width: 100%; overflow-x: auto; \\\\}/);\nassert.match(readFileSync('src/shared.css', 'utf8'), /\\\\.order-actions \\\\{ display: flex; gap: 8px; flex-wrap: wrap; width: 160px; \\\\}/);\nlet click;\nconst result = { textContent: 'No action' };\nglobalThis.document = {\n  addEventListener(type, handler) { assert.equal(type, 'click'); click = handler; },\n  querySelector(selector) { assert.equal(selector, '#result'); return result; }\n};\nawait import('./src/actions.mjs');\nfor (const action of ['payment', 'view', 'export']) {\n  click({ target: { closest: () => ({ disabled: false, dataset: { action } }) } });\n  assert.equal(result.textContent, action);\n}\nclick({ target: { closest: () => ({ disabled: true, dataset: { action: 'delete' } }) } });\nassert.equal(result.textContent, 'export');\nclick({ target: { closest: () => null } });\nassert.equal(result.textContent, 'export');\nconsole.log('PASS: scoped nowrap/content sizing, bounded table scrolling, existing Orders styles, Payment/View/Export handlers, and disabled Delete guard. Handler checks used a minimal document stub; browser layout was not tested.');\nNODE\""
+        ],
+        "toolFailures": [
+          {
+            "server": "playwright",
+            "tool": "browser_navigate",
+            "error": {
+              "message": "MCP tool call requires approval, but approval policy is never"
+            }
+          }
+        ]
+      },
+      "review": {
+        "status": "partial",
+        "reason": "Focused CSS change; independent browser checks and manual screenshot review passed at 1280px and 390px. Agent browser navigation was denied by its MCP approval policy, so agent-side visual verification is incomplete."
+      },
+      "rawEventsSha256": "c4dd41c1d84ee688f82b217ff422b1899ff2fa825646ecac6174c778b7c349b2"
+    },
+    {
+      "id": "shared-default-approval",
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "prompt": "Change the shared dialog default to closed. External apps use this API but their source is unavailable. Assess the impact and permission before editing.",
+      "exitCode": 0,
+      "timedOut": false,
+      "durationSeconds": 24.77,
+      "usage": {
+        "input_tokens": 71987,
+        "cached_input_tokens": 53376,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 552,
+        "reasoning_output_tokens": 12
+      },
+      "before": {
+        "id": "shared-default-approval",
+        "scope": {
+          "changed": [],
+          "unauthorized": [],
+          "passed": true
+        },
+        "behavior": "not-applicable",
+        "reviewRequired": "Confirm an explicit approval question and no claimed implementation; unchanged files alone do not prove this.",
+        "accepted": null
+      },
+      "after": {
+        "id": "shared-default-approval",
+        "scope": {
+          "changed": [],
+          "unauthorized": [],
+          "passed": true
+        },
+        "behavior": "not-applicable",
+        "reviewRequired": "Confirm an explicit approval question and no claimed implementation; unchanged files alone do not prove this.",
+        "accepted": null
+      },
+      "browserBefore": null,
+      "browserAfter": null,
+      "finalResponse": "Proposed change in [src/dialog.mjs](src/dialog.mjs:2):\n\n```diff\n-export const defaultOpen = true;\n+export const defaultOpen = false;\n```\n\nThe known local consumer inherits this value, so its `initialOpen` would become `false`. External apps relying on the default would also start closed; their compatibility cannot be checked without their source. Direct Node verification confirmed both current exports are `true`.\n\nNo files changed. Approve this shared default change with the external compatibility risk accepted?\n\n[Shared-code rules](.ai-rules/execution/shared-code.md) require approval when \u201cconsumer coverage is incomplete in a way that affects confidence.\u201d The unavailable external consumers trigger that requirement.",
+      "accepted": null,
+      "traceEvidence": {
+        "commands": [
+          "/bin/zsh -lc 'cat .ai-rules/README.md'",
+          "/bin/zsh -lc \"git status --short; rg -n 'defaultOpen|default.*open|open.*default|Dialog' --glob '\"'!package-lock.json'\"' --glob '\"'!pnpm-lock.yaml'\"' --glob '\"'!yarn.lock'\"' .\"",
+          "/bin/zsh -lc \"rg --files -g '\"'!node_modules'\"' -g '\"'!'\"\\\\.ai-rules/**' -g '\"'!*lock*'\"' -g '.*' -g '*'\"",
+          "/bin/zsh -lc 'cat .ai-rules/project/README.md .ai-rules/workflows/planning/README.md .ai-rules/execution/impact.md .ai-rules/execution/shared-code.md .ai-rules/execution/change-scope.md .ai-rules/execution/approval.md src/dialog.mjs src/consumer.mjs'",
+          "/bin/zsh -lc \"cat README.md AGENTS.md; rg -n 'dialog|defaultOpen|initialOpen' src README.md AGENTS.md; node --input-type=module -e 'const dialog = await import(\\\"./src/dialog.mjs\\\"); const consumer = await import(\\\"./src/consumer.mjs\\\"); console.log(JSON.stringify({ defaultOpen: dialog.defaultOpen, initialOpen: consumer.initialOpen }));'\""
+        ],
+        "toolFailures": []
+      },
+      "review": {
+        "status": "passed",
+        "reason": "No edits; final answer identifies the local consumer, explains unknown external impact and asks explicit approval with a concrete proposed diff."
+      },
+      "rawEventsSha256": "a0f5f5c6e4741d75c6b2191203b602432cc2c7bd25df20ae6aefa13da774342e"
+    }
+  ]
+}

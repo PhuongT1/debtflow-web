@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { Alert } from '@mui/material';
-import { DataTable } from '@/components/ui/data-table';
+import { DataTable } from '@/components/tables';
 import { FormDialog } from '@/components/ui/form-dialog';
 import { HelpModal } from '@/components/ui/help-modal';
 import { Page, PageHeader } from '@/components/ui/page';

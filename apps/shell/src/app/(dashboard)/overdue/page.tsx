@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { ConfirmActionButton } from '@/components/ui/confirm-action-button';
-import { DataTable, type DataTableColumn } from '@/components/ui/data-table';
+import { DataTable, type DataTableColumn } from '@/components/tables';
 import { HelpModal } from '@/components/ui/help-modal';
 import { Page, PageHeader } from '@/components/ui/page';
 import { listDebts } from '@/services/debt.server';
@@ -18,33 +18,33 @@ export default async function OverduePage({
   const columns: Array<DataTableColumn<(typeof debts.items)[number]>> = [
     {
       key: 'code',
-      header: 'Mã',
+      title: 'Mã',
       render: (debt) => (
         <Link className="font-semibold text-blue-600" href={`/debts/${debt.id}`}>
           {debt.code}
         </Link>
       ),
     },
-    { key: 'party', header: 'Đối tác', render: (debt) => debt.party.name },
+    { key: 'party', title: 'Đối tác', render: (debt) => debt.party.name },
     {
       key: 'type',
-      header: 'Loại',
+      title: 'Loại',
       render: (debt) => (debt.type === 'RECEIVABLE' ? 'Phải thu' : 'Phải trả'),
     },
     {
       key: 'remaining',
-      header: 'Còn lại',
+      title: 'Còn lại',
       align: 'right',
       render: (debt) => formatMoney(debt.originalAmount.minus(debt.paidAmount)),
     },
     {
       key: 'dueDate',
-      header: 'Ngày đến hạn',
+      title: 'Ngày đến hạn',
       render: (debt) => debt.dueDate.toLocaleDateString('vi-VN'),
     },
     {
       key: 'late',
-      header: 'Trễ',
+      title: 'Trễ',
       render: (debt) => {
         const lateDays = Math.max(1, Math.ceil((Date.now() - debt.dueDate.getTime()) / 86400000));
         return <Badge tone="red">{lateDays} ngày</Badge>;
@@ -52,7 +52,7 @@ export default async function OverduePage({
     },
     {
       key: 'actions',
-      header: 'Thao tác',
+      title: 'Thao tác',
       render: (debt) => (
         <ConfirmActionButton
           endpoint={`/api/debts/${debt.id}`}
@@ -93,7 +93,8 @@ export default async function OverduePage({
         hrefForPage={(page) => hrefWithPage('/overdue', filters, page)}
         hrefForPageSize={(pageSize) => hrefWithPageSize('/overdue', filters, pageSize)}
         paginationMeta={debts}
-        rows={debts.items}
+        rowKey="id"
+        dataSource={debts.items}
       />
     </Page>
   );

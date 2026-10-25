@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Party workspace evaluation fixture</title>
+    <link rel="stylesheet" href="/src/shared.css" />
+    <link rel="stylesheet" href="/src/parties.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Parties</h1>
+      <div class="table-scroll">
+        <table aria-label="Parties">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Example customer</td>
+              <td>
+                <div class="party-actions">
+                  <button type="button" data-action="payment">Payment</button>
+                  <button type="button" data-action="view">View</button>
+                  <button type="button" disabled data-action="delete">Delete</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <section aria-label="Export">
+        <button class="export-button" type="button" data-action="export">
+          Export all selected payment records
+        </button>
+      </section>
+      <section aria-label="Existing order controls">
+        <h2>Orders</h2>
+        <div class="order-actions">
+          <button type="button">Approve order</button>
+          <button type="button">Cancel order</button>
+        </div>
+      </section>
+      <output aria-live="polite" id="result">No action</output>
+    </main>
+    <script type="module" src="/src/actions.mjs"></script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "defaults": ["codex", "claude", "cursor", "copilot"],
+  "clients": {
+    "codex": {
+      "label": "Codex",
+      "entry": "AGENTS.md",
+      "skillRoot": ".agents/skills"
+    },
+    "claude": {
+      "label": "Claude Code",
+      "entry": "CLAUDE.md",
+      "skillRoot": ".claude/skills",
+      "roles": { "directory": ".claude/agents", "format": "claude" },
+      "instruction": { "path": ".claude/rules/ai-toolkit.md", "header": "" }
+    },
+    "cursor": {
+      "label": "Cursor",
+      "entry": ".cursor/rules/ai-toolkit.mdc",
+      "skillRoot": ".cursor/skills",
+      "instruction": {
+        "path": ".cursor/rules/ai-toolkit.mdc",
+        "header": "---\nalwaysApply: true\n---\n\n"
+      }
+    },
+    "copilot": {
+      "label": "Copilot",
+      "entry": ".github/copilot-instructions.md",
+      "instruction": {
+        "path": ".github/instructions/ai-toolkit.instructions.md",
+        "header": "---\napplyTo: '**'\n---\n\n"
+      }
+    },
+    "generic": {
+      "label": "Other repository-aware AI",
+      "entry": ".ai-rules/generated/INSTRUCTIONS.md",
+      "instruction": { "path": ".ai-rules/generated/INSTRUCTIONS.md", "header": "" }
+    }
+  }
+}

@@ -1,0 +1,133 @@
+@media (min-width: 1600px) {
+  #content {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+  .docs-layout {
+    --sidebar-width: 285px;
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr) 230px;
+  }
+}
+@media (max-width: 1150px) {
+  .docs-layout {
+    --sidebar-width: 245px;
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  }
+  .toc-panel {
+    display: none;
+  }
+  .inline-toc {
+    display: block;
+  }
+  .top-nav {
+    gap: 0;
+    margin-left: 0;
+  }
+  .site-header {
+    gap: 20px;
+  }
+  .search-trigger {
+    min-width: 210px;
+  }
+  #content {
+    padding: 24px 20px;
+  }
+}
+@media (max-width: 820px) {
+  :root {
+    --header: 66px;
+  }
+  .site-header {
+    padding: 0 16px;
+    gap: 12px;
+  }
+  .mobile-menu {
+    display: block;
+    border: 0;
+    padding: 5px;
+    font-size: 20px;
+  }
+  .brand {
+    font-size: 18px;
+  }
+  .top-nav {
+    display: none;
+  }
+  .search-trigger {
+    min-width: 0;
+    font-size: 0;
+    gap: 0;
+    padding: 6px 11px;
+  }
+  .search-trigger > span {
+    font-size: 25px;
+  }
+  .search-trigger kbd {
+    display: none;
+  }
+  .docs-layout {
+    display: block;
+  }
+  .sidebar {
+    display: none;
+    position: fixed;
+    top: var(--header);
+    left: 0;
+    width: 290px;
+    max-width: 90vw;
+    background: #fff;
+    z-index: 9;
+    box-shadow: 20px 0 40px #0002;
+  }
+  body[data-menu-open] .sidebar {
+    display: block;
+  }
+  #content {
+    padding: 24px 16px;
+  }
+  .page-meta {
+    align-items: flex-start;
+  }
+  .page-meta > div {
+    gap: 8px;
+  }
+  h1 {
+    font-size: 32px;
+    letter-spacing: -1px;
+    margin-bottom: 24px;
+  }
+  #breadcrumbs {
+    margin-bottom: 27px;
+    font-size: 11px;
+  }
+  #details {
+    font-size: 14px;
+  }
+  #details h2 {
+    font-size: 23px;
+  }
+  .page-footer {
+    font-size: 10px;
+  }
+  #diagram {
+    height: 60vh;
+  }
+  #search-dialog {
+    margin-top: 7vh;
+  }
+}
+@media (max-width: 1150px) {
+  .search-trigger {
+    min-width: 0;
+    font-size: 0;
+    padding: 6px 11px;
+    gap: 0;
+  }
+  .search-trigger kbd {
+    display: none;
+  }
+  .top-nav a {
+    padding: 9px 10px;
+    font-size: 12px;
+  }
+}

@@ -24,6 +24,7 @@ type AppShellProps = {
   initialLocale?: AppLocale;
   initialSidebarCollapsed?: boolean;
   signOutHref?: string;
+  onSignOut?: () => void;
   variant?: AppShellVariant;
 };
 
@@ -34,6 +35,7 @@ export function AppShell({
   initialLocale = 'vi',
   initialSidebarCollapsed = false,
   signOutHref = '/api/auth/signout',
+  onSignOut,
   variant = 'main',
 }: AppShellProps) {
   const pathname = usePathname();
@@ -88,6 +90,7 @@ export function AppShell({
         onSidebarToggle={toggleCollapsed}
         sidebarWidth={sidebarWidth}
         signOutHref={signOutHref}
+        onSignOut={onSignOut}
       />
       <Box sx={{ display: 'flex', flex: 1, minHeight: 0, minWidth: 0 }}>
         {hasNavigation ? (

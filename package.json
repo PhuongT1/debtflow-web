@@ -7,6 +7,7 @@
     "packages/*"
   ],
   "scripts": {
+    "rules:viewer": "node tooling/rules-viewer/server.mjs",
     "dev": "npm run dev:shell",
     "dev:all": "concurrently -n shell,partner-ops,payments -c blue,green,magenta \"npm run dev:shell:all\" \"npm run dev:partner-ops\" \"npm run dev:payments\"",
     "dev:partner-stack": "concurrently -n shell,partner-ops -c blue,green \"npm run dev:shell:partner\" \"npm run dev:partner-ops\"",
@@ -45,7 +46,15 @@
     "dev:payments:standalone": "npm run dev:standalone -w @debtflow/payments",
     "lint:packages": "eslint packages",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "rules:setup": "npm run rules:sync",
+    "rules:sync": "node tooling/rules-kit/workflows.mjs --write && node tooling/rules-kit/setup.mjs --write",
+    "rules:check": "node tooling/rules-kit/workflows.mjs --check && node tooling/rules-kit/setup.mjs --check && node --test tooling/rules-kit/*.test.mjs tooling/rules-viewer/*.test.mjs",
+    "rules:evaluate": "node tooling/rules-kit/evaluate.mjs",
+    "docs:dev": "node tooling/rules-viewer/server.mjs",
+    "docs:build": "node tooling/rules-viewer/build.mjs",
+    "docs:preview": "node tooling/rules-viewer/preview.mjs",
+    "rules:scenarios": "node --test tooling/rules-kit/scenarios.test.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",

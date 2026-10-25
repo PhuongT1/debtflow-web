@@ -83,7 +83,12 @@ export function PartnerDetailsDialog({ partner }: { partner: EditablePartner }) 
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} size="small" variant="secondary">
+      <Button
+        onClick={() => setOpen(true)}
+        size="small"
+        sx={{ whiteSpace: 'nowrap' }}
+        variant="secondary"
+      >
         Đối tác
       </Button>
       <AppDialog

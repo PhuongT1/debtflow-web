@@ -1,0 +1,82 @@
+#details .code-block {
+  margin: 22px 0;
+  border: 1px solid #dae2ed;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 16px;
+  background: #f1f5fa;
+  border-bottom: 1px solid #dae2ed;
+  font-size: 12px;
+  color: #52647c;
+}
+.code-header > span {
+  font-family: ui-monospace, monospace;
+}
+.code-header button {
+  font-size: 11px;
+  padding: 4px 9px;
+}
+#details .code-block pre {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 18px;
+  background: #fafbfe;
+  color: #344155;
+  overflow-x: auto;
+  white-space: pre;
+  tab-size: 2;
+}
+.syntax-keyword {
+  color: #7a32b7;
+}
+.syntax-string {
+  color: #12724c;
+}
+.syntax-number {
+  color: #ac4b11;
+}
+.syntax-comment {
+  color: #63758a;
+  font-style: italic;
+}
+#details .callout {
+  --callout-color: #225cb6;
+  --callout-bg: #eef5ff;
+  margin: 22px 0;
+  padding: 15px 18px;
+  border: 1px solid color-mix(in srgb, var(--callout-color) 22%, white);
+  border-left: 4px solid var(--callout-color);
+  border-radius: 8px;
+  background: var(--callout-bg);
+  font-size: 14px;
+}
+#details .callout-title {
+  color: var(--callout-color);
+  display: block;
+  font-size: 13px;
+}
+#details .callout p {
+  margin: 7px 0 0;
+}
+#details .callout-tip {
+  --callout-color: #166744;
+  --callout-bg: #eefaf3;
+}
+#details .callout-important {
+  --callout-color: #763ab2;
+  --callout-bg: #f7f1fd;
+}
+#details .callout-warning {
+  --callout-color: #8c5a09;
+  --callout-bg: #fffae9;
+}
+#details .callout-caution {
+  --callout-color: #b12b40;
+  --callout-bg: #fff1f3;
+}

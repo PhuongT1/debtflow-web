@@ -1,38 +1,21 @@
-import { shellEnv } from '@/lib/config/environment';
+import { redirect } from 'next/navigation';
+import { auth } from '@/lib/auth/session';
+import { resolveLoginReturnTo } from '@/lib/auth/login-navigation';
 import { LoginForm } from './login-form';
 
-function resolveReturnTo(value: string | undefined) {
-  if (!value) return '/';
-
-  try {
-    const target = new URL(value, shellEnv.AUTH_URL);
-    const isPlatformRelativePath = value.startsWith('/') && target.origin === shellEnv.AUTH_URL;
-
-    if (isPlatformRelativePath) {
-      return `${target.pathname}${target.search}${target.hash}`;
-    }
-
-    const allowedOrigins = shellEnv.AUTH_ALLOWED_RETURN_ORIGINS.split(',')
-      .map((origin) => origin.trim())
-      .filter(Boolean);
-
-    return allowedOrigins.includes(target.origin) ? target.toString() : '/';
-  } catch {
-    return '/';
-  }
-}
+export const dynamic = 'force-dynamic';
 
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string; returnTo?: string }>;
+  searchParams: Promise<{ error?: string; callbackUrl?: string; returnTo?: string }>;
 }) {
-  const params = await searchParams;
+  const [params, session] = await Promise.all([searchParams, auth()]);
+  const returnTo = resolveLoginReturnTo(params.callbackUrl ?? params.returnTo);
 
-  return (
-    <LoginForm
-      initialError={params.error ? 'Email hoặc mật khẩu không đúng.' : null}
-      returnTo={resolveReturnTo(params.returnTo)}
-    />
-  );
+  if (session?.user && session.accessToken && session.error !== 'RefreshTokenError') {
+    redirect(returnTo);
+  }
+
+  return <LoginForm initialError={params.error ?? null} returnTo={returnTo} />;
 }

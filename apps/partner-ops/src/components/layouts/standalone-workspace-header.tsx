@@ -5,8 +5,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { AppLocale, CoreIdentity } from '@debtflow/contracts';
 import { useLocale, useTranslations } from 'next-intl';
-import { setStoredLocale } from '@debtflow/platform-sdk';
+import { signOutFromPlatform, setStoredLocale } from '@debtflow/platform-sdk';
+import { SignOutDialog } from '@debtflow/react-ui';
 import { navigationItems } from '@debtflow/navigation';
+import { designTokens } from '@debtflow/design-tokens';
 import {
   Avatar,
   Box,
@@ -49,14 +51,16 @@ export function StandaloneWorkspaceHeader({
 }: StandaloneWorkspaceHeaderProps) {
   const pathname = usePathname();
   const [accountAnchor, setAccountAnchor] = useState<HTMLElement | null>(null);
+  const [isSignOutOpen, setIsSignOutOpen] = useState(false);
+  const [isSignOutRequested, setIsSignOutRequested] = useState(false);
   const locale = useLocale() as AppLocale;
   const tHeader = useTranslations('PartnerHeader');
   const tNavigation = useTranslations('Navigation');
+  const tSignOut = useTranslations('SignOut');
 
   function handleSwitchLanguage(nextLocale: AppLocale) {
     setStoredLocale(nextLocale);
   }
-  const signOutHref = new URL('/api/auth/signout', platformOrigin).toString();
 
   return (
     <Box
@@ -76,16 +80,16 @@ export function StandaloneWorkspaceHeader({
         }}
       >
         <Stack spacing={0}>
-          <Typography sx={{ fontSize: 16, fontWeight: 800 }}>{tHeader('title')}</Typography>
-          <Typography color="text.secondary" sx={{ fontSize: 12 }}>
+          <Typography sx={designTokens.typography.headerTitle}>{tHeader('title')}</Typography>
+          <Typography color="text.secondary" sx={designTokens.typography.headerSubtitle}>
             {tHeader('subtitle')}
           </Typography>
         </Stack>
         <Stack direction="row" spacing={1.25} sx={{ alignItems: 'center' }}>
           <LanguageSelector locale={locale} onChange={handleSwitchLanguage} />
           <Stack spacing={0} sx={{ alignItems: 'flex-end' }}>
-            <Typography sx={{ fontSize: 13, fontWeight: 700 }}>{identity.name}</Typography>
-            <Typography color="text.secondary" sx={{ fontSize: 11 }}>
+            <Typography sx={designTokens.typography.identity}>{identity.name}</Typography>
+            <Typography color="text.secondary" sx={designTokens.typography.caption}>
               {identity.role}
             </Typography>
           </Stack>
@@ -119,7 +123,17 @@ export function StandaloneWorkspaceHeader({
             id="partner-account-menu"
             onClose={() => setAccountAnchor(null)}
             open={Boolean(accountAnchor)}
-            slotProps={{ paper: { sx: { minWidth: 220 } } }}
+            slotProps={{
+              paper: { sx: { minWidth: 220 } },
+              transition: {
+                onExited: () => {
+                  if (isSignOutRequested) {
+                    setIsSignOutRequested(false);
+                    setIsSignOutOpen(true);
+                  }
+                },
+              },
+            }}
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           >
             <Box sx={{ px: 2, py: 1.25 }}>
@@ -135,8 +149,10 @@ export function StandaloneWorkspaceHeader({
             </Box>
             <Divider />
             <MenuItem
-              component="a"
-              href={signOutHref}
+              onClick={() => {
+                setIsSignOutRequested(true);
+                setAccountAnchor(null);
+              }}
               sx={{ color: 'error.main', fontWeight: 650 }}
             >
               <ListItemIcon sx={{ color: 'inherit' }}>
@@ -147,6 +163,16 @@ export function StandaloneWorkspaceHeader({
           </Menu>
         </Stack>
       </Box>
+      {isSignOutOpen ? (
+        <SignOutDialog
+          title={tSignOut('title')}
+          confirmation={tSignOut('confirmation')}
+          cancelLabel={tSignOut('cancel')}
+          errorMessage={tSignOut('error')}
+          onCancel={() => setIsSignOutOpen(false)}
+          onConfirm={() => signOutFromPlatform(platformOrigin)}
+        />
+      ) : null}
       <Box
         component="nav"
         aria-label="Điều hướng Partner Operations"

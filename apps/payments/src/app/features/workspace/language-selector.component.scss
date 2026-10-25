@@ -1,0 +1,59 @@
+:host {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+  color: inherit;
+}
+.trigger {
+  border: 0;
+  border-radius: 8px;
+  background: #f4f7fb;
+  min-width: 64px;
+  padding: 4px 10px;
+  font-size: var(--df-font-size-locale);
+  font-weight: var(--df-font-weight-locale);
+  line-height: var(--df-line-height-control);
+}
+.menu {
+  position: absolute;
+  z-index: 1300;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 184px;
+  padding: 8px 0;
+  border: 1px solid var(--df-color-divider);
+  border-radius: var(--df-radius-md);
+  background: var(--df-color-surface);
+  box-shadow: 0 12px 28px rgb(15 23 42 / 20%);
+}
+.menu button {
+  display: block;
+  width: calc(100% - 12px);
+  min-height: 40px;
+  margin: 2px 6px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: var(--df-radius-sm);
+  background: transparent;
+  font-size: var(--df-font-size-table);
+  font-weight: var(--df-font-weight-body);
+  line-height: var(--df-line-height-body);
+  text-align: left;
+  white-space: nowrap;
+}
+.menu button:hover,
+.menu button:focus-visible {
+  background: #f4f7fb;
+}
+.menu button[aria-checked='true'] {
+  color: var(--df-color-primary-dark);
+  background: var(--df-color-primary-light);
+}
+button:focus-visible {
+  outline: 2px solid var(--df-color-primary);
+  outline-offset: 2px;
+}

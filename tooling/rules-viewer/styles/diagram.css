@@ -1,0 +1,76 @@
+#diagram-section {
+  margin: 20px 0 35px;
+  padding: 12px;
+  background: #fafbf7;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.toolbar button {
+  padding: 5px 9px;
+  font-size: 12px;
+}
+.toolbar output {
+  font-size: 11px;
+  min-width: 40px;
+  text-align: center;
+}
+.hint {
+  font-size: 10px;
+  color: var(--muted);
+}
+#diagram {
+  display: block;
+  width: 100%;
+  height: 65vh;
+  min-height: 350px;
+  background: #fff;
+  border-radius: 6px;
+  touch-action: none;
+  cursor: grab;
+}
+#diagram:active {
+  cursor: grabbing;
+}
+.edge {
+  fill: none;
+  stroke: #899480;
+  stroke-width: 2;
+}
+.edge-label {
+  font-size: 12px;
+  fill: #626b57;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-width: 4px;
+}
+.node rect,
+.node polygon {
+  fill: #fff;
+  stroke: #829264;
+  stroke-width: 2;
+}
+.node.decision polygon {
+  fill: var(--accent);
+  stroke: #a89149;
+}
+.node:hover rect,
+.node:focus rect,
+.node:hover polygon,
+.node:focus polygon {
+  fill: #f4f6e9;
+  stroke-width: 4;
+}
+.node {
+  cursor: pointer;
+}
+.node text {
+  font-family: system-ui, sans-serif;
+  font-size: 15px;
+  fill: var(--ink);
+}

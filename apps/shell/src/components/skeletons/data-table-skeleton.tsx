@@ -1,16 +1,33 @@
-import { Box, TableCell, TableRow } from '@mui/material';
+import { Box, TableRow } from '@mui/material';
+import { DataTableCell, type FixedTableSide } from '@debtflow/react-ui';
 import { AppSkeleton } from '@/components/ui/skeleton';
-import type { DataTableSkeletonSpec } from '@/components/ui/data-table';
+import type { DataTableSkeletonSpec } from '@/components/tables';
 
 type SkeletonColumn = {
   key: string;
   align?: 'left' | 'right' | 'center';
-  sticky?: boolean;
+  fixed?: FixedTableSide;
   width?: number | string;
   skeleton?: DataTableSkeletonSpec;
 };
 
 const widths = [72, 88, 64, 76, 58];
+
+function getFixedColumnOffset(
+  columns: SkeletonColumn[],
+  columnIndex: number,
+  fixed?: FixedTableSide,
+) {
+  if (!fixed) return undefined;
+
+  const fixedColumns =
+    fixed === 'left' ? columns.slice(0, columnIndex) : columns.slice(columnIndex + 1);
+  const widths = fixedColumns
+    .filter((column) => column.fixed === fixed && column.width != null)
+    .map((column) => (typeof column.width === 'number' ? `${column.width}px` : column.width));
+
+  return widths.length === 0 ? 0 : `calc(${widths.join(' + ')})`;
+}
 
 export function DataTableRowsSkeleton({
   columns,
@@ -22,18 +39,14 @@ export function DataTableRowsSkeleton({
   return Array.from({ length: rowCount }, (_, rowIndex) => (
     <TableRow aria-hidden key={rowIndex} sx={{ height: 68 }}>
       {columns.map((column, columnIndex) => (
-        <TableCell
+        <DataTableCell
           align={column.align}
+          fixed={column.fixed}
+          fixedOffset={getFixedColumnOffset(columns, columnIndex, column.fixed)}
           key={column.key}
           sx={{
-            bgcolor: column.sticky ? 'background.paper' : undefined,
-            borderRight: column.sticky ? '1px solid' : undefined,
-            borderRightColor: column.sticky ? 'divider' : undefined,
-            left: column.sticky ? 0 : undefined,
             minWidth: column.width,
-            position: column.sticky ? 'sticky' : undefined,
             width: column.width,
-            zIndex: column.sticky ? 1 : undefined,
           }}
         >
           <Box
@@ -70,7 +83,7 @@ export function DataTableRowsSkeleton({
               />
             ))}
           </Box>
-        </TableCell>
+        </DataTableCell>
       ))}
     </TableRow>
   ));

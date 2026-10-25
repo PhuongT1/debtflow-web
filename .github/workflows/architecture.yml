@@ -8,6 +8,15 @@ on:
       - 'platform/**'
       - 'scripts/**'
       - 'tooling/**'
+      - '.ai-rules/**'
+      - '.agents/**'
+      - '.claude/**'
+      - '.cursor/**'
+      - '.github/instructions/**'
+      - '.github/copilot-instructions.md'
+      - 'AGENTS.md'
+      - 'CLAUDE.md'
+      - 'docs/**'
       - 'package.json'
       - 'package-lock.json'
       - 'eslint.config.mjs'
@@ -23,6 +32,15 @@ on:
       - 'platform/**'
       - 'scripts/**'
       - 'tooling/**'
+      - '.ai-rules/**'
+      - '.agents/**'
+      - '.claude/**'
+      - '.cursor/**'
+      - '.github/instructions/**'
+      - '.github/copilot-instructions.md'
+      - 'AGENTS.md'
+      - 'CLAUDE.md'
+      - 'docs/**'
       - 'package.json'
       - 'package-lock.json'
       - 'eslint.config.mjs'
@@ -32,6 +50,17 @@ on:
       - '.github/workflows/architecture.yml'
 
 jobs:
+  ai-toolkit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm run rules:setup
+      - run: npm run rules:check
+      - run: npm run docs:build
+
   boundaries-and-manifest:
     runs-on: ubuntu-latest
     steps:

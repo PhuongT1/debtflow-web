@@ -1,4 +1,17 @@
 export const designTokens = {
+  typography: {
+    fontFamily: 'Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+    body: { fontSize: 16, fontWeight: 400, lineHeight: 1.55 },
+    pageTitle: { fontSize: 24, fontWeight: 800, lineHeight: 1.2 },
+    headerTitle: { fontSize: 16, fontWeight: 800, lineHeight: 1.55 },
+    headerSubtitle: { fontSize: 12, fontWeight: 400, lineHeight: 1.55 },
+    identity: { fontSize: 13, fontWeight: 700, lineHeight: 1.55 },
+    caption: { fontSize: 11, fontWeight: 400, lineHeight: 1.55 },
+    control: { fontSize: 13, fontWeight: 700, lineHeight: 1.75 },
+    locale: { fontSize: 12, fontWeight: 750, lineHeight: 1.75 },
+    table: { fontSize: 14, fontWeight: 400, lineHeight: 1.5 },
+    tableHead: { fontSize: 12, fontWeight: 750, lineHeight: 2 },
+  },
   color: {
     background: '#f8fafc',
     surface: '#ffffff',

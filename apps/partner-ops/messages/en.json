@@ -1,6 +1,12 @@
 {
+  "SignOut": {
+    "title": "Sign out",
+    "confirmation": "Are you sure you want to log out?",
+    "cancel": "Cancel",
+    "error": "Unable to sign out. Please try again."
+  },
   "PartnerHeader": {
-    "title": "Debt Flow · Partners",
+    "title": "Partners",
     "subtitle": "Customer and supplier operations workspace",
     "openAccountMenu": "Open account menu",
     "signOut": "Sign out"

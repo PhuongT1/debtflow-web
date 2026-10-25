@@ -1,4 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
+import { buildLoginUrl } from '@debtflow/platform-sdk';
+import { partnerOpsEnv } from '@/lib/env';
 
 const EMBED_PATH = '/__embed/parties';
 
@@ -7,6 +9,11 @@ const EMBED_PATH = '/__embed/parties';
  * composition it also maps the private content entry to the business route.
  */
 export function middleware(request: NextRequest) {
+  if (request.nextUrl.pathname.replace(/\/+$/, '') === '/login') {
+    const returnTo = new URL('/parties', request.url).toString();
+    return NextResponse.redirect(buildLoginUrl(partnerOpsEnv.PLATFORM_ORIGIN, returnTo));
+  }
+
   const requestHeaders = new Headers(request.headers);
   const applicationUrl = request.nextUrl.clone();
 
@@ -32,5 +39,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/parties/:path*', '/__embed/parties/:path*'],
+  matcher: ['/login', '/parties/:path*', '/__embed/parties/:path*'],
 };

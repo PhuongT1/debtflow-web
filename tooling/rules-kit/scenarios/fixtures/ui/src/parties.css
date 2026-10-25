@@ -1,0 +1,12 @@
+.party-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 150px;
+}
+.export-button {
+  width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

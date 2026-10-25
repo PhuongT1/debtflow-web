@@ -43,7 +43,10 @@ export function ComposedApplication({
 
     return (
       <IframeHost
+        key={application.name}
         appName={application.name}
+        publicPath={composition.publicPath}
+        entryPath={composition.proxyPath + composition.entryPath}
         src={url.pathname + url.search}
         title={application.name}
       />

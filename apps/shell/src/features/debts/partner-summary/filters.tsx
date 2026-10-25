@@ -1,7 +1,9 @@
-import { useState } from 'react';
-import { Box, MenuItem, TextField } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Box } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
+import { DebouncedSearchInput } from '@/components/ui/debounced-search-input';
+import { Select } from '@/components/ui/select';
 import type { PartnerSummaryParams } from '@/services/party.client';
 import type { PartnerSummaryFilters } from './params';
 
@@ -19,65 +21,86 @@ export function PartnerSummaryFilters({ applyFilters, clearFilters, params }: Pr
     balanceType: params.balanceType ?? '',
   });
 
+  // URL changes can come from pagination, browser navigation, or the clear action.
+  // Synchronise values without remounting the search input, so its focus is retained.
+  useEffect(() => {
+    setFilters({
+      q: params.q ?? '',
+      type: params.type ?? '',
+      balanceType: params.balanceType ?? '',
+    });
+  }, [params.balanceType, params.q, params.type]);
+
   return (
     <Box
       sx={{
-        display: 'grid',
-        gap: 1.25,
-        gridTemplateColumns: {
-          xs: '1fr',
-          sm: 'minmax(220px, 2fr) repeat(2, minmax(160px, 1fr)) auto auto',
-        },
         mt: 2,
       }}
     >
-      <TextField
-        aria-label={t('searchPartners')}
-        onChange={(event) => setFilters((current) => ({ ...current, q: event.target.value }))}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter') applyFilters(filters);
+      <Box
+        sx={{
+          display: 'grid',
+          gap: 1.25,
+          gridTemplateColumns: {
+            xs: '1fr',
+            sm: 'minmax(220px, 2fr) repeat(2, minmax(160px, 1fr)) auto auto',
+          },
         }}
-        placeholder={t('searchPartnersPlaceholder')}
-        size="small"
-        value={filters.q}
-      />
-      <TextField
-        onChange={(event) =>
-          setFilters((current) => ({
-            ...current,
-            type: event.target.value as typeof current.type,
-          }))
-        }
-        select
-        size="small"
-        value={filters.type}
       >
-        <MenuItem value="">{t('allPartnerTypes')}</MenuItem>
-        <MenuItem value="CUSTOMER">Khách hàng</MenuItem>
-        <MenuItem value="SUPPLIER">Nhà cung cấp</MenuItem>
-        <MenuItem value="BOTH">Cả hai</MenuItem>
-      </TextField>
-      <TextField
-        onChange={(event) =>
-          setFilters((current) => ({
-            ...current,
-            balanceType: event.target.value as typeof current.balanceType,
-          }))
-        }
-        select
-        size="small"
-        value={filters.balanceType}
-      >
-        <MenuItem value="">{t('allBalances')}</MenuItem>
-        <MenuItem value="RECEIVABLE">Khách đang nợ bạn</MenuItem>
-        <MenuItem value="PAYABLE">Bạn đang nợ nhà cung cấp</MenuItem>
-      </TextField>
-      <Button onClick={() => applyFilters(filters)} size="small">
-        {t('filter')}
-      </Button>
-      <Button onClick={clearFilters} size="small" variant="secondary">
-        {t('clearFilters')}
-      </Button>
+        <DebouncedSearchInput
+          onSearch={(q) => {
+            const next = { ...filters, q };
+            setFilters(next);
+            applyFilters(next);
+          }}
+          placeholder={t('searchPartnersPlaceholder')}
+          value={filters.q}
+        />
+        <Select
+          allowClear
+          onChange={(value) =>
+            setFilters((current) => ({
+              ...current,
+              type: value as typeof current.type,
+            }))
+          }
+          options={[
+            { label: 'Khách hàng', value: 'CUSTOMER' },
+            { label: 'Nhà cung cấp', value: 'SUPPLIER' },
+            { label: 'Cả hai', value: 'BOTH' },
+          ]}
+          placeholder={t('allPartnerTypes')}
+          value={filters.type ?? ''}
+        />
+        <Select
+          allowClear
+          onChange={(value) =>
+            setFilters((current) => ({
+              ...current,
+              balanceType: value as typeof current.balanceType,
+            }))
+          }
+          options={[
+            { label: 'Khách đang nợ bạn', value: 'RECEIVABLE' },
+            { label: 'Bạn đang nợ nhà cung cấp', value: 'PAYABLE' },
+          ]}
+          placeholder={t('allBalances')}
+          value={filters.balanceType ?? ''}
+        />
+        <Button onClick={() => applyFilters(filters)} size="small">
+          {t('filter')}
+        </Button>
+        <Button
+          onClick={() => {
+            setFilters({ balanceType: '', q: '', type: '' });
+            clearFilters();
+          }}
+          size="small"
+          variant="secondary"
+        >
+          {t('clearFilters')}
+        </Button>
+      </Box>
     </Box>
   );
 }

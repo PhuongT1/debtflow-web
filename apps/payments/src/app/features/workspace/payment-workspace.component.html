@@ -1,14 +1,17 @@
-@if (!embedded) {
+@if (isLoginEntry && hasPlatformOrigin) {
+  <!-- Central login handles the session before rendering a workspace. -->
+} @else if (!embedded) {
   <div class="standalone-workspace">
+    <df-sign-out-dialog #signOutDialog [locale]="locale()" [platformOrigin]="platformUrl()" />
     <header class="workspace-header"><div class="workspace-header__content">
       <a class="brand" [attr.href]="hasPlatformOrigin ? platformUrl() : null" aria-label="Debt Flow Platform"><span class="brand__mark">DF</span><span><strong>{{ t('workspace.name') }}</strong><small>{{ t('workspace.subtitle') }}</small></span></a>
       <div class="workspace-actions">
-        <div class="locale-switcher" role="group" [attr.aria-label]="t('workspace.language')"><button type="button" [class.active]="locale() === 'vi'" (click)="selectLocale('vi')">🇻🇳 VI</button><button type="button" [class.active]="locale() === 'en'" (click)="selectLocale('en')">🇬🇧 EN</button></div>
+        <df-language-selector [locale]="locale()" (localeChange)="selectLocale($event)" />
         @if (user(); as currentUser) {
           @if (hasPlatformOrigin) {
-            <details class="account-menu"><summary class="identity"><span><strong>{{ currentUser.name }}</strong><small>{{ currentUser.role }}</small></span><span class="avatar" aria-hidden="true">{{ initials(currentUser.name) }}</span></summary><div class="account-menu__panel"><strong>{{ currentUser.name }}</strong><small>{{ currentUser.email }}</small><small class="account-menu__role">{{ currentUser.role }}</small><a [href]="platformUrl('/api/auth/signout')">{{ t('workspace.signOut') }}</a></div></details>
+            <details #accountMenu class="account-menu"><summary #accountSummary class="identity"><span><strong>{{ currentUser.name }}</strong><small>{{ currentUser.role }}</small></span><span class="avatar" aria-hidden="true">{{ initials(currentUser.name) }}</span></summary><div class="account-menu__panel"><strong>{{ currentUser.name }}</strong><small>{{ currentUser.email }}</small><small class="account-menu__role">{{ currentUser.role }}</small><button type="button" (click)="accountMenu.open = false; signOutDialog.open(accountSummary)">{{ t('workspace.signOut') }}</button></div></details>
           } @else { <div class="identity" [title]="currentUser.email"><span><strong>{{ currentUser.name }}</strong><small>{{ currentUser.role }}</small></span><span class="avatar" aria-hidden="true">{{ initials(currentUser.name) }}</span></div> }
-        } @else if (hasPlatformOrigin) { <a class="sign-in" [href]="platformUrl('/login')">{{ t('workspace.signIn') }}</a> }
+        } @else if (hasPlatformOrigin) { <a class="sign-in" [href]="loginUrl()">{{ t('workspace.signIn') }}</a> }
         @if (hasPlatformOrigin) { <a class="platform-link" [href]="platformUrl()">Platform</a> }
       </div>
     </div></header>

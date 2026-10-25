@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ClampedText } from '@/components/ui/clamped-text';
 import { ConfirmActionButton } from '@/components/ui/confirm-action-button';
-import type { DataTableColumn } from '@/components/ui/data-table';
+import type { DataTableColumn } from '@/components/tables';
 import { FormDialog } from '@/components/ui/form-dialog';
 import { PartyForm } from '@/features/parties/party-form';
 import { getPartyTableColumns } from '@/features/parties/table-config';
@@ -57,20 +57,24 @@ export function getPartyListColumns({
     {
       ...tableColumns.type,
       render: (party) => (
-        <Badge
-          tone={party.type === 'CUSTOMER' ? 'blue' : party.type === 'SUPPLIER' ? 'amber' : 'slate'}
-        >
-          {party.type === 'CUSTOMER'
-            ? labels.customer
-            : party.type === 'SUPPLIER'
-              ? labels.supplier
-              : labels.both}
-        </Badge>
+        <Box sx={{ whiteSpace: 'nowrap' }}>
+          <Badge
+            tone={
+              party.type === 'CUSTOMER' ? 'blue' : party.type === 'SUPPLIER' ? 'amber' : 'slate'
+            }
+          >
+            {party.type === 'CUSTOMER'
+              ? labels.customer
+              : party.type === 'SUPPLIER'
+                ? labels.supplier
+                : labels.both}
+          </Badge>
+        </Box>
       ),
     },
     {
       ...tableColumns.sale,
-      render: (party) => party.assignedTo?.name ?? '-',
+      render: (party) => <Box sx={{ whiteSpace: 'nowrap' }}>{party.assignedTo?.name ?? '-'}</Box>,
     },
     {
       ...tableColumns.contact,
@@ -94,7 +98,16 @@ export function getPartyListColumns({
     {
       ...tableColumns.actions,
       render: (party) => (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+        <Box
+          sx={{
+            alignItems: 'center',
+            display: 'flex',
+            flexWrap: 'nowrap',
+            gap: 1,
+            whiteSpace: 'nowrap',
+            '& > *': { flexShrink: 0 },
+          }}
+        >
           <Button
             aria-label={labels.viewPayments}
             onClick={() => navigateToPlatform(`/payments?partyId=${encodeURIComponent(party.id)}`)}

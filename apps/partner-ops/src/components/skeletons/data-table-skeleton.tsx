@@ -1,6 +1,6 @@
 import { Box, TableCell, TableRow } from '@mui/material';
 import { AppSkeleton } from '@/components/ui/skeleton';
-import type { DataTableSkeletonSpec } from '@/components/ui/data-table';
+import type { DataTableSkeletonSpec } from '@/components/tables';
 
 type SkeletonColumn = {
   key: string;

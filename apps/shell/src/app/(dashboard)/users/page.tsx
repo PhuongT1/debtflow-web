@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { ConfirmActionButton } from '@/components/ui/confirm-action-button';
-import { DataTable, type DataTableColumn } from '@/components/ui/data-table';
+import { DataTable, type DataTableColumn } from '@/components/tables';
 import { HelpModal } from '@/components/ui/help-modal';
 import { Page, PageHeader } from '@/components/ui/page';
 import { listUsers } from '@/services/user.server';
@@ -17,25 +17,33 @@ export default async function UsersPage({
   const columns: Array<DataTableColumn<(typeof users)[number]>> = [
     {
       key: 'name',
-      header: 'Tên',
+      title: 'Tên',
       render: (user) => <span className="font-semibold">{user.name}</span>,
     },
-    { key: 'email', header: 'Email', render: (user) => user.email },
+    { key: 'email', title: 'Email', render: (user) => user.email },
     {
       key: 'role',
-      header: 'Role',
+      title: 'Role',
       render: (user) => (
         <Badge
-          tone={user.role === 'OWNER' ? 'green' : user.role === 'ADMIN' ? 'blue' : user.role === 'ACCOUNTANT' ? 'amber' : 'slate'}
+          tone={
+            user.role === 'OWNER'
+              ? 'green'
+              : user.role === 'ADMIN'
+                ? 'blue'
+                : user.role === 'ACCOUNTANT'
+                  ? 'amber'
+                  : 'slate'
+          }
         >
           {user.role}
         </Badge>
       ),
     },
-    { key: 'status', header: 'Trạng thái', render: (user) => user.status },
+    { key: 'status', title: 'Trạng thái', render: (user) => user.status },
     {
       key: 'actions',
-      header: 'Thao tác',
+      title: 'Thao tác',
       render: (user) => (
         <ConfirmActionButton
           endpoint={`/api/users/${user.id}`}
@@ -73,7 +81,8 @@ export default async function UsersPage({
         hrefForPage={(nextPage) => hrefWithPage('/users', filters, nextPage)}
         hrefForPageSize={(pageSize) => hrefWithPageSize('/users', filters, pageSize)}
         paginationMeta={{ page, pageSize, total }}
-        rows={users}
+        rowKey="id"
+        dataSource={users}
       />
     </Page>
   );

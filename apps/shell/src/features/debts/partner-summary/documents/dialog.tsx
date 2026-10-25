@@ -14,6 +14,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { AppDialog } from '@/components/ui/app-dialog';
 import { AppIcon } from '@/components/ui/app-icon';
+import { TableLayout } from '@debtflow/react-ui';
 import { Button } from '@/components/ui/button';
 import { FormDialog } from '@/components/ui/form-dialog';
 import { DebtForm } from '@/features/debts/forms/debt-form';
@@ -132,7 +133,7 @@ export function PartnerDocumentsDialog({
 
   return (
     <>
-      <Button onClick={openDialog} variant="secondary">
+      <Button onClick={openDialog} sx={{ whiteSpace: 'nowrap' }} variant="secondary">
         {t('viewPartnerDebts')}
       </Button>
       <AppDialog
@@ -235,19 +236,23 @@ export function PartnerDocumentsDialog({
             <Typography color="text.secondary">{t('loadingDocuments')}</Typography>
           ) : null}
           {result ? (
-            <PartnerDebtsTable debts={result} locale={locale} onPaymentRecorded={refresh} t={t} />
-          ) : null}
-          {result ? (
-            <DocumentPagination
-              page={page}
-              pageSize={pageSize}
-              loading={isLoading}
-              total={result.total}
-              onPageChange={(nextPage) => updateUrl({ partnerDebtPage: String(nextPage) })}
-              onPageSizeChange={(nextPageSize) =>
-                updateUrl({ partnerDebtPage: '1', partnerDebtPageSize: String(nextPageSize) })
+            <TableLayout
+              fillAvailable
+              footer={
+                <DocumentPagination
+                  loading={isLoading}
+                  page={page}
+                  pageSize={pageSize}
+                  total={result.total}
+                  onPageChange={(nextPage) => updateUrl({ partnerDebtPage: String(nextPage) })}
+                  onPageSizeChange={(nextPageSize) =>
+                    updateUrl({ partnerDebtPage: '1', partnerDebtPageSize: String(nextPageSize) })
+                  }
+                />
               }
-            />
+            >
+              <PartnerDebtsTable debts={result} locale={locale} onPaymentRecorded={refresh} t={t} />
+            </TableLayout>
           ) : null}
         </DialogContent>
       </AppDialog>

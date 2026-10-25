@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { DataTable } from '@/components/ui/data-table';
+import { DataTable } from '@/components/tables';
 import { getCatalogOptions } from '@/services/catalog.server';
 import { getDebtListColumns } from './columns';
 import { DebtListToolbar } from './toolbar';
@@ -26,7 +26,8 @@ export async function DebtList({
       hrefForPage={(page) => hrefWithPage('/debts', filters, page)}
       hrefForPageSize={(pageSize) => hrefWithPageSize('/debts', filters, pageSize)}
       paginationMeta={debts}
-      rows={debts.items}
+      rowKey="id"
+      dataSource={debts.items}
       toolbar={<DebtListToolbar activeUsers={users} catalog={catalog} filters={filters} />}
     />
   );

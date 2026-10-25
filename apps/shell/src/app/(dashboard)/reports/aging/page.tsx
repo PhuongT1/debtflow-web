@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { StatCard } from '@/components/ui/card';
 import { ConfirmActionButton } from '@/components/ui/confirm-action-button';
-import { DataTable, type DataTableColumn } from '@/components/ui/data-table';
+import { DataTable, type DataTableColumn } from '@/components/tables';
 import { HelpModal } from '@/components/ui/help-modal';
 import { MetricGrid, Page, PageHeader } from '@/components/ui/page';
 import { getDebtAgingReport, listDebts } from '@/services/debt.server';
@@ -24,18 +24,18 @@ export default async function AgingReportPage({
   const columns: Array<DataTableColumn<(typeof debts.items)[number]>> = [
     {
       key: 'code',
-      header: 'Mã',
+      title: 'Mã',
       render: (debt) => (
         <Link className="font-semibold text-blue-600" href={`/debts/${debt.id}`}>
           {debt.code}
         </Link>
       ),
     },
-    { key: 'party', header: 'Khách hàng', render: (debt) => debt.party.name },
-    { key: 'sale', header: 'Sale', render: (debt) => debt.assignedTo?.name ?? '-' },
+    { key: 'party', title: 'Khách hàng', render: (debt) => debt.party.name },
+    { key: 'sale', title: 'Sale', render: (debt) => debt.assignedTo?.name ?? '-' },
     {
       key: 'remaining',
-      header: 'Còn lại',
+      title: 'Còn lại',
       align: 'right',
       render: (debt) => (
         <span className="font-semibold">
@@ -43,10 +43,10 @@ export default async function AgingReportPage({
         </span>
       ),
     },
-    { key: 'dueDate', header: 'Hạn', render: (debt) => debt.dueDate.toLocaleDateString('vi-VN') },
+    { key: 'dueDate', title: 'Hạn', render: (debt) => debt.dueDate.toLocaleDateString('vi-VN') },
     {
       key: 'late',
-      header: 'Trễ',
+      title: 'Trễ',
       render: (debt) => {
         const lateDays = Math.max(0, Math.floor((Date.now() - debt.dueDate.getTime()) / 86400000));
         return (
@@ -58,7 +58,7 @@ export default async function AgingReportPage({
     },
     {
       key: 'actions',
-      header: 'Thao tác',
+      title: 'Thao tác',
       render: (debt) => (
         <ConfirmActionButton
           endpoint={`/api/debts/${debt.id}`}
@@ -109,7 +109,8 @@ export default async function AgingReportPage({
         hrefForPage={(page) => hrefWithPage('/reports/aging', filters, page)}
         hrefForPageSize={(pageSize) => hrefWithPageSize('/reports/aging', filters, pageSize)}
         paginationMeta={debts}
-        rows={activeDebts}
+        rowKey="id"
+        dataSource={activeDebts}
       />
     </Page>
   );

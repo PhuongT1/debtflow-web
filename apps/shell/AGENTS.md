@@ -9,6 +9,6 @@ The Shell is the Platform host. Start with the [repository instructions](../../A
 
 ## Shared rules often needed here
 
-- [Next.js](../../.ai-rules/frameworks/nextjs.md) and [React](../../.ai-rules/frameworks/react.md)
-- [Micro frontend boundaries](../../.ai-rules/microfrontend.md)
-- [Authentication](../../.ai-rules/concerns/authentication.md), [i18n](../../.ai-rules/concerns/i18n.md), or [contracts](../../.ai-rules/concerns/api-contracts.md) when relevant.
+- [Next.js](../../.ai-rules/core/frameworks/nextjs/README.md) and [React rule index](../../.ai-rules/core/frameworks/react/README.md), then only its task-matched modules
+- [Micro frontend boundaries](../../.ai-rules/core/standards/microfrontend.md)
+- [Authentication](../../.ai-rules/core/concerns/authentication.md), [i18n](../../.ai-rules/core/concerns/i18n.md), or [contracts](../../.ai-rules/core/concerns/api-contracts.md) when relevant.

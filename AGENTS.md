@@ -1,25 +1,14 @@
 # Debt Flow Web — Agent Instructions
 
-This is the entry point for the repository. Detailed, shared policies are maintained in [`.ai-rules/`](.ai-rules/README.md).
+Agent entry point. Developers start at [Getting started](docs/getting-started/README.md); canonical agent instructions live in [`.ai-rules/`](.ai-rules/README.md).
 
-## Read before changing code
+## Select rules; do not read everything
 
-| Scope                                         | Read                                                                                                                                                                    |
-| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Every change                                  | [Rule map](.ai-rules/README.md), [common rules](.ai-rules/common.md), [code structure and TypeScript](.ai-rules/code-style.md), [MFE rules](.ai-rules/microfrontend.md) |
-| React code                                    | [React rules](.ai-rules/frameworks/react.md)                                                                                                                            |
-| Next.js code                                  | [Next.js rules](.ai-rules/frameworks/nextjs.md)                                                                                                                         |
-| Angular code                                  | [Angular rules](.ai-rules/frameworks/angular.md)                                                                                                                        |
-| Authentication/session                        | [Authentication rules](.ai-rules/concerns/authentication.md), [security rules](.ai-rules/security.md)                                                                   |
-| Locale, text, date/number formatting          | [i18n rules](.ai-rules/concerns/i18n.md)                                                                                                                                |
-| API contracts or cross-window messages        | [API contract rules](.ai-rules/concerns/api-contracts.md)                                                                                                               |
-| Linting, formatting, or tooling configuration | [tooling rules](.ai-rules/concerns/tooling.md)                                                                                                                          |
+1. Establish [instruction access and attachment roles](.ai-rules/core/execution/load-instructions.md) when not already known. Apply the [default execution contract and prompt selector](.ai-rules/README.md), unless already current in context. Short task prompts do not need to repeat the project's workflow obligations.
+2. Follow the selected workflow guide and read only modules triggered by the current responsibility. Apply common and nearest owner instructions.
+3. Before edits, follow the root selector’s scope/impact gates. Unresolved permission or impact requires developer approval; do not broaden the requested outcome without explicit approval.
+4. Follow [bounded reading](.ai-rules/core/execution/context.md) for staged loading and reuse. Human guides and diagrams are optional, not additional required agent context.
 
-Then read the nearest application/package `AGENTS.md`; it links to rules owned by that team. More deeply nested instructions add scope-specific requirements.
+## Project-specific facts
 
-## Repository facts
-
-- This is an npm workspace monorepo. Use `npm`, not Yarn or pnpm.
-- Node.js 20+ and npm 10+ are required.
-- Apps are independently deployable. Never import internal source code from one deployable app into another.
-- Before finishing, run the smallest relevant validation command documented in the applicable rules.
+Read the short [project profile](.ai-rules/project/README.md), then only the matching owner/extension. Keep this entry thin; package managers, ports and aliases are local facts, not reusable framework rules.

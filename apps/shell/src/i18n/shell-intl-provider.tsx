@@ -20,8 +20,14 @@ export function ShellIntlProvider({
 
   useEffect(() => {
     setLocale(getStoredLocale());
-    return subscribePlatformEvent('locale:changed', ({ locale: nextLocale }) => setLocale(nextLocale));
+    return subscribePlatformEvent('locale:changed', ({ locale: nextLocale }) =>
+      setLocale(nextLocale),
+    );
   }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages[locale]} timeZone="Asia/Ho_Chi_Minh">

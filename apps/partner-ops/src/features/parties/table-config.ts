@@ -1,4 +1,4 @@
-import type { DataTableColumn } from '@/components/ui/data-table';
+import type { DataTableColumn } from '@/components/tables';
 
 type PartyColumnConfig = Omit<DataTableColumn<never>, 'render'>;
 export type PartyTableHeaders = Record<
@@ -18,11 +18,13 @@ export function getPartyTableColumns(headers: PartyTableHeaders) {
     type: {
       key: 'type',
       header: headers.type,
+      width: 180,
       skeleton: { items: [{ height: 24, width: 88 }] },
     },
     sale: {
       key: 'sale',
       header: headers.sale,
+      width: 210,
       skeleton: { items: [{ width: 54 }] },
     },
     contact: {
@@ -47,6 +49,7 @@ export function getPartyTableColumns(headers: PartyTableHeaders) {
     actions: {
       key: 'actions',
       header: headers.actions,
+      width: 300,
       skeleton: {
         direction: 'row',
         items: [

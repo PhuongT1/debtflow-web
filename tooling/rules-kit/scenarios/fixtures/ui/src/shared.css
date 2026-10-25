@@ -1,0 +1,52 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font:
+    16px/1.5 Arial,
+    sans-serif;
+  color: #172033;
+}
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+}
+button {
+  font: inherit;
+  padding: 8px 12px;
+  border: 1px solid #ccd2dd;
+  border-radius: 6px;
+  background: white;
+}
+button:focus-visible {
+  outline: 3px solid #2359d2;
+  outline-offset: 2px;
+}
+button:disabled {
+  opacity: 0.5;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+td,
+th {
+  padding: 12px;
+  border: 1px solid #ccd2dd;
+  text-align: left;
+}
+.table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+section {
+  margin-top: 24px;
+}
+.order-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  width: 160px;
+}

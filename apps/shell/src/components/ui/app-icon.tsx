@@ -15,6 +15,8 @@ export type AppIconName =
   | 'download'
   | 'edit'
   | 'filter'
+  | 'fullscreen'
+  | 'fullscreenExit'
   | 'help'
   | 'import'
   | 'info'
@@ -24,6 +26,7 @@ export type AppIconName =
   | 'parties'
   | 'payments'
   | 'refresh'
+  | 'search'
   | 'users'
   | 'visibility'
   | 'visibilityOff'
@@ -46,6 +49,8 @@ const paths: Record<AppIconName, string> = {
   download: 'M11 3h2v10.17l3.59-3.58L18 11l-6 6-6-6 1.41-1.41L11 13.17V3ZM5 19h14v2H5v-2Z',
   edit: 'M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25ZM20.71 7.04a1 1 0 0 0 0-1.42l-2.34-2.34a1 1 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82Z',
   filter: 'M3 5h18l-7 8v5.5L10 21v-8L3 5Zm4.5 2 4.5 5.14L16.5 7h-9Z',
+  fullscreen: 'M7 14H5v5h5v-2H7v-3Zm-2-4h2V7h3V5H5v5Zm12 7h-3v2h5v-5h-2v3Zm-3-12v2h3v3h2V5h-5z',
+  fullscreenExit: 'M5 16h3v3h2v-5H5v2Zm3-8H5v2h5V5H8v3Zm6 11h2v-3h3v-2h-5v5Zm2-11V5h-2v5h5V8h-3z',
   help: 'M11 18h2v-2h-2v2Zm1-16a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Zm0-14a4 4 0 0 0-4 4h2a2 2 0 1 1 3.17 1.62C12.07 12.4 11 13.31 11 15h2c0-.79.56-1.29 1.33-1.84A4 4 0 0 0 12 6Z',
   import: 'M5 20h14v-2H5v2ZM12 2 6.5 7.5 8 9l3-3v9h2V6l3 3 1.5-1.5L12 2Z',
   info: 'M11 17h2v-6h-2v6Zm0-8h2V7h-2v2Zm1-7a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z',
@@ -57,6 +62,8 @@ const paths: Record<AppIconName, string> = {
     'M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3ZM8 11c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3Zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13Zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5C23 14.17 18.33 13 16 13Z',
   payments: 'M3 6h18v12H3V6Zm2 3v6h14V9H5Zm2 1h4v2H7v-2Zm9 4a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z',
   refresh: 'M12 5V2L8 6l4 4V7c3.31 0 6 2.69 6 6a6 6 0 0 1-10.48 4H5a8 8 0 1 0 7-12Z',
+  search:
+    'M9.5 3a6.5 6.5 0 1 0 3.98 11.64L19.84 21 21 19.84l-6.36-6.36A6.5 6.5 0 0 0 9.5 3Zm0 2a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Z',
   users:
     'M12 12c2.21 0 4 -1.79 4 -4s-1.79 -4 -4 -4 -4 1.79 -4 4 1.79 4 4 4Zm0 2c-2.67 0 -8 1.34 -8 4v2h16v-2c0-2.66 -5.33 -4 -8 -4Z',
   visibility:

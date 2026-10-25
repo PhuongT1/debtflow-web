@@ -16,9 +16,7 @@ export function SortableTableHeader({
   label: React.ReactNode;
   onClick?: () => void;
 }) {
-  const props = href
-    ? { component: 'a' as const, href }
-    : { onClick };
+  const props = href ? { component: 'a' as const, href } : { onClick };
 
   return (
     <TableSortLabel
@@ -27,8 +25,16 @@ export function SortableTableHeader({
       {...props}
       sx={{
         '&.Mui-active': { color: 'primary.main' },
-        '& .MuiTableSortLabel-icon': { color: 'inherit !important', opacity: active ? 1 : 0.4 },
+        '& .MuiTableSortLabel-icon': {
+          color: 'inherit !important',
+          flexShrink: 0,
+          marginLeft: 0.5,
+          marginRight: 0,
+          opacity: active ? 1 : 0.4,
+        },
+        flexDirection: 'row',
         fontWeight: 800,
+        whiteSpace: 'nowrap',
       }}
     >
       {label}

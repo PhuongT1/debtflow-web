@@ -1,0 +1,61 @@
+.toc-panel {
+  position: sticky;
+  top: var(--header);
+  height: calc(100dvh - var(--header));
+  overflow: auto;
+  padding: 45px 20px 20px 10px;
+}
+.toc-panel > p {
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  font-weight: 650;
+  color: #8a917f;
+  margin: 2px 0 18px;
+}
+#toc a,
+#inline-toc a {
+  display: block;
+  font-size: 12px;
+  line-height: 1.55;
+  color: #858d7a;
+  text-decoration: none;
+  border-left: 1px solid var(--line);
+  padding: 7px 0 7px 15px;
+}
+#toc a:hover,
+#inline-toc a:hover {
+  color: var(--link);
+  border-color: #b7b991;
+}
+.subsection {
+  margin-left: 12px;
+}
+.inline-toc {
+  display: none;
+  border: 1px solid var(--line);
+  padding: 12px 16px;
+  border-radius: 7px;
+  margin-bottom: 30px;
+}
+.inline-toc summary {
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.inline-toc nav {
+  padding-top: 10px;
+}
+.page-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid var(--line);
+  margin-top: 50px;
+  padding-top: 22px;
+  font-size: 11px;
+  color: #999f8e;
+}
+.page-footer a {
+  text-decoration: none;
+}

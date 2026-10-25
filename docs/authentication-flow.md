@@ -4,6 +4,22 @@ This document details the centralized authentication architecture, security mode
 
 ---
 
+## Shared sign-out flow
+
+Every standalone app (Shell on 3000, Partner Ops on 3001, and Payments on 3002)
+opens a translated confirmation dialog from its account menu. Cancel and Escape
+leave the session and URL unchanged. Confirmation calls `signOutFromPlatform`
+from `@debtflow/platform-sdk`, using same-origin `/api/auth/csrf` and
+`/api/auth/signout` endpoints through the existing remote API proxies. The helper
+validates CSRF/HTTP responses before redirecting to Platform `/login?callbackUrl=...`,
+where `callbackUrl` preserves the originating app's full URL (origin, path, query,
+and fragment). Login validates that destination against the origin allowlist and
+returns to it after authentication. Older `returnTo` links are also accepted. Failures
+remain in the dialog with a retry action. Never navigate to `/api/auth/signout`
+from an account menu. React hosts share `SignOutDialog` from `@debtflow/react-ui`;
+the Angular standalone host uses a native modal dialog with the same behavior.
+Embedded remotes continue to use the Shell's account controls.
+
 ## 1. Authentication Architecture Overview
 
 ```mermaid
@@ -104,6 +120,29 @@ sequenceDiagram
 - The remote app renders the workspace header, navigation permissions, and domain data.
 
 ---
+
+### Login entry and return navigation
+
+All credentials are entered at the Shell's `/login`. The login page verifies the
+existing session before rendering the form. An authenticated user is immediately
+redirected to the validated `returnTo` URL, or to `/` if no safe target was supplied.
+
+- Shell protected pages preserve the requested path and query in `returnTo`.
+- Partner Ops protected pages preserve their full standalone URL. Its `/login`
+  alias forwards to central login with `/parties` on the Partner Ops origin as the
+  destination.
+- The standalone Payments sign-in link includes its current full URL, including
+  query parameters and fragment. Its `/login` alias forwards to central login with
+  `/` on the Payments origin as the destination. Embedded Payments does not redirect
+  the host or create a separate login flow.
+- Cross-origin navigation after login uses `location.replace`, so Back does not
+  re-open the submitted login form.
+- Return targets must use HTTP(S), must be on an explicitly allowed origin, must
+  not include URL credentials, and must not point to `/login`, `/api`, or `/_next`.
+  Invalid targets fall back to the Shell homepage.
+
+The login aliases and redirects control navigation only; protected pages and API
+endpoints continue to verify the session and permissions independently.
 
 ## 3. Silent Token Refresh Mechanism
 

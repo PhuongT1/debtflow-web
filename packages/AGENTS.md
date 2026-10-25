@@ -8,5 +8,5 @@ Start with the [repository instructions](../AGENTS.md), then read the local pack
 
 ## Shared rules often needed here
 
-- [API contracts](../.ai-rules/concerns/api-contracts.md) — required for `packages/contracts` or versioned integration messages.
-- [Micro frontend boundaries](../.ai-rules/microfrontend.md) — required for cross-app integration packages.
+- [API contracts](../.ai-rules/core/concerns/api-contracts.md) — required for `packages/contracts` or versioned integration messages.
+- [Micro frontend boundaries](../.ai-rules/core/standards/microfrontend.md) — required for cross-app integration packages.
