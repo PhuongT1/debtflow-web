@@ -12,6 +12,8 @@ This tab answers **how code should be written and maintained**: conventions, fra
 | Find the app/package owning the change                                        | [Architecture](../architecture/README.md)                              |
 | Maintain shared rules or move the toolkit to another project                  | [Rule Reuse](rule-reuse/README.md)                                     |
 
+Follow [Contributing](contributing.md) for consistent code decisions, review evidence and rule exceptions. [Git Workflow](git-workflow.md) defines branch names.
+
 ## Find the relevant coding standard
 
 | Responsibility                                    | Canonical rules                                                                                                                                                 |

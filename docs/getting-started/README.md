@@ -32,6 +32,8 @@ Use the [Documentation Map](../README.md) to match website tabs, sidebar topics 
 
 Using Codex, Claude Code or Cursor? Complete [AI Client Setup](../ai-guide/project-context/client-setup.md) once before the first AI task. The same setup command works for the team's configured clients; you do not need to learn the toolkit internals first.
 
+Use [Contributing](../engineering/contributing.md) for the shared coding and review agreement. Before creating a work branch, follow [Git Workflow](../engineering/git-workflow.md) for the team's branch naming convention.
+
 1. [Start the relevant app](run-project.md), then reproduce or describe the intended result.
 2. [Find its owner](find-owner.md); read that owner's instructions and the coding topic being changed.
 3. Inspect dependencies and existing changes. Reuse the established component, helper or rule before adding another.

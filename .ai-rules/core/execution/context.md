@@ -9,10 +9,17 @@
 4. Shared impact permits repository-wide symbol/import/re-export search, not bulk reading of all matching files. Open only declarations/consumer sections needed to assess the changed contract.
 5. Do not read unrelated features, all framework topics, environment secrets, audits, external references, or every linked example. Mandatory parent instructions are not optional.
 
+## Use evidence for the installed version
+
+For framework/library behavior, resolve the dependency from the affected owner, not an unrelated checkout or the repository root by assumption. Distinguish the manifest's allowed range from the installed/locked version. Prefer relevant version-matched bundled documentation when present; otherwise consult official documentation for the installed version and inspect local types/source to resolve uncertainty. Read the specific API/topic, not a full documentation dump.
+
+An upstream canary skill, CLI command or MCP tool may require a newer version. Check its prerequisites and actual tool discovery before using it. Missing optional tooling is a coverage limit, not permission to upgrade the project, install a plugin or weaken an acceptance check. Reuse an available browser and owner commands where they provide the required evidence; report what remains unverified.
+
 ## Load rules just in time
 
 - Enter the workflow selected by the root router directly; skip family indexes when the exact operation is already known. A link is a reference, not an instruction to read its destination immediately.
 - Load the current stage and its triggered gates only. Implementation topics wait until the changed responsibility is known; verification modules wait until checks must be planned or performed.
+- Batch independent necessary searches/reads, request bounded relevant output and retain full diagnostic output outside the conversation when needed. Do not print whole files, test logs or generated catalogs when a path, matching section or result summary answers the current question.
 - Before opening another file, identify the decision it must resolve. Read the matching section first; widen only when that evidence is insufficient. Stop following dependencies once the cause, impact and verification boundary are supported.
 - Keep loaded paths, applicable constraints and unresolved questions in working context. Reuse unchanged rules and collected evidence; reread only changed/superseded content or a newly relevant section.
 - Human onboarding, examples, diagrams and viewer assets are optional. Read them only when the task concerns them or they resolve a concrete missing detail. Do not create duplicate summaries or context files for routine tasks.

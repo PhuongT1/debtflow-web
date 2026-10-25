@@ -10,6 +10,7 @@ After cloning, open a terminal at the `debtflow-web` repository root and generat
 
 ```bash
 npm run rules:setup
+npm run rules:doctor
 ```
 
 Use the Node.js/npm versions required by `package.json`. The setup script uses Node's built-in modules; it does not install dependencies or change your AI account settings.
@@ -23,6 +24,8 @@ Use the Node.js/npm versions required by `package.json`. The setup script uses N
 Next, open this same repository in your AI tool, reload/start a new session and follow the one-time [discovery check](project-context/client-setup.md#confirm-instruction-and-skill-loading). The entry files direct the AI to `.ai-rules/README.md` and this project's profile. A selected skill leads to the relevant workflow and conditional coding rules; the AI should not load every skill or rule.
 
 You do not need to recreate skills when switching tools or attach `AGENTS.md` to every prompt. Run the same setup command again after pulling toolkit changes. Setup refreshes both workflow selection and client files; `rules:sync` is the underlying maintainer command. For editing sources and checks, see [the team contribution contract](project-context/client-setup.md#team-contribution-contract). Viewing/building docs only reads sources and does not install skills.
+
+For ordinary work, skill selection is optional: use a normal task prompt or explicitly select a capability when useful. See [Automatic or explicit skills](prompts/README.md#automatic-or-explicit-skills) for the shared behavior across clients.
 
 ## Choose your starting point
 
@@ -50,3 +53,5 @@ Requests may be written in another language; documentation and rules are maintai
 These guides explain the system. `.ai-rules/` remains the canonical rule source; neither the documentation website nor a file link automatically loads instructions into every AI tool.
 
 Maintaining the rules? Use [Evaluate AI Workflows](evaluation/README.md) to compare accepted results, scope safety, tokens and time. It is optional maintainer documentation, not another required setup step.
+
+[Next.js Study](how-ai-works/nextjs-study.md) explains the upstream skill organization, version-aware verification and which optional tools fit this installation.

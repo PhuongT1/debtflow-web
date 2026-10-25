@@ -15,9 +15,14 @@ You need Node.js 20+ and npm 10+ for the repository setup command. Application d
 
 ```bash
 npm run rules:setup
+npm run rules:doctor
 ```
 
 The setup command refreshes workflow selection, reads canonical skills/roles from `.ai-rules/core/` and any local capabilities from `.ai-rules/project/`, then generates client files and `.ai-rules/CATALOG.md`. Successful output reports current capabilities and client paths; counts may change as the library evolves. Setup does not install dependencies or change model/account permissions. If it reports a conflict, resolve it with a maintainer before using the affected generated files.
+
+`rules:doctor` checks workflow synchronization, generated-file drift and selected client entry files without changing them. A pass confirms repository wiring only; it cannot check login, model permissions or whether an active session has discovered a skill. Resolve any reported conflict before repeating setup.
+
+Optional external skills and MCP tools have separate version/client prerequisites. See [Next.js Study](../how-ai-works/nextjs-study.md) before adding Next.js tooling; the reviewed installation is on Next.js 15 and cannot use the newer runtime MCP loop as-is.
 
 ## What each AI reads
 

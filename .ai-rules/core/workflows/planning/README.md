@@ -47,6 +47,8 @@ When requesting review, explain exactly what decision is needed. Silence is not 
 
 ## 4. Execute and update
 
+When resuming a persisted plan, reconcile its status with the current source, diff and relevant history before implementing; a checklist is not proof that work is missing or complete. Update an affected durable plan when the implementation changes its recorded facts.
+
 Work through the steps, verify each meaningful boundary, and keep concise progress updates focused on findings. Revise the plan when evidence changes scope; re-open user review only for a new required decision, not each implementation detail. If verification fails, return to investigation rather than marking the plan complete.
 
 **Done when:** the agreed outcome is implemented and verified, or the user requested only the plan and has received a concrete reviewable one. Report unresolved dependencies and checks without claiming completion of unfinished implementation.

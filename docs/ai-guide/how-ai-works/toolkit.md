@@ -22,6 +22,8 @@ The comparison below records the adopted mechanisms, rather than treating Nimara
 
 Nimara-specific GraphQL/codegen, commerce integrations and deployment agents are not installed here. Add a project capability when a real recurring task needs it; increasing the number of agents or skills is not an adoption goal. This comparison is based on the local checkout, not an assurance that its instructions or ours have passed live trials in every AI client.
 
+Compare [Next.js Study](nextjs-study.md) for version-aware docs/runtime tooling and [React Study](react-study.md) for concise command skills, owner boundaries and explicit verification outcomes. These are optional maintainer references, not additional required agent context.
+
 ## Responsibilities and source ownership
 
 | Kind               | Canonical source                                            | Purpose                                                              |
@@ -89,7 +91,7 @@ Keep skill `name` and `description` frontmatter as single-line plain, YAML singl
 2. Choose `.ai-rules/core/skills/<name>/SKILL.md` for a portable procedure, or `.ai-rules/project/skills/<name>/SKILL.md` for a local task. Use a unique kebab-case name matching its directory; project skills do not override core names.
 3. Give `description` the task trigger and exclusions so nearby skills can be distinguished. The body should link repository instructions, project context and the canonical workflow; state any task-specific boundary and expected result in the workflow instead of duplicating its steps.
 4. Use relative Markdown links for detailed references. The generator rebases those links to the canonical files; it does not copy a skill's sibling scripts/assets/reference directories into client folders. Do not assume an unlinked relative filename or `$ARGUMENTS` syntax is portable across clients. A script-based capability needs explicit repository commands and appropriate packaging tests.
-5. For a new selectable workflow, add its entry metadata and update inbound references. For removal, remove or replace references to the skill/workflow first, then remove the canonical files. Do not delete only the generated client copy; setup would recreate it.
+5. For a new shared selectable workflow, add its entry metadata and a core skill linking to that primary entry, then update inbound references. `rules:check` checks that core skills select one primary entry and that every shared entry has skill coverage. For removal, remove or replace references to the skill/workflow first, then remove the canonical files. Do not delete only the generated client copy; setup would recreate it.
 6. Run `npm run rules:setup`, `npm run rules:check` and `npm run docs:build`. Review source changes and the managed ignore block. Setup removes unchanged owned projections for deleted capabilities; it refuses to discard modified or unowned files.
 7. Reload the selected AI client and try one matching prompt and one adjacent task that should not activate the skill. Check actual invocation, source reads, scope and verification evidence before describing the skill as behaviorally validated.
 
