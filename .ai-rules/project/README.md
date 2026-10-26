@@ -4,7 +4,7 @@
 
 ## Workspace facts
 
-- npm workspace monorepo; Node.js 20+ and npm 10+. Preserve the npm lockfile.
+- npm workspace monorepo; Node.js from root `.nvmrc` (22.23.1) and npm 10+. Preserve the npm lockfile.
 - Apps are independently deployed. Never import another app's private source; shared consumers use public workspace packages.
 - Preserve existing user changes and public contracts unless the task authorizes changing them.
 

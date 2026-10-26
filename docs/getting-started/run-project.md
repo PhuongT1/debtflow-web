@@ -2,13 +2,16 @@
 
 ## Prerequisites
 
-Use the Node.js/npm versions required by the root `package.json` and the repository's existing environment setup. The workspace uses npm; preserve its lockfile. Backend/environment provisioning is separate from starting the frontend processes.
+Use Node.js **22.23.1**, pinned in the root `.nvmrc`, and npm 10+. All GitHub Actions jobs read that same file. Angular CLI 22 does not support Node 20; the compatible ranges are recorded in the root `package.json` engines. The workspace uses npm; preserve its lockfile. Backend/environment provisioning is separate from starting the frontend processes.
 
 ## Commands
 
 From `debtflow-web`:
 
 ```bash
+# When using nvm; other managers should select the same .nvmrc version.
+nvm install
+nvm use
 npm ci
 npm run dev:all
 ```
