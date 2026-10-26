@@ -49,16 +49,20 @@ Test accounts, organizations, roles, and safe local-use guidance are documented 
 
 ### Prerequisites
 
-- **Node.js 20+** and **npm 10+**
+- **Node.js 22.23.1** (pinned in `.nvmrc`) and **npm 10+**
 - Backend API running on **port 4000** (`debtflow-api`)
 
 ### Installation
 
 ```bash
-# 1. Install all monorepo dependencies
-npm install
+# 1. Select the repository Node version (when using nvm)
+nvm install
+nvm use
 
-# 2. Setup local environment files
+# 2. Install all monorepo dependencies
+npm ci
+
+# 3. Setup local environment files
 cp apps/shell/.env.example apps/shell/.env.local
 cp apps/partner-ops/.env.example apps/partner-ops/.env.local
 ```
