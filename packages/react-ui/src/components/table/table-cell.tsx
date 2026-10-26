@@ -26,12 +26,15 @@ function getFixedCellSx(
       zIndex: 4,
     },
     bgcolor: 'background.paper',
-    boxShadow: showShadow
-      ? fixed === 'left'
-        ? '2px 0 4px rgba(15, 23, 42, 0.06)'
-        : '-2px 0 4px rgba(15, 23, 42, 0.06)'
-      : 'none',
-    [fixed]: fixedOffset,
+    boxShadow: {
+      xs: 'none',
+      sm: showShadow
+        ? fixed === 'left'
+          ? '2px 0 4px rgba(15, 23, 42, 0.06)'
+          : '-2px 0 4px rgba(15, 23, 42, 0.06)'
+        : 'none',
+    },
+    [fixed]: { xs: 'auto', sm: fixedOffset },
     position: 'sticky',
     zIndex: 2,
   };

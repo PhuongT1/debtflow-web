@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
-import { Page } from '@/components/ui/page';
+import { Page } from '@/components/ui/page/page';
 import { cn } from '@/lib/styling/class-names';
 import { listUserOptions } from '@/services/user.server';
 import { PartnerSummaryServer } from '../partner-summary/partner-summary-server';

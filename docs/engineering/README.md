@@ -2,6 +2,10 @@
 
 This tab answers **how code should be written and maintained**: conventions, framework principles, boundaries and documentation ownership. It is a reference for developers and AI, not the AI setup entry.
 
+## Start here: writing a component
+
+New to the team or reviewing component work? Open [Component Development](component-development.md) for one checklist covering structure, naming, services, conditional Axios/TanStack rules, query keys, constants/routes, i18n and verification. Each item links to its canonical rule; use the detailed reference below only for the responsibility you are changing.
+
 ## Engineering or AI Guide?
 
 | You need to...                                                                | Start here                                                             |
@@ -11,6 +15,10 @@ This tab answers **how code should be written and maintained**: conventions, fra
 | Write a useful task prompt or review AI's result                              | [AI Guide](../ai-guide/README.md)                                      |
 | Find the app/package owning the change                                        | [Architecture](../architecture/README.md)                              |
 | Maintain shared rules or move the toolkit to another project                  | [Rule Reuse](rule-reuse/README.md)                                     |
+
+Follow [Contributing](contributing.md) for consistent code decisions, review evidence and rule exceptions. [Git Workflow](git-workflow.md) defines branch names.
+
+The [Component Structure Audit](component-structure-audit.md) lists every audited TSX module in shared packages, Partner Ops and Shell, with source links and grouping conventions.
 
 ## Find the relevant coding standard
 

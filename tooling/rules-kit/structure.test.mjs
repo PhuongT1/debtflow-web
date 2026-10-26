@@ -5,6 +5,8 @@ import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
 import { listDocuments } from '../rules-viewer/library.mjs';
 import { belongsToGroup, sections } from '../rules-viewer/sections.mjs';
+import { discoverCapabilities } from './setup.mjs';
+import { discoverWorkflows } from './workflows.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 async function markdown(directory) {
@@ -51,4 +53,23 @@ test('every rule is indexed once and has its real source ancestry', async () => 
       pages.some((page) => page.path === `.ai-rules/project/frameworks/${framework}/README.md`),
     );
   }
+});
+
+test('core skills select one primary workflow and cover every selectable workflow', async () => {
+  const entries = await discoverWorkflows(root);
+  const workflows = new Map(
+    entries.map((entry) => [resolve(root, '.ai-rules/core/workflows', entry.path), []]),
+  );
+  const { skills } = await discoverCapabilities(root);
+  for (const skill of skills.filter((item) => item.source.startsWith('.ai-rules/core/skills/'))) {
+    const targets = new Set(
+      [...skill.text.matchAll(/\[[^\]]*\]\(([^\s)]+)\)/g)]
+        .map((match) => resolve(root, dirname(skill.source), match[1].split('#')[0]))
+        .filter((target) => workflows.has(target)),
+    );
+    assert.equal(targets.size, 1, `${skill.source} must select one primary workflow entry`);
+    for (const target of targets) workflows.get(target).push(skill.name);
+  }
+  for (const [workflow, names] of workflows)
+    assert.ok(names.length > 0, `${relative(root, workflow)} has no core skill discovery entry`);
 });

@@ -1,4 +1,4 @@
-export * from './app-pagination';
-export * from './app-pagination-links';
+export * from './pagination/app-pagination';
+export * from './pagination/app-pagination-links';
 export * from './table';
-export { SignOutDialog } from './sign-out-dialog';
+export { SignOutDialog } from './auth/sign-out-dialog';

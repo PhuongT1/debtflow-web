@@ -17,16 +17,16 @@ In both React apps, `@/` resolves to that app's own `src/` directory. It does no
 | Shared package internal sibling              | Relative module import          | `./table-cell`                                 |
 
 ```ts
-// Inside features/parties/parties-client.tsx:
+// Inside features/parties/list/party-list.tsx:
 import { useTranslations } from 'next-intl';
 import { AppLocaleMenu } from '@debtflow/react-ui';
 import { Button } from '@/components/ui/button';
-import { requestJson } from '@/lib/api-client';
+import { useParties } from '../hooks/use-parties';
 import { PartyTable } from './party-table';
 import type { PartyFilters } from './party-types';
 
 // Outside the feature, consume an intentional public entry:
-import { PartiesClient } from '@/features/parties';
+import { PartyList } from '@/features/parties';
 ```
 
 The example paths illustrate ownership; they are not a claim that every example module currently exists.
@@ -35,7 +35,7 @@ Must not add imports such as:
 
 ```ts
 import { Button } from '../../../components/ui/button';
-import { PartyForm } from '@/features/parties/party-form'; // from a different feature
+import { PartyForm } from '@/features/parties/form/party-form'; // from a different feature
 import { AppLocaleMenu } from '@debtflow/react-ui/src/shell/app-shell-locale-menu';
 import { PartnerTable } from '../../../../partner-ops/src/features/parties/party-table';
 ```

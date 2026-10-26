@@ -1,3 +1,3 @@
-export { PartiesClient } from './parties-client';
-export { PartiesPageSkeleton } from './parties-page-skeleton';
-export { PartyDetailClient } from './party-detail-client';
+export { PartyList } from './list/party-list';
+export { PartyListSkeleton } from './list/skeleton';
+export { PartyDetails } from './detail/party-details';

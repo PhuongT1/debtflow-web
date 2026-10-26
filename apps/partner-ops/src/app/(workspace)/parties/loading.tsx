@@ -1,5 +1,5 @@
-import { PartiesPageSkeleton } from '@/features/parties';
+import { PartyListSkeleton } from '@/features/parties';
 
 export default function Loading() {
-  return <PartiesPageSkeleton />;
+  return <PartyListSkeleton />;
 }

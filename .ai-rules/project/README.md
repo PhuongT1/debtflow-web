@@ -15,6 +15,10 @@
 | Payments; port 3002                             | Angular standalone: [Payments](../../apps/payments/AGENTS.md)                                                           |
 | Shared React presentation / neutral integration | Existing `packages/react-ui`, `platform-sdk`, `contracts`, `design-tokens`; inspect public exports and actual consumers |
 
+When proposing, creating or explicitly renaming a Git branch, follow the project [Git Workflow](../../docs/engineering/git-workflow.md). It defines `feature/`, `fixbug/`, `refactor/`, `chore/` and `docs/` prefixes. Do not create or rename a branch merely because a coding task was requested.
+
+When changing lasting code conventions or auditing compliance, follow [Contributing](../../docs/engineering/contributing.md) for canonical ownership, scoped exceptions and review evidence. Do not interpret successful lint as full architectural or behavioral compliance.
+
 ## Load local extensions only when touched
 
 | Changed responsibility                                    | Local contract                                                                   |

@@ -1,11 +1,11 @@
 import { Badge } from '@/components/ui/badge';
-import { StatCard } from '@/components/ui/card';
-import { ConfirmActionButton } from '@/components/ui/confirm-action-button';
+import { StatCard } from '@/components/ui/page/card';
+import { ConfirmActionButton } from '@/components/ui/dialog/confirm-action-button';
 import { DataTable, type DataTableColumn } from '@/components/tables';
-import { DetailList } from '@/components/ui/detail-list';
-import { HelpModal } from '@/components/ui/help-modal';
-import { MetricGrid, Page, PageHeader, PageSplit } from '@/components/ui/page';
-import { SectionCard } from '@/components/ui/section-card';
+import { DetailList } from '@/components/ui/page/detail-list';
+import { HelpModal } from '@/components/ui/dialog/help-modal';
+import { MetricGrid, Page, PageHeader, PageSplit } from '@/components/ui/page/page';
+import { SectionCard } from '@/components/ui/page/section-card';
 import { CollectionForm } from '@/features/debts/forms/collection-form';
 import { getDebt } from '@/services/debt.server';
 import { PaymentForm } from '@/features/payments/payment-form';

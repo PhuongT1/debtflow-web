@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
-import { DebouncedSearchInput } from '@/components/ui/debounced-search-input';
-import { Select } from '@/components/ui/select';
+import { DebouncedSearchInput } from '@/components/ui/form/debounced-search-input';
+import { Select } from '@/components/ui/form/select';
 import type { PartnerSummaryParams } from '@/services/party.client';
 import type { PartnerSummaryFilters } from './params';
 

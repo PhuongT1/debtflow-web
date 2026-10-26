@@ -19,6 +19,8 @@ Give the remaining failing case:
 At 1024px, Delete still wraps onto a second line. Fix this case too.
 ```
 
+Check that relevant cases actually ran: zero selected tests, skipped acceptance cases and unavailable tools are not passes. Distinguish check-only commands from formatting/autofix or baseline updates, and inspect any resulting edits.
+
 A passing build does not prove the UI works. An uploaded rule file does not prove AI followed it. Review the patch and verification evidence before accepting the work.
 
 When reviewing a rule change, confirm its owner: reusable guidance belongs in `core/`; project facts and exceptions belong in `project/` or the affected app/package. The documentation page must still show the real Markdown source path. See [Layers](../rule-reference/layers.md) for the folder-to-website map.

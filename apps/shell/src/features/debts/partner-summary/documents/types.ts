@@ -13,3 +13,12 @@ export type PartnerDebtPage = {
   pageSize: number;
   total: number;
 };
+
+export type PartnerDocumentUser = { id: string; name: string; email: string };
+export type PartnerDebtFilters = {
+  dueDateFrom: string;
+  dueDateTo: string;
+  q: string;
+  status: string;
+  type: string;
+};

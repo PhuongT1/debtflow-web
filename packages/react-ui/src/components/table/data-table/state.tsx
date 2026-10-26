@@ -1,0 +1,57 @@
+import type { ReactNode } from 'react';
+import { Box, TableRow, Typography } from '@mui/material';
+import { DataTableCell } from '../table-cell';
+
+export function DataTableState({
+  columns,
+  fillHeight,
+  message,
+  hint,
+  icon,
+}: {
+  columns: number;
+  fillHeight?: boolean;
+  message: ReactNode;
+  hint?: ReactNode;
+  icon?: ReactNode;
+}) {
+  return (
+    <TableRow sx={{ height: fillHeight ? '100%' : undefined }}>
+      <DataTableCell colSpan={columns} sx={{ borderBottom: 0 }}>
+        <Box
+          sx={{
+            color: 'text.secondary',
+            display: 'grid',
+            justifyItems: 'center',
+            alignContent: 'center',
+            minHeight: 200,
+            py: 4,
+            textAlign: 'center',
+          }}
+        >
+          {icon ? (
+            <Box
+              sx={{
+                bgcolor: 'action.hover',
+                borderRadius: '50%',
+                display: 'grid',
+                height: 48,
+                mb: 1.5,
+                placeItems: 'center',
+                width: 48,
+              }}
+            >
+              {icon}
+            </Box>
+          ) : null}
+          <Typography sx={{ fontWeight: 750 }}>{message}</Typography>
+          {hint ? (
+            <Typography sx={{ mt: 0.5 }} variant="body2">
+              {hint}
+            </Typography>
+          ) : null}
+        </Box>
+      </DataTableCell>
+    </TableRow>
+  );
+}

@@ -7,12 +7,12 @@ import { Box, Checkbox, FormControlLabel, MenuItem } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { ApiErrorNotice } from '@/components/ui/api-error-notice';
-import { AppDatePicker } from '@/components/ui/app-date-picker';
+import { AppDatePicker } from '@/components/ui/form/date-picker';
 import { Button } from '@/components/ui/button';
-import { useFormDialog } from '@/components/ui/form-dialog';
-import { FormActions, FormGrid } from '@/components/ui/form-layout';
-import { AppInput } from '@/components/ui/input';
-import { AppSelect } from '@/components/ui/select';
+import { useFormDialog } from '@/components/ui/dialog/form-dialog';
+import { FormActions, FormGrid } from '@/components/ui/form/layout';
+import { AppInput } from '@/components/ui/form/input';
+import { AppSelect } from '@/components/ui/form/select';
 import { useToast } from '@debtflow/react-ui';
 import { applyApiFieldErrors } from '@/lib/forms/errors';
 import { autoAllocatePayment, recordDebtPayment } from '@/services/payment.client';
@@ -53,7 +53,9 @@ export function PaymentForm({
   const { showToast } = useToast();
   const mutation = useMutation({
     mutationFn: ({ autoAllocate, ...values }: PaymentFormValues) =>
-      autoAllocate ? autoAllocatePayment({ ...values, partyId, type }) : recordDebtPayment(debtId, values),
+      autoAllocate
+        ? autoAllocatePayment({ ...values, partyId, type })
+        : recordDebtPayment(debtId, values),
     onSuccess: () => {
       reset({
         amount: '',

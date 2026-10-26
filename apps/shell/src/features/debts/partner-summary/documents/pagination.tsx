@@ -2,8 +2,8 @@
 
 import { Box, MenuItem, Typography } from '@mui/material';
 import { useTranslations } from 'next-intl';
-import { AppPagination } from '@/components/ui/app-pagination';
-import { AppSelect } from '@/components/ui/select';
+import { AppPagination } from '@debtflow/react-ui';
+import { AppSelect } from '@/components/ui/form/select';
 import { TablePaginationBar } from '@debtflow/react-ui';
 
 export function DocumentPagination({

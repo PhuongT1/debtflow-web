@@ -16,7 +16,9 @@ Read the short [project profile](project/README.md) once, then the selected owne
 
 Skills describe task entrypoints; workflows hold their detailed stages; rules constrain the selected responsibility; role profiles bound optional delegated work. Discover current capabilities in the generated [catalog](CATALOG.md). Follow the [coordination contract](core/agents/README.md) when dividing work; a native agent profile does not itself authorize delegation. Keep the parent responsible for integration and actual verification.
 
-Prioritize a correct, safe and complete result within the authorized scope. Token/time efficiency is secondary: use additional context, investigation and checks when they support those goals. Avoid redundant work and unrelated scope; do not sacrifice necessary understanding or verification to minimize usage. No fixed file/token target defines success.
+Optimize input, output and tool usage for a correct, verified result within the authorized scope. Load only decision-relevant context, reuse unchanged evidence and report concisely. Necessary investigation, compatibility and verification take priority over token savings; no fixed file/token target defines success.
+
+Native skill invocation is optional. For an ordinary prompt, choose the primary workflow from the selector below and use its matching skill when the client supports it. A developer may explicitly choose a skill or add a complementary capability; respect that choice within its scope and load only the relevant added guidance. Resolve a material mismatch with the requested outcome instead of silently changing scope. If native skill discovery is absent but repository access works, follow the canonical workflow directly; do not require an installer or skill picker for ordinary work.
 
 Once the tool has loaded its entry instructions, a short outcome-based task is sufficient. If access is unverified or Markdown is attached, first resolve [instruction loading](core/execution/load-instructions.md). File links alone do not configure an agent.
 

@@ -6,7 +6,7 @@ import { Alert, Box, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { ApiErrorNotice } from '@/components/ui/api-error-notice';
 import { Button } from '@/components/ui/button';
-import { FormActions } from '@/components/ui/form-layout';
+import { FormActions } from '@/components/ui/form/layout';
 import { useToast } from '@debtflow/react-ui';
 import { importDebtWorkbook } from '@/services/import.client';
 

@@ -45,14 +45,18 @@ export async function exportRules(destination, { withViewer = false } = {}) {
   for (const [template, target] of [
     ['project-profile.md', '.ai-rules/project/README.md'],
     ['AGENTS.md', 'AGENTS.md'],
+    ['CLAUDE.md', 'CLAUDE.md'],
+    ['copilot-instructions.md', '.github/copilot-instructions.md'],
     ['README.md', 'README.md'],
-  ])
+  ]) {
+    await mkdir(dirname(join(output, target)), { recursive: true });
     await writeFile(join(output, target), await readFile(join(directory, 'templates', template)), {
       flag: 'wx',
     });
+  }
   const tools = join(output, 'tooling/rules-kit');
   await mkdir(tools, { recursive: true });
-  for (const file of ['workflows.mjs', 'setup.mjs', 'clients.mjs'])
+  for (const file of ['workflows.mjs', 'setup.mjs', 'clients.mjs', 'doctor.mjs'])
     await writeFile(join(tools, file), await readFile(join(directory, file)), { flag: 'wx' });
   await syncWorkflows(output);
   await syncToolkit(output);

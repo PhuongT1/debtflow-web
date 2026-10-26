@@ -2,6 +2,7 @@
 
 **Activate:** changing Next.js routes, rendering boundaries, configuration or deployment behavior. **Read boundary:** the affected route, installed version, router configuration and project owner instructions.
 
+- Resolve framework APIs and optional tool prerequisites with the [version-aware evidence policy](../../execution/context.md#use-evidence-for-the-installed-version). A canary checkout is a reference, not the installed application version.
 - Determine whether the target uses App Router, Pages Router or both. Preserve that model; adopting these rules does not authorize a router migration.
 - For App Router, prefer server rendering where appropriate and introduce a client boundary only for browser interaction/state. Do not expose server-only code or private environment values to client bundles.
 - Use routing/navigation APIs supported by the installed router/version. Preserve deep-link query state and validated return targets.

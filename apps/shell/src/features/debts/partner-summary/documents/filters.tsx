@@ -2,11 +2,11 @@
 
 import { useState, type FormEvent } from 'react';
 import { useTranslations } from 'next-intl';
-import { DataTableToolbar } from '@/components/ui/data-table-toolbar';
-import { FilterActions } from '@/components/ui/filter-actions';
-import { AppDatePicker } from '@/components/ui/app-date-picker';
-import { AppInput } from '@/components/ui/input';
-import { Select } from '@/components/ui/select';
+import { DataTableToolbar } from '@/components/tables/toolbar';
+import { FilterActions } from '@/components/ui/form/filter-actions';
+import { AppDatePicker } from '@/components/ui/form/date-picker';
+import { AppInput } from '@/components/ui/form/input';
+import { Select } from '@/components/ui/form/select';
 
 type Filters = {
   dueDateFrom: string;

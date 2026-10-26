@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { FormDialog } from '@/components/ui/form-dialog';
-import { HelpModal } from '@/components/ui/help-modal';
-import { PageHeader } from '@/components/ui/page';
-import { DebtForm } from '../forms/debt-form';
+import { FormDialog } from '@/components/ui/dialog/form-dialog';
+import { HelpModal } from '@/components/ui/dialog/help-modal';
+import { PageHeader } from '@/components/ui/page/page';
+import { DebtForm } from '../forms/debt/debt-form';
 import { API_URL } from '@/lib/config/environment';
 
 type Translate = (key: string) => string;

@@ -3,10 +3,10 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import { Typography } from '@mui/material';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { StatCard } from '@/components/ui/card';
-import { HelpModal } from '@/components/ui/help-modal';
-import { MetricGrid, Page, PageGrid, PageHeader } from '@/components/ui/page';
-import { SectionCard } from '@/components/ui/section-card';
+import { StatCard } from '@/components/ui/page/card';
+import { HelpModal } from '@/components/ui/dialog/help-modal';
+import { MetricGrid, Page, PageGrid, PageHeader } from '@/components/ui/page/page';
+import { SectionCard } from '@/components/ui/page/section-card';
 import { DashboardActionQueue } from '@/features/dashboard/dashboard-action-queue';
 import { DashboardPeriodFilter } from '@/features/dashboard/dashboard-period-filter';
 import { getDashboardPeriod } from '@/features/dashboard/dashboard-period';
@@ -39,7 +39,9 @@ export default async function DashboardPage({
   ]);
   const { actionCenter } = dashboard;
   const asOf = actionCenter.asOf
-    ? new Date(actionCenter.asOf + 'T00:00:00+07:00').toLocaleDateString(locale === 'en' ? 'en-US' : 'vi-VN')
+    ? new Date(actionCenter.asOf + 'T00:00:00+07:00').toLocaleDateString(
+        locale === 'en' ? 'en-US' : 'vi-VN',
+      )
     : t('today');
 
   return (
@@ -76,9 +78,9 @@ export default async function DashboardPage({
         <ActionMetric href="/debts?type=RECEIVABLE&outstanding=true">
           <StatCard
             hint={t('receivableHint', {
-                count: actionCenter.receivable.outstanding.count,
-                parties: actionCenter.receivable.outstanding.partyCount,
-              })}
+              count: actionCenter.receivable.outstanding.count,
+              parties: actionCenter.receivable.outstanding.partyCount,
+            })}
             icon="debts"
             label={t('customerOwes')}
             tone="blue"
@@ -88,9 +90,9 @@ export default async function DashboardPage({
         <ActionMetric href="/debts?type=PAYABLE&outstanding=true">
           <StatCard
             hint={t('payableHint', {
-                count: actionCenter.payable.outstanding.count,
-                parties: actionCenter.payable.outstanding.partyCount,
-              })}
+              count: actionCenter.payable.outstanding.count,
+              parties: actionCenter.payable.outstanding.partyCount,
+            })}
             icon="download"
             label={t('youOweSupplier')}
             tone="amber"
@@ -123,10 +125,7 @@ export default async function DashboardPage({
         trade={actionCenter.trade}
       />
 
-      <SectionCard
-        description={t('cashFlowDescription')}
-        title={t('cashFlowTitle')}
-      >
+      <SectionCard description={t('cashFlowDescription')} title={t('cashFlowTitle')}>
         <div className="grid gap-3 sm:grid-cols-3">
           <Link
             className="rounded-lg bg-emerald-50 p-4 transition hover:bg-emerald-100"
@@ -183,10 +182,7 @@ export default async function DashboardPage({
         />
       </PageGrid>
 
-      <SectionCard
-        description={t('recentPaymentsDescription')}
-        title={t('recentPayments')}
-      >
+      <SectionCard description={t('recentPaymentsDescription')} title={t('recentPayments')}>
         <div className="grid gap-2.5 md:grid-cols-2">
           {dashboard.recentPayments.length === 0 ? (
             <Typography color="text.secondary" variant="body2">

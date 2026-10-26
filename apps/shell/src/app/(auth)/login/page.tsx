@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth/session';
 import { resolveLoginReturnTo } from '@/lib/auth/login-navigation';
-import { LoginForm } from './login-form';
+import { LoginForm } from '@/features/auth';
 
 export const dynamic = 'force-dynamic';
 

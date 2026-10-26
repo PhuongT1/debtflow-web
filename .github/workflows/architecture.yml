@@ -58,6 +58,7 @@ jobs:
         with:
           node-version: 20
       - run: npm run rules:setup
+      - run: npm run rules:doctor
       - run: npm run rules:check
       - run: npm run docs:build
 
@@ -73,3 +74,4 @@ jobs:
       - run: npm run format:check
       - run: npm run lint:packages
       - run: npm run check:architecture
+      - run: npm run test:party-conventions

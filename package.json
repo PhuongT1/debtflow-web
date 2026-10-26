@@ -54,7 +54,9 @@
     "docs:dev": "node tooling/rules-viewer/server.mjs",
     "docs:build": "node tooling/rules-viewer/build.mjs",
     "docs:preview": "node tooling/rules-viewer/preview.mjs",
-    "rules:scenarios": "node --test tooling/rules-kit/scenarios.test.mjs"
+    "rules:scenarios": "node --test tooling/rules-kit/scenarios.test.mjs",
+    "rules:doctor": "node tooling/rules-kit/doctor.mjs",
+    "test:party-conventions": "node --test tooling/e2e/party-conventions.test.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",

@@ -17,6 +17,7 @@
 | Independently deployed host/embedded application contracts  | [MFE](../standards/microfrontend.md), only when those deployment boundaries actually exist                                                                                |
 | Auth/session/security                                       | [Authentication](../concerns/authentication.md), [security](../standards/security.md)                                                                                     |
 | Change translated text/formatting                           | [i18n](../concerns/i18n.md); existing-locale testing alone does not trigger it                                                                                            |
+| HTTP request/transport/service ownership                    | [HTTP client](../concerns/http-client.md); apply library-specific guidance only when installed/configured                                                                 |
 | API/message shape                                           | [API contracts](../concerns/api-contracts.md)                                                                                                                             |
 | Dependency/lint/build tooling                               | [Tooling](../concerns/tooling.md)                                                                                                                                         |
 
