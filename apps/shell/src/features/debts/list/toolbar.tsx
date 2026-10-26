@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import { MenuItem, Box, Button as MuiButton } from '@mui/material';
 import { useTranslations } from 'next-intl';
-import { DataTableToolbar } from '@/components/ui/data-table-toolbar';
-import { FilterActions } from '@/components/ui/filter-actions';
-import { AppInput } from '@/components/ui/input';
-import { AppSelect } from '@/components/ui/select';
+import { DataTableToolbar } from '@/components/tables/toolbar';
+import { FilterActions } from '@/components/ui/form/filter-actions';
+import { AppInput } from '@/components/ui/form/input';
+import { AppSelect } from '@/components/ui/form/select';
 import { CollectionStatus, DebtStatus } from '@/lib/domain/enums';
 import type { CatalogOptions } from '@/features/catalog/catalog.types';
 

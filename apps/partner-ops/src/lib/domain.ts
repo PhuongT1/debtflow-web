@@ -47,3 +47,6 @@ export const PaymentMethod = {
 } as const;
 
 export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod];
+
+export const UserStatus = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' } as const;
+export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus];

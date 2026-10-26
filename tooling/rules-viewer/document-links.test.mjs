@@ -18,16 +18,22 @@ test('canonical documents have one title and valid Markdown/diagram links after 
   for (const page of pages) {
     const article = page.text.replace(/^```[^\n]*\n[\s\S]*?^```/gm, '');
     assert.equal([...article.matchAll(/^# .+$/gm)].length, 1, page.path);
-    for (const match of page.text.matchAll(/\[[^\]]*\]\(([^\s)]+)\)|click\s+\w+\s+"([^"]+)"/g)) {
-      const link = match[1] ?? match[2];
+    const links = [
+      ...[...article.matchAll(/\[(?:`[^`]*`|[^\]])+\]\((<[^>]+>|[^\s)]+)\)/g)].map(
+        (match) => match[1],
+      ),
+      ...[...page.text.matchAll(/click\s+\w+\s+"([^"]+)"/g)].map((match) => match[1]),
+    ];
+    for (const link of links) {
       if (/^[a-z]+:/i.test(link)) continue;
-      const [name, anchor] = link.split('#');
-      if (name && !name.endsWith('.md')) continue;
+      const [name, anchor] = link.replace(/^<|>$/g, '').split('#');
+      if (name && !/\.(?:md|tsx?|[cm]?js|json|prisma|ya?ml|s?css|svg|png|jpe?g|webp)$/.test(name))
+        continue;
       const path = name
         ? resolve(repository, dirname(page.path), name)
         : resolve(repository, page.path);
       await assert.doesNotReject(access(path), `${page.path}: ${link}`);
-      if (anchor) {
+      if (anchor && (!name || name.endsWith('.md'))) {
         const text = await readFile(path, 'utf8');
         const headings = [...text.matchAll(/^#{1,6} (.+)$/gm)].map((match) => slug(match[1]));
         assert.ok(headings.includes(anchor), `${page.path}: ${link}`);

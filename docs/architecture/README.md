@@ -9,6 +9,8 @@ Use this section to understand where a change belongs and which runtime/package 
 | Shared package responsibilities                                | [Package boundaries](packages.md)          |
 | Cross-app navigation, composition and session responsibilities | [Integration entry points](integration.md) |
 
+[Parties feature](parties-feature.md) maps the list/detail/form structure, services, query keys, transport and verification to the current source tree.
+
 ## Source of truth
 
 These maps were checked against current workspace/package scripts and owner instructions. Exact installed versions come from the lockfile; declared framework ranges come from package manifests. No unverified version numbers are copied into this overview.

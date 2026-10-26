@@ -11,3 +11,7 @@
 - Keep App Router pages thin and consume the stable public entry of a feature when one exists. `features/parties/index.ts` is the supported route-facing surface for the Parties domain.
 - Keep Party-specific form, query, table, and client-state code in `features/parties/`; do not move it into `components/` just because it renders UI.
 - `components/platform/` is reserved for embedding bridges and platform contracts. `components/ui/` contains app-specific presentation only; promote a proven multi-app UI primitive to `@debtflow/react-ui` instead of copying it.
+
+## Parties feature conventions
+
+`features/parties/index.ts` exports `PartyList`, `PartyListSkeleton` and `PartyDetails`. Internal responsibilities are grouped under `list/`, `detail/`, `form/`, `hooks/` and `model/`. UI imports domain hooks. HTTP services and API types live in app-level `services/parties/`: `party.types.ts` defines the capability, `providers/rest.ts` implements it and `party.service.ts` composes it with the configured client. List data uses `{ items, meta }`, preserving API pagination metadata; reusable domain models live in `models/`. Services must not import the feature. App-wide hooks live in `src/hooks/` only when independent of Parties. See the [local data contract](../../../.ai-rules/project/frameworks/react/data-fetching.md) for transport, query-key, route and status owners. Every new/changed visible string belongs in both locale catalogs.

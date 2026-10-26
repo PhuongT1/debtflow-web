@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { DataTableCell, DataTableContainer } from '@debtflow/react-ui';
 import { Badge } from '@/components/ui/badge';
 import { TruncatedText } from '@/components/ui/clamped-text';
-import { FormDialog } from '@/components/ui/form-dialog';
+import { FormDialog } from '@/components/ui/dialog/form-dialog';
 import { PaymentForm } from '@/features/payments/payment-form';
 import { formatMoney } from '@/lib/presentation/formatters';
 import type { PartnerDebtPage } from './types';

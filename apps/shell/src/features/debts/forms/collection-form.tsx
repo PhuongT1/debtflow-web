@@ -7,11 +7,11 @@ import { Box, MenuItem } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { ApiErrorNotice } from '@/components/ui/api-error-notice';
-import { AppDatePicker } from '@/components/ui/app-date-picker';
+import { AppDatePicker } from '@/components/ui/form/date-picker';
 import { Button } from '@/components/ui/button';
-import { FormActions, FormGrid } from '@/components/ui/form-layout';
-import { AppInput } from '@/components/ui/input';
-import { AppSelect } from '@/components/ui/select';
+import { FormActions, FormGrid } from '@/components/ui/form/layout';
+import { AppInput } from '@/components/ui/form/input';
+import { AppSelect } from '@/components/ui/form/select';
 import { useToast } from '@debtflow/react-ui';
 import { applyApiFieldErrors } from '@/lib/forms/errors';
 import { updateDebt } from '@/services/debt.client';
@@ -56,8 +56,7 @@ export function CollectionForm({
   const router = useRouter();
   const { showToast } = useToast();
   const mutation = useMutation({
-    mutationFn: (values: CollectionFormValues) =>
-      updateDebt(debtId, withoutEmptyValues(values)),
+    mutationFn: (values: CollectionFormValues) => updateDebt(debtId, withoutEmptyValues(values)),
     onSuccess: () => {
       showToast({ message: 'Đã cập nhật trạng thái thu tiền.' });
       router.refresh();

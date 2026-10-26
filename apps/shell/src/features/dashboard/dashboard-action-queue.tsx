@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Typography } from '@mui/material';
 import { Badge } from '@/components/ui/badge';
-import { SectionCard } from '@/components/ui/section-card';
+import { SectionCard } from '@/components/ui/page/section-card';
 import type { DashboardQueueDebt } from '@/services/dashboard.server';
 import { formatMoney } from '@/lib/presentation/formatters';
 

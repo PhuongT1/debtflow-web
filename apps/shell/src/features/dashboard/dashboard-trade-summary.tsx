@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { SectionCard } from '@/components/ui/section-card';
+import { SectionCard } from '@/components/ui/page/section-card';
 import type { DashboardTradeSummary } from '@/services/dashboard.server';
 import { formatMoney } from '@/lib/presentation/formatters';
 
@@ -18,15 +18,36 @@ export async function DashboardTradeSummaryCard({
   const period = trade.period;
 
   return (
-    <SectionCard
-      description={t('tradeDescription', { dateFrom, dateTo })}
-      title={t('tradeTitle')}
-    >
+    <SectionCard description={t('tradeDescription', { dateFrom, dateTo })} title={t('tradeTitle')}>
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <TradeMetric amount={period.sales.amount} count={period.sales.count} label={t('creditSales')} tone="blue" unit={t('documents')} />
-        <TradeMetric amount={period.cashIn.amount} count={period.cashIn.count} label={t('collected')} tone="green" unit={t('receipts')} />
-        <TradeMetric amount={period.purchases.amount} count={period.purchases.count} label={t('purchases')} tone="amber" unit={t('purchaseDocuments')} />
-        <TradeMetric amount={period.cashOut.amount} count={period.cashOut.count} label={t('paidSuppliers')} tone="red" unit={t('payments')} />
+        <TradeMetric
+          amount={period.sales.amount}
+          count={period.sales.count}
+          label={t('creditSales')}
+          tone="blue"
+          unit={t('documents')}
+        />
+        <TradeMetric
+          amount={period.cashIn.amount}
+          count={period.cashIn.count}
+          label={t('collected')}
+          tone="green"
+          unit={t('receipts')}
+        />
+        <TradeMetric
+          amount={period.purchases.amount}
+          count={period.purchases.count}
+          label={t('purchases')}
+          tone="amber"
+          unit={t('purchaseDocuments')}
+        />
+        <TradeMetric
+          amount={period.cashOut.amount}
+          count={period.cashOut.count}
+          label={t('paidSuppliers')}
+          tone="red"
+          unit={t('payments')}
+        />
       </div>
       <p className="mt-3 text-sm text-slate-600">
         {t('periodSummary', {
@@ -75,7 +96,9 @@ function TradeMetric({
     <div className={'rounded-lg p-4 ' + classes[tone]}>
       <p className="text-sm font-bold">{label}</p>
       <p className="mt-2 text-xl font-black">{formatMoney(amount)}</p>
-      <p className="mt-1 text-xs opacity-75">{count} {unit}</p>
+      <p className="mt-1 text-xs opacity-75">
+        {count} {unit}
+      </p>
     </div>
   );
 }

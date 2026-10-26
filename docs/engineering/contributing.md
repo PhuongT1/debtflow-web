@@ -2,6 +2,8 @@
 
 Use this agreement for human-written and AI-assisted changes. [Client Setup](../ai-guide/project-context/client-setup.md) configures AI discovery; it does not replace these engineering expectations. [Git Workflow](git-workflow.md) owns branch naming.
 
+For component work, start with [Component Development](component-development.md): the member-facing checklist links naming, structure, data/service ownership, optional libraries, i18n and acceptance evidence in one page.
+
 ## Decide before introducing a pattern
 
 Read the affected owner's instructions and inspect a comparable implementation and its consumers. Follow the existing supported pattern when it meets the requirement. A historical implementation that violates the maintained rules is not a new precedent: identify the conflict and propose the smallest scoped correction.
@@ -47,3 +49,5 @@ Use the smallest relevant checks while honoring required owner checks. Report co
 Follow [Maintaining capabilities](../ai-guide/how-ai-works/toolkit.md#maintaining-capabilities) for triggers, exclusions, source ownership and generation. Each shared selectable workflow must have a core skill entry linking to it; each core skill selects one primary workflow. The structural check derives this relationship from current files, so a new or removed workflow cannot silently lose its client discovery entry. Group/reference workflows are not independent skills.
 
 Keep detailed procedures in workflows and task-specific references; skills stay small and describe when to use them. Project capabilities may link to project-owned procedures without becoming mandatory shared workflows. Native role profiles are optional responsibilities, not permission to delegate or implement unrelated changes.
+
+For the concrete service/query-key/route/i18n arrangement in Partner Ops, see [Parties Feature](../architecture/parties-feature.md). New component work activates the relevant core data/HTTP/i18n rules when those responsibilities are present; do not import Axios merely because another project uses it.

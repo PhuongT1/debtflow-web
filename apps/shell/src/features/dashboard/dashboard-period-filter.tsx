@@ -5,9 +5,9 @@ import dayjs from 'dayjs';
 import { Box, MenuItem, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { AppDatePicker } from '@/components/ui/app-date-picker';
+import { AppDatePicker } from '@/components/ui/form/date-picker';
 import { Button } from '@/components/ui/button';
-import { AppSelect } from '@/components/ui/select';
+import { AppSelect } from '@/components/ui/form/select';
 
 type DashboardPeriodFilterProps = {
   dateFrom: string;
@@ -18,11 +18,23 @@ type Preset = 'today' | 'last7Days' | 'thisMonth' | 'lastMonth' | 'custom';
 
 function datesForPreset(preset: Exclude<Preset, 'custom'>) {
   const today = dayjs();
-  if (preset === 'today') return { dateFrom: today.format('YYYY-MM-DD'), dateTo: today.format('YYYY-MM-DD') };
-  if (preset === 'last7Days') return { dateFrom: today.subtract(6, 'day').format('YYYY-MM-DD'), dateTo: today.format('YYYY-MM-DD') };
-  if (preset === 'thisMonth') return { dateFrom: today.startOf('month').format('YYYY-MM-DD'), dateTo: today.endOf('month').format('YYYY-MM-DD') };
+  if (preset === 'today')
+    return { dateFrom: today.format('YYYY-MM-DD'), dateTo: today.format('YYYY-MM-DD') };
+  if (preset === 'last7Days')
+    return {
+      dateFrom: today.subtract(6, 'day').format('YYYY-MM-DD'),
+      dateTo: today.format('YYYY-MM-DD'),
+    };
+  if (preset === 'thisMonth')
+    return {
+      dateFrom: today.startOf('month').format('YYYY-MM-DD'),
+      dateTo: today.endOf('month').format('YYYY-MM-DD'),
+    };
   const previousMonth = today.subtract(1, 'month');
-  return { dateFrom: previousMonth.startOf('month').format('YYYY-MM-DD'), dateTo: previousMonth.endOf('month').format('YYYY-MM-DD') };
+  return {
+    dateFrom: previousMonth.startOf('month').format('YYYY-MM-DD'),
+    dateTo: previousMonth.endOf('month').format('YYYY-MM-DD'),
+  };
 }
 
 export function DashboardPeriodFilter({ dateFrom, dateTo }: DashboardPeriodFilterProps) {
@@ -67,23 +79,54 @@ export function DashboardPeriodFilter({ dateFrom, dateTo }: DashboardPeriodFilte
         alignItems: 'start',
         display: 'grid',
         gap: 1.25,
-        gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, minmax(0, 1fr))', lg: 'minmax(180px, 1.15fr) repeat(2, minmax(180px, 1fr)) auto' },
+        gridTemplateColumns: {
+          xs: '1fr',
+          sm: 'repeat(2, minmax(0, 1fr))',
+          lg: 'minmax(180px, 1.15fr) repeat(2, minmax(180px, 1fr)) auto',
+        },
         width: '100%',
       }}
     >
-      <AppSelect label={t('period')} onChange={(event) => selectPreset(event.target.value as Preset)} value={preset}>
+      <AppSelect
+        label={t('period')}
+        onChange={(event) => selectPreset(event.target.value as Preset)}
+        value={preset}
+      >
         <MenuItem value="custom">{t('customRange')}</MenuItem>
         <MenuItem value="today">{t('today')}</MenuItem>
         <MenuItem value="last7Days">{t('last7Days')}</MenuItem>
         <MenuItem value="thisMonth">{t('thisMonth')}</MenuItem>
         <MenuItem value="lastMonth">{t('lastMonth')}</MenuItem>
       </AppSelect>
-      <AppDatePicker label={t('fromDate')} onChange={(value) => { setFrom(value); setError(''); }} value={from} />
-      <AppDatePicker label={t('toDate')} onChange={(value) => { setTo(value); setError(''); }} value={to} />
-      <Button onClick={applyPeriod} sx={{ alignSelf: 'center', height: 40, mt: { xs: 0, lg: 1 } }} type="button" variant="secondary">
+      <AppDatePicker
+        label={t('fromDate')}
+        onChange={(value) => {
+          setFrom(value);
+          setError('');
+        }}
+        value={from}
+      />
+      <AppDatePicker
+        label={t('toDate')}
+        onChange={(value) => {
+          setTo(value);
+          setError('');
+        }}
+        value={to}
+      />
+      <Button
+        onClick={applyPeriod}
+        sx={{ alignSelf: 'center', height: 40, mt: { xs: 0, lg: 1 } }}
+        type="button"
+        variant="secondary"
+      >
         {t('applyPeriod')}
       </Button>
-      {error ? <Typography color="error" sx={{ fontSize: 12, gridColumn: '1 / -1' }}>{error}</Typography> : null}
+      {error ? (
+        <Typography color="error" sx={{ fontSize: 12, gridColumn: '1 / -1' }}>
+          {error}
+        </Typography>
+      ) : null}
     </Box>
   );
 }

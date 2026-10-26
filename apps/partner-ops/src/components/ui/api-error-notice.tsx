@@ -1,9 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { getApiErrorMessage } from '@/lib/api/api-error';
 import { Alert, Snackbar } from '@mui/material';
 
 export function ApiErrorNotice({ error }: { error: Error | null }) {
+  const t = useTranslations('Api');
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -16,7 +19,7 @@ export function ApiErrorNotice({ error }: { error: Error | null }) {
 
   return (
     <>
-      <Alert severity="error">{error.message}</Alert>
+      <Alert severity="error">{getApiErrorMessage(error, t)}</Alert>
       <Snackbar
         anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
         autoHideDuration={5000}
@@ -24,7 +27,7 @@ export function ApiErrorNotice({ error }: { error: Error | null }) {
         onClose={() => setOpen(false)}
       >
         <Alert severity="error" variant="filled" onClose={() => setOpen(false)}>
-          {error.message}
+          {getApiErrorMessage(error, t)}
         </Alert>
       </Snackbar>
     </>

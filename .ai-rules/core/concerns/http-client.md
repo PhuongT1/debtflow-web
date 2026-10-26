@@ -1,0 +1,16 @@
+# HTTP Client and Service Ownership
+
+**Activate:** adding or changing HTTP requests, transport configuration or domain services. **Scope:** the affected owner and installed HTTP library; adoption does not authorize changing transport elsewhere.
+
+- UI components consume named domain hooks/services/use-cases according to the owner contract; they must not construct endpoints, deserialize envelopes or configure authentication inside query functions or event handlers. Reuse the existing service for an operation.
+- Keep a configured client at the application's transport boundary: base URL, credentials/auth, locale headers, timeout, cancellation, response normalization and errors. Do not create an instance per render/request or leak private server configuration into browser modules.
+- **When Axios is installed or chosen by the project:** use an owner-scoped `axios.create` instance. Register interceptors once, obtain current credentials/locale per request, pass `AbortSignal`, preserve cancellation as cancellation and unwrap the actual response contract. Pass objects as JSON data; do not double-serialize. Do not set multipart boundaries manually, retry unsafe writes or invent token-refresh/navigation behavior.
+- Otherwise preserve the project's configured transport (for example Angular HttpClient or a framework server fetch with cache semantics). A portable rule must not require Axios, TanStack Query, a particular folder name or a replacement client in every project. Put the concrete library choice in the local profile.
+- Keep services independent of React/hooks and feature UI. An app-level service layer must not import feature-owned filters or form schemas; parameters and response contracts belong with the service or an existing shared/generated contract owner. Keep create and update operations explicit rather than selecting HTTP methods through an ambiguous optional ID.
+- Separate the public capability contract, provider implementation and application composition when a service needs those responsibilities. Bind the configured transport at the composition owner; keep provider construction testable through explicit dependencies. Reuse one implementation per operation. Introduce a registry or lazy loader only for actual provider selection, costly initialization or optional integrations, not for folder symmetry.
+- Preserve pagination metadata at the response boundary when the API provides it. Keep collection items separate from a named metadata object; do not flatten and reconstruct metadata in every screen or fabricate a successful empty list on malformed responses. Keep legacy adapters compatible when adopting a grouped response.
+- Services return typed data or normalized failures, not dialogs, toasts or router actions. Keep boundary models independent of a particular UI form; types are not runtime validation of untrusted data.
+
+**Accept when:** the component consumes a service, request/auth/locale/serialization behavior is preserved, errors and cancellation remain distinguishable, and affected consumers have meaningful checks.
+
+Reference: [Axios instances](https://axios-http.com/docs/instance), [interceptors](https://axios-http.com/docs/interceptors), [cancellation](https://axios-http.com/docs/cancellation). Resolve APIs against the installed version.

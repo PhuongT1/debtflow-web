@@ -15,12 +15,27 @@ export function TablePaginationBar({ children, summary }: TablePaginationBarProp
         alignItems: 'center',
         display: 'flex',
         gap: 1.5,
+        flexWrap: 'wrap',
+        width: '100%',
         justifyContent: 'space-between',
         minHeight: 58,
       }}
     >
       {summary}
-      <Box sx={{ alignItems: 'center', display: 'flex', flexShrink: 0, gap: 1.5 }}>{children}</Box>
+      <Box
+        sx={{
+          alignItems: 'center',
+          display: 'flex',
+          flexShrink: 0,
+          gap: 1.5,
+          maxWidth: '100%',
+          overflowX: 'auto',
+          ml: 'auto',
+          py: 0.25,
+        }}
+      >
+        {children}
+      </Box>
     </Box>
   );
 }

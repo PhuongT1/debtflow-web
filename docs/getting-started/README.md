@@ -18,17 +18,20 @@ Debtflow is an npm monorepo with three independently runnable apps:
 
 Use the [Documentation Map](../README.md) to match website tabs, sidebar topics and repository paths. Every page displays its source path for opening the same file in your editor.
 
-| Your question                               | Start here                                                                                        |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| How do I run the project and documentation? | [Run the project](run-project.md)                                                                 |
-| Which app/package owns my change?           | [Find the owner](find-owner.md), then [architecture](../architecture/README.md) for that boundary |
-| Which coding convention applies?            | [Engineering](../engineering/README.md), then the matching topic                                  |
-| How will AI handle my prompt?               | [AI Guide](../ai-guide/README.md); [worked examples](../ai-guide/prompts/examples.md) when useful |
-| Where should I add or update documentation? | [Documentation structure and authoring](../engineering/documentation/README.md)                   |
+| Your question                                | Start here                                                                                        |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| How do I run the project and documentation?  | [Run the project](run-project.md)                                                                 |
+| Which app/package owns my change?            | [Find the owner](find-owner.md), then [architecture](../architecture/README.md) for that boundary |
+| What must a new or changed component follow? | [Component Development checklist](../engineering/component-development.md)                        |
+| Which coding convention applies?             | [Engineering](../engineering/README.md), then the matching topic                                  |
+| How will AI handle my prompt?                | [AI Guide](../ai-guide/README.md); [worked examples](../ai-guide/prompts/examples.md) when useful |
+| Where should I add or update documentation?  | [Documentation structure and authoring](../engineering/documentation/README.md)                   |
 
 `docs/` explains the project to people. `.ai-rules/` contains canonical agent and engineering requirements. `AGENTS.md` is the agent entry point. `tooling/rules-viewer/` displays the same Markdown; it does not maintain a second rules library.
 
 ## Make your first change
+
+Before your first component task, read [Component Development](../engineering/component-development.md). It collects the applicable requirements in one place and links the maintained rules and a real source example.
 
 Using Codex, Claude Code or Cursor? Complete [AI Client Setup](../ai-guide/project-context/client-setup.md) once before the first AI task. The same setup command works for the team's configured clients; you do not need to learn the toolkit internals first.
 

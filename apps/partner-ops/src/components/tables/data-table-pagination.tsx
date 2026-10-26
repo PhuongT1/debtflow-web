@@ -2,9 +2,9 @@
 
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { Box, Skeleton, Typography } from '@mui/material';
-import { AppPagination, TablePaginationBar } from '@debtflow/react-ui';
-import { PageSizeSelect } from '@/components/ui/page-size-select';
+import { Box, Typography } from '@mui/material';
+import { AppPagination, DataTablePagination as SharedTablePagination } from '@debtflow/react-ui';
+import { PageSizeSelect } from '@/components/tables/page-size-select';
 import { isEmbeddedInPlatform, navigateToPlatform } from '@/lib/platform-navigation';
 
 export function DataTablePagination({
@@ -29,63 +29,28 @@ export function DataTablePagination({
   const from = total === 0 ? 0 : (safePage - 1) * pageSize + 1;
   const to = Math.min(total, safePage * pageSize);
   return (
-    <Box
-      sx={{
-        alignItems: 'center',
-        bgcolor: 'background.default',
-        borderTop: '1px solid',
-        borderColor: 'divider',
-        display: 'flex',
-        flexShrink: 0,
-        flexWrap: 'wrap',
-        gap: 1,
-        justifyContent: 'space-between',
-        px: { xs: 1.5, sm: 2 },
-        py: 1,
-      }}
+    <SharedTablePagination
+      loading={loading}
+      summary={
+        <Typography color="text.secondary" variant="body2">
+          {t('summary', { from, to, total })}
+        </Typography>
+      }
     >
-      {loading ? (
-        <>
-          <Skeleton animation="wave" height={18} variant="rounded" width={150} />
-          <Skeleton animation="wave" height={32} variant="rounded" width={220} />
-        </>
-      ) : (
-        <>
-          <TablePaginationBar
-            summary={
-              <Typography color="text.secondary" variant="body2">
-                {t('summary', { from, to, total })}
-              </Typography>
-            }
-          >
-          <Box
-            sx={{
-              alignItems: 'center',
-              display: 'flex',
-              flexShrink: 0,
-              flexWrap: 'nowrap',
-              gap: 1.5,
-              overflowX: 'auto',
-            }}
-          >
-            <Box sx={{ alignItems: 'center', display: 'flex', gap: 1 }}>
-              <PageSizeSelect options={pageSizeOptions} pageSize={pageSize} />
-            </Box>
-            <AppPagination
-              onPageChange={(nextPage) => {
-                const href = hrefByPage[nextPage];
-                if (!href) return;
-                if (isEmbeddedInPlatform()) navigateToPlatform(href);
-                else router.push(href, { scroll: false });
-              }}
-              page={page}
-              pageSize={pageSize}
-              total={total}
-            />
-          </Box>
-          </TablePaginationBar>
-        </>
-      )}
-    </Box>
+      <Box sx={{ alignItems: 'center', display: 'flex', gap: 1, flexShrink: 0 }}>
+        <PageSizeSelect options={pageSizeOptions} pageSize={pageSize} />
+      </Box>
+      <AppPagination
+        onPageChange={(nextPage) => {
+          const href = hrefByPage[nextPage];
+          if (!href) return;
+          if (isEmbeddedInPlatform()) navigateToPlatform(href);
+          else router.push(href, { scroll: false });
+        }}
+        page={page}
+        pageSize={pageSize}
+        total={total}
+      />
+    </SharedTablePagination>
   );
 }

@@ -9,23 +9,24 @@ const slug = (text) =>
     .replaceAll(' ', '-');
 
 function inline(parent, text, path, openRule) {
-  const pattern = /\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*|`([^`]+)`/g;
+  const pattern = /\[((?:`[^`]*`|[^\]])+)\]\((<[^>]+>|[^)]+)\)|\*\*([^*]+)\*\*|`([^`]+)`/g;
   let offset = 0;
   for (const match of text.matchAll(pattern)) {
     parent.append(document.createTextNode(text.slice(offset, match.index)));
     const node = document.createElement(match[1] ? 'a' : match[3] ? 'strong' : 'code');
     node.textContent = match[1] ?? match[3] ?? match[4];
     if (match[1]) {
-      node.href = match[2];
-      if (/^https?:\/\//.test(match[2])) {
+      const target = match[2].replace(/^<|>$/g, '');
+      node.href = target;
+      if (/^https?:\/\//.test(target)) {
         node.target = '_blank';
         node.rel = 'noopener noreferrer';
       } else {
-        const link = resolveSourceLink(match[2], path);
+        const link = resolveSourceLink(target, path);
         if (link.path.endsWith('.md')) node.href = pageUrl(canonicalPath(link.path), link.anchor);
         node.addEventListener('click', (event) => {
           event.preventDefault();
-          openRule(match[2], path);
+          openRule(target, path);
         });
       }
     }

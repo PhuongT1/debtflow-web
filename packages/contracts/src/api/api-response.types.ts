@@ -14,6 +14,12 @@ export interface PaginatedResult<T> {
   pageSize: number;
 }
 
+/** Normalized collection retaining the API pagination metadata as a group. */
+export interface PaginatedResponse<T> {
+  items: T[];
+  meta: PaginationMeta;
+}
+
 export interface ApiResponseEnvelope<T> {
   success: true;
   statusCode: number;

@@ -10,7 +10,7 @@ import {
   MenuItem,
   TextField,
 } from '@mui/material';
-import { AppDialog } from '@/components/ui/app-dialog';
+import { AppDialog } from '@/components/ui/dialog/dialog';
 import { Button } from '@/components/ui/button';
 import { updateParty } from '@/services/party.client';
 

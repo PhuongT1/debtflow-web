@@ -35,6 +35,11 @@ These are reusable defaults, not permission to migrate established code. The pro
 - Keep internal implementation imports direct. An index must not re-export private helpers, framework route files, or every file in a directory. Avoid `export *` in public indexes unless the exports are a deliberately versioned contract.
 - Before adding an index, check for circular dependencies. Public indexes must not be imported by modules that they re-export.
 
+## Domain values and navigation
+
+- Repeated business statuses, modes and discriminators use the owning domain's existing typed constants/enums. Keep wire values compatible; do not introduce a new enum for every incidental string or duplicate a generated/public contract.
+- Reused domain route paths and parameter construction have one named owner. Components import route builders; router execution remains with the app. Preserve URL encoding, supported filters, pagination reset and host/embedded navigation.
+
 ## Types and boundary data
 
 - Do not use `any`. Prefer `unknown` for untrusted or genuinely unknown values, then narrow it with a type guard, schema, or explicit validation.
@@ -42,7 +47,7 @@ These are reusable defaults, not permission to migrate established code. The pro
 - Use `interface` for named, object-shaped public models intended to be extended or implemented.
 - Use `type` for unions, intersections, mapped/conditional types, tuples, primitives, and type composition.
 - Use `import type` for type-only imports.
-- Define public API/event/contract types at the package boundary, not inline inside a consuming component.
+- Define public API/event/contract types at the owning boundary, not inline inside a consuming component. Prefer generated/shared contracts when available. Separate query/path parameters, request bodies, responses and schema-inferred form values with meaningful names. Reuse `Pick`, `Omit`, indexed access and `Partial` where the underlying contract is identical; do not duplicate fields or derive writable payloads from an entire response (server IDs, relations, aggregates and nullability differ). `Partial` is appropriate for PATCH only when the endpoint supports it. Map form values to the request explicitly when representations differ.
 - Avoid type assertions (`as`) at trust boundaries. Validate first; assertions are acceptable only when TypeScript cannot infer a fact already guaranteed by local code.
 
 ## Functions and components
