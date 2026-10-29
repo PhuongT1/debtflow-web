@@ -81,6 +81,7 @@ export function WebComponentHost({
   expectedVersion,
   manifestPath,
   remoteOrigin,
+  loadingFallback,
 }: WebComponentHostProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [attempt, setAttempt] = useState(0);
@@ -167,7 +168,7 @@ export function WebComponentHost({
   return (
     <Box sx={{ minHeight: 0, width: '100%' }}>
       {state.status === 'loading' ? (
-        <RemoteLoadingState kind="form" />
+        <RemoteLoadingState>{loadingFallback}</RemoteLoadingState>
       ) : null}
       {state.status === 'error' ? (
         <RemoteErrorState message={state.message} retry={() => setAttempt((value) => value + 1)} />

@@ -45,83 +45,7 @@ function SkeletonRows({ count = 8 }: { count?: number }) {
   );
 }
 
-export function TablePageSkeleton() {
-  return (
-    <Box
-      aria-busy="true"
-      aria-label="Đang tải dữ liệu"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 1.5,
-        height: { md: '100%' },
-        minHeight: 0,
-      }}
-    >
-      <PageHeadingSkeleton />
-      <Paper
-        elevation={0}
-        sx={{
-          border: '1px solid',
-          borderColor: 'divider',
-          borderRadius: '8px',
-          display: 'flex',
-          flex: 1,
-          flexDirection: 'column',
-          minHeight: 0,
-          overflow: 'hidden',
-        }}
-      >
-        <Box
-          sx={{
-            display: 'grid',
-            gap: 1.5,
-            gridTemplateColumns: { xs: '1fr', md: '2fr repeat(4, minmax(120px, 1fr))' },
-            p: 1.5,
-          }}
-        >
-          {Array.from({ length: 5 }, (_, index) => (
-            <AppSkeleton height={40} key={index} />
-          ))}
-        </Box>
-        <Box
-          sx={{
-            bgcolor: 'action.hover',
-            borderTop: '1px solid',
-            borderColor: 'divider',
-            display: 'grid',
-            gap: 2,
-            gridTemplateColumns: '1fr 1.7fr 1fr 1fr 1.2fr',
-            px: 2,
-            py: 1.5,
-          }}
-        >
-          {Array.from({ length: 5 }, (_, index) => (
-            <AppSkeleton height={13} key={index} width="55%" />
-          ))}
-        </Box>
-        <Box sx={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
-          <SkeletonRows />
-        </Box>
-        <Box
-          sx={{
-            alignItems: 'center',
-            bgcolor: 'background.default',
-            borderTop: '1px solid',
-            borderColor: 'divider',
-            display: 'flex',
-            justifyContent: 'space-between',
-            px: 2,
-            py: 1.25,
-          }}
-        >
-          <AppSkeleton height={16} width={150} />
-          <AppSkeleton height={32} width={210} />
-        </Box>
-      </Paper>
-    </Box>
-  );
-}
+export { TablePageSkeleton } from './table-page-skeleton';
 
 export function DashboardPageSkeleton() {
   return (
@@ -171,9 +95,9 @@ export function DetailPageSkeleton() {
   );
 }
 
-export function FormPageSkeleton() {
+export function FormPageSkeleton({ label = 'Đang tải biểu mẫu' }: { label?: string } = {}) {
   return (
-    <Box aria-busy="true" aria-label="Đang tải biểu mẫu" sx={{ display: 'grid', gap: 2 }}>
+    <Box aria-busy="true" aria-label={label} sx={{ display: 'grid', gap: 2 }}>
       <PageHeadingSkeleton />
       <Box
         sx={{ display: 'grid', gap: 2, gridTemplateColumns: { xs: '1fr', xl: 'repeat(2, 1fr)' } }}

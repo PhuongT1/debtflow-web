@@ -24,6 +24,8 @@ export class PaymentHistoryComponent {
   private readonly destroyRef = inject(DestroyRef);
   protected readonly locale = signal<AppLocale>(getStoredLocale());
   protected readonly loading = signal(true);
+  protected readonly skeletonRows = Array.from({ length: 8 }, (_, index) => index);
+  protected readonly skeletonColumns = Array.from({ length: 7 }, (_, index) => index);
   protected readonly error = signal('');
   protected readonly partyId = signal<string | undefined>(undefined);
   protected readonly result = signal<PaginatedResult<PaymentRecord>>({

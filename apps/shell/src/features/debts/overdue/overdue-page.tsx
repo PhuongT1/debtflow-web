@@ -1,3 +1,4 @@
+import { applyTableLayout } from '@/components/tables/page-layouts';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { ConfirmActionButton } from '@/components/ui/dialog/confirm-action-button';
@@ -87,7 +88,8 @@ export async function OverduePage({
       />
 
       <DataTable
-        columns={columns}
+        columns={applyTableLayout(columns, 'overdue')}
+        tableSx={{ tableLayout: 'fixed' }}
         emptyMessage="Không có nợ quá hạn"
         fillHeight
         hrefForPage={(page) => hrefWithPage('/overdue', filters, page)}

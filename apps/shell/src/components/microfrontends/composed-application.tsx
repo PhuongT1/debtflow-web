@@ -7,6 +7,7 @@ import { ListPageSkeleton } from '@packages/ui-react';
 import type { ComposedApplicationProps } from './microfrontends.types';
 export type { SearchValues } from './microfrontends.types';
 import { IframeHost } from './iframe-host';
+import { TablePageSkeleton } from '@/components/skeletons/page-skeleton';
 import { WebComponentHost } from './web-component-host';
 
 export function ComposedApplication({
@@ -24,6 +25,7 @@ export function ComposedApplication({
         appName={application.name}
         expectedElement={composition.elementName}
         expectedVersion={application.version}
+        loadingFallback={<TablePageSkeleton kind="payments" />}
         manifestPath={composition.entryPath}
         remoteOrigin={remoteOrigin}
       />

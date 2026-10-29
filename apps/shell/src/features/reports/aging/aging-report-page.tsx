@@ -1,3 +1,4 @@
+import { applyTableLayout } from '@/components/tables/page-layouts';
 import Link from 'next/link';
 import { StatCard } from '@/components/ui/page/card';
 import { ConfirmActionButton } from '@/components/ui/dialog/confirm-action-button';
@@ -103,7 +104,8 @@ export async function AgingReportPage({
 
       <DataTable
         title="Chi tiết công nợ phải thu"
-        columns={columns}
+        columns={applyTableLayout(columns, 'aging')}
+        tableSx={{ tableLayout: 'fixed' }}
         emptyMessage="Không có công nợ phải thu chưa tất toán"
         fillHeight
         hrefForPage={(page) => hrefWithPage('/reports/aging', filters, page)}

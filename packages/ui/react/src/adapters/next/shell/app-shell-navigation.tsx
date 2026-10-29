@@ -19,7 +19,7 @@ export function AppShellNavigation({
   return (
     <Box
       sx={{
-        bgcolor: 'background.paper',
+        bgcolor: designTokens.color.navigation,
         height: '100%',
         overflowY: 'auto',
         p: collapsed ? 1 : 1.5,
