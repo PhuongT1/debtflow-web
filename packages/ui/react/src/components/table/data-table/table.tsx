@@ -19,8 +19,8 @@ export function DataTable<Row>({
         display: 'flex',
         flexDirection: 'column',
         gap: 2.5,
-        flex: fillHeight ? { xs: '0 0 auto', md: '1 1 0' } : undefined,
-        minHeight: fillHeight ? { md: 0 } : undefined,
+        flex: fillHeight ? '1 1 0' : undefined,
+        minHeight: fillHeight ? 0 : undefined,
         minWidth: 0,
       }}
     >
