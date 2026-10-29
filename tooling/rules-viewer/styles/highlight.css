@@ -80,3 +80,18 @@
   --callout-color: #b12b40;
   --callout-bg: #fff1f3;
 }
+
+/* Shell commands and flags use distinct colors on the same readable light surface. */
+.syntax-command {
+  color: #a33a12;
+}
+.syntax-flag {
+  color: #185ac2;
+}
+.syntax-variable {
+  color: #7636a5;
+}
+#details .code-terminal pre {
+  background: #fff;
+  font-size: 13px;
+}

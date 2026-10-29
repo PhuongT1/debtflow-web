@@ -25,8 +25,10 @@
   color: #273449;
 }
 #details a {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
   text-underline-offset: 4px;
-  text-decoration-color: #abb59b;
+  text-decoration-color: currentColor;
   color: var(--link);
 }
 #details a:hover {
@@ -112,4 +114,23 @@ h3[id] {
 .table-scroll {
   max-width: 100%;
   overflow-x: auto;
+}
+
+#details .guide-step {
+  border-top: 1px solid var(--line);
+  padding-top: 28px;
+}
+#details .guide-step::before {
+  content: attr(data-step);
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  margin-right: 12px;
+  border: 1px solid #c9d9f3;
+  border-radius: 50%;
+  background: #eef5ff;
+  color: #225cb6;
+  font-size: 15px;
+  vertical-align: middle;
 }

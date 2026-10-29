@@ -162,6 +162,10 @@ export function renderDocument(
       node.id = number ? `${base}-${number}` : base;
     }
     if (/^\*\*(Activate|Scope|Read when|Use for)/.test(line)) node.classList.add('rule-lead');
+    if (heading && /^Step \d+: /.test(heading[2])) {
+      node.classList.add('guide-step');
+      node.dataset.step = heading[2].match(/^Step (\d+):/)[1];
+    }
     inline(node, heading?.[2] ?? line, path, openRule);
     container.append(node);
   }
