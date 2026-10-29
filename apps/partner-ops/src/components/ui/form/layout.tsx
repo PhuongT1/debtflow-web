@@ -8,17 +8,19 @@ export function FormGrid({
   columns?: 1 | 2 | 3;
 }) {
   return (
-    <Box
-      sx={{
-        display: 'grid',
-        gap: 2,
-        gridTemplateColumns: {
-          xs: '1fr',
-          md: columns === 1 ? '1fr' : `repeat(${columns}, minmax(0, 1fr))`,
-        },
-      }}
-    >
-      {children}
+    <Box sx={{ containerType: 'inline-size', width: '100%' }}>
+      <Box
+        sx={{
+          display: 'grid',
+          gap: 2,
+          gridTemplateColumns: '1fr',
+          '@container (min-width: 600px)': {
+            gridTemplateColumns: columns === 1 ? '1fr' : `repeat(${columns}, minmax(0, 1fr))`,
+          },
+        }}
+      >
+        {children}
+      </Box>
     </Box>
   );
 }

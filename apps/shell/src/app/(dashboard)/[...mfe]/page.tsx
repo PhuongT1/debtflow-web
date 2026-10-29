@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { microfrontendManifest } from '@debtflow/mfe-registry';
+import { microfrontendManifest } from '@packages/platform-registry';
 import {
   ComposedApplication,
   type SearchValues,

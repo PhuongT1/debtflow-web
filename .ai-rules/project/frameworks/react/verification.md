@@ -6,7 +6,7 @@
 | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | Shell React source                                         | `npm run typecheck:shell` and `npm run lint:shell`                                                |
 | Partner Ops React source                                   | `npm run typecheck:partner-ops` and `npm run lint:partner-ops`                                    |
-| Shared React source                                        | `npm run typecheck -w @debtflow/react-ui`, `npm run lint:packages`, and affected app checks       |
+| Shared React source                                        | `npm run typecheck -w @packages/ui-react`, `npm run lint:packages`, and affected app checks       |
 | Package boundary/export/dependency changes                 | `npm run check:architecture` and relevant package/consumer checks                                 |
 | Routing, layouts/composition, provider, Next configuration | Owning app's `npm run build:shell` / `npm run build:partner-ops` in addition to targeted checks   |
 | Documentation-only rules                                   | Targeted Prettier check, Markdown link/path checks, and conflict review against existing policies |

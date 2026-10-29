@@ -7,12 +7,14 @@ debtflow-web/
     partner-ops/    Next.js parties domain, port 3001
     payments/       Angular payments app, port 3002
   packages/
-    contracts/      Shared contract definitions
-    design-tokens/  Shared visual tokens
-    navigation/     Navigation definitions
-    mfe-registry/   App/route manifest and registry
-    platform-sdk/   Neutral integration helpers
-    react-ui/       Shared React presentation
+    platform/       Framework-neutral platform capabilities
+      contracts/    Shared types, constants and validators
+      navigation/   Project routes and menu data
+      registry/     Manifest and per-app registrations
+      sdk/          Cross-window/browser integration
+    ui/
+      react/        React/MUI UI; Next adapters at adapters/next
+      tokens/       Framework-neutral TypeScript/CSS visual values
   tooling/          Workspace tooling and documentation viewer
   .ai-rules/        Canonical technical and agent rules
   docs/             Onboarding, architecture, human AI guide

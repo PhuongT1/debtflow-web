@@ -1,5 +1,6 @@
 'use client';
 
+import { designTokens } from '@packages/ui-tokens';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Alert, Box, IconButton, InputAdornment, Typography } from '@mui/material';
 import { signIn } from 'next-auth/react';
@@ -87,8 +88,8 @@ export function LoginForm({
           bgcolor: 'background.paper',
           border: '1px solid',
           borderColor: 'divider',
-          borderRadius: '12px',
-          boxShadow: 12,
+          borderRadius: `${designTokens.radius.lg}px`,
+          boxShadow: designTokens.shadow.dialog,
           display: 'grid',
           gridTemplateColumns: { xs: '1fr', md: 'minmax(340px, 0.9fr) minmax(420px, 1.1fr)' },
           maxWidth: 980,
@@ -108,7 +109,7 @@ export function LoginForm({
                 color: 'primary.contrastText',
                 display: 'grid',
                 fontSize: 13,
-                fontWeight: 850,
+                fontWeight: 700,
                 height: 38,
                 placeItems: 'center',
                 width: 38,
@@ -116,9 +117,9 @@ export function LoginForm({
             >
               DF
             </Box>
-            <Typography sx={{ fontSize: 17, fontWeight: 850 }}>Debt Flow</Typography>
+            <Typography sx={{ fontSize: 17, fontWeight: 700 }}>Debt Flow</Typography>
           </Box>
-          <Typography component="h1" sx={{ fontSize: { xs: 26, sm: 30 }, fontWeight: 850 }}>
+          <Typography component="h1" sx={{ fontSize: { xs: 26, sm: 30 }, fontWeight: 700 }}>
             {t('welcome')}
           </Typography>
           <Typography color="text.secondary" sx={{ mt: 1 }}>

@@ -2,7 +2,7 @@
 
 **Activate:** contracts changes in Debtflow; load only this selected local extension.
 
-Local references: [Parties screen](../../../../../apps/partner-ops/src/features/parties/list/party-list.tsx), [domain table](../../../../../apps/shell/src/features/debts/partner-summary/documents/table.tsx), [shared dialog](../../../../../packages/react-ui/src/components/auth/sign-out-dialog.tsx), [auth composition](../../../../../apps/shell/src/features/auth/authenticated-shell.tsx). Reuse the stated responsibility, not every historical detail of the file.
+Local references: [Parties screen](../../../../../apps/partner-ops/src/features/parties/list/party-list.tsx), [domain table](../../../../../apps/shell/src/features/debts/partner-summary/documents/table.tsx), [shared dialog](../../../../../packages/ui/react/src/components/auth/sign-out-dialog.tsx), [auth composition](../../../../../apps/shell/src/features/auth/authenticated-shell.tsx). Reuse the stated responsibility, not every historical detail of the file.
 
 ## Partner Ops table adapter
 

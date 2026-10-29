@@ -5,7 +5,7 @@ import path from 'node:path';
 const root = process.cwd();
 const readJson = async (file) => JSON.parse(await readFile(file, 'utf8'));
 const schemaPath = path.join(root, 'platform/manifests/schema.json');
-const manifestPath = path.join(root, 'packages/mfe-registry/src/manifest.json');
+const manifestPath = path.join(root, 'packages/platform/registry/src/manifest.json');
 const [schema, manifest] = await Promise.all([readJson(schemaPath), readJson(manifestPath)]);
 
 const validate = new Ajv({
@@ -36,10 +36,10 @@ for (const directory of appDirectories) {
 }
 
 const contractsVersion = Number(
-  (await readJson(path.join(root, 'packages/contracts/package.json'))).version.split('.')[0],
+  (await readJson(path.join(root, 'packages/platform/contracts/package.json'))).version.split('.')[0],
 );
 const eventsVersion = Number(
-  (await readJson(path.join(root, 'packages/platform-sdk/package.json'))).version.split('.')[0],
+  (await readJson(path.join(root, 'packages/platform/sdk/package.json'))).version.split('.')[0],
 );
 
 const errors = [];

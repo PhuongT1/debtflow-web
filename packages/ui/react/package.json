@@ -1,0 +1,51 @@
+{
+  "name": "@packages/ui-react",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./adapters/next": "./src/adapters/next/index.ts",
+    "./core": "./src/core.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^9.1.1",
+    "@mui/x-date-pickers": "^9.6.0",
+    "@tanstack/react-query": "^5.101.0",
+    "dayjs": "^1.11.21",
+    "next": "^15.3.4",
+    "react": "^19.1.0"
+  },
+  "dependencies": {
+    "@packages/platform-contracts": "*",
+    "@packages/ui-tokens": "*",
+    "@packages/platform-navigation": "*",
+    "@packages/platform-sdk": "*",
+    "@tanstack/react-query-devtools": "^5.102.8"
+  },
+  "devDependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^9.1.1",
+    "@mui/x-date-pickers": "^9.6.0",
+    "@tanstack/react-query": "^5.101.0",
+    "@types/react": "^19.1.8",
+    "dayjs": "^1.11.21",
+    "next": "^15.3.4",
+    "react": "^19.1.0",
+    "typescript": "^5.8.3"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    }
+  },
+  "sideEffects": [
+    "**/*.css"
+  ]
+}

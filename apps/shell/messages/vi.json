@@ -1,4 +1,8 @@
 {
+  "Overlay": {
+    "opening": "Đang mở hộp thoại…",
+    "close": "Đóng"
+  },
   "SignOut": {
     "title": "Đăng xuất",
     "confirmation": "Bạn có chắc chắn muốn đăng xuất không?",
@@ -200,7 +204,9 @@
     "dueDateFrom": "Hạn từ ngày",
     "dueDateTo": "Hạn đến ngày",
     "paginationSummary": "Hiển thị {from}-{to} / {total} khoản",
-    "rowsPerPage": "Số dòng",
     "pageOf": "Trang {page}/{totalPages}"
+  },
+  "PageState": {
+    "loading": "Đang tải trang"
   }
 }

@@ -10,11 +10,12 @@ const nextConfig: NextConfig = {
   assetPrefix: partnerOpsEnv.PARTNER_OPS_ASSET_PREFIX,
   outputFileTracingRoot: path.join(__dirname, '../..'),
   transpilePackages: [
-    '@debtflow/contracts',
-    '@debtflow/design-tokens',
-    '@debtflow/navigation',
-    '@debtflow/platform-sdk',
-    '@debtflow/react-ui',
+    '@packages/platform-contracts',
+    '@packages/platform-registry',
+    '@packages/ui-tokens',
+    '@packages/platform-navigation',
+    '@packages/platform-sdk',
+    '@packages/ui-react',
   ],
   async rewrites() {
     return [

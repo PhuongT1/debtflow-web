@@ -1,4 +1,4 @@
-import type { PaginatedResponse, PaginationMeta } from '@debtflow/contracts';
+import type { PaginatedResponse, PaginationMeta } from '@packages/platform-contracts';
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object';

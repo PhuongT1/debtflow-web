@@ -10,10 +10,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@debtflow/contracts": "*",
-    "@debtflow/mfe-registry": "*",
-    "@debtflow/platform-sdk": "*",
-    "@debtflow/react-ui": "*",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
@@ -21,6 +17,11 @@
     "@mui/material": "^9.1.1",
     "@mui/material-nextjs": "^9.3.0",
     "@mui/x-date-pickers": "^9.6.0",
+    "@packages/platform-contracts": "*",
+    "@packages/platform-registry": "*",
+    "@packages/platform-sdk": "*",
+    "@packages/ui-react": "*",
+    "@packages/ui-tokens": "^1.0.0",
     "@tanstack/react-query": "^5.101.0",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.21",

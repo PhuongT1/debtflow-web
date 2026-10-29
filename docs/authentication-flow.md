@@ -9,14 +9,14 @@ This document details the centralized authentication architecture, security mode
 Every standalone app (Shell on 3000, Partner Ops on 3001, and Payments on 3002)
 opens a translated confirmation dialog from its account menu. Cancel and Escape
 leave the session and URL unchanged. Confirmation calls `signOutFromPlatform`
-from `@debtflow/platform-sdk`, using same-origin `/api/auth/csrf` and
+from `@packages/platform-sdk`, using same-origin `/api/auth/csrf` and
 `/api/auth/signout` endpoints through the existing remote API proxies. The helper
 validates CSRF/HTTP responses before redirecting to Platform `/login?callbackUrl=...`,
 where `callbackUrl` preserves the originating app's full URL (origin, path, query,
 and fragment). Login validates that destination against the origin allowlist and
 returns to it after authentication. Older `returnTo` links are also accepted. Failures
 remain in the dialog with a retry action. Never navigate to `/api/auth/signout`
-from an account menu. React hosts share `SignOutDialog` from `@debtflow/react-ui`;
+from an account menu. React hosts share `SignOutDialog` from `@packages/ui-react`;
 the Angular standalone host uses a native modal dialog with the same behavior.
 Embedded remotes continue to use the Shell's account controls.
 

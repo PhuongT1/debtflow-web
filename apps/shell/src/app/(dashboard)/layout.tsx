@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { AuthenticatedShell } from '@/features/auth';
-import { type AppLocale, DEFAULT_LOCALE, LOCALE_COOKIE_NAME } from '@debtflow/contracts';
+import { type AppLocale, DEFAULT_LOCALE, LOCALE_COOKIE_NAME } from '@packages/platform-contracts';
 import { auth } from '@/lib/auth/session';
 import { getRequestedLoginUrl } from '@/lib/auth/login-navigation';
 

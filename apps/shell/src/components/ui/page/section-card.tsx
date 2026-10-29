@@ -14,7 +14,7 @@ export function SectionCard({
   contentSx?: SxProps<Theme>;
 }) {
   return (
-    <Card elevation={0} sx={{ borderRadius: '8px', overflow: 'hidden' }}>
+    <Card elevation={0} sx={{ overflow: 'hidden' }}>
       {title || description || action ? (
         <Box
           sx={{

@@ -1,5 +1,5 @@
 import { headers } from 'next/headers';
-import type { CoreIdentity } from '@debtflow/contracts';
+import type { CoreIdentity } from '@packages/platform-contracts';
 import { partnerOpsEnv } from '@/lib/env';
 
 export async function getCoreIdentity(): Promise<CoreIdentity | null> {

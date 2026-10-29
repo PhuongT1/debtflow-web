@@ -1,80 +1,73 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import {
-  getStoredLocale,
-  isMfeRoutePath,
-  MFE_HOST_MESSAGE_VERSION,
-  MFE_ROUTE_SYNC_CAPABILITY,
-} from '@debtflow/contracts';
-import { subscribePlatformEvent } from '@debtflow/platform-sdk';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { MFE_ROUTE_SYNC_CAPABILITY } from '@packages/platform-contracts';
+import { getStoredLocale } from '@packages/platform-sdk';
+import { createRemoteClient, subscribePlatformEvent } from '@packages/platform-sdk';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Box } from '@mui/material';
+import { OverlayHost } from './overlay-host';
 import { RemoteErrorState, RemoteLoadingState, type RemoteHostState } from './remote-host-state';
 
-type IframeHostProps = {
-  appName: string;
-  src: string;
-  title: string;
-  publicPath: string;
-  entryPath: string;
-};
+import type { IframeHostProps } from './microfrontends.types';
 
-export function IframeHost({ appName, src, title, publicPath, entryPath }: IframeHostProps) {
+export function IframeHost({
+  appName,
+  src,
+  title,
+  publicPath,
+  entryPath,
+  loadingFallback,
+  overlayViews,
+}: IframeHostProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  // The iframe document is a runtime, not the navigation state. Route changes
-  // are messages; changing this src would destroy its cache and history.
+  // Preserve the iframe document and its cache while synchronizing routes through messages.
   const [initialSrc] = useState(src);
   const [routeSync, setRouteSync] = useState(false);
   const routeSyncRef = useRef(false);
   const documentSrc = routeSync ? initialSrc : src;
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  // Register host callbacks here while the SDK owns message validation and dispatch.
+  const remote = useMemo(
+    () =>
+      createRemoteClient({
+        source: appName,
+        getPeer: () => {
+          const target = iframeRef.current?.contentWindow;
+          return target
+            ? { target, origin: new URL(documentSrc, window.location.href).origin }
+            : null;
+        },
+      }),
+    [appName, documentSrc],
+  );
   const [attempt, setAttempt] = useState(0);
   const [state, setState] = useState<RemoteHostState>({ status: 'loading' });
 
   useEffect(() => {
     setState({ status: 'loading' });
+    const readinessProbe = window.setInterval(() => remote.requestReady(), 500);
     const timeout = window.setTimeout(() => {
+      window.clearInterval(readinessProbe);
       setState({
         status: 'error',
         message: 'Micro frontend did not report ready state in time.',
       });
     }, 10_000);
 
-    function onMessage(event: MessageEvent) {
-      if (
-        event.origin !== window.location.origin ||
-        event.source !== iframeRef.current?.contentWindow ||
-        event.data?.source !== appName ||
-        event.data?.version !== MFE_HOST_MESSAGE_VERSION
-      ) {
-        return;
-      }
-
-      if (event.data.type === 'debtflow:ready') {
+    const unsubscribeMessages = remote.listen({
+      onReady: ({ capabilities }) => {
         window.clearTimeout(timeout);
-        const supported =
-          Array.isArray(event.data.capabilities) &&
-          event.data.capabilities.includes(MFE_ROUTE_SYNC_CAPABILITY);
+        window.clearInterval(readinessProbe);
+        const supported = capabilities.includes(MFE_ROUTE_SYNC_CAPABILITY);
         routeSyncRef.current = supported;
         setRouteSync(supported);
-        iframeRef.current?.contentWindow?.postMessage(
-          {
-            source: 'platform',
-            version: MFE_HOST_MESSAGE_VERSION,
-            type: 'debtflow:locale-changed',
-            locale: getStoredLocale(),
-          },
-          window.location.origin,
-        );
+        remote.setLocale({ locale: getStoredLocale() });
         setState({ status: 'ready' });
-        return;
-      }
-
-      if (event.data.type === 'debtflow:navigate' && isMfeRoutePath(event.data.path)) {
-        const path = event.data.path;
+      },
+      onNavigate: ({ path }) => {
         const target = new URL(path, window.location.origin);
         if (target.origin !== window.location.origin) return;
         if (
@@ -83,51 +76,36 @@ export function IframeHost({ appName, src, title, publicPath, entryPath }: Ifram
         ) {
           const current = window.location.pathname + window.location.search + window.location.hash;
           if (path !== current) window.history.pushState(null, '', path);
-        } else {
-          router.push(path);
-        }
-      }
-    }
-
-    window.addEventListener('message', onMessage);
-    const unsubscribeLocale = subscribePlatformEvent('locale:changed', ({ locale }) => {
-      iframeRef.current?.contentWindow?.postMessage(
-        {
-          source: 'platform',
-          version: MFE_HOST_MESSAGE_VERSION,
-          type: 'debtflow:locale-changed',
-          locale,
-        },
-        window.location.origin,
-      );
+        } else router.push(path);
+      },
     });
+    // Recover a ready notification sent before the host listener was attached.
+    remote.requestReady();
+    const unsubscribeLocale = subscribePlatformEvent('locale:changed', ({ locale }) =>
+      remote.setLocale({ locale }),
+    );
 
     return () => {
       unsubscribeLocale();
       window.clearTimeout(timeout);
-      window.removeEventListener('message', onMessage);
+      window.clearInterval(readinessProbe);
+      unsubscribeMessages();
     };
-  }, [appName, attempt, router, publicPath, documentSrc]);
+  }, [attempt, router, publicPath, remote]);
 
   useEffect(() => {
     if (state.status !== 'ready' || !routeSync) return;
     const syncRoute = () => {
       const target = new URL(window.location.href);
       if (target.pathname !== publicPath && !target.pathname.startsWith(publicPath + '/')) return;
-      iframeRef.current?.contentWindow?.postMessage(
-        {
-          source: 'platform',
-          version: MFE_HOST_MESSAGE_VERSION,
-          type: 'debtflow:route-changed',
-          path: entryPath + target.pathname.slice(publicPath.length) + target.search + target.hash,
-        },
-        window.location.origin,
-      );
+      remote.setRoute({
+        path: entryPath + target.pathname.slice(publicPath.length) + target.search + target.hash,
+      });
     };
     syncRoute();
     window.addEventListener('popstate', syncRoute);
     return () => window.removeEventListener('popstate', syncRoute);
-  }, [entryPath, publicPath, pathname, searchParams, state.status, routeSync]);
+  }, [entryPath, publicPath, pathname, searchParams, state.status, routeSync, remote]);
 
   return (
     <Box
@@ -137,19 +115,24 @@ export function IframeHost({ appName, src, title, publicPath, entryPath }: Ifram
         width: '100%',
       }}
     >
-      {state.status === 'loading' ? <RemoteLoadingState label="Đang tải micro frontend…" /> : null}
+      {state.status === 'loading' ? (
+        <RemoteLoadingState>{loadingFallback}</RemoteLoadingState>
+      ) : null}
       {state.status === 'error' ? (
         <RemoteErrorState message={state.message} retry={() => setAttempt((value) => value + 1)} />
       ) : null}
+      {/* A retry creates a new iframe window, so its overlay session must rebind too. */}
+      <OverlayHost key={`overlay-${attempt}`} owner={iframeRef} views={overlayViews} />
       <Box
         component="iframe"
-        key={attempt}
+        key={`remote-${attempt}`}
         onError={() =>
           setState({
             status: 'error',
             message: 'Không thể tải micro frontend.',
           })
         }
+        onLoad={() => remote.requestReady()}
         ref={iframeRef}
         src={documentSrc}
         title={title}

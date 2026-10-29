@@ -1,5 +1,6 @@
 // Bookmark compatibility only: one canonical source and index entry per document.
 export const documentAliases = {
+  'docs/architecture/overlays.md': 'docs/architecture/overlays/README.md',
   '.ai-rules/frameworks/react/structure.md': '.ai-rules/core/frameworks/react/structure/README.md',
   '.ai-rules/frameworks/react/forms.md': '.ai-rules/core/frameworks/react/forms/README.md',
   '.ai-rules/frameworks/react/state-and-hooks.md':

@@ -19,4 +19,4 @@ For URL changes, start from the current `URL`/`URLSearchParams`; update only the
 
 Translate at the owner: a feature may call `useTranslations`; shared presentation receives labels or an established explicit locale contract. Do not pass a generic app translation function into a package that should remain independent of that catalog. Existing feature-local translation functions are not cross-app contracts.
 
-Local references: [login builder](../../../../packages/platform-sdk/src/navigation/login-url.ts), [logout integration](../../../../packages/platform-sdk/src/auth/sign-out.ts), [return validator](../../../../apps/shell/src/lib/auth/login-navigation.ts), [Shell composition](../../../../apps/shell/src/features/auth/authenticated-shell.tsx).
+Local references: [login builder](../../../../packages/platform/sdk/src/navigation/login-url.ts), [logout integration](../../../../packages/platform/sdk/src/auth/sign-out.ts), [return validator](../../../../apps/shell/src/lib/auth/login-navigation.ts), [Shell composition](../../../../apps/shell/src/features/auth/authenticated-shell.tsx).

@@ -67,6 +67,8 @@
     "money": "{amount} VND"
   },
   "Filters": {
+    "show": "Show filters",
+    "hide": "Hide filters",
     "apply": "Filter",
     "clear": "Clear"
   },
@@ -149,6 +151,12 @@
     }
   },
   "Common": {
+    "discardTitle": "Discard changes?",
+    "discardDescription": "Your unsaved changes will be lost.",
+    "keepEditing": "Keep editing",
+    "discard": "Discard",
+
+    "overlayUnavailable": "Unable to open this dialog. Please try again.",
     "close": "Close",
     "help": "Help",
     "closeHelp": "Close help",

@@ -11,7 +11,7 @@ import {
 import { useLocale, useTranslations } from 'next-intl';
 import { AppDialog } from '@/components/ui/dialog/dialog';
 import { AppIcon } from '@/components/ui/app-icon';
-import { TableLayout } from '@debtflow/react-ui';
+import { TableLayout } from '@packages/ui-react';
 import { Button } from '@/components/ui/button';
 import { FormDialog } from '@/components/ui/dialog/form-dialog';
 import { DebtForm } from '@/features/debts/forms/debt/debt-form';

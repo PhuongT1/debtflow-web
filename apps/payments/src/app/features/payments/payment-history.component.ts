@@ -7,13 +7,9 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  getStoredLocale,
-  type AppLocale,
-  type PaginatedResult,
-  type PaymentRecord,
-} from '@debtflow/contracts';
-import { subscribePlatformEvent } from '@debtflow/platform-sdk';
+import { type AppLocale, type PaginatedResult, type PaymentRecord } from '@packages/platform-contracts';
+import { getStoredLocale } from '@packages/platform-sdk';
+import { subscribePlatformEvent } from '@packages/platform-sdk';
 import { PaymentApiService } from './payment-api.service';
 import { paymentMessage, type PaymentMessageKey } from '@core/i18n/payment-messages';
 
@@ -28,6 +24,8 @@ export class PaymentHistoryComponent {
   private readonly destroyRef = inject(DestroyRef);
   protected readonly locale = signal<AppLocale>(getStoredLocale());
   protected readonly loading = signal(true);
+  protected readonly skeletonRows = Array.from({ length: 8 }, (_, index) => index);
+  protected readonly skeletonColumns = Array.from({ length: 7 }, (_, index) => index);
   protected readonly error = signal('');
   protected readonly partyId = signal<string | undefined>(undefined);
   protected readonly result = signal<PaginatedResult<PaymentRecord>>({
@@ -97,8 +95,7 @@ export class PaymentHistoryComponent {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => this.load(this.result().page, this.result().pageSize),
-        error: () =>
-          this.error.set(this.t('history.deleteError')),
+        error: () => this.error.set(this.t('history.deleteError')),
       });
   }
 

@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import type { AppLocale, CoreIdentity } from '@debtflow/contracts';
+import type { AppLocale, CoreIdentity } from '@packages/platform-contracts';
 import { useLocale, useTranslations } from 'next-intl';
-import { signOutFromPlatform, setStoredLocale } from '@debtflow/platform-sdk';
-import { SignOutDialog } from '@debtflow/react-ui';
-import { navigationItems } from '@debtflow/navigation';
-import { designTokens } from '@debtflow/design-tokens';
+import { signOutFromPlatform, setStoredLocale } from '@packages/platform-sdk';
+import { SignOutDialog } from '@packages/ui-react';
+import { navigationItems } from '@packages/platform-navigation';
+import { designTokens } from '@packages/ui-tokens';
 import {
   Avatar,
   Box,
@@ -104,7 +104,7 @@ export function StandaloneWorkspaceHeader({
             <Avatar
               sx={{
                 bgcolor: 'primary.light',
-                color: 'primary.dark',
+                color: designTokens.color.primaryText,
                 fontSize: 13,
                 fontWeight: 800,
                 height: 32,
@@ -143,7 +143,7 @@ export function StandaloneWorkspaceHeader({
               <Typography color="text.secondary" noWrap sx={{ fontSize: 12 }}>
                 {identity.email}
               </Typography>
-              <Typography color="primary.main" sx={{ fontSize: 10.5, fontWeight: 800, mt: 0.75 }}>
+              <Typography color={designTokens.color.primaryText} sx={{ fontSize: 10.5, fontWeight: 800, mt: 0.75 }}>
                 {identity.role}
               </Typography>
             </Box>

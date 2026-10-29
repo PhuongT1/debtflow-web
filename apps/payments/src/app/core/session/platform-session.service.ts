@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import type { AuthUser } from '@debtflow/contracts';
+import type { AuthUser } from '@packages/platform-contracts';
 import { catchError, map, of } from 'rxjs';
 import { environment } from '@env/environment';
 

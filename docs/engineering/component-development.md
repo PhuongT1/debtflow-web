@@ -68,6 +68,31 @@ Use the owning feature for business components and a capability family for gener
 
 Within a named group, `fields.tsx`, `schema.ts` or `content.tsx` is clearer than repeating the whole path in the filename. Exports still describe the responsibility, such as `DebtFormFields` or `DataTableContent`. Keep route files thin and preserve public exports when reorganizing. See the [complete component structure audit](component-structure-audit.md) for the reviewed files, ownership and explicit exceptions.
 
+## Build consistent controls and theme layers
+
+Use shared controls before adding feature-specific alternatives. The [Debtflow UI conventions](../../.ai-rules/project/frameworks/react/ui-and-accessibility.md#shared-ui-conventions) map public components to their theme/token owners and local sizes. The [UI package guide](../../packages/ui/react/README.md) shows their usage.
+
+| Review point | What to check | Canonical requirement |
+| --- | --- | --- |
+| Theme and icons | Semantic surface/text/border/shadow roles, readable light/dark states and one icon family; no scattered color overrides | [Theme layers and control states](../../.ai-rules/core/frameworks/react/ui-and-accessibility/styling.md#theme-layers-and-control-states) |
+| Reusable controls | Supported props, refs, slots and caller overrides survive wrappers | [Wrappers](../../.ai-rules/core/frameworks/react/ui-and-accessibility/wrappers.md) |
+| Table size | Shared named density, matching skeleton/header padding, no accidental cell margins or clipped long content | [Table density](../../.ai-rules/core/frameworks/react/ui-and-accessibility/styling.md#table-density) |
+| Open-state behavior | Anchored Select/picker does not tint the page; modal backdrop, focus and dismissal behave correctly | [React verification](../../.ai-rules/core/frameworks/react/verification.md) |
+
+These extend existing styling/wrapper/verification rules; they are not separate per-component policies. Check the affected states in the browser, including relevant standalone/embedded and light/dark modes.
+
+## Verify a skeleton against the real screen
+
+Capture loading and loaded states in Playwright at the same viewport, language and navigation state. Compare the screenshots and measure header/actions, filter rows, table position/columns, row height and footer. Responsive placeholders for embedded pages must follow the embedded width, including when it differs from the outer Shell breakpoint. Reuse a shared layout specification; displaying any skeleton is insufficient.
+
+Parties and its Shell placeholder consume [composition presentation metadata](../../packages/platform/registry/src/registrations/partner-ops/loading-layout.ts) and the neutral [ListPageSkeleton](../../packages/ui/react/src/components/table/data-table/page-skeleton.tsx). [The live layout check](../../tooling/e2e/party-skeleton-layout.mjs) compares corresponding bounds with a 1px tolerance and optionally saves both screenshots.
+
+Shell list routes use [table presentation metadata](../../apps/shell/src/components/tables/page-layouts.ts) and the [shared page skeleton](../../apps/shell/src/components/skeletons/table-page-skeleton.tsx). Overdue, Aging and Users apply the same column geometry to their loaded tables. Aging also preserves its metric-card grid. Payments keeps its Angular table/header/footer mounted while rows load; it consumes the generated neutral density tokens rather than React components. The [browser comparison](../../tooling/e2e/shell-table-skeletons.mjs) checks loading/ready column widths, table position and footer bounds.
+
+## Check an empty table
+
+An empty/no-match message belongs in the center of the visible table body, including horizontally scrollable tables with fixed columns. The shared renderer handles this automatically; do not add per-page fixed-column toggles or hardcoded offsets. Verify left/middle/right scroll positions, mobile, and the return to data. The default empty-inbox icon is decorative; `emptyIcon` remains an override. See [shared table presentation](../../packages/ui/react/README.md#empty-table-states) and the [live empty-state check](../../tooling/e2e/table-empty-state.mjs).
+
 ## Before opening a pull request
 
 - [ ] The owner, comparable implementation and reuse/placement decision are clear.
@@ -89,3 +114,5 @@ Use the team's [Contributing](contributing.md) agreement and [Git Workflow](git-
 | Concrete Parties implementation/source map     | [Parties Feature](../architecture/parties-feature.md)     |
 
 When a canonical requirement changes, update its summary/link here in the same change if affected. Do not paste its full policy body into this page. The viewer reads this Markdown directly and shows its exact source path; there is no separate website copy. AI agents still load the selected workflow and relevant rule modules, not this entire human checklist on every task.
+
+For global dialogs in embedded applications, follow [Cross-Application Overlays](../architecture/overlays/README.md). Register the remote view, reuse the original content, and verify standalone/embedded close guards and completion-driven query refresh.

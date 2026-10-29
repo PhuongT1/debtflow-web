@@ -1,6 +1,6 @@
-import type { PaginationMeta } from '@debtflow/contracts';
-import type { DataTableSkeletonSpec, FixedTableSide } from '@debtflow/react-ui';
-export type { DataTableSkeletonSpec } from '@debtflow/react-ui';
+import type { PaginationMeta } from '@packages/platform-contracts';
+import type { DataTableSkeletonSpec, FixedTableSide, DataTableSize } from '@packages/ui-react';
+export type { DataTableSkeletonSpec } from '@packages/ui-react';
 
 export type DataTableColumn<Row> = {
   key: string;
@@ -21,11 +21,14 @@ export type DataTableProps<Row extends { id: React.Key }> = Pick<
   columns: Array<DataTableColumn<Row>>;
   rows: Row[];
   emptyMessage?: string;
+  emptyIcon?: React.ReactNode;
   hrefForPage: (page: number) => string;
   hrefForPageSize?: (pageSize: number) => string;
+  size?: DataTableSize;
   fillHeight?: boolean;
   loading?: boolean;
   skeletonRowCount?: number;
+  skeletonRowHeight?: number;
   pagination?: boolean;
   rowKey?: keyof Row | ((row: Row, index: number) => React.Key);
   toolbar?: React.ReactNode;

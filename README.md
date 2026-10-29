@@ -30,14 +30,14 @@ For in-depth architectural decisions, diagrams, and operational guides, please r
 
 All packages in `packages/` follow strict **Domain-Driven Design (DDD)** and are **Framework-Agnostic** (pure TypeScript/CSS), enabling seamless consumption by both React and Angular:
 
-| Package                       | Directory                                        | Description                                                                                              |
-| :---------------------------- | :----------------------------------------------- | :------------------------------------------------------------------------------------------------------- |
-| **`@debtflow/contracts`**     | [packages/contracts](packages/contracts)         | Pure TypeScript data models (`AuthUser`, `PaymentRecord`), API Response envelopes, and i18n locale types |
-| **`@debtflow/design-tokens`** | [packages/design-tokens](packages/design-tokens) | Shared design tokens & CSS variables (Header 56px, Sidebar 264px/84px, unified palette)                  |
-| **`@debtflow/navigation`**    | [packages/navigation](packages/navigation)       | Centralized route ownership, RBAC permissions (`ADMIN`), and bilingual navigation labels (EN / VI)       |
-| **`@debtflow/platform-sdk`**  | [packages/platform-sdk](packages/platform-sdk)   | Runtime Event Bus (`CustomEvent`), cookie/storage synchronization for cross-app messaging                |
-| **`@debtflow/mfe-registry`**  | [packages/mfe-registry](packages/mfe-registry)   | Manifest registry (`manifest.json`) containing remote origins, health checks, and metadata               |
-| **`@debtflow/react-ui`**      | [packages/react-ui](packages/react-ui)           | React component library containing `<AppShell />`, `<AppIcon />`, `<ToastProvider />`, and providers     |
+| Package                    | Directory                                                    | Description                                                                                              |
+| :------------------------- | :----------------------------------------------------------- | :------------------------------------------------------------------------------------------------------- |
+| **`@packages/platform-contracts`**  | [packages/platform/contracts](packages/platform/contracts)   | Pure TypeScript data models (`AuthUser`, `PaymentRecord`), API Response envelopes, and i18n locale types |
+| **`@packages/ui-tokens`**           | [packages/ui/tokens](packages/ui/tokens)                     | Shared design tokens & CSS variables (Header 56px, Sidebar 264px/84px, unified palette)                  |
+| **`@packages/platform-navigation`** | [packages/platform/navigation](packages/platform/navigation) | Centralized route ownership, RBAC permissions (`ADMIN`), and bilingual navigation labels (EN / VI)       |
+| **`@packages/platform-sdk`**        | [packages/platform/sdk](packages/platform/sdk)               | Runtime Event Bus (`CustomEvent`), cookie/storage synchronization for cross-app messaging                |
+| **`@packages/platform-registry`**   | [packages/platform/registry](packages/platform/registry)     | Manifest registry (`manifest.json`) containing remote origins, health checks, and metadata               |
+| **`@packages/ui-react`**            | [packages/ui/react](packages/ui/react)                       | React/MUI UI and providers; Next-specific AppShell/pagination use `@packages/ui-react/adapters/next`     |
 
 ---
 

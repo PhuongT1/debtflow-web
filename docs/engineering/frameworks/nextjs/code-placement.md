@@ -16,6 +16,6 @@ Use the [app map](../../../architecture/apps.md). Shell and Partner Ops both use
 
 ## Project example
 
-The Partner Ops parties route adapts routing to the Parties feature. Its business table/form/query stays in `features/parties`; generic app presentation belongs in the app's presentation layer; proven cross-app React presentation uses `@debtflow/react-ui`.
+The Partner Ops parties route adapts routing to the Parties feature. Its business table/form/query stays in `features/parties`; generic app presentation belongs in the app's presentation layer; proven cross-app React presentation uses `@packages/ui-react`.
 
 This example illustrates existing owner rules, not permission to migrate unrelated files. The precise placement contract remains in [Partner Ops architecture](../../../../apps/partner-ops/.ai-rules/architecture.md).

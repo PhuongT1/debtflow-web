@@ -7,6 +7,8 @@ const supported = new Set([
   'jsx',
   'json',
   'bash',
+  'zsh',
+  'powershell',
   'sh',
   'shell',
   'css',
@@ -19,8 +21,50 @@ const keywords = new Set(
     ' ',
   ),
 );
+const shells = new Set(['bash', 'sh', 'shell', 'zsh', 'powershell']);
+
+// Presentation only: preserve every character and never interpret or run commands.
+function appendShell(pre, text) {
+  let command = true;
+  const tokens = /(#[^\n]*|"(?:\\.|[^"\\])*"|'[^']*'|(?:&&|\|\||[;|])|\n|[^\s;&|]+)/g;
+  let offset = 0;
+  for (const match of text.matchAll(tokens)) {
+    pre.append(document.createTextNode(text.slice(offset, match.index)));
+    const token = match[0];
+    let kind = '';
+    if (token === '\n' || /^(?:&&|\|\||[;|])$/.test(token)) command = true;
+    else if (token.startsWith('#')) kind = 'comment';
+    else if (/^["']/.test(token)) {
+      kind = 'string';
+      command = false;
+    } else if (/^\w+=/.test(token) && command) kind = 'variable';
+    else if (token === '$' && command) kind = 'comment';
+    else {
+      kind = command
+        ? 'command'
+        : token.startsWith('-')
+          ? 'flag'
+          : /\$[\w{]/.test(token)
+            ? 'variable'
+            : '';
+      command = false;
+    }
+    if (kind) {
+      const span = document.createElement('span');
+      span.className = 'syntax-' + kind;
+      span.textContent = token;
+      pre.append(span);
+    } else pre.append(document.createTextNode(token));
+    offset = match.index + token.length;
+  }
+  pre.append(document.createTextNode(text.slice(offset)));
+}
 // Small lexical highlighter, not a compiler. Unknown languages remain exact plain text.
 export function appendCode(pre, text, language) {
+  if (shells.has(language)) {
+    appendShell(pre, text);
+    return;
+  }
   if (!supported.has(language)) {
     pre.append(document.createTextNode(text));
     return;
@@ -56,7 +100,12 @@ export function codeBlock(language = '') {
   const header = document.createElement('div');
   header.className = 'code-header';
   const label = document.createElement('span');
-  label.textContent = language || 'Plain text';
+  label.textContent = shells.has(language)
+    ? `Terminal · ${language}`
+    : language === 'text'
+      ? 'Plain text / prompt'
+      : language || 'Plain text';
+  if (shells.has(language)) frame.classList.add('code-terminal');
   const copy = document.createElement('button');
   copy.textContent = 'Copy';
   copy.setAttribute('aria-label', 'Copy code');

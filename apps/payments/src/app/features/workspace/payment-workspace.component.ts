@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, ElementRef, inject, signal } from '@angular/core';
-import { type AppLocale, type AuthUser } from '@debtflow/contracts';
+import { type AppLocale, type AuthUser } from '@packages/platform-contracts';
 import {
   buildLoginUrl,
   getStoredLocale,
   setStoredLocale,
   subscribePlatformEvent,
-} from '@debtflow/platform-sdk';
+} from '@packages/platform-sdk';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DestroyRef } from '@angular/core';
 import { environment } from '@env/environment';
 import { PlatformSessionService } from '@core/session/platform-session.service';
-import { PaymentHistoryComponent } from '@features/payments/payment-history.component';
+import { PaymentHistoryComponent } from '@features/payments';
 import { paymentMessage, type PaymentMessageKey } from '@core/i18n/payment-messages';
 import { SignOutDialogComponent } from './sign-out-dialog.component';
 import { LanguageSelectorComponent } from './language-selector.component';

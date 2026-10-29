@@ -1,6 +1,6 @@
 import 'server-only';
 import { apiServer, toDate } from '@/lib/api/server';
-import type { PaginatedResult } from '@debtflow/contracts';
+import type { PaginatedResult } from '@packages/platform-contracts';
 
 export type User = {
   id: string;

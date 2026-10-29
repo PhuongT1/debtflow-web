@@ -1,20 +1,11 @@
 'use client';
 
-// Intentionally over 230 lines: manifest validation, remote asset loading, and
-// custom-element lifecycle form one host boundary and must evolve together.
 import { useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
 import { RemoteErrorState, RemoteLoadingState, type RemoteHostState } from './remote-host-state';
 import { http } from '@/lib/api/http';
 
-type RemoteRuntimeManifest = {
-  schemaVersion: 1;
-  name: string;
-  version: string;
-  element: string;
-  scripts: string[];
-  styles: string[];
-};
+import type { RemoteRuntimeManifest, WebComponentHostProps } from './microfrontends.types';
 
 const scriptLoads = new Map<string, Promise<void>>();
 
@@ -84,20 +75,13 @@ function loadModuleScript(url: string) {
   return promise;
 }
 
-type WebComponentHostProps = {
-  appName: string;
-  expectedElement: string;
-  expectedVersion: string;
-  manifestPath: string;
-  remoteOrigin: string;
-};
-
 export function WebComponentHost({
   appName,
   expectedElement,
   expectedVersion,
   manifestPath,
   remoteOrigin,
+  loadingFallback,
 }: WebComponentHostProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [attempt, setAttempt] = useState(0);
@@ -183,7 +167,9 @@ export function WebComponentHost({
 
   return (
     <Box sx={{ minHeight: 0, width: '100%' }}>
-      {state.status === 'loading' ? <RemoteLoadingState label="Đang tải micro frontend…" /> : null}
+      {state.status === 'loading' ? (
+        <RemoteLoadingState>{loadingFallback}</RemoteLoadingState>
+      ) : null}
       {state.status === 'error' ? (
         <RemoteErrorState message={state.message} retry={() => setAttempt((value) => value + 1)} />
       ) : null}

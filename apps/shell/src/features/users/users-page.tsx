@@ -1,3 +1,4 @@
+import { applyTableLayout } from '@/components/tables/page-layouts';
 import { Badge } from '@/components/ui/badge';
 import { ConfirmActionButton } from '@/components/ui/dialog/confirm-action-button';
 import { DataTable, type DataTableColumn } from '@/components/tables';
@@ -75,7 +76,8 @@ export async function UsersPage({
       />
 
       <DataTable
-        columns={columns}
+        columns={applyTableLayout(columns, 'users')}
+        tableSx={{ tableLayout: 'fixed' }}
         emptyMessage="Không có user"
         fillHeight
         hrefForPage={(nextPage) => hrefWithPage('/users', filters, nextPage)}

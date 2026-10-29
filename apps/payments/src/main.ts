@@ -2,7 +2,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { createApplication } from '@angular/platform-browser';
 import { createCustomElement } from '@angular/elements';
 import { credentialsInterceptor } from '@core/http/credentials.interceptor';
-import { PaymentWorkspaceComponent } from '@features/workspace/payment-workspace.component';
+import { PaymentWorkspaceComponent } from '@features/workspace';
 
 const ELEMENT_NAME = 'debtflow-payments';
 

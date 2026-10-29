@@ -1,7 +1,7 @@
 import { HelpModal } from '@/components/ui/dialog/help-modal';
 import { Page, PageGrid, PageHeader } from '@/components/ui/page/page';
 import { SectionCard } from '@/components/ui/page/section-card';
-import { DebtImportForm } from '@/features/imports/debt-import-form';
+import { DebtImportForm } from '@/features/imports';
 
 export default function ImportsPage() {
   return (

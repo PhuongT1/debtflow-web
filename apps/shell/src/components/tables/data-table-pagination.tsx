@@ -1,10 +1,7 @@
 'use client';
 
 import { Box, Typography } from '@mui/material';
-import {
-  AppPaginationLinks,
-  DataTablePagination as SharedTablePagination,
-} from '@debtflow/react-ui';
+import { AppPaginationLinks, DataTablePagination as SharedTablePagination } from '@packages/ui-react';
 import { PageSizeSelect } from '@/components/tables/page-size-select';
 
 export function DataTablePagination({

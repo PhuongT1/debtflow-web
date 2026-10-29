@@ -1,4 +1,4 @@
-import type { PartyListParams } from '@/services/parties/party.types';
+import type { PartyListParams } from '@/services/parties';
 
 export const PARTY_FILTER_KEYS = [
   'q',

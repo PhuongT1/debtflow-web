@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { designTokens } from '@packages/ui-tokens';
 import { Badge } from '@/components/ui/badge';
 import { SectionCard } from '@/components/ui/page/section-card';
 import type { DashboardQueueDebt } from '@/services/dashboard.server';
@@ -29,27 +30,47 @@ export function DashboardActionQueue({
           </div>
         ) : (
           debts.map((debt) => (
-            <Link
-              className="rounded-lg border border-border p-3 transition hover:border-blue-300 hover:bg-blue-50"
+            <Box
+              component={Link}
+              sx={{
+                display: 'block',
+                border: '1px solid',
+                borderColor: 'divider',
+                borderRadius: `${designTokens.radius.md}px`,
+                p: 1.5,
+                bgcolor: 'background.paper',
+                transition: 'border-color 160ms ease, background-color 160ms ease',
+                '&:hover': { borderColor: designTokens.color.primaryText, bgcolor: 'action.hover' },
+                '&:focus-visible': {
+                  outline: `2px solid ${designTokens.color.primaryText}`,
+                  outlineOffset: 2,
+                },
+              }}
               href={`/debts/${debt.id}`}
               key={debt.id}
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-bold text-blue-600">{debt.code}</p>
-                  <p className="mt-1 truncate text-sm font-semibold text-slate-900">
+                  <Typography
+                    sx={{ fontSize: 14, fontWeight: 700, color: designTokens.color.primaryText }}
+                  >
+                    {debt.code}
+                  </Typography>
+                  <Typography
+                    sx={{ mt: 0.5, fontSize: 14, fontWeight: 600, color: 'text.primary' }}
+                  >
                     {debt.party.name}
-                  </p>
+                  </Typography>
                 </div>
                 <Badge tone="blue">{formatMoney(debt.remainingAmount)}</Badge>
               </div>
-              <p className="mt-2 text-xs font-medium text-slate-500">
+              <Typography color="text.secondary" sx={{ mt: 1, fontSize: 12 }}>
                 Hạn: {debt.dueDate.toLocaleDateString('vi-VN')}
                 {debt.nextFollowUpAt
                   ? ` · Nhắc: ${debt.nextFollowUpAt.toLocaleDateString('vi-VN')}`
                   : ''}
-              </p>
-            </Link>
+              </Typography>
+            </Box>
           ))
         )}
       </div>

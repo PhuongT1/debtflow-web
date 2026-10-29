@@ -1,4 +1,4 @@
-import type { AppLocale } from '@debtflow/contracts';
+import type { AppLocale } from '@packages/platform-contracts';
 
 const messages = {
   vi: {

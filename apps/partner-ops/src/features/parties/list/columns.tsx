@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { AppIcon } from '@/components/ui/app-icon';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -11,7 +11,7 @@ import { PartyForm } from '@/features/parties/form/party-form';
 import { getPartyTableColumns } from './table-columns';
 import { appRoutes } from '@/lib/routing/routes';
 import { PartyType } from '@/lib/domain';
-import { navigateToPlatform } from '@/lib/platform-navigation';
+import { partnerPlatform } from '@/lib/platform/client';
 import type { Party } from '@/models/party';
 import type { UserSummary } from '@/models/user';
 
@@ -39,13 +39,30 @@ type PartyListColumnLabels = {
 type PartyListColumnsOptions = {
   activeUsers: UserSummary[];
   labels: PartyListColumnLabels;
+  onCompleted: () => void;
   formatMoney: (value: string | number) => string;
 };
+
+const getInitialValues = (party: Party) => ({
+  type: party.type,
+  code: party.code ?? '',
+  name: party.name,
+  phone: party.phone ?? '',
+  email: party.email ?? '',
+  taxCode: party.taxCode ?? '',
+  creditLimit: party.creditLimit?.toString() ?? '',
+  assignedToId: party.assignedToId ?? '',
+  address: party.address ?? '',
+  provinceCode: party.provinceCode ?? '',
+  provinceName: party.provinceName ?? '',
+  note: party.note ?? '',
+});
 
 export function getPartyListColumns({
   activeUsers,
   labels,
   formatMoney,
+  onCompleted,
 }: PartyListColumnsOptions): Array<DataTableColumn<Party>> {
   const tableColumns = getPartyTableColumns(labels);
 
@@ -88,8 +105,12 @@ export function getPartyListColumns({
       ...tableColumns.contact,
       render: (party) => (
         <div>
-          <p>{party.phone ?? '-'}</p>
-          <p className="text-sm text-slate-500">{party.email ?? ''}</p>
+          <Typography component="p" sx={{ m: 0, font: 'inherit' }}>
+            {party.phone ?? '-'}
+          </Typography>
+          <Typography component="p" color="text.secondary" sx={{ m: 0, font: 'inherit' }}>
+            {party.email ?? ''}
+          </Typography>
         </div>
       ),
     },
@@ -119,7 +140,9 @@ export function getPartyListColumns({
         >
           <Button
             aria-label={labels.viewPayments}
-            onClick={() => navigateToPlatform(appRoutes.payments.forParty(party.id))}
+            onClick={() =>
+              partnerPlatform.navigate({ path: appRoutes.payments.forParty(party.id) })
+            }
             size="small"
             startIcon={<AppIcon fontSize="small" name="payments" />}
             type="button"
@@ -128,6 +151,12 @@ export function getPartyListColumns({
             {labels.payments}
           </Button>
           <FormDialog
+            remote={{
+              view: 'party-form',
+              title: labels.viewDialog(party.name),
+              input: { partyId: party.id, initialValues: getInitialValues(party) },
+            }}
+            onCompleted={onCompleted}
             buttonIcon="visibility"
             buttonLabel={labels.view}
             buttonSize="small"
@@ -140,20 +169,7 @@ export function getPartyListColumns({
               partyId={party.id}
               submitLabel={labels.save}
               users={activeUsers}
-              initialValues={{
-                type: party.type,
-                code: party.code ?? '',
-                name: party.name,
-                phone: party.phone ?? '',
-                email: party.email ?? '',
-                taxCode: party.taxCode ?? '',
-                creditLimit: party.creditLimit?.toString() ?? '',
-                assignedToId: party.assignedToId ?? '',
-                address: party.address ?? '',
-                provinceCode: party.provinceCode ?? '',
-                provinceName: party.provinceName ?? '',
-                note: party.note ?? '',
-              }}
+              initialValues={getInitialValues(party)}
             />
           </FormDialog>
           <DeletePartyButton

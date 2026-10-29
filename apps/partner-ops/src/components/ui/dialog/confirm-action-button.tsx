@@ -2,12 +2,14 @@
 
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { alpha, Box, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
+import { Box, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import { ApiErrorNotice } from '@/components/ui/api-error-notice';
 import { AppDialog } from '@/components/ui/dialog/dialog';
 import { AppIcon } from '@/components/ui/app-icon';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@debtflow/react-ui';
+import type { OverlayRequest } from '@packages/platform-contracts';
+import { useOverlaySurface } from '@packages/ui-react';
+import { useToast } from '@packages/ui-react';
 
 type ConfirmIntent = 'delete' | 'warning' | 'info';
 
@@ -35,6 +37,9 @@ export function ConfirmActionButton({
   isPending,
   error,
   onReset,
+  remote,
+  onCompleted,
+  surface = false,
 }: {
   onConfirm: () => Promise<unknown>;
   label?: string;
@@ -44,15 +49,29 @@ export function ConfirmActionButton({
   isPending: boolean;
   error: Error | null;
   onReset: () => void;
+  remote?: OverlayRequest;
+  onCompleted?: () => void;
+  surface?: boolean;
 }) {
   const t = useTranslations('ConfirmAction');
-  const [open, setOpen] = useState(false);
+  const overlay = useOverlaySurface();
+  const [open, setOpen] = useState(surface);
+  const close = () => {
+    if (!isPending) {
+      setOpen(false);
+      overlay?.finish({ status: 'cancelled' });
+    }
+  };
   const { showToast } = useToast();
   const config = intentConfig[intent];
   async function confirm() {
     try {
       await onConfirm();
       setOpen(false);
+      overlay?.finish({
+        status: 'completed',
+        message: t('success', { action: label ?? t('delete') }),
+      });
       showToast({ message: t('success', { action: label ?? t('delete') }) });
     } catch {
       // The domain mutation retains the error for the retry dialog.
@@ -61,30 +80,35 @@ export function ConfirmActionButton({
 
   return (
     <>
-      <Button
-        onClick={() => {
-          onReset();
-          setOpen(true);
-        }}
-        size="small"
-        startIcon={<IntentIcon intent={intent} />}
-        tone={config.color}
-        variant="secondary"
-      >
-        {label ?? t('delete')}
-      </Button>
+      {!surface && (
+        <Button
+          onClick={() => {
+            onReset();
+            setOpen(true);
+          }}
+          size="small"
+          startIcon={<IntentIcon intent={intent} />}
+          tone={config.color}
+          variant="secondary"
+        >
+          {label ?? t('delete')}
+        </Button>
+      )}
       <AppDialog
+        surfaceBody={surface}
+        remote={remote}
+        onCompleted={onCompleted}
         fullWidth
         maxWidth="xs"
         open={open}
-        onClose={() => (isPending ? undefined : setOpen(false))}
+        onClose={close}
       >
         <DialogTitle>
           <Box sx={{ alignItems: 'center', display: 'flex', gap: 1.5 }}>
             <Box
               sx={(theme) => ({
                 alignItems: 'center',
-                bgcolor: alpha(theme.palette[config.color].main, 0.1),
+                bgcolor: `color-mix(in srgb, ${(theme.vars ?? theme).palette[config.color].main} 10%, transparent)`,
                 borderRadius: '50%',
                 color: `${config.color}.main`,
                 display: 'grid',
@@ -110,7 +134,7 @@ export function ConfirmActionButton({
           <ApiErrorNotice error={error} />
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5 }}>
-          <Button disabled={isPending} onClick={() => setOpen(false)} variant="secondary">
+          <Button disabled={isPending} onClick={close} variant="secondary">
             {t('cancel')}
           </Button>
           <Button loading={isPending} onClick={() => void confirm()} tone={config.color}>

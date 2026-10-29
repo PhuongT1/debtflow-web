@@ -11,7 +11,7 @@ button {
 .trigger {
   border: 0;
   border-radius: 8px;
-  background: #f4f7fb;
+  background: var(--df-color-surface-hover);
   min-width: 64px;
   padding: 4px 10px;
   font-size: var(--df-font-size-locale);
@@ -28,7 +28,7 @@ button {
   border: 1px solid var(--df-color-divider);
   border-radius: var(--df-radius-md);
   background: var(--df-color-surface);
-  box-shadow: 0 12px 28px rgb(15 23 42 / 20%);
+  box-shadow: var(--df-shadow-floating);
 }
 .menu button {
   display: block;
@@ -47,10 +47,10 @@ button {
 }
 .menu button:hover,
 .menu button:focus-visible {
-  background: #f4f7fb;
+  background: var(--df-color-surface-hover);
 }
 .menu button[aria-checked='true'] {
-  color: var(--df-color-primary-dark);
+  color: var(--df-color-primary-text);
   background: var(--df-color-primary-light);
 }
 button:focus-visible {

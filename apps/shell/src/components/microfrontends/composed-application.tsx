@@ -1,22 +1,23 @@
 import { notFound } from 'next/navigation';
-import type { MicrofrontendApplication } from '@debtflow/mfe-registry';
+import {
+  getApplicationLoadingLayout,
+  getApplicationOverlayViews,
+} from '@packages/platform-registry';
+import { ListPageSkeleton } from '@packages/ui-react';
+import type { ComposedApplicationProps } from './microfrontends.types';
+export type { SearchValues } from './microfrontends.types';
 import { IframeHost } from './iframe-host';
+import { TablePageSkeleton } from '@/components/skeletons/page-skeleton';
 import { WebComponentHost } from './web-component-host';
-
-export type SearchValues = Record<string, string | string[] | undefined>;
 
 export function ComposedApplication({
   application,
   pathname,
   query,
   remoteOrigin,
-}: {
-  application: MicrofrontendApplication;
-  pathname: string;
-  query: SearchValues;
-  remoteOrigin: string;
-}) {
+}: ComposedApplicationProps) {
   const { composition } = application;
+  const loadingLayout = getApplicationLoadingLayout(application.name);
 
   if (composition.integration === 'web-component' && composition.elementName) {
     return (
@@ -24,12 +25,14 @@ export function ComposedApplication({
         appName={application.name}
         expectedElement={composition.elementName}
         expectedVersion={application.version}
+        loadingFallback={<TablePageSkeleton kind="payments" />}
         manifestPath={composition.entryPath}
         remoteOrigin={remoteOrigin}
       />
     );
   }
 
+  // Mount the registered runtime with shared host integration and remote-owned domain forms.
   if (composition.integration === 'iframe') {
     const suffix = pathname.slice(composition.publicPath.length);
     const remotePath = (composition.entryPath + suffix).replace(/\/+/g, '/');
@@ -50,6 +53,10 @@ export function ComposedApplication({
         entryPath={composition.proxyPath + composition.entryPath}
         src={url.pathname + url.search}
         title={application.name}
+        overlayViews={getApplicationOverlayViews(application.name, composition.proxyPath)}
+        loadingFallback={
+          loadingLayout ? <ListPageSkeleton layout={loadingLayout} label="" frame /> : undefined
+        }
       />
     );
   }

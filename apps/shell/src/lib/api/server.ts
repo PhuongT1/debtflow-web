@@ -3,7 +3,7 @@ import { API_URL } from '@/lib/config/environment';
 import { getServerAccessToken } from '@/lib/auth/session';
 import { unwrapApiResponse } from '@/lib/api/response';
 import { http } from '@/lib/api/http';
-import { DEFAULT_LOCALE, LOCALE_COOKIE_NAME, type AppLocale } from '@debtflow/contracts';
+import { DEFAULT_LOCALE, LOCALE_COOKIE_NAME, type AppLocale } from '@packages/platform-contracts';
 import { getLocalizedApiErrorMessage } from '@/lib/api/error-message';
 import { isBackendUnavailableError } from '@/lib/api/network-error';
 

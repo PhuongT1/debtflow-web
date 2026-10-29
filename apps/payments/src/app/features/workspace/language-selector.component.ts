@@ -11,7 +11,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import type { AppLocale } from '@debtflow/contracts';
+import type { AppLocale } from '@packages/platform-contracts';
 import { paymentMessage } from '@core/i18n/payment-messages';
 
 @Component({

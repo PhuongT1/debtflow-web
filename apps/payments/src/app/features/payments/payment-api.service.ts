@@ -5,7 +5,7 @@ import {
   type ApiEnvelope,
   type PaginatedResult,
   type PaymentRecord,
-} from '@debtflow/contracts';
+} from '@packages/platform-contracts';
 import { map } from 'rxjs';
 import { environment } from '@env/environment';
 @Injectable({ providedIn: 'root' })

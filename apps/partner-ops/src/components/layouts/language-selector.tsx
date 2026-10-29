@@ -1,7 +1,7 @@
 'use client';
 
-import type { AppLocale } from '@debtflow/contracts';
-import { AppLocaleMenu } from '@debtflow/react-ui';
+import type { AppLocale } from '@packages/platform-contracts';
+import { AppLocaleMenu } from '@packages/ui-react';
 
 export function LanguageSelector({
   locale,

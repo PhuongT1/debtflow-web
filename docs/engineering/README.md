@@ -6,6 +6,8 @@ This tab answers **how code should be written and maintained**: conventions, fra
 
 New to the team or reviewing component work? Open [Component Development](component-development.md) for one checklist covering structure, naming, services, conditional Axios/TanStack rules, query keys, constants/routes, i18n and verification. Each item links to its canonical rule; use the detailed reference below only for the responsibility you are changing.
 
+See [Module Imports](module-imports.md) for concise package imports, module indexes, exported props and Angular public APIs.
+
 ## Engineering or AI Guide?
 
 | You need to...                                                                | Start here                                                             |

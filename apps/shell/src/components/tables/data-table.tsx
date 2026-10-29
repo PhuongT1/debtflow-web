@@ -1,21 +1,23 @@
+import type { SxProps, Theme } from '@mui/material';
 import {
   DataTable as SharedDataTable,
   createTablePaginationLinks,
   SortableTableHeader,
   type DataTableColumn,
   type TableScroll,
-} from '@debtflow/react-ui';
-import { AppIcon } from '@/components/ui/app-icon';
+  type DataTableSize,
+} from '@packages/ui-react';
 import type { SortDirection } from '@/lib/routing/table-sort';
 import { DataTablePagination } from './data-table-pagination';
 
-export type { DataTableColumn, DataTableSkeletonSpec } from '@debtflow/react-ui';
+export type { DataTableColumn, DataTableSkeletonSpec } from '@packages/ui-react';
 type TableSlot<Row> = React.ReactNode | ((dataSource: Row[]) => React.ReactNode);
 
 export type DataTableProps<Row> = {
   columns: Array<DataTableColumn<Row>>;
   dataSource: Row[];
   emptyMessage?: string;
+  emptyIcon?: React.ReactNode;
   footer?: TableSlot<Row>;
   paginationMeta: { page: number; pageSize: number; total: number };
   hrefForPage: (page: number) => string;
@@ -25,6 +27,8 @@ export type DataTableProps<Row> = {
     order: SortDirection;
     hrefForSort: (sortBy: string, sortOrder: SortDirection) => string;
   };
+  size?: DataTableSize;
+  tableSx?: SxProps<Theme>;
   fillHeight?: boolean;
   loading?: boolean;
   pagination?: boolean;
@@ -48,10 +52,8 @@ export function DataTable<Row>({
   fillHeight = true,
   loading = false,
   pagination = true,
-  rowKey,
-  scroll,
-  summary,
-  toolbar,
+  size = 'small',
+  ...rest
 }: DataTableProps<Row>) {
   const links = createTablePaginationLinks({ ...paginationMeta, hrefForPage, hrefForPageSize });
   const renderSlot = (slot?: TableSlot<Row>) =>
@@ -59,20 +61,17 @@ export function DataTable<Row>({
   return (
     <SharedDataTable
       columns={columns}
+      size={size}
       dataSource={dataSource}
       emptyMessage={emptyMessage}
       emptyHint="Thử đổi bộ lọc hoặc tạo dữ liệu mới."
-      emptyIcon={<AppIcon name="list" />}
       fillHeight={fillHeight}
       loading={loading}
       skeletonRowCount={Math.min(10, Math.max(5, paginationMeta.pageSize))}
-      rowKey={rowKey}
-      scroll={scroll}
-      summary={summary}
+      {...rest}
       title={renderSlot(title)}
       description={`${paginationMeta.total.toLocaleString('vi-VN')} bản ghi`}
       footer={renderSlot(footer)}
-      toolbar={toolbar}
       renderHeader={(column) =>
         column.sortKey && sort ? (
           <SortableTableHeader

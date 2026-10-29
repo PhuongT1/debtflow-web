@@ -1,6 +1,7 @@
+import { applyTableLayout } from '@/components/tables/page-layouts';
 import { Box } from '@mui/material';
 import { useTranslations } from 'next-intl';
-import { DataTableContent, SortableTableHeader, type DataTableColumn } from '@debtflow/react-ui';
+import { DataTableContent, SortableTableHeader, type DataTableColumn } from '@packages/ui-react';
 import { TruncatedText } from '@/components/ui/clamped-text';
 import { formatMoney } from '@/lib/presentation/formatters';
 import type { PartnerSummaryParams } from '@/services/party.client';
@@ -30,8 +31,6 @@ export function PartnerSummaryTable({ changeSort, isFetching, params, summary, u
     {
       key: 'name',
       title: sortableTitle('name', t('partner')),
-      fixed: 'left',
-      width: 300,
       render: (party) => (
         <TruncatedText sx={{ fontWeight: 700 }} title={party.name}>
           {party.name}
@@ -41,14 +40,12 @@ export function PartnerSummaryTable({ changeSort, isFetching, params, summary, u
     {
       key: 'outstandingDocuments',
       title: sortableTitle('outstandingDocuments', t('outstandingDocuments')),
-      width: 180,
       render: (party) => party._count.debts,
     },
     {
       key: 'receivable',
       title: sortableTitle('receivable', t('customerOwes')),
       align: 'right',
-      width: 230,
       render: (party) => (
         <Box component="span" sx={{ color: 'error.main', fontWeight: 800, whiteSpace: 'nowrap' }}>
           {formatMoney(party.balance?.receivable ?? 0)}
@@ -59,7 +56,6 @@ export function PartnerSummaryTable({ changeSort, isFetching, params, summary, u
       key: 'payable',
       title: sortableTitle('payable', t('supplierOwed')),
       align: 'right',
-      width: 240,
       render: (party) => (
         <Box component="span" sx={{ color: 'error.main', fontWeight: 800, whiteSpace: 'nowrap' }}>
           {formatMoney(party.balance?.payable ?? 0)}
@@ -70,15 +66,12 @@ export function PartnerSummaryTable({ changeSort, isFetching, params, summary, u
       key: 'details',
       title: t('partnerDetails'),
       align: 'right',
-      width: 130,
       render: (party) => <PartnerDetailsDialog partner={party} />,
     },
     {
       key: 'actions',
       title: null,
       align: 'right',
-      fixed: 'right',
-      width: 180,
       render: (party) => (
         <PartnerDocumentsDialog partyId={party.id} partyName={party.name} users={users} />
       ),
@@ -86,12 +79,12 @@ export function PartnerSummaryTable({ changeSort, isFetching, params, summary, u
   ];
   return (
     <DataTableContent
-      columns={columns}
+      columns={applyTableLayout(columns, 'debts')}
+      size="small"
       dataSource={summary?.items ?? []}
       rowKey="id"
       emptyMessage={t('partnerDebtEmpty')}
       loading={!summary && isFetching}
-      loadingContent={t('loadingDebtData')}
       scroll={{ x: 1260 }}
       tableSx={{ tableLayout: 'fixed' }}
     />

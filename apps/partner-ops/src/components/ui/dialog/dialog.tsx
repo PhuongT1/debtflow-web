@@ -1,21 +1,25 @@
 'use client';
 
-import { forwardRef } from 'react';
-import { Dialog, Slide, type DialogProps, type SlideProps } from '@mui/material';
+import { PlatformDialog, type PlatformDialogProps, useToast } from '@packages/ui-react';
+import { partnerPlatform } from '@/lib/platform/client';
+import { useTranslations } from 'next-intl';
 
-const DialogTransition = forwardRef(function DialogTransition(
-  props: SlideProps,
-  ref: React.ForwardedRef<unknown>,
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
-export function AppDialog(props: DialogProps) {
+/** App-level modal boundary: standalone renders children; embedded requests
+ * the registered view through partnerPlatform and handles its returned result. */
+export function AppDialog(props: Omit<PlatformDialogProps, 'openRemote' | 'hostOrigin'>) {
+  const t = useTranslations('Common');
+  const { showToast } = useToast();
+  const { onCompleted, ...rest } = props;
   return (
-    <Dialog
-      {...props}
-      slots={{ ...props.slots, transition: DialogTransition }}
-      transitionDuration={{ enter: 240, exit: 180 }}
+    <PlatformDialog
+      openRemote={partnerPlatform.openOverlay}
+      errorLabel={t('overlayUnavailable')}
+      {...rest}
+      onFailure={() => showToast({ message: t('overlayUnavailable'), severity: 'error' })}
+      onCompleted={(result) => {
+        if (result.message) showToast({ message: result.message });
+        onCompleted?.(result);
+      }}
     />
   );
 }

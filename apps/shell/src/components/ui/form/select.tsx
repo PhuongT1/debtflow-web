@@ -1,4 +1,5 @@
-import { Autocomplete, TextField, type TextFieldProps } from '@mui/material';
+import { Autocomplete, type TextFieldProps } from '@mui/material';
+import { AppInput } from './input';
 import type { SxProps, Theme } from '@mui/material/styles';
 
 export type SelectOption = {
@@ -64,7 +65,7 @@ function SelectInput({
       onChange={(_event, next) => onChange(next?.value ?? '')}
       options={[...options]}
       renderInput={(params) => (
-        <TextField
+        <AppInput
           {...params}
           slotProps={{
             ...params.slotProps,
@@ -113,7 +114,7 @@ function MultipleSelectInput({
       onChange={(_event, next) => onChange(next.map((option) => option.value))}
       options={[...options]}
       renderInput={(params) => (
-        <TextField
+        <AppInput
           {...params}
           slotProps={{
             ...params.slotProps,
@@ -156,7 +157,4 @@ export function Select(props: SelectProps) {
   );
 }
 
-/** Legacy native field used by existing uncontrolled HTML forms. */
-export function AppSelect(props: TextFieldProps) {
-  return <TextField fullWidth select size="small" variant="outlined" {...props} />;
-}
+export { AppSelect } from '@packages/ui-react';

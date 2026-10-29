@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Box, LinearProgress, MenuItem, Paper, Typography } from '@mui/material';
-import { AppPagination } from '@debtflow/react-ui';
+import { AppPagination } from '@packages/ui-react';
 import { useTranslations } from 'next-intl';
 import { AppIcon } from '@/components/ui/app-icon';
-import { TableLayout, TablePaginationBar } from '@debtflow/react-ui';
+import { TableLayout, TablePaginationBar } from '@packages/ui-react';
 import { Button } from '@/components/ui/button';
 import { AppSelect } from '@/components/ui/form/select';
 import { listPartyDebtSummaries } from '@/services/party.client';
