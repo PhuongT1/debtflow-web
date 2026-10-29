@@ -5,9 +5,9 @@ import {
   isMfeLocaleChangedMessage,
   isMfeRouteChangedMessage,
   MFE_ROUTE_SYNC_CAPABILITY,
-} from '@debtflow/contracts';
+} from '@packages/platform-contracts';
 import { useRouter } from 'next/navigation';
-import { setStoredLocale } from '@debtflow/platform-sdk';
+import { setStoredLocale } from '@packages/platform-sdk';
 
 const MESSAGE_VERSION = 1;
 

@@ -1,5 +1,5 @@
 import axios, { type AxiosRequestConfig } from 'axios';
-import { getStoredLocale, unwrapApiResponse } from '@debtflow/contracts';
+import { getStoredLocale, unwrapApiResponse } from '@packages/platform-contracts';
 import { normalizeApiError, ApiClientError } from './api-error';
 import { parsePaginatedResponse } from './paginated-response';
 

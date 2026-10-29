@@ -12,8 +12,8 @@ import {
   type AppLocale,
   type PaginatedResult,
   type PaymentRecord,
-} from '@debtflow/contracts';
-import { subscribePlatformEvent } from '@debtflow/platform-sdk';
+} from '@packages/platform-contracts';
+import { subscribePlatformEvent } from '@packages/platform-sdk';
 import { PaymentApiService } from './payment-api.service';
 import { paymentMessage, type PaymentMessageKey } from '@core/i18n/payment-messages';
 

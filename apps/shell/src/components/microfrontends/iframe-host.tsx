@@ -6,8 +6,8 @@ import {
   isMfeRoutePath,
   MFE_HOST_MESSAGE_VERSION,
   MFE_ROUTE_SYNC_CAPABILITY,
-} from '@debtflow/contracts';
-import { subscribePlatformEvent } from '@debtflow/platform-sdk';
+} from '@packages/platform-contracts';
+import { subscribePlatformEvent } from '@packages/platform-sdk';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Box } from '@mui/material';
 import { RemoteErrorState, RemoteLoadingState, type RemoteHostState } from './remote-host-state';

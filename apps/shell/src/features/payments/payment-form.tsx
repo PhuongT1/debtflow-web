@@ -13,7 +13,7 @@ import { useFormDialog } from '@/components/ui/dialog/form-dialog';
 import { FormActions, FormGrid } from '@/components/ui/form/layout';
 import { AppInput } from '@/components/ui/form/input';
 import { AppSelect } from '@/components/ui/form/select';
-import { useToast } from '@debtflow/react-ui';
+import { useToast } from '@packages/ui-react';
 import { applyApiFieldErrors } from '@/lib/forms/errors';
 import { autoAllocatePayment, recordDebtPayment } from '@/services/payment.client';
 

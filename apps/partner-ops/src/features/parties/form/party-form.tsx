@@ -20,7 +20,7 @@ import { FormActions, FormGrid } from '@/components/ui/form/layout';
 import { AppInput } from '@/components/ui/form/input';
 import { AppSelect } from '@/components/ui/form/select';
 import { useFormDialog } from '@/components/ui/dialog/form-dialog';
-import { useToast } from '@debtflow/react-ui';
+import { useToast } from '@packages/ui-react';
 import { applyApiFieldErrors } from '@/lib/form-errors';
 
 export function PartyForm({

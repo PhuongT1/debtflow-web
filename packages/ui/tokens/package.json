@@ -1,0 +1,18 @@
+{
+  "name": "@packages/ui-tokens",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./tokens.css": "./src/tokens.css"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "generate": "node generate-css.mjs",
+    "check": "node generate-css.mjs --check"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

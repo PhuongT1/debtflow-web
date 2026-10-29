@@ -1,4 +1,4 @@
-import type { PaginatedResponse } from '@debtflow/contracts';
+import type { PaginatedResponse } from '@packages/platform-contracts';
 import type { Party, PartyDebt } from '@/models/party';
 import type { UserSummary } from '@/models/user';
 

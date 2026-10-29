@@ -8,7 +8,7 @@ import { ApiErrorNotice } from '@/components/ui/api-error-notice';
 import { AppDialog } from '@/components/ui/dialog/dialog';
 import { AppIcon } from '@/components/ui/app-icon';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@debtflow/react-ui';
+import { useToast } from '@packages/ui-react';
 import { apiClient } from '@/lib/api/client';
 
 type ConfirmIntent = 'delete' | 'warning' | 'info';

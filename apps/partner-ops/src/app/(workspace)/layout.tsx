@@ -5,7 +5,7 @@ import { StandaloneWorkspaceHeader } from '@/components/layouts/standalone-works
 import { EmbeddedNavigationBridge } from '@/components/platform/embedded-navigation-bridge';
 import { getCoreIdentity } from '@/lib/core-session';
 import { partnerOpsEnv } from '@/lib/env';
-import { buildLoginUrl } from '@debtflow/platform-sdk';
+import { buildLoginUrl } from '@packages/platform-sdk';
 
 export const dynamic = 'force-dynamic';
 

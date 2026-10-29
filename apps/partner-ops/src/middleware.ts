@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { buildLoginUrl } from '@debtflow/platform-sdk';
+import { buildLoginUrl } from '@packages/platform-sdk';
 import { partnerOpsEnv } from '@/lib/env';
 
 const EMBED_PATH = '/__embed/parties';

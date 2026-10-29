@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import type { MicrofrontendApplication } from '@debtflow/mfe-registry';
+import type { MicrofrontendApplication } from '@packages/platform-registry';
 import { IframeHost } from './iframe-host';
 import { WebComponentHost } from './web-component-host';
 

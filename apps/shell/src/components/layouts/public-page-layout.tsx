@@ -2,8 +2,8 @@
 
 import type { ReactNode } from 'react';
 import { Box } from '@mui/material';
-import { AppLocaleMenu } from '@debtflow/react-ui';
-import { setStoredLocale } from '@debtflow/platform-sdk';
+import { AppLocaleMenu } from '@packages/ui-react';
+import { setStoredLocale } from '@packages/platform-sdk';
 import { useLocale } from 'next-intl';
 
 /** Shared frame for login and public pages, including the global language selector. */

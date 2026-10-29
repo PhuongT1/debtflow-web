@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { Box, Typography } from '@mui/material';
-import { AppPagination, DataTablePagination as SharedTablePagination } from '@debtflow/react-ui';
+import { AppPagination, DataTablePagination as SharedTablePagination } from '@packages/ui-react';
 import { PageSizeSelect } from '@/components/tables/page-size-select';
 import { isEmbeddedInPlatform, navigateToPlatform } from '@/lib/platform-navigation';
 

@@ -1,7 +1,7 @@
-import type { AppLocale } from '@debtflow/contracts';
+import type { AppLocale } from '@packages/platform-contracts';
 import { cookies } from 'next/headers';
 import { getRequestConfig } from 'next-intl/server';
-import { DEFAULT_LOCALE, LOCALE_COOKIE_NAME, SUPPORTED_LOCALES } from '@debtflow/contracts';
+import { DEFAULT_LOCALE, LOCALE_COOKIE_NAME, SUPPORTED_LOCALES } from '@packages/platform-contracts';
 
 function isSupportedLocale(value: string | undefined) {
   return Boolean(value && (SUPPORTED_LOCALES as readonly string[]).includes(value));

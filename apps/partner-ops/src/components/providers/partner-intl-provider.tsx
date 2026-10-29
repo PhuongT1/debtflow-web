@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
-import type { AppLocale } from '@debtflow/contracts';
-import { getStoredLocale, subscribePlatformEvent } from '@debtflow/platform-sdk';
+import type { AppLocale } from '@packages/platform-contracts';
+import { getStoredLocale, subscribePlatformEvent } from '@packages/platform-sdk';
 import en from '@messages/en.json';
 import vi from '@messages/vi.json';
 

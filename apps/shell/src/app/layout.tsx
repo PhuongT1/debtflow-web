@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import { getLocale } from 'next-intl/server';
-import type { AppLocale } from '@debtflow/contracts';
+import type { AppLocale } from '@packages/platform-contracts';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
-import { AppProviders } from '@debtflow/react-ui';
+import { AppProviders } from '@packages/ui-react';
 import { ShellIntlProvider } from '@/i18n/shell-intl-provider';
 import './globals.css';
 

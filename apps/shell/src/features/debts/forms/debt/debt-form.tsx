@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { FormActions } from '@/components/ui/form/layout';
 import { AppInput } from '@/components/ui/form/input';
 import { useFormDialog } from '@/components/ui/dialog/form-dialog';
-import { useToast } from '@debtflow/react-ui';
+import { useToast } from '@packages/ui-react';
 import { applyApiFieldErrors } from '@/lib/forms/errors';
 import { getCatalogOptions } from '@/services/catalog.client';
 import { listPartyOptions } from '@/services/party.client';

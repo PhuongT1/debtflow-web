@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, type ComponentProps } from 'react';
-import { AppShell, SignOutDialog } from '@debtflow/react-ui';
-import { signOutFromPlatform } from '@debtflow/platform-sdk';
+import { AppShell, SignOutDialog } from '@packages/ui-react';
+import { signOutFromPlatform } from '@packages/platform-sdk';
 import { useTranslations } from 'next-intl';
 
 export function AuthenticatedShell(props: ComponentProps<typeof AppShell>) {

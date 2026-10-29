@@ -1,3 +1,4 @@
+// Intentionally over 230 lines: keep workspace identity, dependency and entrypoint checks in one validation pass.
 import { builtinModules } from 'node:module';
 import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
@@ -5,11 +6,11 @@ import ts from 'typescript';
 
 const root = process.cwd();
 const neutralPackageNames = new Set([
-  '@debtflow/contracts',
-  '@debtflow/design-tokens',
-  '@debtflow/navigation',
-  '@debtflow/mfe-registry',
-  '@debtflow/platform-sdk',
+  '@packages/platform-contracts',
+  '@packages/ui-tokens',
+  '@packages/platform-navigation',
+  '@packages/platform-registry',
+  '@packages/platform-sdk',
 ]);
 const forbiddenNeutralDependencies = new Set([
   'react',
@@ -32,6 +33,19 @@ async function directories(parent) {
     .filter((entry) => entry.isDirectory())
     .map((entry) => path.join(parent, entry.name));
 }
+async function packageDirectories(parent) {
+  const packages = [];
+  for (const directory of await directories(parent)) {
+    try {
+      await readFile(path.join(directory, 'package.json'), 'utf8');
+      packages.push(directory);
+    } catch (error) {
+      if (error?.code !== 'ENOENT') throw error;
+      packages.push(...(await packageDirectories(directory)));
+    }
+  }
+  return packages;
+}
 async function sourceFiles(directory) {
   const files = [];
   for (const entry of await readdir(directory, { withFileTypes: true })) {
@@ -41,6 +55,18 @@ async function sourceFiles(directory) {
     else if (sourceExtensions.test(entry.name)) files.push(absolute);
   }
   return files;
+}
+function isNamedPublicFacade(file, directory, source, specifier) {
+  if (file !== path.join(directory, 'src/index.ts')) return false;
+  const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true);
+  const declarations = ast.statements.filter((node) => node.moduleSpecifier?.text === specifier);
+  return (
+    declarations.length > 0 &&
+    declarations.every(
+      (node) =>
+        ts.isExportDeclaration(node) && node.exportClause && ts.isNamedExports(node.exportClause),
+    )
+  );
 }
 function packageNameFromSpecifier(specifier) {
   return specifier.startsWith('@')
@@ -67,7 +93,7 @@ function isInside(parent, target) {
 }
 const workspaceDirectories = [
   ...(await directories(path.join(root, 'apps'))),
-  ...(await directories(path.join(root, 'packages'))),
+  ...(await packageDirectories(path.join(root, 'packages'))),
 ];
 const workspaces = [];
 for (const directory of workspaceDirectories) {
@@ -86,8 +112,19 @@ for (const directory of workspaceDirectories) {
 const workspaceByName = new Map(
   workspaces.map((workspace) => [workspace.manifest.name, workspace]),
 );
+const workspaceScopes = new Set(
+  [...workspaceByName.keys()]
+    .filter((name) => name.startsWith('@'))
+    .map((name) => name.split('/')[0] + '/'),
+);
 for (const workspace of workspaces) {
   const { directory, kind, manifest } = workspace;
+  if (kind === 'package') {
+    const segments = path.relative(path.join(root, 'packages'), directory).split(path.sep);
+    const expectedName = `@packages/${segments[0]}-${segments[1]}`;
+    if (segments.length !== 2 || manifest.name !== expectedName)
+      errors.push(`${manifest.name} must match packages/<group>/<name>: ${expectedName}`);
+  }
   const runtimeDependencies = {
     ...manifest.dependencies,
     ...manifest.peerDependencies,
@@ -115,9 +152,10 @@ for (const workspace of workspaces) {
   try {
     const tsconfig = await readJsonc(tsconfigPath);
     for (const [alias, targets] of Object.entries(tsconfig.compilerOptions?.paths ?? {})) {
-      if (kind === 'app' && alias.startsWith('@debtflow/')) {
+      const reservedScope = [...workspaceScopes].find((scope) => alias.startsWith(scope));
+      if (kind === 'app' && reservedScope) {
         errors.push(
-          `${manifest.name} local alias ${alias} uses reserved workspace package scope @debtflow/`,
+          `${manifest.name} local alias ${alias} uses reserved workspace package scope ${reservedScope}`,
         );
       }
       localAliases.push(alias.replace(/\*.*$/, ''));
@@ -156,6 +194,15 @@ for (const workspace of workspaces) {
       if (localAliases.some((alias) => specifier.startsWith(alias))) continue;
       if (specifier.startsWith('.')) {
         const resolved = path.resolve(path.dirname(file), specifier);
+        if (
+          manifest.name === '@packages/ui-react' &&
+          !isInside(path.join(directory, 'src/adapters/next'), file) &&
+          isInside(path.join(directory, 'src/adapters/next'), resolved) &&
+          !isNamedPublicFacade(file, directory, source, specifier)
+        )
+          errors.push(
+            `${path.relative(root, file)} must expose Next.js adapters only through named package-facade exports`,
+          );
         if (!isEslintConfig && !isInside(directory, resolved))
           errors.push(
             `${path.relative(root, file)} imports outside ${manifest.name}: ${specifier}`,
@@ -164,6 +211,12 @@ for (const workspace of workspaces) {
       }
       if (builtins.has(specifier) || specifier.startsWith('node:')) continue;
       const dependency = packageNameFromSpecifier(specifier);
+      if (
+        manifest.name === '@packages/ui-react' &&
+        dependency === 'next' &&
+        !isInside(path.join(directory, 'src/adapters/next'), file)
+      )
+        errors.push(`${path.relative(root, file)} must keep Next.js imports in adapters/next`);
       if (!isEslintConfig && !allowedDependencies[dependency])
         errors.push(
           `${path.relative(root, file)} imports undeclared ${isRuntimeSource ? 'runtime' : 'tooling'} dependency ${dependency}`,

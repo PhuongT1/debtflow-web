@@ -70,11 +70,7 @@
           "builder": "@angular/build:dev-server",
           "options": {
             "prebundle": {
-              "exclude": [
-                "@debtflow/contracts",
-                "@debtflow/design-tokens",
-                "@debtflow/platform-sdk"
-              ]
+              "exclude": ["@packages/platform-contracts", "@packages/ui-tokens", "@packages/platform-sdk"]
             }
           },
           "configurations": {

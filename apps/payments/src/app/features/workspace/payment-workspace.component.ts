@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, ElementRef, inject, signal } from '@angular/core';
-import { type AppLocale, type AuthUser } from '@debtflow/contracts';
+import { type AppLocale, type AuthUser } from '@packages/platform-contracts';
 import {
   buildLoginUrl,
   getStoredLocale,
   setStoredLocale,
   subscribePlatformEvent,
-} from '@debtflow/platform-sdk';
+} from '@packages/platform-sdk';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DestroyRef } from '@angular/core';
 import { environment } from '@env/environment';

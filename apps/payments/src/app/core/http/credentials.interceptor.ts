@@ -1,5 +1,5 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { getStoredLocale } from '@debtflow/contracts';
+import { getStoredLocale } from '@packages/platform-contracts';
 
 export const credentialsInterceptor: HttpInterceptorFn = (request, next) =>
   next(

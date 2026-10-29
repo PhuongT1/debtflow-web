@@ -4,12 +4,12 @@ import {
   SortableTableHeader,
   type DataTableColumn,
   type TableScroll,
-} from '@debtflow/react-ui';
+} from '@packages/ui-react';
 import { AppIcon } from '@/components/ui/app-icon';
 import type { SortDirection } from '@/lib/routing/table-sort';
 import { DataTablePagination } from './data-table-pagination';
 
-export type { DataTableColumn, DataTableSkeletonSpec } from '@debtflow/react-ui';
+export type { DataTableColumn, DataTableSkeletonSpec } from '@packages/ui-react';
 type TableSlot<Row> = React.ReactNode | ((dataSource: Row[]) => React.ReactNode);
 
 export type DataTableProps<Row> = {

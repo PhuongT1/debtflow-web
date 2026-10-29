@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { useTranslations } from 'next-intl';
-import { DataTableContent, SortableTableHeader, type DataTableColumn } from '@debtflow/react-ui';
+import { DataTableContent, SortableTableHeader, type DataTableColumn } from '@packages/ui-react';
 import { TruncatedText } from '@/components/ui/clamped-text';
 import { formatMoney } from '@/lib/presentation/formatters';
 import type { PartnerSummaryParams } from '@/services/party.client';

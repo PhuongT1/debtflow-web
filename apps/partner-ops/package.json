@@ -10,11 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@debtflow/contracts": "*",
-    "@debtflow/design-tokens": "*",
-    "@debtflow/navigation": "*",
-    "@debtflow/platform-sdk": "*",
-    "@debtflow/react-ui": "*",
+    "@packages/platform-contracts": "*",
+    "@packages/ui-tokens": "*",
+    "@packages/platform-navigation": "*",
+    "@packages/platform-sdk": "*",
+    "@packages/ui-react": "*",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
@@ -32,7 +32,8 @@
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.80.0",
     "tailwind-merge": "^2.6.0",
-    "zod": "^3.25.67"
+    "zod": "^3.25.67",
+    "@packages/platform-registry": "*"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.6",

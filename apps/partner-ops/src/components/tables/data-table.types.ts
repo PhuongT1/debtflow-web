@@ -1,6 +1,6 @@
-import type { PaginationMeta } from '@debtflow/contracts';
-import type { DataTableSkeletonSpec, FixedTableSide } from '@debtflow/react-ui';
-export type { DataTableSkeletonSpec } from '@debtflow/react-ui';
+import type { PaginationMeta } from '@packages/platform-contracts';
+import type { DataTableSkeletonSpec, FixedTableSide } from '@packages/ui-react';
+export type { DataTableSkeletonSpec } from '@packages/ui-react';
 
 export type DataTableColumn<Row> = {
   key: string;

@@ -1,5 +1,5 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
-import { createServerPrefetchQueryClient } from '@debtflow/react-ui';
+import { createServerPrefetchQueryClient } from '@packages/ui-react';
 import { listParties } from '@/services/party.server';
 import { PartnerSummary } from './partner-summary';
 import { getPartnerSummaryParams } from './params';

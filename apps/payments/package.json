@@ -22,9 +22,9 @@
     "@angular/elements": "^22.1.3",
     "@angular/forms": "^22.1.0",
     "@angular/platform-browser": "^22.1.0",
-    "@debtflow/contracts": "*",
-    "@debtflow/design-tokens": "*",
-    "@debtflow/platform-sdk": "^1.0.0",
+    "@packages/platform-contracts": "*",
+    "@packages/ui-tokens": "*",
+    "@packages/platform-sdk": "^1.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

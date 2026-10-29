@@ -6,18 +6,18 @@ import { loadMfeRewrites } from './src/lib/config/mfe-manifest';
 
 const manifestPath = shellEnv.MFE_MANIFEST_PATH
   ? path.resolve(__dirname, shellEnv.MFE_MANIFEST_PATH)
-  : path.join(__dirname, '../../packages/mfe-registry/src/manifest.json');
+  : path.join(__dirname, '../../packages/platform/registry/src/manifest.json');
 
 const nextConfig: NextConfig = {
   output: 'standalone',
   outputFileTracingRoot: path.join(__dirname, '../..'),
   transpilePackages: [
-    '@debtflow/contracts',
-    '@debtflow/design-tokens',
-    '@debtflow/navigation',
-    '@debtflow/mfe-registry',
-    '@debtflow/platform-sdk',
-    '@debtflow/react-ui',
+    '@packages/platform-contracts',
+    '@packages/ui-tokens',
+    '@packages/platform-navigation',
+    '@packages/platform-registry',
+    '@packages/platform-sdk',
+    '@packages/ui-react',
   ],
   experimental: { serverActions: { bodySizeLimit: '2mb' } },
   async rewrites() {

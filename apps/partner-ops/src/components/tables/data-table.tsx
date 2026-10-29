@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { DataTable as SharedDataTable, createTablePaginationLinks } from '@debtflow/react-ui';
+import { DataTable as SharedDataTable, createTablePaginationLinks } from '@packages/ui-react';
 import { AppIcon } from '@/components/ui/app-icon';
 import { DataTablePagination } from './data-table-pagination';
 import type { DataTableProps } from './data-table.types';

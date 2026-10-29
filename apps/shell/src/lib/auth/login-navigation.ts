@@ -1,5 +1,5 @@
 import { headers } from 'next/headers';
-import { buildLoginUrl } from '@debtflow/platform-sdk';
+import { buildLoginUrl } from '@packages/platform-sdk';
 import { shellEnv } from '@/lib/config/environment';
 
 /** Only application pages on explicitly trusted origins can be login targets. */
