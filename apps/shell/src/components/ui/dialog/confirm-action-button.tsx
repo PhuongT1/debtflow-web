@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { alpha, Box, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
+import { Box, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import { ApiErrorNotice } from '@/components/ui/api-error-notice';
 import { AppDialog } from '@/components/ui/dialog/dialog';
 import { AppIcon } from '@/components/ui/app-icon';
@@ -82,7 +82,7 @@ export function ConfirmActionButton({
             <Box
               sx={(theme) => ({
                 alignItems: 'center',
-                bgcolor: alpha(theme.palette[config.color].main, 0.1),
+                bgcolor: `color-mix(in srgb, ${(theme.vars ?? theme).palette[config.color].main} 10%, transparent)`,
                 borderRadius: '50%',
                 color: `${config.color}.main`,
                 display: 'grid',

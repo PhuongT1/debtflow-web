@@ -1,5 +1,7 @@
 'use client';
 
+import { useRefreshParties } from '../hooks/use-refresh-parties';
+import { partnerListLayout } from '@packages/platform-registry';
 import { useTranslations, useFormatter } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { Alert } from '@mui/material';
@@ -17,6 +19,7 @@ import { useActiveUsers } from '@/hooks/use-active-users';
 import { getApiErrorMessage } from '@/lib/api/api-error';
 
 export function PartyList() {
+  const refresh = useRefreshParties();
   const t = useTranslations('Parties');
   const apiText = useTranslations('Api');
   const format = useFormatter();
@@ -39,6 +42,7 @@ export function PartyList() {
 
   const columns = getPartyListColumns({
     activeUsers,
+    onCompleted: refresh,
     formatMoney: (value) =>
       t('money', { amount: format.number(Number(value), { maximumFractionDigits: 0 }) }),
     labels: {
@@ -70,7 +74,13 @@ export function PartyList() {
         title={t('title')}
         actions={
           <>
-            <FormDialog buttonLabel={t('add')} description={t('addDescription')} title={t('add')}>
+            <FormDialog
+              remote={{ view: 'party-form', title: t('add'), size: 'md' }}
+              onCompleted={refresh}
+              buttonLabel={t('add')}
+              description={t('addDescription')}
+              title={t('add')}
+            >
               <PartyForm users={activeUsers} />
             </FormDialog>
             <HelpModal
@@ -92,6 +102,7 @@ export function PartyList() {
         hrefForPage={(page) => appRoutes.parties.page(filters, page)}
         hrefForPageSize={(pageSize) => appRoutes.parties.pageSize(filters, pageSize)}
         loading={isLoading}
+        size={partnerListLayout.size}
         {...meta}
         rows={items}
         toolbar={<PartyListToolbar activeUsers={activeUsers} />}

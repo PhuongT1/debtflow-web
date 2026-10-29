@@ -1,29 +1,31 @@
-import { Alert, Box, Button, CircularProgress, Typography } from '@mui/material';
+import type { RemoteLoadingStateProps, RemoteErrorStateProps } from './microfrontends.types';
+export type { RemoteHostState } from './microfrontends.types';
+import { Alert, Box, Button } from '@mui/material';
+import { useTranslations } from 'next-intl';
+import { FormPageSkeleton, TablePageSkeleton } from '@/components/skeletons/page-skeleton';
 
-export type RemoteHostState =
-  { status: 'loading' } | { status: 'ready' } | { status: 'error'; message: string };
-
-export function RemoteLoadingState({ label }: { label: string }) {
+/** Initial page placeholder; embedded pages own subsequent data-loading states. */
+export function RemoteLoadingState({ kind = 'table', children }: RemoteLoadingStateProps) {
+  const t = useTranslations('PageState');
   return (
     <Box
-      sx={{
-        alignItems: 'center',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 1.5,
-        justifyContent: 'center',
-        minHeight: 320,
-      }}
+      data-remote-loading
+      aria-busy="true"
+      role="status"
+      aria-label={t('loading')}
+      sx={{ minHeight: 320, height: 'calc(100dvh - 80px)', width: '100%' }}
     >
-      <CircularProgress size={28} />
-      <Typography color="text.secondary" variant="body2">
-        {label}
-      </Typography>
+      {children ??
+        (kind === 'form' ? (
+          <FormPageSkeleton label={t('loading')} />
+        ) : (
+          <TablePageSkeleton label={t('loading')} />
+        ))}
     </Box>
   );
 }
 
-export function RemoteErrorState({ message, retry }: { message: string; retry: () => void }) {
+export function RemoteErrorState({ message, retry }: RemoteErrorStateProps) {
   return (
     <Alert
       action={

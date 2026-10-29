@@ -1,5 +1,7 @@
 'use client';
 
+import { partnerListLayout } from '@packages/platform-registry';
+
 import { useEffect, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -11,7 +13,7 @@ import { AppInput } from '@/components/ui/form/input';
 import { AppSelect } from '@/components/ui/form/select';
 import { DataTableToolbar } from '@/components/tables/toolbar';
 import { FilterActions } from '@/components/ui/form/filter-actions';
-import { isEmbeddedInPlatform, navigateToPlatform } from '@/lib/platform-navigation';
+import { partnerPlatform } from '@/lib/platform/client';
 import { getPartyListFilters } from '../model/party-filters';
 import { createPartyFilterSchema, type PartyFilterValues } from './filter.schema';
 import type { UserSummary } from '@/models/user';
@@ -62,7 +64,7 @@ export function PartyListToolbar({ activeUsers }: PartyListToolbarProps) {
     if (filters.pageSize) nextParams.set('pageSize', filters.pageSize);
 
     const path = appRoutes.parties.filtered(Object.fromEntries(nextParams));
-    if (isEmbeddedInPlatform()) navigateToPlatform(path);
+    if (partnerPlatform.isEmbedded()) partnerPlatform.navigate({ path });
     else router.push(path, { scroll: false });
   }
 
@@ -75,18 +77,13 @@ export function PartyListToolbar({ activeUsers }: PartyListToolbarProps) {
       createdFrom: '',
       createdTo: '',
     });
-    if (isEmbeddedInPlatform()) navigateToPlatform(appRoutes.parties.list);
+    if (partnerPlatform.isEmbedded()) partnerPlatform.navigate({ path: appRoutes.parties.list });
     else router.replace(appRoutes.parties.list, { scroll: false });
   }
 
   return (
     <DataTableToolbar
-      columns={{
-        xs: '1fr',
-        sm: 'repeat(2, minmax(0, 1fr))',
-        lg: '2fr repeat(2, minmax(150px, 1fr))',
-        xl: '2fr repeat(5, minmax(140px, 1fr)) auto',
-      }}
+      columns={partnerListLayout.toolbarColumns}
       onSubmit={handleSubmit(applyFilters)}
     >
       <AppInput

@@ -2,13 +2,26 @@
 
 import { useTranslations } from 'next-intl';
 import { createContext, useContext, useMemo, useState } from 'react';
-import { DialogContent, DialogTitle, IconButton, Tooltip, Typography } from '@mui/material';
+import {
+  DialogContent,
+  DialogTitle,
+  DialogActions,
+  IconButton,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { AppIcon, type AppIconName } from '@/components/ui/app-icon';
 import { AppDialog } from '@/components/ui/dialog/dialog';
+import type { OverlayRequest } from '@packages/platform-contracts';
+import { useOverlaySurface } from '@packages/ui-react';
 import { Button } from '@/components/ui/button';
 
-const FormDialogContext = createContext<{ closeDialog: () => void }>({
+const FormDialogContext = createContext<{
+  closeDialog: (message?: string, data?: Record<string, unknown>) => void;
+  setGuard: (guard: { dirty: boolean; pending: boolean }) => void;
+}>({
   closeDialog: () => undefined,
+  setGuard: () => undefined,
 });
 
 export function useFormDialog() {
@@ -24,6 +37,9 @@ export function FormDialog({
   title,
   description,
   children,
+  remote,
+  onCompleted,
+  surface = false,
 }: {
   buttonLabel: string;
   buttonIcon?: AppIconName;
@@ -33,10 +49,34 @@ export function FormDialog({
   title: string;
   description?: string;
   children: React.ReactNode;
+  remote?: OverlayRequest;
+  onCompleted?: () => void;
+  surface?: boolean;
 }) {
   const t = useTranslations('Common');
-  const [open, setOpen] = useState(false);
-  const dialogContext = useMemo(() => ({ closeDialog: () => setOpen(false) }), []);
+  const overlay = useOverlaySurface();
+  const [open, setOpen] = useState(surface);
+  const [guard, setGuard] = useState({ dirty: false, pending: false });
+  const [discard, setDiscard] = useState(false);
+  const closeNow = () => {
+    setOpen(false);
+    overlay?.finish({ status: 'cancelled' });
+  };
+  const close = () => {
+    if (guard.pending) return;
+    if (guard.dirty) setDiscard(true);
+    else closeNow();
+  };
+  const dialogContext = useMemo(
+    () => ({
+      setGuard,
+      closeDialog: (message?: string, data?: Record<string, unknown>) => {
+        setOpen(false);
+        overlay?.finish({ status: 'completed', message, ...(data ? { data } : {}) });
+      },
+    }),
+    [overlay],
+  );
   const triggerIcon = buttonIcon ?? 'add';
   const trigger = iconOnly ? (
     <Tooltip title={buttonLabel}>
@@ -63,8 +103,16 @@ export function FormDialog({
 
   return (
     <>
-      {trigger}
-      <AppDialog fullWidth maxWidth="md" open={open} onClose={() => setOpen(false)}>
+      {!surface && trigger}
+      <AppDialog
+        surfaceBody={surface}
+        fullWidth
+        maxWidth="md"
+        open={open}
+        onClose={close}
+        remote={remote}
+        onCompleted={onCompleted}
+      >
         <DialogTitle sx={{ pr: 6 }}>
           <Typography component="div" sx={{ fontSize: 20, fontWeight: 900 }}>
             {title}
@@ -76,7 +124,7 @@ export function FormDialog({
           ) : null}
           <IconButton
             aria-label={t('close')}
-            onClick={() => setOpen(false)}
+            onClick={close}
             sx={{ position: 'absolute', right: 12, top: 12 }}
           >
             <AppIcon fontSize="small" name="close" />
@@ -85,6 +133,24 @@ export function FormDialog({
         <DialogContent sx={{ bgcolor: 'background.default', borderColor: 'divider' }} dividers>
           <FormDialogContext.Provider value={dialogContext}>{children}</FormDialogContext.Provider>
         </DialogContent>
+      </AppDialog>
+      <AppDialog open={discard} onClose={() => setDiscard(false)} maxWidth="xs" fullWidth>
+        <DialogTitle>{t('discardTitle')}</DialogTitle>
+        <DialogContent>{t('discardDescription')}</DialogContent>
+        <DialogActions>
+          <Button variant="secondary" onClick={() => setDiscard(false)}>
+            {t('keepEditing')}
+          </Button>
+          <Button
+            tone="error"
+            onClick={() => {
+              setDiscard(false);
+              closeNow();
+            }}
+          >
+            {t('discard')}
+          </Button>
+        </DialogActions>
       </AppDialog>
     </>
   );

@@ -1,4 +1,5 @@
 'use client';
+import { designTokens } from '@packages/ui-tokens';
 
 import { useMemo } from 'react';
 import { useTranslations, useFormatter } from 'next-intl';
@@ -61,7 +62,7 @@ export function PartyDetails({ partyId }: { partyId: string }) {
           <Typography
             component="a"
             href={appRoutes.debts.detail(debt.id)}
-            sx={{ color: 'primary.main', fontSize: 13.5, fontWeight: 750, textDecoration: 'none' }}
+            sx={{ color: designTokens.color.primaryText, fontSize: 13.5, fontWeight: 750, textDecoration: 'none' }}
           >
             {debt.code}
           </Typography>

@@ -17,6 +17,17 @@ export function middleware(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   const applicationUrl = request.nextUrl.clone();
 
+  if (
+    request.nextUrl.pathname === '/__embed/overlays' ||
+    request.nextUrl.pathname.startsWith('/__embed/overlays/')
+  ) {
+    requestHeaders.set('x-debtflow-embed', '1');
+    requestHeaders.set('x-debtflow-overlay', '1');
+    applicationUrl.pathname = request.nextUrl.pathname.replace('/__embed/overlays', '/overlays');
+    requestHeaders.set('x-debtflow-return-to', '/parties');
+    return NextResponse.rewrite(applicationUrl, { request: { headers: requestHeaders } });
+  }
+
   if (request.nextUrl.pathname.startsWith(EMBED_PATH)) {
     requestHeaders.set('x-debtflow-embed', '1');
     const suffix = request.nextUrl.pathname.slice(EMBED_PATH.length);
@@ -39,5 +50,11 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/login', '/parties/:path*', '/__embed/parties/:path*'],
+  matcher: [
+    '/login',
+    '/parties/:path*',
+    '/__embed/parties/:path*',
+    '/__embed/overlays/:path*',
+    '/overlays/:path*',
+  ],
 };

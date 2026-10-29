@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import { Box } from '@mui/material';
 import { StandaloneWorkspaceHeader } from '@/components/layouts/standalone-workspace-header';
-import { EmbeddedNavigationBridge } from '@/components/platform/embedded-navigation-bridge';
+import { EmbeddedPlatformBridge } from '@/components/platform/embedded-platform-bridge';
 import { getCoreIdentity } from '@/lib/core-session';
 import { partnerOpsEnv } from '@/lib/env';
 import { buildLoginUrl } from '@packages/platform-sdk';
@@ -21,13 +21,18 @@ export default async function ProtectedLayout({ children }: { children: React.Re
     redirect(loginUrlFor(returnTo));
   }
 
+  if (requestHeaders.get('x-debtflow-overlay') === '1') return children;
+
   const embedded = requestHeaders.get('x-debtflow-embed') === '1';
 
   return (
     <Box
+      data-page-viewport
       sx={{
         display: 'flex',
         flexDirection: 'column',
+        containerType: 'inline-size',
+        containerName: 'page-viewport',
         height: '100dvh',
         minHeight: 0,
         minWidth: 0,
@@ -35,7 +40,7 @@ export default async function ProtectedLayout({ children }: { children: React.Re
       }}
     >
       {embedded ? (
-        <EmbeddedNavigationBridge />
+        <EmbeddedPlatformBridge />
       ) : (
         <StandaloneWorkspaceHeader
           identity={identity}

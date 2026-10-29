@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { AppIcon } from '@/components/ui/app-icon';
 import { AppDialog } from '@/components/ui/dialog/dialog';
+import { useOverlaySurface } from '@packages/ui-react';
 import { Button } from '@/components/ui/button';
 
 type HelpModalProps = {
@@ -21,25 +22,47 @@ type HelpModalProps = {
   steps: string[];
   tips?: string[];
   buttonLabel?: string;
+  surface?: boolean;
 };
 
-export function HelpModal({ title, description, steps, tips = [], buttonLabel }: HelpModalProps) {
+export function HelpModal({
+  title,
+  description,
+  steps,
+  tips = [],
+  buttonLabel,
+  surface = false,
+}: HelpModalProps) {
   const t = useTranslations('Common');
-  const [open, setOpen] = useState(false);
+  const overlay = useOverlaySurface();
+  const [open, setOpen] = useState(surface);
+  const close = () => {
+    setOpen(false);
+    overlay?.finish({ status: 'cancelled' });
+  };
 
   return (
     <>
-      <Button
-        className="gap-2"
-        startIcon={<AppIcon fontSize="small" name="help" />}
-        type="button"
-        variant="secondary"
-        onClick={() => setOpen(true)}
-      >
-        {buttonLabel ?? t('help')}
-      </Button>
+      {!surface && (
+        <Button
+          className="gap-2"
+          startIcon={<AppIcon fontSize="small" name="help" />}
+          type="button"
+          variant="secondary"
+          onClick={() => setOpen(true)}
+        >
+          {buttonLabel ?? t('help')}
+        </Button>
+      )}
 
-      <AppDialog fullWidth maxWidth="sm" open={open} onClose={() => setOpen(false)}>
+      <AppDialog
+        surfaceBody={surface}
+        fullWidth
+        maxWidth="sm"
+        open={open}
+        onClose={close}
+        remote={{ view: 'help', title, size: 'sm', input: { title, description, steps, tips } }}
+      >
         <DialogTitle sx={{ pr: 6 }}>
           <Typography component="div" sx={{ fontSize: 20, fontWeight: 900 }}>
             {title}
@@ -49,7 +72,7 @@ export function HelpModal({ title, description, steps, tips = [], buttonLabel }:
           </Typography>
           <IconButton
             aria-label={t('closeHelp')}
-            onClick={() => setOpen(false)}
+            onClick={close}
             sx={{ position: 'absolute', right: 12, top: 12 }}
           >
             <AppIcon fontSize="small" name="close" />

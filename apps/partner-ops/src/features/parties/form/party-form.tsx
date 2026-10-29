@@ -36,7 +36,7 @@ export function PartyForm({
 }) {
   const t = useTranslations('PartyForm');
   const partyFormSchema = createPartyFormSchema(t);
-  const { closeDialog } = useFormDialog();
+  const { closeDialog, setGuard } = useFormDialog();
   const { showToast } = useToast();
   const mutation = useSaveParty();
   const {
@@ -45,7 +45,7 @@ export function PartyForm({
     handleSubmit,
     setError,
     trigger,
-    formState: { errors, isSubmitted },
+    formState: { errors, isSubmitted, isDirty },
   } = useForm<PartyFormInput, unknown, PartyFormValues>({
     resolver: zodResolver(partyFormSchema),
     defaultValues: {
@@ -65,6 +65,10 @@ export function PartyForm({
   });
 
   useEffect(() => {
+    setGuard({ dirty: isDirty, pending: mutation.isPending });
+  }, [isDirty, mutation.isPending, setGuard]);
+
+  useEffect(() => {
     if (isSubmitted) void trigger();
   }, [t, trigger, isSubmitted]);
 
@@ -78,8 +82,8 @@ export function PartyForm({
             ? { id: partyId, data: toPartyRequest(values) }
             : { data: toPartyRequest(values) },
           {
-            onSuccess: () => {
-              closeDialog();
+            onSuccess: (party) => {
+              closeDialog(partyId ? t('updated') : t('created'), { id: party.id });
               showToast({ message: partyId ? t('updated') : t('created') });
             },
             onError: (error) => applyApiFieldErrors(error, setError),
