@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { MenuItem, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { AppSelect } from '@/components/ui/form/select';
-import { isEmbeddedInPlatform, navigateToPlatform } from '@/lib/platform-navigation';
+import { partnerPlatform } from '@/lib/platform/client';
 
 export function PageSizeSelect({
   pageSize,
@@ -29,7 +29,7 @@ export function PageSizeSelect({
         onChange={(event) => {
           const selected = options.find((option) => String(option.size) === event.target.value);
           if (!selected) return;
-          if (isEmbeddedInPlatform()) navigateToPlatform(selected.href);
+          if (partnerPlatform.isEmbedded()) partnerPlatform.navigate({ path: selected.href });
           else router.push(selected.href, { scroll: false });
         }}
       >

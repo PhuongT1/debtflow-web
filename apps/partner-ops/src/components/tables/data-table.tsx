@@ -1,6 +1,5 @@
 import { useTranslations } from 'next-intl';
 import { DataTable as SharedDataTable, createTablePaginationLinks } from '@packages/ui-react';
-import { AppIcon } from '@/components/ui/app-icon';
 import { DataTablePagination } from './data-table-pagination';
 import type { DataTableProps } from './data-table.types';
 
@@ -38,7 +37,6 @@ export function DataTable<Row extends { id: React.Key }>({
       description={t('records', { count: total })}
       emptyMessage={emptyMessage}
       emptyHint={t('emptyHint')}
-      emptyIcon={<AppIcon name="list" />}
       fillHeight={fillHeight}
       loading={loading}
       pagination={

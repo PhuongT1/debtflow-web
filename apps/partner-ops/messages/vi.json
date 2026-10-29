@@ -67,6 +67,8 @@
     "money": "{amount} đồng"
   },
   "Filters": {
+    "show": "Hiện bộ lọc",
+    "hide": "Ẩn bộ lọc",
     "apply": "Lọc",
     "clear": "Xóa lọc"
   },
@@ -149,6 +151,12 @@
     }
   },
   "Common": {
+    "discardTitle": "Bỏ thay đổi?",
+    "discardDescription": "Các thay đổi chưa lưu sẽ bị mất.",
+    "keepEditing": "Tiếp tục chỉnh sửa",
+    "discard": "Bỏ thay đổi",
+
+    "overlayUnavailable": "Không thể mở hộp thoại. Vui lòng thử lại.",
     "close": "Đóng",
     "help": "Hướng dẫn",
     "closeHelp": "Đóng hướng dẫn",

@@ -2,8 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom, of } from 'rxjs';
-import { PaymentApiService } from './features/payments/payment-api.service';
-import { PaymentHistoryComponent } from './features/payments/payment-history.component';
+import { PaymentApiService, PaymentHistoryComponent } from './features/payments';
 
 describe('Payments custom element content', () => {
   it('creates the payment history without a product shell', async () => {

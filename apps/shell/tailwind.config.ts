@@ -5,15 +5,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        border: 'hsl(var(--border))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        primary: 'hsl(var(--primary))',
-        muted: 'hsl(var(--muted))',
-        danger: 'hsl(var(--danger))',
+        border: 'var(--df-color-divider)',
+        background: 'var(--df-color-background)',
+        foreground: 'var(--df-color-text)',
+        primary: 'var(--df-color-primary)',
+        muted: 'var(--df-color-surface-inset)',
+        danger: 'var(--df-color-error)',
       },
       boxShadow: {
-        soft: '0 12px 30px rgba(15, 23, 42, 0.08)',
+        soft: 'var(--df-shadow-surface)',
       },
     },
   },

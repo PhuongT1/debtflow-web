@@ -1,5 +1,6 @@
 import { Box, Card as MuiCard, CardContent, Typography } from '@mui/material';
-import { AppIcon, type AppIconName } from '@/components/ui/app-icon';
+import { AppIconBadge } from '@packages/ui-react';
+import { type AppIconName } from '@/components/ui/app-icon';
 
 export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
@@ -7,7 +8,6 @@ export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElemen
       className={className}
       elevation={0}
       sx={{
-        borderRadius: '8px',
         p: 2.5,
       }}
       {...props}
@@ -43,19 +43,7 @@ export function StatCard({
           <Typography color="text.secondary" sx={{ fontSize: 14, fontWeight: 800 }}>
             {label}
           </Typography>
-          <Box
-            sx={{
-              bgcolor: `${paletteTone}.light`,
-              borderRadius: '8px',
-              color: `${paletteTone}.main`,
-              display: 'grid',
-              height: 38,
-              placeItems: 'center',
-              width: 38,
-            }}
-          >
-            <AppIcon fontSize="small" name={icon} />
-          </Box>
+          <AppIconBadge name={icon} tone={paletteTone} />
         </Box>
         <Typography
           color="text.primary"

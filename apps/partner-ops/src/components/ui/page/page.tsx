@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { designTokens } from '@packages/ui-tokens';
 import { Box, Breadcrumbs, Link as MuiLink, Typography } from '@mui/material';
 
 export type PageContentWidth = 'narrow' | 'standard' | 'wide' | 'fluid';
@@ -78,7 +79,8 @@ export function PageHeader({
             component="h1"
             sx={{
               fontSize: compact ? { xs: 22, md: 24 } : { xs: 25, md: 30 },
-              fontWeight: 800,
+              fontWeight: designTokens.typography.pageTitle.fontWeight,
+              letterSpacing: '-0.025em',
               lineHeight: 1.2,
             }}
           >
@@ -99,7 +101,7 @@ export function PageHeader({
                 fontSize: 13,
                 fontWeight: 600,
                 textDecoration: 'none',
-                '&:hover': { color: 'primary.main' },
+                '&:hover': { color: designTokens.color.primaryText },
               }}
             >
               {parent ?? 'Dashboard'}

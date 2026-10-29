@@ -104,7 +104,7 @@ export function StandaloneWorkspaceHeader({
             <Avatar
               sx={{
                 bgcolor: 'primary.light',
-                color: 'primary.dark',
+                color: designTokens.color.primaryText,
                 fontSize: 13,
                 fontWeight: 800,
                 height: 32,
@@ -143,7 +143,7 @@ export function StandaloneWorkspaceHeader({
               <Typography color="text.secondary" noWrap sx={{ fontSize: 12 }}>
                 {identity.email}
               </Typography>
-              <Typography color="primary.main" sx={{ fontSize: 10.5, fontWeight: 800, mt: 0.75 }}>
+              <Typography color={designTokens.color.primaryText} sx={{ fontSize: 10.5, fontWeight: 800, mt: 0.75 }}>
                 {identity.role}
               </Typography>
             </Box>

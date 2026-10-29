@@ -38,13 +38,17 @@ function extractApiErrorDetails(body: unknown): UnknownRecord[] {
     : Array.isArray(nestedError?.details)
       ? nestedError.details
       : [];
-  return errors.map(readApiResponseObject).filter((error): error is UnknownRecord => error !== null);
+  return errors
+    .map(readApiResponseObject)
+    .filter((error): error is UnknownRecord => error !== null);
 }
 
 function extractLocalizedBackendErrorMessage(body: unknown, locale: AppLocale) {
   const record = readApiResponseObject(body);
   const nestedError = readApiResponseObject(record?.error);
-  const firstFieldError = extractApiErrorDetails(body).find((error) => typeof error.message === 'string');
+  const firstFieldError = extractApiErrorDetails(body).find(
+    (error) => typeof error.message === 'string',
+  );
   return typeof record?.message === 'string'
     ? record.message
     : typeof nestedError?.message === 'string'
@@ -56,8 +60,10 @@ function extractLocalizedBackendErrorMessage(body: unknown, locale: AppLocale) {
 
 function extractApiFieldErrors(body: unknown): ApiFieldError[] {
   return extractApiErrorDetails(body)
-    .filter((error): error is UnknownRecord & { field: string; message: string } =>
-      typeof error.field === 'string' && typeof error.message === 'string')
+    .filter(
+      (error): error is UnknownRecord & { field: string; message: string } =>
+        typeof error.field === 'string' && typeof error.message === 'string',
+    )
     .map((error) => ({
       field: error.field,
       message: error.message,
@@ -84,19 +90,26 @@ function serializeClientRequestBody(data: unknown): BodyInit | undefined {
     data instanceof ArrayBuffer ||
     ArrayBuffer.isView(data) ||
     isMultipartFormData(data)
-  ) return data as BodyInit;
+  )
+    return data as BodyInit;
   return JSON.stringify(data);
 }
 
 function sendClientApiRequest(url: string, init: RequestInit): Promise<Response> {
   const { body, method = 'GET', ...options } = init;
   switch (method.toUpperCase()) {
-    case 'GET': return http.get(url, options);
-    case 'POST': return http.post(url, body, options);
-    case 'PATCH': return http.patch(url, body, options);
-    case 'PUT': return http.put(url, body, options);
-    case 'DELETE': return http.delete(url, options);
-    default: return http.request(url, init);
+    case 'GET':
+      return http.get(url, options);
+    case 'POST':
+      return http.post(url, body, options);
+    case 'PATCH':
+      return http.patch(url, body, options);
+    case 'PUT':
+      return http.put(url, body, options);
+    case 'DELETE':
+      return http.delete(url, options);
+    default:
+      return http.request(url, init);
   }
 }
 
@@ -104,7 +117,10 @@ function sendClientApiRequest(url: string, init: RequestInit): Promise<Response>
  * Private pipeline shared by all client requests: locale, timeout,
  * cancellation, response-envelope parsing and normalized errors.
  */
-async function executeClientApiRequest<T>(url: string, options: ApiRequestOptions = {}): Promise<T> {
+async function executeClientApiRequest<T>(
+  url: string,
+  options: ApiRequestOptions = {},
+): Promise<T> {
   const { timeoutMs = DEFAULT_CLIENT_TIMEOUT_MS, signal, ...init } = options;
   const locale = getStoredLocale();
   const headers = isMultipartFormData(init.body)
@@ -123,15 +139,24 @@ async function executeClientApiRequest<T>(url: string, options: ApiRequestOption
   } catch (error: unknown) {
     if (error instanceof DOMException && error.name === 'AbortError') throw error;
     if (error instanceof DOMException && error.name === 'TimeoutError') {
-      throw new ApiClientError(getLocalizedApiErrorMessage(locale, 'requestTimedOut'), { fieldErrors: [], status: 408 });
+      throw new ApiClientError(getLocalizedApiErrorMessage(locale, 'requestTimedOut'), {
+        fieldErrors: [],
+        status: 408,
+      });
     }
-    throw new ApiClientError(getLocalizedApiErrorMessage(locale, 'connectionFailed'), { fieldErrors: [], status: 0 });
+    throw new ApiClientError(getLocalizedApiErrorMessage(locale, 'connectionFailed'), {
+      fieldErrors: [],
+      status: 0,
+    });
   }
 
   const body = await response.json().catch(() => null);
   if (!response.ok) {
     if (response.status === 401) {
-      throw new ApiClientError(getLocalizedApiErrorMessage(locale, 'authenticationExpired'), { fieldErrors: [], status: 401 });
+      throw new ApiClientError(getLocalizedApiErrorMessage(locale, 'authenticationExpired'), {
+        fieldErrors: [],
+        status: 401,
+      });
     }
     throw new ApiClientError(extractLocalizedBackendErrorMessage(body, locale), {
       fieldErrors: extractApiFieldErrors(body),
@@ -150,13 +175,25 @@ export const apiClient = {
     return executeClientApiRequest<T>(url, { ...options, method: 'GET' });
   },
   post<T>(url: string, data?: unknown, options: ApiMethodOptions = {}) {
-    return executeClientApiRequest<T>(url, { ...options, body: serializeClientRequestBody(data), method: 'POST' });
+    return executeClientApiRequest<T>(url, {
+      ...options,
+      body: serializeClientRequestBody(data),
+      method: 'POST',
+    });
   },
   patch<T>(url: string, data?: unknown, options: ApiMethodOptions = {}) {
-    return executeClientApiRequest<T>(url, { ...options, body: serializeClientRequestBody(data), method: 'PATCH' });
+    return executeClientApiRequest<T>(url, {
+      ...options,
+      body: serializeClientRequestBody(data),
+      method: 'PATCH',
+    });
   },
   put<T>(url: string, data?: unknown, options: ApiMethodOptions = {}) {
-    return executeClientApiRequest<T>(url, { ...options, body: serializeClientRequestBody(data), method: 'PUT' });
+    return executeClientApiRequest<T>(url, {
+      ...options,
+      body: serializeClientRequestBody(data),
+      method: 'PUT',
+    });
   },
   delete<T>(url: string, options: ApiMethodOptions = {}) {
     return executeClientApiRequest<T>(url, { ...options, method: 'DELETE' });

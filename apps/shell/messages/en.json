@@ -1,4 +1,8 @@
 {
+  "Overlay": {
+    "opening": "Opening dialog…",
+    "close": "Close"
+  },
   "SignOut": {
     "title": "Sign out",
     "confirmation": "Are you sure you want to log out?",
@@ -177,7 +181,7 @@
     "exitTableFocus": "Exit focus mode",
     "loadingDebtData": "Loading debt data...",
     "displayedRows": "Showing {first}-{last} / {total} rows",
-    "rowsPerPage": "Rows per page",
+    "rowsPerPage": "Rows",
     "partnerDetails": "Partner",
     "outstandingDocuments": "Outstanding documents",
     "loadingDocuments": "Loading documents...",
@@ -200,7 +204,9 @@
     "dueDateFrom": "Due date from",
     "dueDateTo": "Due date to",
     "paginationSummary": "Showing {from}-{to} of {total} debts",
-    "rowsPerPage": "Rows",
     "pageOf": "Page {page}/{totalPages}"
+  },
+  "PageState": {
+    "loading": "Loading page"
   }
 }

@@ -54,7 +54,7 @@
   flex: 0 0 auto;
   place-items: center;
   background: var(--df-color-primary);
-  color: #fff;
+  color: var(--df-color-primary-contrast);
   font-size: 13px;
   font-weight: 800;
 }
@@ -123,7 +123,7 @@
   border: 1px solid var(--df-color-divider);
   border-radius: var(--df-radius-md);
   background: var(--df-color-surface);
-  box-shadow: 0 12px 28px rgb(15 23 42 / 14%);
+  box-shadow: var(--df-shadow-floating);
   text-align: left;
 }
 
@@ -136,7 +136,7 @@
 }
 
 .account-menu__role {
-  color: var(--df-color-primary-dark) !important;
+  color: var(--df-color-primary-text) !important;
   font-size: 11px !important;
   font-weight: 800;
 }
@@ -160,7 +160,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  color: var(--df-color-primary-dark);
+  color: var(--df-color-primary-text);
   background: var(--df-color-primary-light);
 }
 
@@ -169,7 +169,7 @@
   border: 1px solid var(--df-color-divider);
   border-radius: var(--df-radius-md);
   padding: 9px 13px;
-  color: var(--df-color-primary);
+  color: var(--df-color-primary-text);
   font-size: var(--df-font-size-control);
   font-weight: var(--df-font-weight-control);
   line-height: var(--df-line-height-control);
@@ -192,7 +192,7 @@
 }
 
 .workspace-nav a.active {
-  color: #fff;
+  color: var(--df-color-primary-contrast);
   background: var(--df-color-primary);
 }
 

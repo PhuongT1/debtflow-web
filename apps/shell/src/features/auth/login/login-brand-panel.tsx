@@ -1,19 +1,17 @@
 'use client';
 
-import { alpha, Box, Typography } from '@mui/material';
+import { designTokens } from '@packages/ui-tokens';
+import { Box, Typography } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import { AppIcon, type AppIconName } from '@/components/ui/app-icon';
 
-function FeatureIcon({ icon, tone }: { icon: AppIconName; tone: 'blue' | 'cyan' | 'green' }) {
-  const paletteTones = { blue: 'primary', cyan: 'info', green: 'success' } as const;
-  const paletteTone = paletteTones[tone];
-
+function FeatureIcon({ icon }: { icon: AppIconName }) {
   return (
     <Box
       sx={(theme) => ({
-        backgroundColor: alpha(theme.palette[paletteTone].light, 0.16),
+        backgroundColor: `color-mix(in srgb, ${(theme.vars ?? theme).palette.primary.contrastText} 12%, transparent)`,
         borderRadius: '8px',
-        color: `${paletteTone}.light`,
+        color: 'primary.contrastText',
         display: 'grid',
         flex: '0 0 auto',
         height: 38,
@@ -32,7 +30,7 @@ export function LoginBrandPanel() {
   return (
     <Box
       sx={{
-        bgcolor: 'primary.dark',
+        background: designTokens.effect.brandPanel,
         color: 'primary.contrastText',
         display: { xs: 'none', md: 'flex' },
         flexDirection: 'column',
@@ -48,7 +46,7 @@ export function LoginBrandPanel() {
               borderRadius: '9px',
               display: 'grid',
               fontSize: 15,
-              fontWeight: 850,
+              fontWeight: 700,
               height: 42,
               placeItems: 'center',
               width: 42,
@@ -57,10 +55,10 @@ export function LoginBrandPanel() {
             DF
           </Box>
           <Box>
-            <Typography sx={{ fontSize: 18, fontWeight: 850 }}>Debt Flow</Typography>
+            <Typography sx={{ fontSize: 18, fontWeight: 700 }}>Debt Flow</Typography>
             <Typography
               sx={(theme) => ({
-                color: alpha(theme.palette.primary.contrastText, 0.72),
+                color: `color-mix(in srgb, ${(theme.vars ?? theme).palette.primary.contrastText} 72%, transparent)`,
                 fontSize: 12,
               })}
             >
@@ -70,13 +68,13 @@ export function LoginBrandPanel() {
         </Box>
         <Typography
           component="p"
-          sx={{ fontSize: 32, fontWeight: 820, lineHeight: 1.25, mt: 7, maxWidth: 360 }}
+          sx={{ fontSize: 32, fontWeight: 700, lineHeight: 1.25, mt: 7, maxWidth: 360 }}
         >
           {t('headline')}
         </Typography>
         <Typography
           sx={(theme) => ({
-            color: alpha(theme.palette.primary.contrastText, 0.78),
+            color: `color-mix(in srgb, ${(theme.vars ?? theme).palette.primary.contrastText} 78%, transparent)`,
             fontSize: 15,
             lineHeight: 1.7,
             mt: 2,
@@ -88,15 +86,15 @@ export function LoginBrandPanel() {
       </Box>
       <Box sx={{ display: 'grid', gap: 2.25 }}>
         {[
-          [t('trackDebts'), 'dashboard', 'blue'],
-          [t('prioritizeOverdue'), 'calendar', 'cyan'],
-          [t('paymentHistory'), 'payments', 'green'],
-        ].map(([label, icon, tone]) => (
+          [t('trackDebts'), 'dashboard'],
+          [t('prioritizeOverdue'), 'calendar'],
+          [t('paymentHistory'), 'payments'],
+        ].map(([label, icon]) => (
           <Box key={label} sx={{ alignItems: 'center', display: 'flex', gap: 1.5 }}>
-            <FeatureIcon icon={icon as AppIconName} tone={tone as 'blue' | 'cyan' | 'green'} />
+            <FeatureIcon icon={icon as AppIconName} />
             <Typography
               sx={(theme) => ({
-                color: alpha(theme.palette.primary.contrastText, 0.9),
+                color: `color-mix(in srgb, ${(theme.vars ?? theme).palette.primary.contrastText} 90%, transparent)`,
                 fontSize: 13.5,
                 fontWeight: 600,
               })}

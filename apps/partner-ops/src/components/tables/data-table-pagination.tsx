@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Box, Typography } from '@mui/material';
 import { AppPagination, DataTablePagination as SharedTablePagination } from '@packages/ui-react';
 import { PageSizeSelect } from '@/components/tables/page-size-select';
-import { isEmbeddedInPlatform, navigateToPlatform } from '@/lib/platform-navigation';
+import { partnerPlatform } from '@/lib/platform/client';
 
 export function DataTablePagination({
   page,
@@ -44,7 +44,7 @@ export function DataTablePagination({
         onPageChange={(nextPage) => {
           const href = hrefByPage[nextPage];
           if (!href) return;
-          if (isEmbeddedInPlatform()) navigateToPlatform(href);
+          if (partnerPlatform.isEmbedded()) partnerPlatform.navigate({ path: href });
           else router.push(href, { scroll: false });
         }}
         page={page}

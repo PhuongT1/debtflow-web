@@ -8,11 +8,11 @@ dialog {
   border-radius: var(--df-radius-md);
   background: var(--df-color-surface);
   color: var(--df-color-text);
-  box-shadow: 0 16px 48px rgb(15 23 42 / 24%);
+  box-shadow: var(--df-shadow-dialog);
 }
 
 dialog::backdrop {
-  background: rgb(15 23 42 / 45%);
+  background: var(--df-color-backdrop);
 }
 h2 {
   margin: 0 0 16px;
@@ -43,7 +43,7 @@ button {
 button.confirm {
   border-color: var(--df-color-error);
   background: var(--df-color-error);
-  color: #fff;
+  color: var(--df-color-primary-contrast);
 }
 button:disabled {
   cursor: wait;
