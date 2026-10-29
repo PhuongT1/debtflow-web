@@ -2,7 +2,9 @@
 
 **Activate:** imports changes in Debtflow; load only this selected local extension.
 
-Local references: [Parties public API](../../../../apps/partner-ops/src/features/parties/index.ts), [server-only adapter](../../../../apps/shell/src/services/debt.server.ts), [package exports](../../../../packages/react-ui/package.json), [boundary checker](../../../../scripts/check-frontend-boundaries.mjs).
+Local references: [Parties public API](../../../../apps/partner-ops/src/features/parties/index.ts), [server-only adapter](../../../../apps/shell/src/services/debt.server.ts), [package exports](../../../../packages/ui/react/package.json), [boundary checker](../../../../scripts/check-frontend-boundaries.mjs).
+
+Follow the cross-framework [Import Ownership](../../imports.md) namespace policy. `@packages/` identifies shared workspace code; `@/` identifies only the current React app.
 
 ## Choose the import path
 
@@ -13,13 +15,13 @@ In both React apps, `@/` resolves to that app's own `src/` directory. It does no
 | Sibling / child in the same cohesive feature | Direct relative import          | `./party-table`, `./hooks/use-party-filters`   |
 | Parent inside that same feature              | At most one `../` where clearer | `../party-types`                               |
 | Other app layer or feature public API        | Configured app alias            | `@/components/ui/button`, `@/features/auth`    |
-| Shared workspace package                     | Declared public package export  | `@debtflow/react-ui`, `@debtflow/platform-sdk` |
+| Shared workspace package                     | Declared public package export  | `@packages/ui-react`, `@packages/platform-sdk` |
 | Shared package internal sibling              | Relative module import          | `./table-cell`                                 |
 
 ```ts
 // Inside features/parties/list/party-list.tsx:
 import { useTranslations } from 'next-intl';
-import { AppLocaleMenu } from '@debtflow/react-ui';
+import { AppLocaleMenu } from '@packages/ui-react';
 import { Button } from '@/components/ui/button';
 import { useParties } from '../hooks/use-parties';
 import { PartyTable } from './party-table';
@@ -36,6 +38,6 @@ Must not add imports such as:
 ```ts
 import { Button } from '../../../components/ui/button';
 import { PartyForm } from '@/features/parties/form/party-form'; // from a different feature
-import { AppLocaleMenu } from '@debtflow/react-ui/src/shell/app-shell-locale-menu';
+import { AppLocaleMenu } from '@packages/ui-react/src/shell/app-shell-locale-menu';
 import { PartnerTable } from '../../../../partner-ops/src/features/parties/party-table';
 ```

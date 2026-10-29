@@ -92,6 +92,20 @@ Do not repeat the category name as an eyebrow, an opening heading and the first 
 
 Folder groups are expandable and text-only. Highlight the current page with a subtle background and no left accent bar. Its ancestor labels may emphasize the path, but must not repeat the selected-page background. Keep icons in the top-level section navigation and context selector. Keep links descriptive, such as “Assess shared-component impact”, rather than “click here”.
 
+## Write task guides as steps
+
+For onboarding or installation, start with prerequisites, then use `## Step 1: ...`, `## Step 2: ...` headings for the required sequence. These remain ordinary Markdown headings with shareable anchors; the viewer adds a numbered marker. State where to act (terminal, editor, AI conversation or browser), the action, and its expected result before the next step. Keep optional alternatives and troubleshooting after the main path.
+
+Link to the maintained vendor installation guide instead of duplicating changing installer commands. Use descriptive Markdown links; article links are always underlined, including without hover. Keep the source path visible and edit the original `.md` file, never a generated website copy.
+
+## Document shared APIs concisely
+
+Follow the reading order demonstrated by [Ant Design Button](https://ant.design/components/button/): purpose and import, when to use, minimal examples, API tables, then focused FAQ. Adapt the pattern to functions and integration APIs; do not copy component-only sections without a purpose.
+
+For cross-window APIs, show participants and message direction, options/types/defaults, returned data, lifecycle/cleanup, errors and security boundaries. Link exact maintained source and types. Distinguish framework-neutral transport from framework-specific UI adapters. Examples must use current signatures, named option objects and the same public import as the source package. Put advanced details on their owning page instead of repeating them in every example.
+
+After a rename or move, update source maps and relative links. The viewer derives pages from the Markdown tree; verify navigation, API tables and code blocks in the browser as well as running document-link checks.
+
 ## Use semantic highlights
 
 Supported Markdown callouts are `NOTE`, `TIP`, `IMPORTANT`, `WARNING` and `CAUTION`. Choose by meaning, not decoration. Ordinary explanations stay as paragraphs.
@@ -119,6 +133,8 @@ Use a language on each code fence, such as `ts`, `json`, `bash` or `graphql`. Co
 export const DEFAULT_PAGE_SIZE = 20;
 ```
 
+Use `bash`, `sh`, `shell`, `zsh` or `powershell` only for terminal commands. Commands, flags, quoted strings and comments receive distinct colors; Copy preserves the exact source text. Do not add decorative `$` prompts to runnable examples. Use `text` for AI prompts, output and directory trees so they are never presented as executable commands.
+
 The dependency-free viewer provides lightweight lexical coloring for supported languages, not compiler-level analysis. Unknown languages and folder trees remain plain text. Never rely on color alone to communicate a requirement.
 
 ## Validate before finishing
@@ -131,6 +147,7 @@ For viewer changes run `node --test tooling/rules-viewer/*.test.mjs` and inspect
 
 These are references for navigation and content presentation, not claims that every project uses Debtflow's rules hierarchy:
 
+- [Claude Code quickstart](https://code.claude.com/docs/en/quickstart): prerequisites, numbered tasks, terminal examples, expected results and next steps.
 - [Next.js documentation](https://nextjs.org/docs/app/getting-started): context selection and grouped navigation.
 - [Angular documentation](https://angular.dev/overview): separation of introduction, in-depth guides, AI and best practices.
 - [Starlight authoring guide](https://starlight.astro.build/guides/authoring-content/): semantic asides and readable code examples.

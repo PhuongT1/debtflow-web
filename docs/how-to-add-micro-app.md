@@ -8,7 +8,7 @@ This step-by-step guide explains how to add a new Micro Frontend to the **Debt F
 
 - Initialize an independent project using your framework of choice (React, Angular, Vue, Svelte, Next.js, etc.).
 - Create its own `package.json`, `tsconfig.json`, linter configuration, and build scripts.
-- **Architectural Boundary:** You may only import from framework-neutral shared packages (`@debtflow/contracts`, `@debtflow/design-tokens`, `@debtflow/platform-sdk`). **Never import source files across different apps**.
+- **Architectural Boundary:** You may only import from framework-neutral shared packages (`@packages/platform-contracts`, `@packages/ui-tokens`, `@packages/platform-sdk`). **Never import source files across different apps**.
 
 ---
 
@@ -23,7 +23,7 @@ This step-by-step guide explains how to add a new Micro Frontend to the **Debt F
 
 ---
 
-### Step 3: Register in the Manifest (`packages/mfe-registry/src/manifest.json`)
+### Step 3: Register in the Manifest (`packages/platform/registry/src/manifest.json`)
 
 Declare the new application metadata in the central registry:
 
@@ -55,7 +55,7 @@ Declare the new application metadata in the central registry:
 
 ---
 
-### Step 4: Add Navigation Menu Item (`packages/navigation/src/index.ts`)
+### Step 4: Add Navigation Menu Item (`packages/platform/navigation/src/index.ts`)
 
 Add the route and menu entry with bilingual labels and role permissions:
 

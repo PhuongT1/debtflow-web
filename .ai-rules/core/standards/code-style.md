@@ -24,6 +24,8 @@ These are reusable defaults, not permission to migrate established code. The pro
 - Name boolean values as questions or states: `isLoading`, `hasPermission`, `canDelete`.
 - Name collections in plural and single values in singular: `parties` / `party`.
 - Prefer domain words over generic names. Avoid `data`, `item`, `utils`, `helpers`, `manager`, or `common` unless the scope makes the meaning unambiguous.
+- Name shared packages by their responsibility, such as contracts, navigation, integration SDK, or UI primitives. Shared usage alone is not a reason to create a `global`, `common`, or `utils` package. An SDK may target browsers, servers or mobile; its name does not imply a UI framework.
+- Keep public names, directory grouping and documentation source maps consistent. A namespace may identify workspace origin, an architecture group or an organization; define its deterministic folder mapping in the project profile. Before a move or rename, update workspace discovery, manifests/lockfile, build/check scripts, tests and source links together. Verify package resolution and discovered workspace counts.
 
 ## Imports and module public APIs
 
@@ -31,9 +33,12 @@ These are reusable defaults, not permission to migrate established code. The pro
 - Use `./` for a sibling or child module. One `../` is allowed only within the same cohesive feature folder when it is clearer than an alias.
 - Each deployable app owns its aliases. Do not copy an alias convention from a different app; configure TypeScript and the framework/bundler together before using it.
 - Import shared code through the package public export, for example the project's declared contract package; never reach into another package or app `src/` directory.
-- A feature or package may expose an `index.ts` only as its intentional public API for consumers outside that boundary. Use explicit named re-exports; do not add a barrel merely to shorten a local import.
-- Keep internal implementation imports direct. An index must not re-export private helpers, framework route files, or every file in a directory. Avoid `export *` in public indexes unless the exports are a deliberately versioned contract.
+- Make ownership visible in imports: use distinct project-defined namespaces for workspace-shared packages, app-local capabilities and domain public APIs. Keep the domain/capability name when shortening an import. Do not invent a global-looking alias for app-private code or make a path so generic that its owner is hidden.
+- Give each reusable module/feature with outside consumers an intentional public entry (`index.ts`, or the framework's equivalent). Export its supported components, matching props/types and functions there; aggregate these entries at the package root so consumers can use a concise named import that still identifies the owner.
+- A package may offer both a root facade and focused subpath exports for the same API. Do not force a deep adapter/file import when the root deliberately supports it. Declare subpaths in package exports/build configuration; document framework/dependency requirements and provide a separate core entry when isolation is needed.
+- Use explicit named `export { ... }` and `export type { ... }` at public entries. Keep internal implementation imports direct; an index must not expose private helpers, framework route files or every incidental file. Avoid `export *` unless it forwards a deliberately maintained public contract.
 - Before adding an index, check for circular dependencies. Public indexes must not be imported by modules that they re-export.
+- Preserve server/client markers on the owning implementation modules; do not mark an entire barrel client-only merely to expose a client component. Verify actual production bundling after changing exports or side-effect metadata. Preserve CSS/required initialization; do not assume a short import automatically guarantees tree shaking.
 
 ## Domain values and navigation
 
@@ -53,5 +58,9 @@ These are reusable defaults, not permission to migrate established code. The pro
 ## Functions and components
 
 - Keep functions focused. Prefer early returns over deeply nested conditionals.
+- In TypeScript, use named types for object-shaped function parameters, options, callbacks and component props; do not declare their object structure inside a function signature or repeat it at call sites. Let ordinary local values and contextually typed callback parameters use inference.
+- Keep related types in a descriptive `<responsibility>.types.ts` beside their owning module or feature. Reuse an existing owner type with `Pick`, `Omit`, indexed access or extension when the meaning matches. Promote a type to a shared package only when the shared boundary owns it; do not create an application-wide dumping ground for unrelated types.
+- Keep transport options in the integration package, wire payloads in the contract owner, framework props in the UI adapter and domain inputs in the feature. Export reusable types through the owner's public API and use `import type`; preserve existing exports when extracting types.
+- Write code comments as a single concise English line explaining intent, a constraint or a non-obvious reason. Do not narrate obvious syntax or put a multi-step workflow in a source comment; use the maintained guide for longer explanations.
 - A UI component should own rendering and local interaction; move reusable stateful behavior into a hook and domain/API work into the established service/query layer.
 - Avoid barrel files that create circular dependencies or hide ownership. Export a public surface intentionally.

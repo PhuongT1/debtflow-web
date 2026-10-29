@@ -1,6 +1,6 @@
 # Shared Packages Agent Instructions
 
-Start with the [repository instructions](../AGENTS.md), then read the local package rules.
+Start with the [repository instructions](../AGENTS.md), then read the local package rules. The [package map](../docs/architecture/packages.md) links each public import to its source and owner.
 
 ## Local rules
 
@@ -8,5 +8,5 @@ Start with the [repository instructions](../AGENTS.md), then read the local pack
 
 ## Shared rules often needed here
 
-- [API contracts](../.ai-rules/core/concerns/api-contracts.md) — required for `packages/contracts` or versioned integration messages.
+- [API contracts](../.ai-rules/core/concerns/api-contracts.md) — required for `packages/platform/contracts` or versioned integration messages.
 - [Micro frontend boundaries](../.ai-rules/core/standards/microfrontend.md) — required for cross-app integration packages.

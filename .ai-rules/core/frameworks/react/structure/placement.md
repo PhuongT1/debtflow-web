@@ -21,3 +21,5 @@ Use the narrowest owner that explains why the code exists. Paths below illustrat
 A function stays beside its only consumer when it is small and cohesive. Extract a module when it has an independent responsibility, meaningful tests, or reuse. Do not create `utils.ts`, `helpers.ts`, `common.ts`, or `shared/` to avoid choosing an owner.
 
 Use the owning project's established adapter layer. Do not create competing HTTP clients or adapters for one endpoint.
+
+Keep framework-specific implementations in explicit adapter folders. A package root may deliberately re-export these components alongside its general React API for convenient imports; keep a focused adapter entry and a core entry when consumers need dependency isolation. Both entries must resolve to the same implementation, not copied wrappers. Keep matching types beside their capability and export public component props. Check server/client boundaries, circular imports and production tree shaking before claiming unused adapters are excluded. The project profile defines actual names and source maps.

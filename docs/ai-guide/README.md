@@ -21,7 +21,7 @@ Use the Node.js/npm versions required by `package.json`. The setup script uses N
 | Claude Code | `CLAUDE.md` and `.claude/rules/ai-toolkit.md` | `.claude/skills/<name>/SKILL.md` |
 | Cursor      | `.cursor/rules/ai-toolkit.mdc`                | `.cursor/skills/<name>/SKILL.md` |
 
-Next, open this same repository in your AI tool, reload/start a new session and follow the one-time [discovery check](project-context/client-setup.md#confirm-instruction-and-skill-loading). The entry files direct the AI to `.ai-rules/README.md` and this project's profile. A selected skill leads to the relevant workflow and conditional coding rules; the AI should not load every skill or rule.
+Next, open this same repository in your AI tool, reload/start a new session and follow the one-time [discovery check](project-context/client-setup.md#step-3-confirm-instruction-and-skill-loading). The entry files direct the AI to `.ai-rules/README.md` and this project's profile. A selected skill leads to the relevant workflow and conditional coding rules; the AI should not load every skill or rule.
 
 You do not need to recreate skills when switching tools or attach `AGENTS.md` to every prompt. Run the same setup command again after pulling toolkit changes. Setup refreshes both workflow selection and client files; `rules:sync` is the underlying maintainer command. For editing sources and checks, see [the team contribution contract](project-context/client-setup.md#team-contribution-contract). Viewing/building docs only reads sources and does not install skills.
 

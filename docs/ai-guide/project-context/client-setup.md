@@ -2,16 +2,15 @@
 
 Use this after cloning the repository, switching AI tools, or pulling changes to skills/roles. These are repository-local capabilities; generating them does not install a global plugin or configure a disconnected chat account.
 
-## Before setup
+## Before you begin
 
 Install and sign in to your chosen AI application, CLI or editor extension using its own setup instructions. This repository does not install Codex, Claude Code, Cursor or Copilot. Open or connect the `debtflow-web` checkout so the tool can read its files; a separate chat account without repository access cannot discover these local skills.
 
-You need Node.js 20+ and npm 10+ for the repository setup command. Application dependencies are a separate step described in [Run the project](../../getting-started/run-project.md). The AI setup itself uses Node built-in modules and can run before dependency installation.
+Use Node.js 22.23.1 from `.nvmrc` and npm 10+ for the repository setup command. Application dependencies are a separate step described in [Run the project](../../getting-started/run-project.md). The AI setup itself uses Node built-in modules and can run before dependency installation.
 
-## Generate the client files
+## Step 1: Generate the client files
 
-1. Open the `debtflow-web` repository in your editor and terminal. Use the Node.js/npm versions declared in its `package.json`.
-2. From the repository root, run:
+Open the `debtflow-web` repository in your editor and terminal. Use the Node.js/npm versions declared in its `package.json`. From the repository root, run:
 
 ```bash
 npm run rules:setup
@@ -24,7 +23,17 @@ The setup command refreshes workflow selection, reads canonical skills/roles fro
 
 Optional external skills and MCP tools have separate version/client prerequisites. See [Next.js Study](../how-ai-works/nextjs-study.md) before adding Next.js tooling; the reviewed installation is on Next.js 15 and cannot use the newer runtime MCP loop as-is.
 
-## What each AI reads
+## Step 2: Open your AI tool
+
+Open the same checkout in Codex or Cursor. For Claude Code, open a terminal at the repository root and run:
+
+```bash
+claude
+```
+
+Complete sign-in if prompted. If the command is missing, follow the official [Claude Code quickstart](https://code.claude.com/docs/en/quickstart#step-1-install-claude-code), then return here. Keep installation instructions with the tool vendor rather than maintaining a second installer guide.
+
+Start a fresh session or refresh discovery after generation. **Expected result:** your tool sees the generated paths for its row below; the next step checks actual loading.
 
 There are two different loading steps: **project instructions** establish the working contract; **skill discovery** exposes names/descriptions and loads a selected skill when relevant. The entry instructs the AI to read `.ai-rules/README.md`, the short `.ai-rules/project/README.md` and relevant owner instructions. It does not preload the entire library.
 
@@ -37,9 +46,11 @@ There are two different loading steps: **project instructions** establish the wo
 
 The generated skill body points to the maintained workflow under `.ai-rules/core/workflows/`. The workflow selects only the affected execution/framework/standard modules and local extensions. All clients therefore use the same procedure with this project's architecture, even though their discovery folders differ. Claude's `.claude/agents/` contains optional role profiles; skill discovery is separate from starting a subagent.
 
-## Confirm instruction and skill loading
+## Step 3: Confirm instruction and skill loading
 
 Open the same repository in your chosen tool and reload/start a new session after setup. Generated files alone do not prove the current session has reloaded them.
+
+**Where to type:** the following text goes in your AI conversation, not in the terminal.
 
 For a safe first check, explicitly select `engineering-plan` in the client's skill picker, or invoke `$engineering-plan` in Codex / `/engineering-plan` in Claude Code, and request:
 
@@ -60,6 +71,20 @@ Before your first implementation task, confirm all three outcomes:
 - You can find the same source in the website: **AI Guide → Skills → Engineering Plan → SKILL**, with `.ai-rules/core/skills/engineering-plan/SKILL.md` shown as its path. Start the viewer with `npm run docs:dev` and open `http://127.0.0.1:4317/ai-guide/`.
 
 If any outcome is missing, use the troubleshooting table below before relying on automatic task prompts.
+
+## Step 4: Give your first task
+
+Once the plan-only check succeeds, describe the result you need in the AI conversation:
+
+```text
+Fix /parties: keep the action buttons on one line.
+Follow the existing shared table and verify the affected viewports.
+```
+
+Skill selection is optional. The project entry directs ordinary prompts to the relevant workflow; you may select a matching skill explicitly. Review the diff, actual checks and any reported limitations using [Result Review](../result-review/README.md).
+
+> [!NOTE]
+> Run setup again after pulling toolkit changes or changing enabled clients. You do not need to run it before every prompt. Generated files do not prove an active AI session has loaded them.
 
 ## Use another AI
 

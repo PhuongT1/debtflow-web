@@ -1,6 +1,6 @@
 # @packages/platform-sdk
 
-Versioned browser integration API for rare cross-zone notifications. Business data still comes from `debtflow-api`; URL parameters remain the source of truth for navigation and filters.
+Framework-neutral browser integration API for cross-window messaging and platform capabilities. Business data still comes from `debtflow-api`; URL parameters remain the source of truth for navigation and filters.
 
 Do not use this package as a global store. Events carry identifiers, not full business objects.
 
@@ -35,3 +35,20 @@ accepts older `returnTo` links. Both use the same origin allowlist validation.
 ```bash
 npm run typecheck -w @packages/platform-sdk
 ```
+
+## Overlay transport
+
+`openPlatformOverlay({ request, hostOrigin, signal })` returns a correlated `completed`, `cancelled` or `failed` result. It is framework-neutral; UI registration, modal rendering and domain cache refresh belong to their respective owners. See [Cross-Application Overlays](../../../docs/architecture/overlays/README.md) for setup and lifecycle.
+
+The overlay API is browser JavaScript/TypeScript and imports no UI framework:
+
+- `emitOverlayMessage` / `listenOverlayMessages`: common validated peer channel; the latter returns an unsubscribe function.
+- `openPlatformOverlay`: caller request and correlated result, including `result.data`.
+- `createOverlayHostBridge`: host transport/lifecycle callbacks; render the host UI in its own framework.
+- `connectOverlaySurface`: content input, close requests, measured presentation and completion; render the content in its own framework.
+
+See the [message reference](../../../docs/architecture/overlays/protocol.md) and [framework examples](../../../docs/architecture/overlays/examples.md). UI adapters must retain the rendered content until host exit completes.
+
+## Package mapping
+
+`@packages/platform-sdk` resolves to `packages/platform/sdk/src/index.ts` through the workspace package exports. See [Messaging](../../../docs/architecture/messaging/README.md) for the application client, native dispatcher and event reference.

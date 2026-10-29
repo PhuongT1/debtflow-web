@@ -53,6 +53,10 @@ The backend already returns pagination in `meta.pagination`. `apiPaginatedReques
 
 Query keys contain no token or unrelated URL state. Domain prefixes are reused by mutation hooks to invalidate list and detail results after success. User statuses use `UserStatus`; labels, schema errors, help, dialogs and feedback use the locale catalogs. Route builders own repeated paths while the app owns router calls and embedded navigation.
 
+## Embedded loading
+
+Shell displays a page skeleton only while the embedded application initializes. The canonical [presentation metadata](../../packages/platform/registry/src/registrations/partner-ops/loading-layout.ts) supplies the live toolbar grid, table columns/widths and skeleton row density; both Shell and Partner Ops render the same neutral [ListPageSkeleton](../../packages/ui/react/src/components/table/data-table/page-skeleton.tsx). Named container queries target the actual remote viewport, including when the Shell viewport uses a different breakpoint. Header, grid, table and footer geometry are compared by the live [skeleton-layout check](../../tooling/e2e/party-skeleton-layout.mjs). It does not show a micro frontend loading message. Once ready, Parties owns its list/detail/data skeletons; filtering, pagination and internal navigation retain the iframe runtime and do not display the host placeholder again. Timeout/error/retry behavior remains available.
+
 ## Maintainer checks
 
 Run `npm run lint:partner-ops`, `npm run typecheck:partner-ops`, `npm run test:party-conventions` and `npm run check:architecture` for these boundaries. The convention tests cover forbidden HTTP imports/inline keys, normalized cache identity, error contracts and catalog parity. Lint enforces the configured Parties view boundaries; it does not prove every domain or translated string in the repository is compliant.

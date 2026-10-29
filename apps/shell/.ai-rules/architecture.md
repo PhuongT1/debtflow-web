@@ -9,9 +9,9 @@
 ## Source ownership
 
 - Public pages (for example About Us) belong under `app/(public)/`; authentication pages belong under `app/(auth)/`. Both route-group layouts use `components/layouts/public-page-layout.tsx`, which provides the shared language selector and main landmark. Page content must not add another main landmark or its own language selector.
-- Reuse `AppLocaleMenu` from `@debtflow/react-ui` for language controls. Persist changes with `setStoredLocale` from `@debtflow/platform-sdk` and use the global `ShellIntlProvider`; add all page text and error messages to both Shell locale catalogs. Switching languages must preserve form input and translate existing errors.
+- Reuse `AppLocaleMenu` from `@packages/ui-react` for language controls. Persist changes with `setStoredLocale` from `@packages/platform-sdk` and use the global `ShellIntlProvider`; add all page text and error messages to both Shell locale catalogs. Switching languages must preserve form input and translate existing errors.
 
 - Keep App Router files as adapters: route params, route-level metadata, and composition only. Put a substantial page implementation in its owning feature and import it through that feature public entry.
 - `features/dashboard` owns the dashboard page; `features/debts` owns debt list/detail pages and debt workflows. New Shell domains follow the same pattern.
-- `components/` contains Shell-specific presentational components. Do not add a component copied from another app: promote it to `@debtflow/react-ui` only after its API is proven stable across consumers.
+- `components/` contains Shell-specific presentational components. Do not add a component copied from another app: promote it to `@packages/ui-react` only after its API is proven stable across consumers.
 - `lib/` is for cross-domain technical concerns such as auth, environment, pagination, and MFE manifest loading. It must not become a second domain-feature directory.

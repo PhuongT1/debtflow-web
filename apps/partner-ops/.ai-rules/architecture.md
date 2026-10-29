@@ -10,7 +10,7 @@
 
 - Keep App Router pages thin and consume the stable public entry of a feature when one exists. `features/parties/index.ts` is the supported route-facing surface for the Parties domain.
 - Keep Party-specific form, query, table, and client-state code in `features/parties/`; do not move it into `components/` just because it renders UI.
-- `components/platform/` is reserved for embedding bridges and platform contracts. `components/ui/` contains app-specific presentation only; promote a proven multi-app UI primitive to `@debtflow/react-ui` instead of copying it.
+- `components/platform/` is reserved for embedding bridges and platform contracts. `components/ui/` contains app-specific presentation only; promote a proven multi-app UI primitive to `@packages/ui-react` instead of copying it.
 
 ## Parties feature conventions
 

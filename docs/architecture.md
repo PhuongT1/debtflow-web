@@ -21,7 +21,7 @@ flowchart TD
     %% Host Shell Layer
     subgraph HostLayer ["📦 apps/shell — Host Container & Root Orchestrator (Next.js 15 App Router | Port 3000)"]
         direction TB
-        AppShell["🖥️ AppShell Component (@debtflow/react-ui)<br/>• Unified Top Header (56px) & Collapsible Sidebar (264px / 84px)<br/>• Authentication Session & User Identity Badge<br/>• Global Language Switcher (🇬🇧 EN / 🇻🇳 VI) & Cookie Synchronizer"]:::component
+        AppShell["🖥️ AppShell Component (@packages/ui-react/adapters/next)<br/>• Unified Top Header (56px) & Collapsible Sidebar (264px / 84px)<br/>• Authentication Session & User Identity Badge<br/>• Global Language Switcher (🇬🇧 EN / 🇻🇳 VI) & Cookie Synchronizer"]:::component
 
         RouterCatchAll["🔀 Generic Remote Resolver: [...mfe] Route<br/>• Dynamic Catch-All Router driven by manifest.json<br/>• Remote Life-cycle Manager (Loading / Timeout / Local Error Boundary)"]:::component
 
@@ -51,17 +51,17 @@ flowchart TD
     subgraph SharedPackages ["📚 packages/* — Framework-Agnostic Foundation & Shared Libraries"]
         direction TB
 
-        Contracts["📋 @debtflow/contracts<br/>• Auth & User Models (AuthUser, UserRole)<br/>• Payment DTOs (PaymentRecord, PaymentMethod)<br/>• Standard API Response Envelope (ApiResponseEnvelope&lt;T&gt;)<br/>• Multi-Language Core Definitions (AppLocale, DEFAULT_LOCALE)"]:::component
+        Contracts["📋 @packages/platform-contracts<br/>• Auth & User Models (AuthUser, UserRole)<br/>• Payment DTOs (PaymentRecord, PaymentMethod)<br/>• Standard API Response Envelope (ApiResponseEnvelope&lt;T&gt;)<br/>• Multi-Language Core Definitions (AppLocale, DEFAULT_LOCALE)"]:::component
 
-        DesignTokens["🎨 @debtflow/design-tokens<br/>• CSS Variables (--df-color-*, --df-shell-header-height: 56px)<br/>• Centralized Layout Spacing & Typography Design Tokens"]:::component
+        DesignTokens["🎨 @packages/ui-tokens<br/>• CSS Variables (--df-color-*, --df-shell-header-height: 56px)<br/>• Centralized Layout Spacing & Typography Design Tokens"]:::component
 
-        Navigation["🧭 @debtflow/navigation<br/>• Route Ownership Registry & Dynamic Menu Hierarchy<br/>• Role-Based Access Control Rules (ADMIN only routes)<br/>• Bilingual Navigation Labels ({ en: '...', vi: '...' })"]:::component
+        Navigation["🧭 @packages/platform-navigation<br/>• Route Ownership Registry & Dynamic Menu Hierarchy<br/>• Role-Based Access Control Rules (ADMIN only routes)<br/>• Bilingual Navigation Labels ({ en: '...', vi: '...' })"]:::component
 
-        PlatformSDK["⚡ @debtflow/platform-sdk<br/>• Browser Event Bus (CustomEvents: 'locale:changed', 'party:changed')<br/>• Shared Cookie / LocalStorage Helpers"]:::component
+        PlatformSDK["⚡ @packages/platform-sdk<br/>• Browser Event Bus (CustomEvents: 'locale:changed', 'party:changed')<br/>• Shared Cookie / LocalStorage Helpers"]:::component
 
-        MfeRegistry["🗺️ @debtflow/mfe-registry<br/>• Runtime manifest.json (Remote Origins, Health Checks, Routes)<br/>• JSON Schema Validation for Micro Apps"]:::component
+        MfeRegistry["🗺️ @packages/platform-registry<br/>• Runtime manifest.json (Remote Origins, Health Checks, Routes)<br/>• JSON Schema Validation for Micro Apps"]:::component
 
-        ReactUI["⚛️ @debtflow/react-ui<br/>• React Layout Component: &lt;AppShell /&gt;<br/>• SVG Icons System: &lt;AppIcon /&gt;<br/>• Providers: &lt;AppProviders /&gt;, &lt;ToastProvider /&gt;"]:::component
+        ReactUI["⚛️ @packages/ui-react<br/>• Next adapter: &lt;AppShell /&gt;<br/>• SVG Icons System: &lt;AppIcon /&gt;<br/>• Providers: &lt;AppProviders /&gt;, &lt;ToastProvider /&gt;"]:::component
     end
 
     HostLayer -.- SharedPackages
@@ -101,16 +101,18 @@ flowchart TD
 
 ## 3. Shared Packages Architecture (`packages/*`)
 
-All packages inside `packages/` are designed following **Domain-Driven Design (DDD)** and **Framework-Agnostic principles**:
+Packages are grouped by capability. Platform code stays framework-neutral; React UI and its Next.js adapters have explicit framework boundaries. See the maintained [package map](architecture/packages.md) for imports and ownership.
 
 ```text
 packages/
-├── contracts/        # Pure TypeScript definitions: Auth models, Payment DTOs, API Envelopes, Locale types.
-├── design-tokens/    # Design system CSS variables & design token constants shared across Angular and React.
-├── navigation/       # Menu hierarchy, route ownership, bilingual labels (EN/VI), role permissions.
-├── platform-sdk/     # Runtime Event Bus (CustomEvent) & locale storage utilities for cross-app messaging.
-├── mfe-registry/     # manifest.json catalog containing metadata, origins, entrypoints, and health checks.
-└── react-ui/         # React-specific component library containing <AppShell />, <AppIcon />, and UI providers.
+  platform/
+    contracts/       @packages/platform-contracts
+    navigation/      @packages/platform-navigation
+    registry/        @packages/platform-registry
+    sdk/             @packages/platform-sdk
+  ui/
+    react/           @packages/ui-react
+    tokens/          @packages/ui-tokens
 ```
 
 ---
@@ -123,8 +125,8 @@ packages/
    - User language selection (EN / VI) updates the `df_locale` cookie and emits a `locale:changed` event.
    - Every API request from frontend applications attaches the standard `Accept-Language: en` or `Accept-Language: vi` header.
    - NestJS resolves the header and returns localized response and validation messages.
-4. **Client Event Bus (`@debtflow/platform-sdk`):**
-   - Micro frontends communicate asynchronously via versioned browser `CustomEvent` instances (`locale:changed`, `party:changed`, `identity:signed-out`).
+4. **Client Event Bus (`@packages/platform-sdk`):**
+   - Same-document notifications use `CustomEvent`; iframe/host communication uses the validated `postMessage` bridge. See [Messaging](architecture/messaging/README.md) for APIs and event direction.
 
 ---
 
@@ -135,8 +137,8 @@ To ensure that the codebase remains maintainable and scalable as more teams cont
 ```text
 apps/* ------------X------------> apps/*              (Strictly FORBIDDEN: Cross-app source code imports)
 any app ------------------------> neutral packages    (ALLOWED: Any app can import contracts, sdk, tokens, navigation)
-React apps ---------------------> react-ui            (ALLOWED: Only React/Next.js apps may import react-ui)
-Angular/Vue ------X-------------> react-ui            (BLOCKED: Angular/Vue apps cannot import react-ui)
+React apps ---------------------> @packages/ui-react            (ALLOWED: Only React/Next.js apps may import @packages/ui-react)
+Angular/Vue ------X-------------> @packages/ui-react            (BLOCKED: Angular/Vue apps cannot import @packages/ui-react)
 neutral packages -X-------------> UI frameworks       (BLOCKED: Contracts & SDKs cannot depend on React/Angular/Vue)
 ```
 

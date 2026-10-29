@@ -4,7 +4,7 @@ Apply [selective reading](../README.md#read-selectively); open only the matching
 
 | Changed responsibility                        | Read                              |
 | --------------------------------------------- | --------------------------------- |
-| Spacing, type roles, tokens and styling scope | [Styling](styling.md)             |
+| Theme layers, icon roles, control states, table density and skeletons | [Styling](styling.md)             |
 | Semantics, keyboard, focus and interactions   | [Accessibility](accessibility.md) |
 | Wrapper refs, slots and prop precedence       | [Wrappers](wrappers.md)           |
 

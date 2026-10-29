@@ -8,16 +8,18 @@
 - Apps are independently deployed. Never import another app's private source; shared consumers use public workspace packages.
 - Preserve existing user changes and public contracts unless the task authorizes changing them.
 
-| Target                                          | Stack / owner instructions                                                                                              |
-| ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Platform, dashboard, auth; port 3000            | Next.js App Router + React: [Shell](../../apps/shell/AGENTS.md)                                                         |
-| Customers/suppliers; port 3001                  | Next.js App Router + React: [Partner Ops](../../apps/partner-ops/AGENTS.md)                                             |
-| Payments; port 3002                             | Angular standalone: [Payments](../../apps/payments/AGENTS.md)                                                           |
-| Shared React presentation / neutral integration | Existing `packages/react-ui`, `platform-sdk`, `contracts`, `design-tokens`; inspect public exports and actual consumers |
+| Target                                          | Stack / owner instructions                                                                                                                                                                                        |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Platform, dashboard, auth; port 3000            | Next.js App Router + React: [Shell](../../apps/shell/AGENTS.md)                                                                                                                                                   |
+| Customers/suppliers; port 3001                  | Next.js App Router + React: [Partner Ops](../../apps/partner-ops/AGENTS.md)                                                                                                                                       |
+| Payments; port 3002                             | Angular standalone: [Payments](../../apps/payments/AGENTS.md)                                                                                                                                                     |
+| Shared React presentation / neutral integration | `packages/platform/{contracts,navigation,registry,sdk}` and `packages/ui/{react,tokens}`; use public exports; `@packages/ui-react` is the convenient root; optional adapter/core entries preserve focused imports |
 
 When proposing, creating or explicitly renaming a Git branch, follow the project [Git Workflow](../../docs/engineering/git-workflow.md). It defines `feature/`, `fixbug/`, `refactor/`, `chore/` and `docs/` prefixes. Do not create or rename a branch merely because a coding task was requested.
 
 When changing lasting code conventions or auditing compliance, follow [Contributing](../../docs/engineering/contributing.md) for canonical ownership, scoped exceptions and review evidence. Do not interpret successful lint as full architectural or behavioral compliance.
+
+Import ownership is defined in [Import Ownership](imports.md): `@packages/` means a shared workspace package; app/feature aliases remain local to the current application.
 
 ## Load local extensions only when touched
 
