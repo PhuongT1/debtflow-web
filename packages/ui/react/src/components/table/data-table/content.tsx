@@ -1,11 +1,14 @@
-import { designTokens } from '@packages/ui-tokens';
 import { TableBody, TableFooter, TableHead, TableRow } from '@mui/material';
+
+import { designTokens } from '@packages/ui-tokens';
+
+import { getFixedColumnOffset } from '../fixed-column-offset';
 import { DataTableCell } from '../table-cell';
 import { DataTableContainer } from '../table-container';
+
+import { EmptyTableIcon } from './empty-icon';
 import { DataTableRowsSkeleton } from './skeleton';
 import { DataTableState } from './state';
-import { EmptyTableIcon } from './empty-icon';
-import { getFixedColumnOffset } from '../fixed-column-offset';
 import type { DataTableContentProps } from './types';
 
 /** Table rendering only; data fetching, translations and navigation stay with the consumer. */

@@ -1,10 +1,13 @@
-import { applyTableLayout } from '@/components/tables/page-layouts';
 import { Box } from '@mui/material';
 import { useTranslations } from 'next-intl';
-import { DataTableContent, SortableTableHeader, type DataTableColumn } from '@packages/ui-react';
+
+import { type DataTableColumn, DataTableContent, SortableTableHeader } from '@packages/ui-react';
+
+import { applyTableLayout } from '@/components/tables/page-layouts';
 import { TruncatedText } from '@/components/ui/clamped-text';
 import { formatMoney } from '@/lib/presentation/formatters';
 import type { PartnerSummaryParams } from '@/services/party.client';
+
 import { PartnerDocumentsDialog } from './documents/dialog';
 import { PartnerDetailsDialog } from './partner-details-dialog';
 import type { PartnerSummaryPage } from './types';

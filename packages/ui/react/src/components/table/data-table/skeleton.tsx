@@ -1,8 +1,11 @@
-import { designTokens } from '@packages/ui-tokens';
 import { Box, TableRow } from '@mui/material';
-import { DataTableCell } from '../table-cell';
-import { getFixedColumnOffset } from '../fixed-column-offset';
 import { Skeleton } from '@mui/material';
+
+import { designTokens } from '@packages/ui-tokens';
+
+import { getFixedColumnOffset } from '../fixed-column-offset';
+import { DataTableCell } from '../table-cell';
+
 import type { DataTableRowsSkeletonProps } from './types';
 
 const widths = [72, 88, 64, 76, 58];

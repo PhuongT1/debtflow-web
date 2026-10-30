@@ -1,6 +1,7 @@
-import type { apiRequest, apiPaginatedRequest } from '@/lib/api/http-client';
+import type { apiPaginatedRequest, apiRequest } from '@/lib/api/http-client';
 import type { Party } from '@/models/party';
-import type { PartyService, PartyDetailResponse, PartyWriteResponse } from '../party.types';
+
+import type { PartyDetailResponse, PartyService, PartyWriteResponse } from '../party.types';
 
 type RestDependencies = {
   request: typeof apiRequest;

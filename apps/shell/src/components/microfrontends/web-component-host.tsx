@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
-import { RemoteErrorState, RemoteLoadingState, type RemoteHostState } from './remote-host-state';
+
 import { http } from '@/lib/api/http';
 
 import type { RemoteRuntimeManifest, WebComponentHostProps } from './microfrontends.types';
+import { RemoteErrorState, type RemoteHostState, RemoteLoadingState } from './remote-host-state';
 
 const scriptLoads = new Map<string, Promise<void>>();
 

@@ -1,19 +1,21 @@
 import Link from 'next/link';
 import { Box, Typography } from '@mui/material';
+
+import type { DataTableColumn } from '@/components/tables';
 import { AppIcon } from '@/components/ui/app-icon';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ClampedText } from '@/components/ui/clamped-text';
-import { DeletePartyButton } from './delete-party-button';
-import type { DataTableColumn } from '@/components/tables';
 import { FormDialog } from '@/components/ui/dialog/form-dialog';
 import { PartyForm } from '@/features/parties/form/party-form';
-import { getPartyTableColumns } from './table-columns';
-import { appRoutes } from '@/lib/routing/routes';
 import { PartyType } from '@/lib/domain';
 import { partnerPlatform } from '@/lib/platform/client';
+import { appRoutes } from '@/lib/routing/routes';
 import type { Party } from '@/models/party';
 import type { UserSummary } from '@/models/user';
+
+import { DeletePartyButton } from './delete-party-button';
+import { getPartyTableColumns } from './table-columns';
 
 type PartyListColumnLabels = {
   actions: string;

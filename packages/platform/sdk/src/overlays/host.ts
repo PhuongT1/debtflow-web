@@ -1,12 +1,12 @@
 import { OVERLAY_PROTOCOL, type OverlayResult } from '@packages/platform-contracts';
-import { emitOverlayMessage, listenOverlayMessages } from './channel';
 
+import { emitOverlayMessage, listenOverlayMessages } from './channel';
 import type {
+  OverlayCompletionOptions,
+  OverlayHostBridgeOptions,
   OverlayRuntime,
   OverlaySession,
-  OverlayHostBridgeOptions,
   OverlaySurfaceTarget,
-  OverlayCompletionOptions,
 } from './overlay.types';
 export type { OverlayRuntime, OverlaySession } from './overlay.types';
 

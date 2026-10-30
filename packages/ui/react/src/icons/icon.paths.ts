@@ -5,13 +5,15 @@ export const iconPaths: Record<AppIconName, string> = {
   add: 'M12 5v14M5 12h14',
   aging: 'M4 20h16M6 16v-5M12 16V4M18 16V8',
   back: 'M19 12H5m6-6-6 6 6 6',
-  calendar: 'M8 3v4m8-4v4M4 10h16M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z',
+  calendar:
+    'M8 3v4m8-4v4M4 10h16M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z',
   chevronDown: 'm7 10 5 5 5-5',
   chevronLeft: 'm14 7-5 5 5 5',
   chevronRight: 'm10 7 5 5-5 5',
   close: 'm6 6 12 12M18 6 6 18',
   collapse: 'm14 7-5 5 5 5',
-  dashboard: 'M5 3h4a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm10 0h4a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1ZM5 14h4a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1Zm10-3h4a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1Z',
+  dashboard:
+    'M5 3h4a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm10 0h4a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1ZM5 14h4a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1Zm10-3h4a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1Z',
   debts: 'M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8l-5-5Zm0 0v5h5M9 12h6m-6 4h6',
   delete: 'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5m4-5v5',
   download: 'M12 3v12m-5-5 5 5 5-5M4 16v4h16v-4',
@@ -25,12 +27,15 @@ export const iconPaths: Record<AppIconName, string> = {
   list: 'M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01',
   logout: 'M9 4H5v16h4m1-8h11m-4-4 4 4-4 4',
   menu: 'M4 6h16M4 12h16M4 18h16',
-  parties: 'M14 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM3 20v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2M17 4a4 4 0 0 1 0 8m3 8v-2a4 4 0 0 0-2-3.5',
-  payments: 'M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1ZM3 10h18M7 15h3',
+  parties:
+    'M14 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM3 20v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2M17 4a4 4 0 0 1 0 8m3 8v-2a4 4 0 0 0-2-3.5',
+  payments:
+    'M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1ZM3 10h18M7 15h3',
   refresh: 'M20 8a8 8 0 1 0 .2 7M20 3v5h-5',
   search: 'M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Zm-2 5 6 6',
   users: 'M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2',
   visibility: 'M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Zm13 0a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z',
-  visibilityOff: 'm3 3 18 18M9 5.5A12 12 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-3 4M6 6a18 18 0 0 0-4 6s3.5 7 10 7a12 12 0 0 0 5-1M10 10a3 3 0 0 0 4 4',
+  visibilityOff:
+    'm3 3 18 18M9 5.5A12 12 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-3 4M6 6a18 18 0 0 0-4 6s3.5 7 10 7a12 12 0 0 0 5-1M10 10a3 3 0 0 0 4 4',
   warning: 'M10.3 4a2 2 0 0 1 3.4 0l8 14a2 2 0 0 1-1.7 3H4a2 2 0 0 1-1.7-3l8-14ZM12 9v5m0 3h.01',
 };

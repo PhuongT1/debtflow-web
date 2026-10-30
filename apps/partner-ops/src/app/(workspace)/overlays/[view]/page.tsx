@@ -1,7 +1,9 @@
-import { partnerOverlayRoutes } from '@packages/platform-registry';
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
+
+import { partnerOverlayRoutes } from '@packages/platform-registry';
 import { OverlaySurface } from '@packages/ui-react';
+
 import { OverlayContent } from '@/components/platform/overlays/content';
 import { partnerOpsEnv } from '@/lib/env';
 

@@ -1,4 +1,5 @@
-import { apiRequest, apiPaginatedRequest } from '@/lib/api/http-client';
+import { apiPaginatedRequest, apiRequest } from '@/lib/api/http-client';
+
 import { createRestPartyService } from './providers/rest';
 
 /** App composition: one selected provider using the existing browser transport. */

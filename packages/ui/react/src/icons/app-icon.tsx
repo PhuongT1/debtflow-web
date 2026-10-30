@@ -1,6 +1,7 @@
 import { SvgIcon } from '@mui/material';
-import type { AppIconProps } from './icon.types';
+
 import { iconPaths } from './icon.paths';
+import type { AppIconProps } from './icon.types';
 export type { AppIconName, AppIconProps } from './icon.types';
 
 export function AppIcon({ name, strokeWidth = 1.8, ...props }: AppIconProps) {

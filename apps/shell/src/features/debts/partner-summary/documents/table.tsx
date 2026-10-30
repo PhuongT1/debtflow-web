@@ -2,12 +2,15 @@
 
 import { Box, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import { useTranslations } from 'next-intl';
+
 import { DataTableCell, DataTableContainer } from '@packages/ui-react';
+
 import { Badge } from '@/components/ui/badge';
 import { TruncatedText } from '@/components/ui/clamped-text';
 import { FormDialog } from '@/components/ui/dialog/form-dialog';
 import { PaymentForm } from '@/features/payments/payment-form';
 import { formatMoney } from '@/lib/presentation/formatters';
+
 import type { PartnerDebtPage } from './types';
 
 type Translate = ReturnType<typeof useTranslations>;

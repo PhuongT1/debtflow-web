@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { PartyType } from '@/lib/domain';
 
 export function createPartyFormSchema(t: (key: string) => string) {

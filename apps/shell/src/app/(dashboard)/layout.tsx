@@ -1,9 +1,11 @@
-import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
-import { AuthenticatedShell } from '@/features/auth';
+import { redirect } from 'next/navigation';
+
 import { type AppLocale, DEFAULT_LOCALE, LOCALE_COOKIE_NAME } from '@packages/platform-contracts';
-import { auth } from '@/lib/auth/session';
+
+import { AuthenticatedShell } from '@/features/auth';
 import { getRequestedLoginUrl } from '@/lib/auth/login-navigation';
+import { auth } from '@/lib/auth/session';
 
 export const dynamic = 'force-dynamic';
 

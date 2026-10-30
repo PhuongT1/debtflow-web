@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
+
 import type { AppLocale } from '@packages/platform-contracts';
 import type { FrontendZone } from '@packages/platform-navigation';
+
 import type { AppShellIdentity, AppShellVariant } from '../../components/layout/app-shell.types';
 
 export type AppShellProps = {

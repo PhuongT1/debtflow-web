@@ -1,5 +1,6 @@
-import type { ReactNode, RefObject } from 'react';
 import type { DialogProps } from '@mui/material';
+import type { ReactNode, RefObject } from 'react';
+
 import type { OverlayRequest, OverlayResult } from '@packages/platform-contracts';
 import type { OpenOverlayOptions } from '@packages/platform-sdk';
 

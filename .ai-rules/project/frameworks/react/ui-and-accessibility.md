@@ -12,7 +12,7 @@ Local references: [Page layout](../../../../apps/shell/src/components/ui/page/pa
 | Scrollable/fixed-column table        | Public `DataTable` or `DataTableContent` from `@packages/ui-react`; app adapters own URL/i18n/navigation |
 | Domain row configuration             | Feature-owned columns; generic table receives columns/rows and does not know debt/payment endpoints      |
 | Shared confirmation                  | Public `SignOutDialog`: translated labels + rejecting async `onConfirm`; app supplies the action         |
-| Global type/color roles              | `@packages/ui-tokens` and common MUI theme; Angular uses matching CSS tokens                         |
+| Global type/color roles              | `@packages/ui-tokens` and common MUI theme; Angular uses matching CSS tokens                             |
 | React language dropdown              | Public `AppLocaleMenu`; caller persists the locale through the SDK                                       |
 
 ## Shared UI conventions

@@ -1,4 +1,5 @@
 import type { Components, Theme } from '@mui/material';
+
 import { designTokens } from '@packages/ui-tokens';
 
 export const buttonComponents: Components<Theme> = {

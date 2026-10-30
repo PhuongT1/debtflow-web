@@ -1,15 +1,17 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { Box, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
-import { ApiErrorNotice } from '@/components/ui/api-error-notice';
-import { AppDialog } from '@/components/ui/dialog/dialog';
-import { AppIcon } from '@/components/ui/app-icon';
-import { Button } from '@/components/ui/button';
+import { useTranslations } from 'next-intl';
+
 import type { OverlayRequest } from '@packages/platform-contracts';
 import { useOverlaySurface } from '@packages/ui-react';
 import { useToast } from '@packages/ui-react';
+
+import { ApiErrorNotice } from '@/components/ui/api-error-notice';
+import { AppIcon } from '@/components/ui/app-icon';
+import { Button } from '@/components/ui/button';
+import { AppDialog } from '@/components/ui/dialog/dialog';
 
 type ConfirmIntent = 'delete' | 'warning' | 'info';
 

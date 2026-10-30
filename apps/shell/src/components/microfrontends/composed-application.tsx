@@ -1,14 +1,18 @@
 import { notFound } from 'next/navigation';
+
 import {
   getApplicationLoadingLayout,
   getApplicationOverlayViews,
 } from '@packages/platform-registry';
 import { ListPageSkeleton } from '@packages/ui-react';
-import type { ComposedApplicationProps } from './microfrontends.types';
-export type { SearchValues } from './microfrontends.types';
-import { IframeHost } from './iframe-host';
+
 import { TablePageSkeleton } from '@/components/skeletons/page-skeleton';
+
+import { IframeHost } from './iframe-host';
+import type { ComposedApplicationProps } from './microfrontends.types';
 import { WebComponentHost } from './web-component-host';
+
+export type { SearchValues } from './microfrontends.types';
 
 export function ComposedApplication({
   application,

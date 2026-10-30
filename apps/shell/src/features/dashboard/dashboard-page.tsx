@@ -1,19 +1,20 @@
 import Link from 'next/link';
-import { getLocale, getTranslations } from 'next-intl/server';
 import { Typography } from '@mui/material';
+import { getLocale, getTranslations } from 'next-intl/server';
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { StatCard } from '@/components/ui/page/card';
 import { HelpModal } from '@/components/ui/dialog/help-modal';
+import { StatCard } from '@/components/ui/page/card';
 import { MetricGrid, Page, PageGrid, PageHeader } from '@/components/ui/page/page';
 import { SectionCard } from '@/components/ui/page/section-card';
 import { DashboardActionQueue } from '@/features/dashboard/dashboard-action-queue';
-import { DashboardPeriodFilter } from '@/features/dashboard/dashboard-period-filter';
 import { getDashboardPeriod } from '@/features/dashboard/dashboard-period';
+import { DashboardPeriodFilter } from '@/features/dashboard/dashboard-period-filter';
 import { DashboardTradeSummaryCard } from '@/features/dashboard/dashboard-trade-summary';
-import { getDashboard } from '@/services/dashboard.server';
 import { API_URL } from '@/lib/config/environment';
 import { formatMoney } from '@/lib/presentation/formatters';
+import { getDashboard } from '@/services/dashboard.server';
 
 function ActionMetric({ children, href }: { children: React.ReactNode; href: string }) {
   return (

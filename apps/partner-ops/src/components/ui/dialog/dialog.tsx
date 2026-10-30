@@ -1,8 +1,10 @@
 'use client';
 
-import { PlatformDialog, type PlatformDialogProps, useToast } from '@packages/ui-react';
-import { partnerPlatform } from '@/lib/platform/client';
 import { useTranslations } from 'next-intl';
+
+import { PlatformDialog, type PlatformDialogProps, useToast } from '@packages/ui-react';
+
+import { partnerPlatform } from '@/lib/platform/client';
 
 /** App-level modal boundary: standalone renders children; embedded requests
  * the registered view through partnerPlatform and handles its returned result. */

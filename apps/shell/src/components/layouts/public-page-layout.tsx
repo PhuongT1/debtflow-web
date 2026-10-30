@@ -1,10 +1,11 @@
 'use client';
 
-import type { ReactNode } from 'react';
 import { Box } from '@mui/material';
-import { AppLocaleMenu } from '@packages/ui-react';
-import { setStoredLocale } from '@packages/platform-sdk';
 import { useLocale } from 'next-intl';
+import type { ReactNode } from 'react';
+
+import { setStoredLocale } from '@packages/platform-sdk';
+import { AppLocaleMenu } from '@packages/ui-react';
 
 /** Shared frame for login and public pages, including the global language selector. */
 export function PublicPageLayout({ children }: { children: ReactNode }) {

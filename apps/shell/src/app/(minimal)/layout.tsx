@@ -1,7 +1,8 @@
 import { redirect } from 'next/navigation';
+
 import { AuthenticatedShell } from '@/features/auth';
-import { auth } from '@/lib/auth/session';
 import { getRequestedLoginUrl } from '@/lib/auth/login-navigation';
+import { auth } from '@/lib/auth/session';
 
 export const dynamic = 'force-dynamic';
 

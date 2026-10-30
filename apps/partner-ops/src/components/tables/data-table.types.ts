@@ -1,5 +1,5 @@
 import type { PaginationMeta } from '@packages/platform-contracts';
-import type { DataTableSkeletonSpec, FixedTableSide, DataTableSize } from '@packages/ui-react';
+import type { DataTableSize, DataTableSkeletonSpec, FixedTableSide } from '@packages/ui-react';
 export type { DataTableSkeletonSpec } from '@packages/ui-react';
 
 export type DataTableColumn<Row> = {

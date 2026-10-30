@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+
 import { partnerOpsEnv } from '@/lib/env';
 
 export function GET() {

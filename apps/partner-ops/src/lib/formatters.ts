@@ -3,9 +3,11 @@ export function formatMoney(value: number | string | { toString(): string }, cur
   const safeValue = Number.isFinite(numericValue) ? numericValue : 0;
 
   if (currency === 'VND') {
-    return new Intl.NumberFormat('vi-VN', {
-      maximumFractionDigits: 0,
-    }).format(safeValue) + ' đồng';
+    return (
+      new Intl.NumberFormat('vi-VN', {
+        maximumFractionDigits: 0,
+      }).format(safeValue) + ' đồng'
+    );
   }
 
   return new Intl.NumberFormat('vi-VN', {

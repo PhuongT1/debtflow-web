@@ -4,14 +4,14 @@ These accounts exist only in the local/demo database seeded by `debtflow-api/pri
 
 All demo accounts use password `Demo@123456`.
 
-| Organization | Type | Account | Membership role | Purpose |
-| --- | --- | --- | --- | --- |
-| Debt Flow platform | Platform | `admin@debtflow.local` | Platform owner | Manages platform-level accounts. It does not receive tenant ledger access by default. |
-| An Phú Fashion | Business | `owner@anphu-fashion.demo` | Owner | Tests organization ownership and member administration. |
-| An Phú Fashion | Business | `accountant@anphu-fashion.demo` | Accountant | Tests debt and payment operations. |
-| An Phú Fashion | Business | `viewer@anphu-fashion.demo` | Viewer | Tests read-only access. |
-| B Minimal Store | Business | `owner@b-minimal.demo` | Owner | Verifies isolation from An Phú Fashion. |
-| Linh Personal Store | Personal | `linh@linh-store.demo` | Owner | Tests a one-person workspace. |
+| Organization        | Type     | Account                         | Membership role | Purpose                                                                               |
+| ------------------- | -------- | ------------------------------- | --------------- | ------------------------------------------------------------------------------------- |
+| Debt Flow platform  | Platform | `admin@debtflow.local`          | Platform owner  | Manages platform-level accounts. It does not receive tenant ledger access by default. |
+| An Phú Fashion      | Business | `owner@anphu-fashion.demo`      | Owner           | Tests organization ownership and member administration.                               |
+| An Phú Fashion      | Business | `accountant@anphu-fashion.demo` | Accountant      | Tests debt and payment operations.                                                    |
+| An Phú Fashion      | Business | `viewer@anphu-fashion.demo`     | Viewer          | Tests read-only access.                                                               |
+| B Minimal Store     | Business | `owner@b-minimal.demo`          | Owner           | Verifies isolation from An Phú Fashion.                                               |
+| Linh Personal Store | Personal | `linh@linh-store.demo`          | Owner           | Tests a one-person workspace.                                                         |
 
 ## Expected isolation
 

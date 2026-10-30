@@ -1,4 +1,9 @@
-export const UserRole = { OWNER: 'OWNER', ADMIN: 'ADMIN', ACCOUNTANT: 'ACCOUNTANT', VIEWER: 'VIEWER' } as const;
+export const UserRole = {
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+  ACCOUNTANT: 'ACCOUNTANT',
+  VIEWER: 'VIEWER',
+} as const;
 
 export const OrganizationKind = { PERSONAL: 'PERSONAL', BUSINESS: 'BUSINESS' } as const;
 export type OrganizationKind = (typeof OrganizationKind)[keyof typeof OrganizationKind];

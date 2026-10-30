@@ -52,6 +52,7 @@ src/lib/
 ```
 
 Chỉ thêm module shared khi ít nhất hai domain dùng được; còn lại giữ trong feature sở hữu nó. Không tạo thư mục `utils` tổng hợp.
+
 ## Service naming convention
 
 - File: `<domain>.<runtime>.ts`, lowercase kebab-case domain. Ví dụ: `debt.server.ts`, `payment.client.ts`. Không thêm `.service` vì file đã ở trong `services/`.
@@ -60,9 +61,9 @@ Chỉ thêm module shared khi ít nhất hai domain dùng được; còn lại g
 - Query single resource hoặc singleton: `get<Noun>` — `getDebt`, `getDashboard`.
 - Mutation: imperative verb + domain noun — `createDebt`, `updateDebt`, `recordDebtPayment`, `importDebtWorkbook`.
 - Không đặt tên theo UI hoặc transport như `get...Page`, `...Client`, `fetchData`, `handleRequest`; return type và query/pagination là chi tiết của implementation, không phải tên capability.
+
 ## API route catalog
 
 Client-facing URLs are defined only in `lib/api/routes.ts` as `shellApiRoutes`, grouped by domain. A dynamic segment is a builder, for example `shellApiRoutes.debts.detail(debtId)`; query strings use `buildApiRouteWithQuery`.
 
 Service modules must not contain literal `/api/...` paths. For a new endpoint, extend the correct domain object in the route catalog, then use that named route in the owning service. When the catalog becomes large, split it into `lib/api/routes/<domain>.ts` and re-export a composed `shellApiRoutes`; do not create a flat global string enum.
-

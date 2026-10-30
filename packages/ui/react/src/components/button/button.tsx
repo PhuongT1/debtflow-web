@@ -1,4 +1,5 @@
 import { Button as MuiButton } from '@mui/material';
+
 import type { AppButtonProps } from './button.types';
 
 export function AppButton({

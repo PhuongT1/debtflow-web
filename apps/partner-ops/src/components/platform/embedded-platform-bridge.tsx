@@ -1,8 +1,10 @@
 'use client';
 import { useEffect } from 'react';
-import { MFE_ROUTE_SYNC_CAPABILITY } from '@packages/platform-contracts';
 import { useRouter } from 'next/navigation';
+
+import { MFE_ROUTE_SYNC_CAPABILITY } from '@packages/platform-contracts';
 import { setStoredLocale } from '@packages/platform-sdk';
+
 import { partnerPlatform } from '@/lib/platform/client';
 
 function shellPath(value: string) {

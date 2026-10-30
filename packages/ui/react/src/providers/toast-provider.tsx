@@ -1,8 +1,8 @@
 'use client';
 
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { Alert, type AlertColor, Snackbar } from '@mui/material';
 import type { PropsWithChildren } from 'react';
-import { Alert, Snackbar, type AlertColor } from '@mui/material';
 
 export type ToastOptions = {
   message: string;

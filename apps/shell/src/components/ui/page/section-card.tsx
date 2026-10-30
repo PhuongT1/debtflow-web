@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Typography, type SxProps, type Theme } from '@mui/material';
+import { Box, Card, CardContent, type SxProps, type Theme, Typography } from '@mui/material';
 
 export function SectionCard({
   title,

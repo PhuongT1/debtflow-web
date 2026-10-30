@@ -73,12 +73,12 @@ Extend the shared contract/validator and an SDK adapter together. UI features us
 
 ## Source map
 
-| Public import        | Source                                                                                  | Owner                                               |
-| -------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| `@packages/platform-sdk`      | [packages/platform/sdk](../../../packages/platform/sdk/README.md)                       | Framework-neutral integration                       |
-| Messaging options    | [messaging.types.ts](../../../packages/platform/sdk/src/messaging/messaging.types.ts)   | Named reusable options/callbacks                    |
-| Native dispatch      | [window-messenger.ts](../../../packages/platform/sdk/src/messaging/window-messenger.ts) | Only native cross-window send/listen implementation |
-| Application instance | [Partner Ops client](../../../apps/partner-ops/src/lib/platform/client.ts)              | Project host configuration                          |
-| Host integration     | [IframeHost](../../../apps/shell/src/components/microfrontends/iframe-host.tsx)         | Remote lifecycle and host callbacks                 |
+| Public import            | Source                                                                                  | Owner                                               |
+| ------------------------ | --------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| `@packages/platform-sdk` | [packages/platform/sdk](../../../packages/platform/sdk/README.md)                       | Framework-neutral integration                       |
+| Messaging options        | [messaging.types.ts](../../../packages/platform/sdk/src/messaging/messaging.types.ts)   | Named reusable options/callbacks                    |
+| Native dispatch          | [window-messenger.ts](../../../packages/platform/sdk/src/messaging/window-messenger.ts) | Only native cross-window send/listen implementation |
+| Application instance     | [Partner Ops client](../../../apps/partner-ops/src/lib/platform/client.ts)              | Project host configuration                          |
+| Host integration         | [IframeHost](../../../apps/shell/src/components/microfrontends/iframe-host.tsx)         | Remote lifecycle and host callbacks                 |
 
 For another project, adopt the contracts/SDK and configure its hosts, routes and domains. React UI remains in `@packages/ui-react`; Angular/Vue can use the SDK without importing React.

@@ -36,7 +36,9 @@ for (const directory of appDirectories) {
 }
 
 const contractsVersion = Number(
-  (await readJson(path.join(root, 'packages/platform/contracts/package.json'))).version.split('.')[0],
+  (await readJson(path.join(root, 'packages/platform/contracts/package.json'))).version.split(
+    '.',
+  )[0],
 );
 const eventsVersion = Number(
   (await readJson(path.join(root, 'packages/platform/sdk/package.json'))).version.split('.')[0],

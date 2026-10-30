@@ -1,13 +1,16 @@
 import type { SxProps, Theme } from '@mui/material';
+
 import {
-  DataTable as SharedDataTable,
   createTablePaginationLinks,
-  SortableTableHeader,
+  DataTable as SharedDataTable,
   type DataTableColumn,
-  type TableScroll,
   type DataTableSize,
+  SortableTableHeader,
+  type TableScroll,
 } from '@packages/ui-react';
+
 import type { SortDirection } from '@/lib/routing/table-sort';
+
 import { DataTablePagination } from './data-table-pagination';
 
 export type { DataTableColumn, DataTableSkeletonSpec } from '@packages/ui-react';

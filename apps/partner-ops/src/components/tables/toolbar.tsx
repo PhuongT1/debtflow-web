@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+
 import { FilterToolbar, type FilterToolbarProps } from '@packages/ui-react';
 
 type DataTableToolbarProps = Omit<FilterToolbarProps, 'showLabel' | 'hideLabel'>;

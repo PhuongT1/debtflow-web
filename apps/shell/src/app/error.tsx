@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { Alert, Box, Button, Card, CardContent, Typography } from '@mui/material';
+
 import { AppIcon } from '@/components/ui/app-icon';
 import { isBackendUnavailableError } from '@/lib/api/network-error';
 

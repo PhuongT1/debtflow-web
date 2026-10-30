@@ -1,5 +1,4 @@
 'use client';
-import type { SignOutDialogProps } from './dialog.types';
 
 import { useId, useRef, useState } from 'react';
 import {
@@ -11,6 +10,8 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
+
+import type { SignOutDialogProps } from './dialog.types';
 
 /** Mount while confirmation is requested; the host supplies translated text and the action. */
 export function SignOutDialog({

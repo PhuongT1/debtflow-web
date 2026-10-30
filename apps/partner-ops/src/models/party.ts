@@ -1,5 +1,6 @@
+import type { DebtStatus, DebtType, PartyType } from '@/lib/domain';
+
 import type { UserSummary } from './user';
-import type { PartyType, DebtType, DebtStatus } from '@/lib/domain';
 
 export type Party = {
   id: string;

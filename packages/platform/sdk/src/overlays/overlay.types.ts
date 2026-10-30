@@ -1,4 +1,10 @@
-import type { AppLocale, OverlayMessage, OverlayRequest, OverlayResult } from '@packages/platform-contracts';
+import type {
+  AppLocale,
+  OverlayMessage,
+  OverlayRequest,
+  OverlayResult,
+} from '@packages/platform-contracts';
+
 import type { WindowPeer } from '../messaging/messaging.types';
 
 export type OverlayPeer = WindowPeer;

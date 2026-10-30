@@ -1,5 +1,7 @@
 import { Box, Card as MuiCard, CardContent, Typography } from '@mui/material';
+
 import { AppIconBadge } from '@packages/ui-react';
+
 import { type AppIconName } from '@/components/ui/app-icon';
 
 export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {

@@ -1,9 +1,11 @@
 import { isOverlayMessage } from '@packages/platform-contracts';
+
 import { createWindowMessenger } from '../messaging/window-messenger';
+
 import type {
-  OverlayPeer,
   EmitOverlayMessageOptions,
   ListenOverlayMessagesOptions,
+  OverlayPeer,
 } from './overlay.types';
 export type { OverlayPeer } from './overlay.types';
 const channel = (peer: OverlayPeer) =>

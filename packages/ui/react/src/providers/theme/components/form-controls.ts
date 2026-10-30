@@ -1,7 +1,9 @@
-import { ControlChevronIcon } from '../../../components/form/control-icons';
 import { type Components, type Theme } from '@mui/material';
 import type {} from '@mui/x-date-pickers/themeAugmentation';
+
 import { designTokens } from '@packages/ui-tokens';
+
+import { ControlChevronIcon } from '../../../components/form/control-icons';
 
 export const formControls: Components<Theme> = {
   MuiTextField: {

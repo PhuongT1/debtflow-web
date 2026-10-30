@@ -1,13 +1,14 @@
-import { applyTableLayout } from '@/components/tables/page-layouts';
 import Link from 'next/link';
-import { StatCard } from '@/components/ui/page/card';
-import { ConfirmActionButton } from '@/components/ui/dialog/confirm-action-button';
+
 import { DataTable, type DataTableColumn } from '@/components/tables';
+import { applyTableLayout } from '@/components/tables/page-layouts';
+import { ConfirmActionButton } from '@/components/ui/dialog/confirm-action-button';
 import { HelpModal } from '@/components/ui/dialog/help-modal';
+import { StatCard } from '@/components/ui/page/card';
 import { MetricGrid, Page, PageHeader } from '@/components/ui/page/page';
-import { getDebtAgingReport, listDebts } from '@/services/debt.server';
-import { hrefWithPage, hrefWithPageSize } from '@/lib/routing/pagination';
 import { formatMoney } from '@/lib/presentation/formatters';
+import { hrefWithPage, hrefWithPageSize } from '@/lib/routing/pagination';
+import { getDebtAgingReport, listDebts } from '@/services/debt.server';
 
 export async function AgingReportPage({
   searchParams,

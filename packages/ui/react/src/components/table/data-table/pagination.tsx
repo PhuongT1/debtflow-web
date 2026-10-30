@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react';
 import { Box, Skeleton } from '@mui/material';
+import type { ReactNode } from 'react';
+
 import { TablePaginationBar } from '../table-pagination';
 
 export interface DataTablePaginationProps {

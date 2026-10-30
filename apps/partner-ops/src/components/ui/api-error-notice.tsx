@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { getApiErrorMessage } from '@/lib/api/api-error';
 import { Alert, Snackbar } from '@mui/material';
+import { useTranslations } from 'next-intl';
+
+import { getApiErrorMessage } from '@/lib/api/api-error';
 
 export function ApiErrorNotice({ error }: { error: Error | null }) {
   const t = useTranslations('Api');

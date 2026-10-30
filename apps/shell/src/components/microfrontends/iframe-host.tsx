@@ -1,15 +1,16 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Box } from '@mui/material';
+
 import { MFE_ROUTE_SYNC_CAPABILITY } from '@packages/platform-contracts';
 import { getStoredLocale } from '@packages/platform-sdk';
 import { createRemoteClient, subscribePlatformEvent } from '@packages/platform-sdk';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Box } from '@mui/material';
-import { OverlayHost } from './overlay-host';
-import { RemoteErrorState, RemoteLoadingState, type RemoteHostState } from './remote-host-state';
 
 import type { IframeHostProps } from './microfrontends.types';
+import { OverlayHost } from './overlay-host';
+import { RemoteErrorState, type RemoteHostState, RemoteLoadingState } from './remote-host-state';
 
 export function IframeHost({
   appName,

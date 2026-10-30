@@ -1,9 +1,10 @@
+import { createBrandEffects } from '../effects/brand';
+import { createElevation } from '../effects/elevation';
 import { createBrandRoles } from '../palette/brand';
 import { statusColors } from '../palette/status';
-import { surfaceColors } from './surfaces';
-import { createElevation } from '../effects/elevation';
-import { createBrandEffects } from '../effects/brand';
 import type { ThemeMode, ThemeScheme } from '../theme.types';
+
+import { surfaceColors } from './surfaces';
 
 function createScheme(mode: ThemeMode): ThemeScheme {
   return {

@@ -1,4 +1,5 @@
 import type { SvgIconProps } from '@mui/material';
+
 import { AppIcon } from '../../icons/app-icon';
 
 export function PickerCalendarIcon(props: SvgIconProps) {

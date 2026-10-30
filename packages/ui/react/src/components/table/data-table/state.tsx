@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react';
 import { Box, TableRow, Typography } from '@mui/material';
+import type { ReactNode } from 'react';
+
 import { DataTableCell } from '../table-cell';
 
 export function DataTableState({

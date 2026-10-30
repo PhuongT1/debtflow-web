@@ -1,17 +1,19 @@
 import {
-  MFE_HOST_MESSAGE_VERSION,
   isMfePlatformMessage,
   isMfeRoutePath,
+  MFE_HOST_MESSAGE_VERSION,
 } from '@packages/platform-contracts';
-import { createWindowMessenger } from './window-messenger';
-import type {
-  PlatformClientOptions,
-  PlatformRouteOptions,
-  PlatformReadyOptions,
-  PlatformClientListeners,
-} from './messaging.types';
-import type { OpenOverlayOptions } from '../overlays/overlay.types';
+
 import { openPlatformOverlay } from '../overlays/client';
+import type { OpenOverlayOptions } from '../overlays/overlay.types';
+
+import type {
+  PlatformClientListeners,
+  PlatformClientOptions,
+  PlatformReadyOptions,
+  PlatformRouteOptions,
+} from './messaging.types';
+import { createWindowMessenger } from './window-messenger';
 
 /** Create once at the application's composition root. No browser access until used. */
 export function createPlatformClient(options: PlatformClientOptions) {

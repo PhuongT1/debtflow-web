@@ -1,6 +1,6 @@
 import { apiRequest } from '@/lib/api/http-client';
-import type { UserSummary } from '@/models/user';
 import { UserStatus } from '@/lib/domain';
+import type { UserSummary } from '@/models/user';
 
 export const userService = {
   options: (signal?: AbortSignal) => apiRequest<UserSummary[]>({ url: '/users/options', signal }),

@@ -30,8 +30,8 @@ For in-depth architectural decisions, diagrams, and operational guides, please r
 
 All packages in `packages/` follow strict **Domain-Driven Design (DDD)** and are **Framework-Agnostic** (pure TypeScript/CSS), enabling seamless consumption by both React and Angular:
 
-| Package                    | Directory                                                    | Description                                                                                              |
-| :------------------------- | :----------------------------------------------------------- | :------------------------------------------------------------------------------------------------------- |
+| Package                             | Directory                                                    | Description                                                                                              |
+| :---------------------------------- | :----------------------------------------------------------- | :------------------------------------------------------------------------------------------------------- |
 | **`@packages/platform-contracts`**  | [packages/platform/contracts](packages/platform/contracts)   | Pure TypeScript data models (`AuthUser`, `PaymentRecord`), API Response envelopes, and i18n locale types |
 | **`@packages/ui-tokens`**           | [packages/ui/tokens](packages/ui/tokens)                     | Shared design tokens & CSS variables (Header 56px, Sidebar 264px/84px, unified palette)                  |
 | **`@packages/platform-navigation`** | [packages/platform/navigation](packages/platform/navigation) | Centralized route ownership, RBAC permissions (`ADMIN`), and bilingual navigation labels (EN / VI)       |

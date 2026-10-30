@@ -1,4 +1,5 @@
 import type { SvgIconProps } from '@mui/material';
+
 import type { NavigationIcon } from '@packages/platform-navigation';
 
 export type AppIconName =

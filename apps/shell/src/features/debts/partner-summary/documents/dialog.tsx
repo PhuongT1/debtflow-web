@@ -9,16 +9,19 @@ import {
   Typography,
 } from '@mui/material';
 import { useLocale, useTranslations } from 'next-intl';
-import { AppDialog } from '@/components/ui/dialog/dialog';
-import { AppIcon } from '@/components/ui/app-icon';
+
 import { TableLayout } from '@packages/ui-react';
+
+import { AppIcon } from '@/components/ui/app-icon';
 import { Button } from '@/components/ui/button';
+import { AppDialog } from '@/components/ui/dialog/dialog';
 import { FormDialog } from '@/components/ui/dialog/form-dialog';
 import { DebtForm } from '@/features/debts/forms/debt/debt-form';
+
 import { DocumentFilters } from './filters';
 import { DocumentPagination } from './pagination';
-import { DocumentTabs } from './tabs';
 import { PartnerDebtsTable } from './table';
+import { DocumentTabs } from './tabs';
 import type { PartnerDocumentUser } from './types';
 import { usePartnerDocuments } from './use-partner-documents';
 

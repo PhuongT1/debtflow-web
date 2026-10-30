@@ -1,6 +1,8 @@
 import 'server-only';
-import { apiServer, toDate } from '@/lib/api/server';
+
 import type { PaginatedResult } from '@packages/platform-contracts';
+
+import { apiServer, toDate } from '@/lib/api/server';
 
 export type User = {
   id: string;

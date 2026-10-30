@@ -2,6 +2,7 @@
 
 import type { AppLocale } from '@packages/platform-contracts';
 import { getStoredLocale } from '@packages/platform-sdk';
+
 import { getLocalizedApiErrorMessage } from '@/lib/api/error-message';
 import { http } from '@/lib/api/http';
 import { unwrapApiResponse } from '@/lib/api/response';

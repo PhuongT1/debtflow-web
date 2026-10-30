@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { NextIntlClientProvider } from 'next-intl';
-import type { AppLocale } from '@packages/platform-contracts';
-import { getStoredLocale, subscribePlatformEvent } from '@packages/platform-sdk';
 import en from '@messages/en.json';
 import vi from '@messages/vi.json';
+import { NextIntlClientProvider } from 'next-intl';
+
+import type { AppLocale } from '@packages/platform-contracts';
+import { getStoredLocale, subscribePlatformEvent } from '@packages/platform-sdk';
 
 const messages = { en, vi } as const;
 

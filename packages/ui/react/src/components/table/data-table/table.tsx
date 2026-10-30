@@ -1,6 +1,8 @@
 import { Box, Typography } from '@mui/material';
-import { DataTableContent } from './content';
+
 import { TableLayout } from '../table-layout';
+
+import { DataTableContent } from './content';
 import type { DataTableProps } from './types';
 
 /** Shared /debts surface: header/filters outside the border, scrolling body and fixed footer. */

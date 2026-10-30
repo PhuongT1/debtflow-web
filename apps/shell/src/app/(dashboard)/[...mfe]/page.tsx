@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation';
+
 import { microfrontendManifest } from '@packages/platform-registry';
+
 import {
   ComposedApplication,
   type SearchValues,

@@ -1,8 +1,9 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { Box } from '@mui/material';
+import { useTranslations } from 'next-intl';
+
 import { AppIcon } from '@/components/ui/app-icon';
 import { Button } from '@/components/ui/button';
 

@@ -10,9 +10,10 @@ import {
   ListItem,
   Typography,
 } from '@mui/material';
+
 import { AppIcon } from '@/components/ui/app-icon';
-import { AppDialog } from '@/components/ui/dialog/dialog';
 import { Button } from '@/components/ui/button';
+import { AppDialog } from '@/components/ui/dialog/dialog';
 
 type HelpModalProps = {
   title: string;

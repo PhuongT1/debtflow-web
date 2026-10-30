@@ -1,4 +1,8 @@
 import { ChangeDetectionStrategy, Component, ElementRef, inject, signal } from '@angular/core';
+import { DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { environment } from '@env/environment';
+
 import { type AppLocale, type AuthUser } from '@packages/platform-contracts';
 import {
   buildLoginUrl,
@@ -6,14 +10,13 @@ import {
   setStoredLocale,
   subscribePlatformEvent,
 } from '@packages/platform-sdk';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DestroyRef } from '@angular/core';
-import { environment } from '@env/environment';
+
+import { paymentMessage, type PaymentMessageKey } from '@core/i18n/payment-messages';
 import { PlatformSessionService } from '@core/session/platform-session.service';
 import { PaymentHistoryComponent } from '@features/payments';
-import { paymentMessage, type PaymentMessageKey } from '@core/i18n/payment-messages';
-import { SignOutDialogComponent } from './sign-out-dialog.component';
+
 import { LanguageSelectorComponent } from './language-selector.component';
+import { SignOutDialogComponent } from './sign-out-dialog.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

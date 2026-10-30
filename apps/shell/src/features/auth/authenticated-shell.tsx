@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, type ComponentProps } from 'react';
-import { AppShell, SignOutDialog } from '@packages/ui-react';
-import { signOutFromPlatform } from '@packages/platform-sdk';
+import { type ComponentProps, useState } from 'react';
 import { useTranslations } from 'next-intl';
+
+import { signOutFromPlatform } from '@packages/platform-sdk';
+import { AppShell, SignOutDialog } from '@packages/ui-react';
 
 export function AuthenticatedShell(props: ComponentProps<typeof AppShell>) {
   const t = useTranslations('SignOut');

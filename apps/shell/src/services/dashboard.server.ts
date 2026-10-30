@@ -1,5 +1,6 @@
 import 'server-only';
-import { apiServer, toDate, toMoney, type Money } from '@/lib/api/server';
+
+import { apiServer, type Money, toDate, toMoney } from '@/lib/api/server';
 
 export type DashboardQueueDebt = {
   id: string;
@@ -120,7 +121,10 @@ function normalizeQueue(debts: RawQueueDebt[] | undefined): DashboardQueueDebt[]
   }));
 }
 
-export async function getDashboard(period: { dateFrom: string; dateTo: string }): Promise<Dashboard> {
+export async function getDashboard(period: {
+  dateFrom: string;
+  dateTo: string;
+}): Promise<Dashboard> {
   const dashboard = await apiServer.get<RawDashboard>('dashboard', { query: period });
   const actionCenter = dashboard.actionCenter;
 

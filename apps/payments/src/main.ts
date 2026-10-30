@@ -1,6 +1,7 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { createApplication } from '@angular/platform-browser';
 import { createCustomElement } from '@angular/elements';
+import { createApplication } from '@angular/platform-browser';
+
 import { credentialsInterceptor } from '@core/http/credentials.interceptor';
 import { PaymentWorkspaceComponent } from '@features/workspace';
 

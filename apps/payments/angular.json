@@ -70,7 +70,11 @@
           "builder": "@angular/build:dev-server",
           "options": {
             "prebundle": {
-              "exclude": ["@packages/platform-contracts", "@packages/ui-tokens", "@packages/platform-sdk"]
+              "exclude": [
+                "@packages/platform-contracts",
+                "@packages/ui-tokens",
+                "@packages/platform-sdk"
+              ]
             }
           },
           "configurations": {

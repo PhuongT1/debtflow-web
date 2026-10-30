@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
+
+import { DEFAULT_LOCALE, LOCALE_COOKIE_NAME } from '@packages/platform-contracts';
+
+import { http } from '@/lib/api/http';
 import { getServerAccessToken } from '@/lib/auth/session';
 import { API_URL } from '@/lib/config/environment';
-import { http } from '@/lib/api/http';
-import { DEFAULT_LOCALE, LOCALE_COOKIE_NAME } from '@packages/platform-contracts';
 
 const HOP_BY_HOP_HEADERS = new Set([
   'connection',

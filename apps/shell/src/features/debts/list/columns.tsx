@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import { Box } from '@mui/material';
+
+import type { DataTableColumn } from '@/components/tables';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ConfirmActionButton } from '@/components/ui/dialog/confirm-action-button';
-import type { DataTableColumn } from '@/components/tables';
-import type { Debt } from '@/services/debt.server';
-import { formatMoney } from '@/lib/presentation/formatters';
 import { CollectionStatus, DebtStatus, type DebtType } from '@/lib/domain/enums';
+import { formatMoney } from '@/lib/presentation/formatters';
+import type { Debt } from '@/services/debt.server';
 
 type Translate = (key: string, values?: Record<string, string | number | Date>) => string;
 

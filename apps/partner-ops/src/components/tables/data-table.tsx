@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
-import { DataTable as SharedDataTable, createTablePaginationLinks } from '@packages/ui-react';
-import { DataTablePagination } from './data-table-pagination';
+
+import { createTablePaginationLinks, DataTable as SharedDataTable } from '@packages/ui-react';
+
 import type { DataTableProps } from './data-table.types';
+import { DataTablePagination } from './data-table-pagination';
 
 export type { DataTableColumn, DataTableSkeletonSpec } from './data-table.types';
 

@@ -1,9 +1,11 @@
 'use client';
 
 import { useMemo } from 'react';
-import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
+
 import { listPartnerDebtItems } from '@/services/debt.client';
+
 import type { PartnerDebtFilters, PartnerDebtPage } from './types';
 
 const detailKeys = [

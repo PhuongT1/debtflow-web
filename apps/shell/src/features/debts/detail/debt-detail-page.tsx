@@ -1,17 +1,17 @@
-import { Badge } from '@/components/ui/badge';
-import { StatCard } from '@/components/ui/page/card';
-import { ConfirmActionButton } from '@/components/ui/dialog/confirm-action-button';
 import { DataTable, type DataTableColumn } from '@/components/tables';
-import { DetailList } from '@/components/ui/page/detail-list';
+import { Badge } from '@/components/ui/badge';
+import { ConfirmActionButton } from '@/components/ui/dialog/confirm-action-button';
 import { HelpModal } from '@/components/ui/dialog/help-modal';
+import { StatCard } from '@/components/ui/page/card';
+import { DetailList } from '@/components/ui/page/detail-list';
 import { MetricGrid, Page, PageHeader, PageSplit } from '@/components/ui/page/page';
 import { SectionCard } from '@/components/ui/page/section-card';
 import { CollectionForm } from '@/features/debts/forms/collection-form';
-import { getDebt } from '@/services/debt.server';
 import { PaymentForm } from '@/features/payments/payment-form';
-import { listUserOptions } from '@/services/user.server';
-import { hrefWithPage, hrefWithPageSize } from '@/lib/routing/pagination';
 import { formatMoney } from '@/lib/presentation/formatters';
+import { hrefWithPage, hrefWithPageSize } from '@/lib/routing/pagination';
+import { getDebt } from '@/services/debt.server';
+import { listUserOptions } from '@/services/user.server';
 
 type Params = { params: Promise<{ id: string }> };
 

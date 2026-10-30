@@ -1,4 +1,5 @@
 import { Box, Paper } from '@mui/material';
+
 import { AppSkeleton } from '@/components/ui/skeleton';
 
 function PageHeadingSkeleton({ actions = true }: { actions?: boolean }) {

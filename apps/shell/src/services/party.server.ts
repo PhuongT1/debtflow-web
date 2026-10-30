@@ -1,6 +1,7 @@
 import 'server-only';
-import { apiServer, toDate, toMoney, type Money } from '@/lib/api/server';
+
 import { partyQuerySchema } from '@/features/parties/model/party.schema';
+import { apiServer, type Money, toDate, toMoney } from '@/lib/api/server';
 
 type UserSummary = { id: string; name: string; email: string };
 
@@ -74,7 +75,9 @@ function normalizeParty(raw: RawParty): Party {
       dueDate: toDate(debt.dueDate) ?? new Date(),
       nextFollowUpAt: toDate(debt.nextFollowUpAt),
     })),
-    balance: raw.balance ? { receivable: toMoney(raw.balance.receivable), payable: toMoney(raw.balance.payable) } : undefined,
+    balance: raw.balance
+      ? { receivable: toMoney(raw.balance.receivable), payable: toMoney(raw.balance.payable) }
+      : undefined,
     _count: raw._count ?? { debts: raw.debts?.length ?? 0 },
   };
 }

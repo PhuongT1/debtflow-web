@@ -2,15 +2,15 @@
 
 **Activate:** planning or performing checks for a React change. **Scope:** affected behavior; commands come from the project's owner/profile, not from this reusable module.
 
-| Changed responsibility     | Select relevant checks                                                                                             |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| Forms                      | Invalid/empty input, Enter submit, pending duplicates, server errors, record reset and preserving drafts           |
-| Queries and filters        | Correct keys/requests, reset pagination, clear preserves unrelated state, navigation history, stale-response races |
-| Mutations                  | One committed request, recoverable failure, successful invalidation and navigable final page                       |
-| Dialogs and menus          | Accessible name, focus entry/restoration, idle cancel/Escape, explicit pending behavior; anchored controls retain transparent dismissal layers while modal surfaces use the intended backdrop                            |
-| Authentication integration | Valid/invalid destinations, original return context, direct entry and affected origins/modes                       |
-| Shared layout and tokens   | Equivalent computed surface/text/border/elevation roles, narrow overflow and affected light/dark consumers; inspect open controls as well as idle states                                        |
-| Exports and dependencies   | Public consumers resolve, runtime dependency declaration and client/server separation                              |
+| Changed responsibility     | Select relevant checks                                                                                                                                                                        |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Forms                      | Invalid/empty input, Enter submit, pending duplicates, server errors, record reset and preserving drafts                                                                                      |
+| Queries and filters        | Correct keys/requests, reset pagination, clear preserves unrelated state, navigation history, stale-response races                                                                            |
+| Mutations                  | One committed request, recoverable failure, successful invalidation and navigable final page                                                                                                  |
+| Dialogs and menus          | Accessible name, focus entry/restoration, idle cancel/Escape, explicit pending behavior; anchored controls retain transparent dismissal layers while modal surfaces use the intended backdrop |
+| Authentication integration | Valid/invalid destinations, original return context, direct entry and affected origins/modes                                                                                                  |
+| Shared layout and tokens   | Equivalent computed surface/text/border/elevation roles, narrow overflow and affected light/dark consumers; inspect open controls as well as idle states                                      |
+| Exports and dependencies   | Public consumers resolve, runtime dependency declaration and client/server separation                                                                                                         |
 
 Use the configured type/lint/test/build commands proportionally. Do not invent a unit-test runner or add one just to test reversible styling. Test behavior rather than implementation details, CSS hashes or large snapshots.
 

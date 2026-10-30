@@ -1,15 +1,18 @@
 'use client';
 import { useEffect } from 'react';
-import { z } from 'zod';
 import { Alert, Box } from '@mui/material';
-import { Button } from '@/components/ui/button';
 import { useTranslations } from 'next-intl';
+import { z } from 'zod';
+
 import { useOverlaySurface } from '@packages/ui-react';
-import { HelpModal } from '@/components/ui/dialog/help-modal';
-import { FormDialog } from '@/components/ui/dialog/form-dialog';
+
+import { Button } from '@/components/ui/button';
 import { ConfirmActionButton } from '@/components/ui/dialog/confirm-action-button';
-import { PartyForm, createPartyFormSchema, useDeleteParty } from '@/features/parties';
+import { FormDialog } from '@/components/ui/dialog/form-dialog';
+import { HelpModal } from '@/components/ui/dialog/help-modal';
+import { createPartyFormSchema, PartyForm, useDeleteParty } from '@/features/parties';
 import { useActiveUsers } from '@/hooks/use-active-users';
+
 import type { OverlayContentProps } from './content.types';
 
 function InvalidSurface() {

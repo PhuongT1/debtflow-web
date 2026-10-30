@@ -1,6 +1,6 @@
 import { OVERLAY_PROTOCOL, type OverlayResult } from '@packages/platform-contracts';
-import { emitOverlayMessage, listenOverlayMessages } from './channel';
 
+import { emitOverlayMessage, listenOverlayMessages } from './channel';
 import type { OpenPlatformOverlayOptions } from './overlay.types';
 export type { OpenPlatformOverlayOptions } from './overlay.types';
 /** Caller flow: open -> accepted -> result after the host's exit animation. */

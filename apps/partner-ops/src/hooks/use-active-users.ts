@@ -1,8 +1,9 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+
 import { queryKeys } from '@/lib/query/query-keys';
-import { userService, selectActiveUsers } from '@/services/user.service';
+import { selectActiveUsers, userService } from '@/services/user.service';
 
 /** App-wide user options; independent of the Parties feature. */
 export function useActiveUsers() {

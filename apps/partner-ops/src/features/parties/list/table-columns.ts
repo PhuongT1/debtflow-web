@@ -1,4 +1,5 @@
 import { partnerListLayout } from '@packages/platform-registry';
+
 import type { DataTableColumn } from '@/components/tables';
 
 type PartyColumnConfig = Omit<DataTableColumn<never>, 'render'>;

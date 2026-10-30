@@ -1,17 +1,24 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   computed,
+  DestroyRef,
   inject,
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { type AppLocale, type PaginatedResult, type PaymentRecord } from '@packages/platform-contracts';
+
+import {
+  type AppLocale,
+  type PaginatedResult,
+  type PaymentRecord,
+} from '@packages/platform-contracts';
 import { getStoredLocale } from '@packages/platform-sdk';
 import { subscribePlatformEvent } from '@packages/platform-sdk';
-import { PaymentApiService } from './payment-api.service';
+
 import { paymentMessage, type PaymentMessageKey } from '@core/i18n/payment-messages';
+
+import { PaymentApiService } from './payment-api.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

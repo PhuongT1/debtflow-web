@@ -1,9 +1,9 @@
 import type {
-  WindowMessageSubscriber,
-  WindowMessageDispatcher,
-  WindowMessengerOptions,
-  PostWindowMessageOptions,
   ListenWindowMessagesOptions,
+  PostWindowMessageOptions,
+  WindowMessageDispatcher,
+  WindowMessageSubscriber,
+  WindowMessengerOptions,
 } from './messaging.types';
 export type { WindowPeer, MessageValidator } from './messaging.types';
 

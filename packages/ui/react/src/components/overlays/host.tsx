@@ -1,9 +1,15 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, CircularProgress, Snackbar } from '@mui/material';
-import { createOverlayHostBridge, type OverlaySession, type OverlayRuntime } from '@packages/platform-sdk';
+
 import { type OverlayResult } from '@packages/platform-contracts';
+import {
+  createOverlayHostBridge,
+  type OverlayRuntime,
+  type OverlaySession,
+} from '@packages/platform-sdk';
 import { getStoredLocale } from '@packages/platform-sdk';
+
 import { PlatformDialog } from './dialog';
 import type { OverlayHostProps } from './overlay.types';
 

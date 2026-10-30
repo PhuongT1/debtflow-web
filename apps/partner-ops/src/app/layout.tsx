@@ -1,13 +1,16 @@
+import '@/app/globals.css';
+
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
-import { themeSchemes } from '@packages/ui-tokens';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import type { Metadata, Viewport } from 'next';
 import { getLocale } from 'next-intl/server';
+
 import type { AppLocale } from '@packages/platform-contracts';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { AppProviders } from '@packages/ui-react';
+import { themeSchemes } from '@packages/ui-tokens';
+
 import { PartnerIntlProvider } from '@/components/providers/partner-intl-provider';
 import { partnerOpsEnv } from '@/lib/env';
-import '@/app/globals.css';
 
 export const viewport: Viewport = {
   themeColor: [

@@ -1,10 +1,12 @@
 import { getTranslations } from 'next-intl/server';
+
 import { DataTable } from '@/components/tables';
+import { hrefWithPage, hrefWithPageSize } from '@/lib/routing/pagination';
 import { getCatalogOptions } from '@/services/catalog.server';
+import { listDebts } from '@/services/debt.server';
+
 import { getDebtListColumns } from './columns';
 import { DebtListToolbar } from './toolbar';
-import { listDebts } from '@/services/debt.server';
-import { hrefWithPage, hrefWithPageSize } from '@/lib/routing/pagination';
 
 export async function DebtList({
   filters,

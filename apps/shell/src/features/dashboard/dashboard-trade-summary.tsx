@@ -1,7 +1,8 @@
 import { getTranslations } from 'next-intl/server';
+
 import { SectionCard } from '@/components/ui/page/section-card';
-import type { DashboardTradeSummary } from '@/services/dashboard.server';
 import { formatMoney } from '@/lib/presentation/formatters';
+import type { DashboardTradeSummary } from '@/services/dashboard.server';
 
 type DashboardTradeSummaryCardProps = {
   dateFrom: string;

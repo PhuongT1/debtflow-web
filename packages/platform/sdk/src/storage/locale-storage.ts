@@ -4,6 +4,7 @@ import {
   LOCALE_COOKIE_NAME,
   SUPPORTED_LOCALES,
 } from '@packages/platform-contracts';
+
 import { publishPlatformEvent } from '../event-bus/event-bus';
 
 export function getStoredLocale(): AppLocale {

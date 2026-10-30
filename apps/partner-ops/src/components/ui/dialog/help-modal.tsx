@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import {
   Box,
@@ -11,10 +10,13 @@ import {
   ListItem,
   Typography,
 } from '@mui/material';
-import { AppIcon } from '@/components/ui/app-icon';
-import { AppDialog } from '@/components/ui/dialog/dialog';
+import { useTranslations } from 'next-intl';
+
 import { useOverlaySurface } from '@packages/ui-react';
+
+import { AppIcon } from '@/components/ui/app-icon';
 import { Button } from '@/components/ui/button';
+import { AppDialog } from '@/components/ui/dialog/dialog';
 
 type HelpModalProps = {
   title: string;

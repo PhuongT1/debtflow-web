@@ -1,10 +1,10 @@
 import { OVERLAY_PROTOCOL } from '@packages/platform-contracts';
-import { emitOverlayMessage, listenOverlayMessages } from './channel';
 
+import { emitOverlayMessage, listenOverlayMessages } from './channel';
 import type {
-  OverlaySurfaceOptions,
-  OverlaySurfaceMeasurement,
   OverlaySurfaceCompletion,
+  OverlaySurfaceMeasurement,
+  OverlaySurfaceOptions,
 } from './overlay.types';
 
 /** Bind each logical request to its own result without reloading the content runtime. */

@@ -1,5 +1,6 @@
-import type { TablePageKind, TablePageLayout } from './page-layouts.types';
 import type { DataTableColumn } from '@packages/ui-react';
+
+import type { TablePageKind, TablePageLayout } from './page-layouts.types';
 
 /** Route presentation only: no business requests or copied table renderer. */
 export const tablePageLayouts: Record<TablePageKind, TablePageLayout> = {

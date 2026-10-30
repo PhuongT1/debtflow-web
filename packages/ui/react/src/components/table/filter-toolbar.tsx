@@ -1,9 +1,11 @@
 'use client';
 
-import type { FilterToolbarProps } from './filter-toolbar.types';
 import { useId, useState } from 'react';
 import { Box, Collapse, IconButton, Tooltip } from '@mui/material';
+
 import { AppIcon } from '../../icons/app-icon';
+
+import type { FilterToolbarProps } from './filter-toolbar.types';
 
 export function FilterToolbar({
   showLabel,

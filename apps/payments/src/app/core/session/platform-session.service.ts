@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import type { AuthUser } from '@packages/platform-contracts';
-import { catchError, map, of } from 'rxjs';
 import { environment } from '@env/environment';
+import { catchError, map, of } from 'rxjs';
+
+import type { AuthUser } from '@packages/platform-contracts';
 
 interface SessionResponse {
   user: AuthUser;

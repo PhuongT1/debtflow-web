@@ -1,7 +1,8 @@
 import 'server-only';
-import { DebtStatus } from '@/lib/domain/enums';
-import { apiServer, toDate, toMoney, type Money } from '@/lib/api/server';
+
 import { debtQuerySchema } from '@/features/debts/model/debt.schema';
+import { apiServer, type Money, toDate, toMoney } from '@/lib/api/server';
+import { DebtStatus } from '@/lib/domain/enums';
 
 type UserSummary = { id: string; name: string; email: string };
 type PartySummary = { id: string; name: string };

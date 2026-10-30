@@ -1,11 +1,11 @@
+import { DataTable, type DataTableColumn } from '@/components/tables';
 import { applyTableLayout } from '@/components/tables/page-layouts';
 import { Badge } from '@/components/ui/badge';
 import { ConfirmActionButton } from '@/components/ui/dialog/confirm-action-button';
-import { DataTable, type DataTableColumn } from '@/components/tables';
 import { HelpModal } from '@/components/ui/dialog/help-modal';
 import { Page, PageHeader } from '@/components/ui/page/page';
-import { listUsers } from '@/services/user.server';
 import { hrefWithPage, hrefWithPageSize } from '@/lib/routing/pagination';
+import { listUsers } from '@/services/user.server';
 
 export async function UsersPage({
   searchParams,

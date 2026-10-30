@@ -1,12 +1,13 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { Box, Dialog, Alert, Snackbar } from '@mui/material';
+import { Alert, Box, Dialog, Snackbar } from '@mui/material';
 import FocusTrap from '@mui/material/Unstable_TrapFocus';
+
 import { openPlatformOverlay } from '@packages/platform-sdk';
-import { DialogTransition } from './transition';
-import { useOverlaySurface } from './surface';
 
 import type { PlatformDialogProps } from './overlay.types';
+import { useOverlaySurface } from './surface';
+import { DialogTransition } from './transition';
 export type { PlatformDialogProps } from './overlay.types';
 
 /** Shared entry: local Dialog standalone; host-managed surface when embedded. */

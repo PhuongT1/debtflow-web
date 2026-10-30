@@ -1,6 +1,7 @@
 import 'server-only';
-import { apiServer } from '@/lib/api/server';
+
 import type { CatalogOptions } from '@/features/catalog/catalog.types';
+import { apiServer } from '@/lib/api/server';
 
 export type { CatalogOptions } from '@/features/catalog/catalog.types';
 

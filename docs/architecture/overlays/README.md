@@ -37,10 +37,10 @@ Both iframe connections use `postMessage` through the host. The iframes do not a
 
 | Owner                 | Source                                                                                         | Responsibility                        |
 | --------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------- |
-| Shared wire contract  | [overlay.types.ts](../../../packages/platform/contracts/src/mfe/overlay.types.ts)                       | Payload validation and protocol       |
+| Shared wire contract  | [overlay.types.ts](../../../packages/platform/contracts/src/mfe/overlay.types.ts)              | Payload validation and protocol       |
 | Framework-neutral SDK | [platform/sdk/src/overlays](../../../packages/platform/sdk/src/overlays/overlay.types.ts)      | Options, delivery and lifecycle       |
 | React/MUI adapter     | [React UI overlays](../../../packages/ui/react/src/components/overlays/overlay.types.ts)       | Modal, backdrop, focus and sizing     |
-| Project registration  | [View routes](../../../packages/platform/registry/src/overlays.ts)                                  | Trusted view ID → URL                 |
+| Project registration  | [View routes](../../../packages/platform/registry/src/overlays.ts)                             | Trusted view ID → URL                 |
 | Domain content        | [Partner Ops renderer](../../../apps/partner-ops/src/components/platform/overlays/content.tsx) | Input validation, forms and mutations |
 
 React, Angular, Vue and plain JavaScript can use the SDK. Only the React/MUI overlay UI adapter is implemented here; another framework must supply its own renderer. Copying AI rules does not install these runtime packages.

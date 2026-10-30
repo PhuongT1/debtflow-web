@@ -1,9 +1,11 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { Box, Typography } from '@mui/material';
+import { useTranslations } from 'next-intl';
+
 import { AppPagination, DataTablePagination as SharedTablePagination } from '@packages/ui-react';
+
 import { PageSizeSelect } from '@/components/tables/page-size-select';
 import { partnerPlatform } from '@/lib/platform/client';
 

@@ -1,11 +1,11 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Box, Button, Chip, Stack, Typography } from '@mui/material';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Partner Operations | Debt Flow',
   description: 'Micro frontend quản lý khách hàng và nhà cung cấp trong hệ thống Debt Flow.',
 };
-import { Box, Button, Chip, Stack, Typography } from '@mui/material';
 
 const capabilities = [
   'Danh mục khách hàng và nhà cung cấp',

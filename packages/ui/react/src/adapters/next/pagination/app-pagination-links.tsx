@@ -1,8 +1,8 @@
 'use client';
-import type { AppPaginationLinksProps } from '../next.types';
-
 import { useRouter } from 'next/navigation';
+
 import { AppPagination } from '../../../components/pagination/app-pagination';
+import type { AppPaginationLinksProps } from '../next.types';
 
 /** URL-driven pagination. It receives only serializable href data across an RSC boundary. */
 export function AppPaginationLinks({ page, pageSize, total, hrefByPage }: AppPaginationLinksProps) {

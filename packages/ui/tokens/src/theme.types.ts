@@ -1,8 +1,8 @@
+import type { createBrandEffects } from './effects/brand';
+import type { createElevation } from './effects/elevation';
 import type { createBrandRoles } from './palette/brand';
 import type { statusColors } from './palette/status';
 import type { surfaceColors } from './schemes/surfaces';
-import type { createElevation } from './effects/elevation';
-import type { createBrandEffects } from './effects/brand';
 
 export type ThemeMode = 'light' | 'dark';
 export interface ThemeScheme {

@@ -1,7 +1,7 @@
-import type { ThemeMode } from '../theme.types';
 import { brand } from '../palette/brand';
 import { neutral } from '../palette/neutral';
 import { withOpacity } from '../palette/opacity';
+import type { ThemeMode } from '../theme.types';
 
 export function createElevation(mode: ThemeMode) {
   const dark = mode === 'dark';

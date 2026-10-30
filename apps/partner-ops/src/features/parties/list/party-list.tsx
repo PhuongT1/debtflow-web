@@ -1,22 +1,26 @@
 'use client';
 
-import { useRefreshParties } from '../hooks/use-refresh-parties';
-import { partnerListLayout } from '@packages/platform-registry';
-import { useTranslations, useFormatter } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { Alert } from '@mui/material';
+import { useFormatter, useTranslations } from 'next-intl';
+
+import { partnerListLayout } from '@packages/platform-registry';
+
 import { DataTable } from '@/components/tables';
 import { FormDialog } from '@/components/ui/dialog/form-dialog';
 import { HelpModal } from '@/components/ui/dialog/help-modal';
 import { Page, PageHeader } from '@/components/ui/page/page';
 import { PartyForm } from '@/features/parties/form/party-form';
-import { appRoutes } from '@/lib/routing/routes';
-import { getPartyListColumns } from './columns';
-import { PartyListToolbar } from './toolbar';
-import { getPartyListFilters } from '../model/party-filters';
-import { useParties } from '../hooks/use-parties';
 import { useActiveUsers } from '@/hooks/use-active-users';
 import { getApiErrorMessage } from '@/lib/api/api-error';
+import { appRoutes } from '@/lib/routing/routes';
+
+import { useParties } from '../hooks/use-parties';
+import { useRefreshParties } from '../hooks/use-refresh-parties';
+import { getPartyListFilters } from '../model/party-filters';
+
+import { getPartyListColumns } from './columns';
+import { PartyListToolbar } from './toolbar';
 
 export function PartyList() {
   const refresh = useRefreshParties();

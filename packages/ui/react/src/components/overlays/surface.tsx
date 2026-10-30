@@ -1,17 +1,18 @@
 'use client';
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
-  useCallback,
   useLayoutEffect,
-  useState,
   useRef,
+  useState,
 } from 'react';
+
 import type { OverlayRequest } from '@packages/platform-contracts';
 import { connectOverlaySurface, setStoredLocale } from '@packages/platform-sdk';
 
-import type { OverlaySurfaceProps, OverlaySurfaceContextValue } from './overlay.types';
+import type { OverlaySurfaceContextValue, OverlaySurfaceProps } from './overlay.types';
 
 const SurfaceContext = createContext<OverlaySurfaceContextValue | null>(null);
 export const useOverlaySurface = () => useContext(SurfaceContext);

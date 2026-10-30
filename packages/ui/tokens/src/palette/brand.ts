@@ -1,6 +1,7 @@
 import type { ThemeMode } from '../theme.types';
-import { withOpacity } from './opacity';
+
 import { neutral } from './neutral';
+import { withOpacity } from './opacity';
 
 // Blue-to-sky ramp; foreground-safe solid actions use 600 or darker.
 export const brand = {

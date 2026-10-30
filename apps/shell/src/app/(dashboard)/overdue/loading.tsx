@@ -1,4 +1,4 @@
-import { TablePageSkeleton } from "@/components/skeletons/page-skeleton";
+import { TablePageSkeleton } from '@/components/skeletons/page-skeleton';
 
 export default function OverdueLoading() {
   return <TablePageSkeleton kind="overdue" />;

@@ -1,7 +1,9 @@
 import axios, { type AxiosRequestConfig } from 'axios';
+
 import { unwrapApiResponse } from '@packages/platform-contracts';
 import { getStoredLocale } from '@packages/platform-sdk';
-import { normalizeApiError, ApiClientError } from './api-error';
+
+import { ApiClientError, normalizeApiError } from './api-error';
 import { parsePaginatedResponse } from './paginated-response';
 
 /** Browser-only transport. Use the app's same-origin proxy in standalone and embedded mode. */

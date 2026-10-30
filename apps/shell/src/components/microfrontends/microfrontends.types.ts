@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+
 import type { MicrofrontendApplication } from '@packages/platform-registry';
 import type { OverlayHostProps } from '@packages/ui-react';
 

@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+
 import { PartyList, PartyListSkeleton } from '@/features/parties';
 
 export default function PartiesPage() {

@@ -1,7 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Table, TableContainer, type SxProps, type TableProps, type Theme } from '@mui/material';
+import { type SxProps, Table, TableContainer, type TableProps, type Theme } from '@mui/material';
+
 import { FixedColumnContext } from './table-cell';
 import type { TableScroll } from './types';
 

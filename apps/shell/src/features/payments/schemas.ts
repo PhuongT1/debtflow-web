@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { PaymentMethod } from '@/lib/domain/enums';
 
 export const paymentSchema = z.object({

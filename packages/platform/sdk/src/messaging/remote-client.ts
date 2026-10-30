@@ -1,11 +1,12 @@
-import { MFE_HOST_MESSAGE_VERSION, isMfePlatformMessage } from '@packages/platform-contracts';
-import { createWindowMessenger } from './window-messenger';
+import { isMfePlatformMessage, MFE_HOST_MESSAGE_VERSION } from '@packages/platform-contracts';
+
 import type {
-  RemoteClientOptions,
-  RemoteClientListeners,
   PlatformLocaleOptions,
   PlatformRouteOptions,
+  RemoteClientListeners,
+  RemoteClientOptions,
 } from './messaging.types';
+import { createWindowMessenger } from './window-messenger';
 
 /** Shell-side counterpart of createPlatformClient: one instance per mounted remote. */
 export function createRemoteClient(options: RemoteClientOptions) {
