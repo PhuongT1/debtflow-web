@@ -1,77 +1,31 @@
 'use client';
 
-import { designTokens } from '@packages/ui-tokens';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Alert, Box, IconButton, InputAdornment, Typography } from '@mui/material';
-import { signIn } from 'next-auth/react';
+import { Alert, Box, IconButton, InputAdornment, Typography, useTheme } from '@mui/material';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { Button } from '@/components/ui/button';
+
+import { FormInput } from '@packages/ui-react';
+
 import { AppIcon } from '@/components/ui/app-icon';
-import { AppInput } from '@/components/ui/form/input';
-import { getLoginErrorKey } from './login-error';
+import { Button } from '@/components/ui/button';
+
+import type { LoginFormProps } from './login.types';
 import { LoginBrandPanel } from './login-brand-panel';
+import { getLoginErrorKey } from './login-error';
+import { useLoginForm } from './use-login-form';
 
-const loginSchema = z.object({
-  email: z.string().trim().email('invalidEmail'),
-  password: z.string().min(1, 'passwordRequired'),
-});
-
-type LoginValues = z.infer<typeof loginSchema>;
-
-export function LoginForm({
-  initialError,
-  returnTo,
-}: {
-  initialError: string | null;
-  returnTo: string;
-}) {
-  const router = useRouter();
+export function LoginForm(props: LoginFormProps) {
+  const theme = useTheme();
   const t = useTranslations('Login');
-  const [submitError, setSubmitError] = useState<string | null>(initialError);
-  const [showPassword, setShowPassword] = useState(false);
   const {
-    register,
-    reset,
+    control,
+    errors,
+    isSubmitting,
     handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<LoginValues>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: 'owner@anphu-fashion.demo',
-      password: 'Demo@123456',
-    },
-  });
-
-  async function onSubmit(values: LoginValues) {
-    setSubmitError(null);
-    try {
-      const result = await signIn('credentials', {
-        email: values.email,
-        password: values.password,
-        redirect: false,
-      });
-
-      if (!result || result.error || !result.ok) {
-        setSubmitError(result?.error ?? 'Configuration');
-        return;
-      }
-    } catch {
-      setSubmitError('Configuration');
-      return;
-    }
-
-    if (returnTo.startsWith('http://') || returnTo.startsWith('https://')) {
-      window.location.replace(returnTo);
-      return;
-    }
-
-    router.replace(returnTo);
-    router.refresh();
-  }
+    handleUseDemoAccount,
+    showPassword,
+    togglePassword,
+    submitError,
+  } = useLoginForm(props);
 
   return (
     <Box
@@ -88,8 +42,8 @@ export function LoginForm({
           bgcolor: 'background.paper',
           border: '1px solid',
           borderColor: 'divider',
-          borderRadius: `${designTokens.radius.lg}px`,
-          boxShadow: designTokens.shadow.dialog,
+          borderRadius: 1.5,
+          boxShadow: theme.customShadows.dialog,
           display: 'grid',
           gridTemplateColumns: { xs: '1fr', md: 'minmax(340px, 0.9fr) minmax(420px, 1.1fr)' },
           maxWidth: 980,
@@ -105,7 +59,7 @@ export function LoginForm({
             <Box
               sx={{
                 bgcolor: 'primary.main',
-                borderRadius: '8px',
+                borderRadius: 1,
                 color: 'primary.contrastText',
                 display: 'grid',
                 fontSize: 13,
@@ -129,10 +83,10 @@ export function LoginForm({
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit}
             sx={{ display: 'grid', gap: 2.25, mt: 4 }}
           >
-            <AppInput
+            <FormInput
               autoComplete="email"
               autoFocus
               error={Boolean(errors.email)}
@@ -140,16 +94,18 @@ export function LoginForm({
               label={t('email')}
               required
               type="email"
-              {...register('email')}
+              control={control}
+              name="email"
             />
-            <AppInput
+            <FormInput
               autoComplete="current-password"
               error={Boolean(errors.password)}
               helperText={errors.password ? t('passwordRequired') : undefined}
               label={t('password')}
               required
               type={showPassword ? 'text' : 'password'}
-              {...register('password')}
+              control={control}
+              name="password"
               slotProps={{
                 input: {
                   endAdornment: (
@@ -157,7 +113,7 @@ export function LoginForm({
                       <IconButton
                         aria-label={t(showPassword ? 'hidePassword' : 'showPassword')}
                         edge="end"
-                        onClick={() => setShowPassword((current) => !current)}
+                        onClick={togglePassword}
                         size="small"
                       >
                         <AppIcon
@@ -175,11 +131,7 @@ export function LoginForm({
             ) : null}
             <Button
               disabled={isSubmitting}
-              onClick={() => {
-                reset();
-                setSubmitError(null);
-                setShowPassword(false);
-              }}
+              onClick={handleUseDemoAccount}
               type="button"
               variant="secondary"
             >

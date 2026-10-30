@@ -1,7 +1,7 @@
 'use client';
-import { designTokens } from '@packages/ui-tokens';
 
 import { TableSortLabel } from '@mui/material';
+
 import type { SortableTableHeaderProps } from './types';
 
 export function SortableTableHeader({
@@ -19,7 +19,7 @@ export function SortableTableHeader({
       direction={active ? direction : 'asc'}
       {...props}
       sx={{
-        '&.Mui-active': { color: designTokens.color.primaryText },
+        '&.Mui-active': { color: 'text.brand' },
         '& .MuiTableSortLabel-icon': {
           color: 'inherit !important',
           flexShrink: 0,

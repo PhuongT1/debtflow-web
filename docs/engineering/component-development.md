@@ -118,3 +118,26 @@ Use the team's [Contributing](contributing.md) agreement and [Git Workflow](git-
 When a canonical requirement changes, update its summary/link here in the same change if affected. Do not paste its full policy body into this page. The viewer reads this Markdown directly and shows its exact source path; there is no separate website copy. AI agents still load the selected workflow and relevant rule modules, not this entire human checklist on every task.
 
 For global dialogs in embedded applications, follow [Cross-Application Overlays](../architecture/overlays/README.md). Register the remote view, reuse the original content, and verify standalone/embedded close guards and completion-driven query refresh.
+
+## MUI fields and theme
+
+| Responsibility            | Public API / source                                                                    |
+| ------------------------- | -------------------------------------------------------------------------------------- |
+| Unbound text control      | `Input` from `@packages/ui-react`                                                      |
+| Unbound MUI select        | `SelectField` from `@packages/ui-react`                                                |
+| String-date picker        | `DatePicker` from `@packages/ui-react`                                                 |
+| RHF text or select field  | `FormInput` (`select` enables select mode)                                             |
+| Theme composition         | [app-theme.ts](../../packages/ui/react/src/providers/app-theme.ts)                     |
+| Typed elevation and roles | [extensions.ts](../../packages/ui/react/src/providers/theme/extensions.ts)             |
+| Field adapter contract    | [form-input.types.ts](../../packages/ui/react/src/components/form/form-input.types.ts) |
+
+`FormInput` owns Controller bindings, errors and input focus. The feature owns its schema, translations, default values and request mapping. Set form defaults in `useForm`; numeric-string fields remain strings until the feature converts them. Use native `register` for file inputs. Disabled visual fields retain their form values; omit a value explicitly in feature submission mapping when required.
+
+```tsx
+const { control } = useForm<LoginValues>({ defaultValues });
+<FormInput control={control} name="email" label={t('email')} />;
+```
+
+For React UI, consume MUI semantic roles instead of reading visual `designTokens` directly. Theme construction maps the neutral tokens that Angular also consumes; shared roles remain centralized. Use `Typography.variant` and supported Stack/Button props before `sx`. Theme hooks/callbacks belong inside client presentation components.
+
+ESLint checks import groups and the 230-line source limit, including comments and blank lines. Groups are side effects, Node built-ins, external libraries, `@packages/*`, app aliases, then relative imports. `npm run lint:shell`, `npm run lint:partner-ops`, `npm run lint:payments` and `npm run lint:packages` check the relevant owners. Old `AppInput`/`AppSelect`/`AppDatePicker` exports remain compatibility aliases; new code uses the names above.

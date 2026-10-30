@@ -4,15 +4,9 @@ These are reusable defaults, not permission to migrate established code. The pro
 
 ## File and module size
 
-- Keep a source file at **230 lines or fewer** by default, excluding generated files, declaration files, and framework-required configuration.
+- Keep a source file at **230 lines or fewer**, excluding generated files, declaration files, and framework-required configuration.
 - Split by responsibility, not arbitrarily: extract a cohesive component, hook, service, formatter, schema, or mapper when it has its own reason to change.
-- A file may exceed 230 lines only when splitting would make the code less cohesive or harder to follow. Add a short module-level comment explaining the exception and the intended boundary, for example:
-
-  ```ts
-  // Intentionally over 230 lines: this form and its validation state must evolve together.
-  ```
-
-- Do not split a file merely to satisfy the number if the resulting files create circular imports, prop drilling, or fragmented business flow.
+- Extract cohesive responsibilities before reaching the limit; preserve a clear public entry and avoid circular imports, prop drilling or fragmented business flow. Comments and blank lines count toward the limit; generated/declaration/configuration exceptions do not apply to handwritten feature code.
 
 ## Names and paths
 
@@ -58,6 +52,7 @@ These are reusable defaults, not permission to migrate established code. The pro
 ## Functions and components
 
 - Keep functions focused. Prefer early returns over deeply nested conditionals.
+- Prefer a named options object for related function inputs, optional settings or an API expected to grow. Keep the installed SDK signature inside its adapter; do not reproduce positional argument lists across callers. Small single-value utilities do not need an artificial wrapper object.
 - In TypeScript, use named types for object-shaped function parameters, options, callbacks and component props; do not declare their object structure inside a function signature or repeat it at call sites. Let ordinary local values and contextually typed callback parameters use inference.
 - Keep related types in a descriptive `<responsibility>.types.ts` beside their owning module or feature. Reuse an existing owner type with `Pick`, `Omit`, indexed access or extension when the meaning matches. Promote a type to a shared package only when the shared boundary owns it; do not create an application-wide dumping ground for unrelated types.
 - Keep transport options in the integration package, wire payloads in the contract owner, framework props in the UI adapter and domain inputs in the feature. Export reusable types through the owner's public API and use `import type`; preserve existing exports when extracting types.

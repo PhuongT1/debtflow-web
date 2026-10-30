@@ -1,10 +1,14 @@
-import { Box } from '@mui/material';
-import { designTokens } from '@packages/ui-tokens';
+'use client';
+
+import { Box, useTheme } from '@mui/material';
+
 import { AppIcon } from './app-icon';
 import type { AppIconBadgeProps } from './icon.types';
 
 export function AppIconBadge({ name, tone = 'primary' }: AppIconBadgeProps) {
-  const color = tone === 'primary' ? designTokens.color.primaryText : designTokens.color[tone];
+  const theme = useTheme();
+  const palette = (theme.vars ?? theme).palette;
+  const color = tone === 'primary' ? palette.text.brand : palette[tone].main;
   return (
     <Box
       sx={{
@@ -13,7 +17,7 @@ export function AppIconBadge({ name, tone = 'primary' }: AppIconBadgeProps) {
         width: 36,
         height: 36,
         flexShrink: 0,
-        borderRadius: `${designTokens.radius.md}px`,
+        borderRadius: 1,
         color,
         backgroundColor: `color-mix(in srgb, ${color} 10%, transparent)`,
       }}

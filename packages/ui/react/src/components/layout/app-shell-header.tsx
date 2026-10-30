@@ -1,9 +1,10 @@
 'use client';
-import type { AppShellHeaderProps } from './app-shell.types';
 
 import { Box, IconButton, Tooltip, Typography, useTheme } from '@mui/material';
-import { designTokens } from '@packages/ui-tokens';
+
 import { AppIcon } from '../../icons/app-icon';
+
+import type { AppShellHeaderProps } from './app-shell.types';
 import { AppShellAccountMenu } from './app-shell-account-menu';
 import { AppShellLocaleMenu } from './app-shell-locale-menu';
 
@@ -70,8 +71,8 @@ export function AppShellHeader({
             bgcolor: 'primary.main',
             border: '1px solid',
             borderColor: `color-mix(in srgb, ${(theme.vars ?? theme).palette.primary.contrastText} 18%, transparent)`,
-            borderRadius: `${designTokens.radius.lg}px`,
-            boxShadow: designTokens.shadow.primary,
+            borderRadius: 1.5,
+            boxShadow: theme.customShadows.primary,
             color: 'primary.contrastText',
             display: 'grid',
             flex: '0 0 auto',
@@ -84,10 +85,10 @@ export function AppShellHeader({
         </Box>
         {!collapsed || !hasNavigation ? (
           <Box sx={{ display: { xs: 'none', sm: 'block' }, minWidth: 0 }}>
-            <Typography noWrap sx={designTokens.typography.headerTitle}>
+            <Typography noWrap component="p" variant="headerTitle">
               {brand.title}
             </Typography>
-            <Typography color="text.secondary" noWrap sx={designTokens.typography.headerSubtitle}>
+            <Typography color="text.secondary" noWrap component="p" variant="headerSubtitle">
               {brand.subtitle}
             </Typography>
           </Box>
@@ -122,7 +123,7 @@ export function AppShellHeader({
                   bgcolor: 'background.paper',
                   border: '1px solid',
                   borderColor: 'divider',
-                  boxShadow: designTokens.shadow.surface,
+                  boxShadow: theme.customShadows.surface,
                   height: 30,
                   width: 30,
                   '&:hover': { bgcolor: 'action.hover' },

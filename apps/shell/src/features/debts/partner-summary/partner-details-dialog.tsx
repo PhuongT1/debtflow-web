@@ -1,17 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Alert, DialogActions, DialogContent, DialogTitle, MenuItem } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  Alert,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  MenuItem,
-} from '@mui/material';
-import { AppInput, AppSelect } from '@packages/ui-react';
-import { AppDialog } from '@/components/ui/dialog/dialog';
+
+import { Input, SelectField } from '@packages/ui-react';
+
 import { Button } from '@/components/ui/button';
+import { AppDialog } from '@/components/ui/dialog/dialog';
 import { updateParty } from '@/services/party.client';
 
 export type EditablePartner = {
@@ -100,20 +96,20 @@ export function PartnerDetailsDialog({ partner }: { partner: EditablePartner }) 
         <DialogTitle>Thông tin đối tác</DialogTitle>
         <DialogContent sx={{ display: 'grid', gap: 2, pt: '12px !important' }}>
           {errorMessage ? <Alert severity="error">{errorMessage}</Alert> : null}
-          <AppInput
+          <Input
             fullWidth
             label="Tên đối tác"
             onChange={(event) => updateValue('name', event.target.value)}
             required
             value={values.name}
           />
-          <AppInput
+          <Input
             fullWidth
             label="Mã đối tác"
             onChange={(event) => updateValue('code', event.target.value)}
             value={values.code}
           />
-          <AppSelect
+          <SelectField
             fullWidth
             label="Loại đối tác"
             onChange={(event) =>
@@ -124,26 +120,26 @@ export function PartnerDetailsDialog({ partner }: { partner: EditablePartner }) 
             <MenuItem value="CUSTOMER">Khách hàng</MenuItem>
             <MenuItem value="SUPPLIER">Nhà cung cấp</MenuItem>
             <MenuItem value="BOTH">Cả hai</MenuItem>
-          </AppSelect>
-          <AppInput
+          </SelectField>
+          <Input
             fullWidth
             label="Số điện thoại"
             onChange={(event) => updateValue('phone', event.target.value)}
             value={values.phone}
           />
-          <AppInput
+          <Input
             fullWidth
             label="Email"
             onChange={(event) => updateValue('email', event.target.value)}
             value={values.email}
           />
-          <AppInput
+          <Input
             fullWidth
             label="Mã số thuế"
             onChange={(event) => updateValue('taxCode', event.target.value)}
             value={values.taxCode}
           />
-          <AppInput
+          <Input
             fullWidth
             label="Địa chỉ"
             onChange={(event) => updateValue('address', event.target.value)}

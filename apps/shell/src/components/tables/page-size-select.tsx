@@ -1,8 +1,9 @@
 'use client';
 
-import { MenuItem, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { AppSelect } from '@/components/ui/form/select';
+import { MenuItem, Typography } from '@mui/material';
+
+import { SelectField } from '@/components/ui/form/select';
 
 export function PageSizeSelect({
   pageSize,
@@ -19,7 +20,7 @@ export function PageSizeSelect({
       <Typography color="text.secondary" variant="body2">
         Số dòng
       </Typography>
-      <AppSelect
+      <SelectField
         size="small"
         sx={{ minWidth: 88, width: 88 }}
         value={String(pageSize)}
@@ -33,7 +34,7 @@ export function PageSizeSelect({
             {option.size}
           </MenuItem>
         ))}
-      </AppSelect>
+      </SelectField>
     </>
   );
 }

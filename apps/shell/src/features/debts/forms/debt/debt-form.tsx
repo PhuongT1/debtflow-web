@@ -1,24 +1,27 @@
 'use client';
 
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Box } from '@mui/material';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useForm, useWatch } from 'react-hook-form';
+
+import { FormInput } from '@packages/ui-react';
+import { useToast } from '@packages/ui-react';
+
 import { ApiErrorNotice } from '@/components/ui/api-error-notice';
 import { Button } from '@/components/ui/button';
-import { FormActions } from '@/components/ui/form/layout';
-import { AppInput } from '@/components/ui/form/input';
 import { useFormDialog } from '@/components/ui/dialog/form-dialog';
-import { useToast } from '@packages/ui-react';
+import { FormActions } from '@/components/ui/form/layout';
 import { applyApiFieldErrors } from '@/lib/forms/errors';
 import { getCatalogOptions } from '@/services/catalog.client';
-import { listPartyOptions } from '@/services/party.client';
 import { createDebt } from '@/services/debt.client';
-import { DebtLineItems } from './line-items';
-import { debtFormSchema, type DebtFormInput, type DebtFormValues } from './schema';
+import { listPartyOptions } from '@/services/party.client';
+
 import { DebtFormFields } from './fields';
+import { DebtLineItems } from './line-items';
+import { type DebtFormInput, debtFormSchema, type DebtFormValues } from './schema';
 
 export type { DebtFormInput } from './schema';
 
@@ -67,7 +70,6 @@ export function DebtForm({
     },
   });
   const {
-    register,
     control,
     handleSubmit,
     setError,
@@ -112,7 +114,6 @@ export function DebtForm({
       sx={{ display: 'grid', gap: 2 }}
     >
       <DebtFormFields
-        register={register}
         control={control}
         errors={errors}
         lineItemTotal={lineItemTotal}
@@ -123,20 +124,21 @@ export function DebtForm({
       <DebtLineItems
         catalog={catalogQuery.data ?? { brands: [], categories: [], products: [], provinces: [] }}
         control={control}
-        register={register}
       />
-      <AppInput
+      <FormInput
         label="Ghi chú thu tiền"
         placeholder="VD: Khách hẹn thanh toán thứ Sáu"
-        {...register('followUpNote')}
+        control={control}
+        name={'followUpNote'}
         error={Boolean(errors.followUpNote)}
         helperText={errors.followUpNote?.message}
       />
-      <AppInput
+      <FormInput
         label="Mô tả"
         multiline
         rows={3}
-        {...register('description')}
+        control={control}
+        name={'description'}
         error={Boolean(errors.description)}
         helperText={errors.description?.message}
       />

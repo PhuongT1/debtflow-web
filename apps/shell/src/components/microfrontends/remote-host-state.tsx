@@ -1,10 +1,13 @@
-import type { RemoteLoadingStateProps, RemoteErrorStateProps } from './microfrontends.types';
-export type { RemoteHostState } from './microfrontends.types';
 import { Alert, Box, Button } from '@mui/material';
 import { useTranslations } from 'next-intl';
+
 import { FormPageSkeleton, TablePageSkeleton } from '@/components/skeletons/page-skeleton';
 
+import type { RemoteErrorStateProps, RemoteLoadingStateProps } from './microfrontends.types';
+
 /** Initial page placeholder; embedded pages own subsequent data-loading states. */
+export type { RemoteHostState } from './microfrontends.types';
+
 export function RemoteLoadingState({ kind = 'table', children }: RemoteLoadingStateProps) {
   const t = useTranslations('PageState');
   return (

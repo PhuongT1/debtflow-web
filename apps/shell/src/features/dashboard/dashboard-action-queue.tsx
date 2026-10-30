@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import { Box, Typography } from '@mui/material';
-import { designTokens } from '@packages/ui-tokens';
+
 import { Badge } from '@/components/ui/badge';
 import { SectionCard } from '@/components/ui/page/section-card';
-import type { DashboardQueueDebt } from '@/services/dashboard.server';
 import { formatMoney } from '@/lib/presentation/formatters';
+import type { DashboardQueueDebt } from '@/services/dashboard.server';
 
 type DashboardActionQueueProps = {
   debts: DashboardQueueDebt[];
@@ -36,13 +36,14 @@ export function DashboardActionQueue({
                 display: 'block',
                 border: '1px solid',
                 borderColor: 'divider',
-                borderRadius: `${designTokens.radius.md}px`,
+                borderRadius: 1,
                 p: 1.5,
                 bgcolor: 'background.paper',
                 transition: 'border-color 160ms ease, background-color 160ms ease',
-                '&:hover': { borderColor: designTokens.color.primaryText, bgcolor: 'action.hover' },
+                '&:hover': { borderColor: 'text.brand', bgcolor: 'action.hover' },
                 '&:focus-visible': {
-                  outline: `2px solid ${designTokens.color.primaryText}`,
+                  outline: '2px solid',
+                  outlineColor: 'text.brand',
                   outlineOffset: 2,
                 },
               }}
@@ -51,9 +52,7 @@ export function DashboardActionQueue({
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <Typography
-                    sx={{ fontSize: 14, fontWeight: 700, color: designTokens.color.primaryText }}
-                  >
+                  <Typography sx={{ fontSize: 14, fontWeight: 700, color: 'text.brand' }}>
                     {debt.code}
                   </Typography>
                   <Typography

@@ -1,15 +1,16 @@
 'use client';
 
-import dayjs, { type Dayjs } from 'dayjs';
-import type { AppDatePickerProps } from './form.types';
 import { mergeSlotProps } from '@mui/material/utils';
+import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs, { type Dayjs } from 'dayjs';
+
 import {
-  PickerCalendarIcon,
-  PickerPreviousIcon,
-  PickerNextIcon,
   ControlChevronIcon,
+  PickerCalendarIcon,
+  PickerNextIcon,
+  PickerPreviousIcon,
 } from './control-icons';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import type { DatePickerProps } from './form.types';
 
 export function toDateInput(value: Dayjs | null) {
   return value?.isValid() ? value.format('YYYY-MM-DD') : '';
@@ -19,7 +20,7 @@ export function fromDateInput(value?: string | null) {
   return value ? dayjs(value) : null;
 }
 
-export function AppDatePicker({
+export function DatePicker({
   label,
   value,
   onChange,
@@ -29,9 +30,9 @@ export function AppDatePicker({
   slots,
   slotProps,
   ...rest
-}: AppDatePickerProps) {
+}: DatePickerProps) {
   return (
-    <DatePicker
+    <MuiDatePicker
       {...rest}
       slots={{
         openPickerIcon: PickerCalendarIcon,
@@ -65,3 +66,6 @@ export function AppDatePicker({
     />
   );
 }
+
+/** @deprecated Use DatePicker for unbound controls. */
+export const AppDatePicker = DatePicker;

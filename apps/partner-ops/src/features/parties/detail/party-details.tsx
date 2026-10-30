@@ -1,21 +1,22 @@
 'use client';
-import { designTokens } from '@packages/ui-tokens';
 
 import { useMemo } from 'react';
-import { useTranslations, useFormatter } from 'next-intl';
 import { Alert, Box, Typography } from '@mui/material';
+import { useFormatter, useTranslations } from 'next-intl';
+
+import { DetailPageSkeleton } from '@/components/skeletons/page-skeleton';
+import { DataTable, type DataTableColumn } from '@/components/tables';
 import { Badge } from '@/components/ui/badge';
 import { StatCard } from '@/components/ui/page/card';
-import { DataTable, type DataTableColumn } from '@/components/tables';
 import { DetailList } from '@/components/ui/page/detail-list';
 import { MetricGrid, Page, PageHeader, PageSplit } from '@/components/ui/page/page';
 import { SectionCard } from '@/components/ui/page/section-card';
-import { DetailPageSkeleton } from '@/components/skeletons/page-skeleton';
-import { useParty } from '../hooks/use-party';
-import { appRoutes } from '@/lib/routing/routes';
-import { DebtStatus, DebtType } from '@/lib/domain';
 import { getApiErrorMessage } from '@/lib/api/api-error';
+import { DebtStatus, DebtType } from '@/lib/domain';
+import { appRoutes } from '@/lib/routing/routes';
 import type { PartyDebt } from '@/models/party';
+
+import { useParty } from '../hooks/use-party';
 
 function remainingAmount(debt: PartyDebt) {
   return Number(debt.originalAmount) - Number(debt.paidAmount);
@@ -62,7 +63,12 @@ export function PartyDetails({ partyId }: { partyId: string }) {
           <Typography
             component="a"
             href={appRoutes.debts.detail(debt.id)}
-            sx={{ color: designTokens.color.primaryText, fontSize: 13.5, fontWeight: 750, textDecoration: 'none' }}
+            sx={{
+              color: 'text.brand',
+              fontSize: 13.5,
+              fontWeight: 750,
+              textDecoration: 'none',
+            }}
           >
             {debt.code}
           </Typography>

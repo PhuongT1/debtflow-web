@@ -1,69 +1,14 @@
 import NextAuth, { type NextAuthConfig } from 'next-auth';
-import type { JWT } from 'next-auth/jwt';
 import Credentials from 'next-auth/providers/credentials';
+
 import { UserRole } from '@/lib/domain/enums';
-import { API_URL } from '@/lib/config/environment';
-import { unwrapApiResponse } from '@/lib/api/response';
-import { http } from '@/lib/api/http';
+import { authService } from '@/services/auth';
 
-const TOKEN_REFRESH_BUFFER_MS = 60_000;
-
-type BackendAuthResponse = {
-  accessToken: string;
-  accessTokenExpiresAt?: number;
-  expiresIn?: number;
-  refreshToken?: string;
-  tokenType: 'Bearer';
-  user: { id: string; name: string; email: string; systemRole: string };
-  activeOrganization: { id: string; name: string; slug: string; kind: 'PERSONAL' | 'BUSINESS'; role: UserRole; membershipId: string };
-};
-
-function getAccessTokenExpiresAt(result: BackendAuthResponse) {
-  if (typeof result.accessTokenExpiresAt === 'number') {
-    return result.accessTokenExpiresAt;
-  }
-
-  if (typeof result.expiresIn === 'number') {
-    return Date.now() + result.expiresIn * 1000;
-  }
-
-  return Date.now() + 15 * 60 * 1000;
-}
-
-async function refreshAccessToken(token: JWT): Promise<JWT> {
-  if (!token.refreshToken) {
-    return { ...token, error: 'RefreshTokenError' as const };
-  }
-
-  try {
-    const response = await http.post(`${API_URL}/auth/refresh`, JSON.stringify({ refreshToken: token.refreshToken }), {
-      headers: { 'Content-Type': 'application/json' },
-    });
-    const result = unwrapApiResponse<BackendAuthResponse>(await response.json());
-
-    if (!response.ok || !result.accessToken) {
-      return { ...token, error: 'RefreshTokenError' as const };
-    }
-
-    return {
-      ...token,
-      accessToken: result.accessToken,
-      accessTokenExpiresAt: getAccessTokenExpiresAt(result),
-      refreshToken: result.refreshToken ?? token.refreshToken,
-      role: result.activeOrganization?.role ?? token.role,
-      organization: result.activeOrganization ?? token.organization,
-      error: undefined,
-    };
-  } catch {
-    return { ...token, error: 'RefreshTokenError' as const };
-  }
-}
+import { mapAuthUser, refreshAccessToken, TOKEN_REFRESH_BUFFER_MS } from './tokens';
 
 export const authConfig = {
   session: { strategy: 'jwt' },
-  pages: {
-    signIn: '/login',
-  },
+  pages: { signIn: '/login' },
   providers: [
     Credentials({
       credentials: {
@@ -75,63 +20,38 @@ export const authConfig = {
           .trim()
           .toLowerCase();
         const password = String(credentials?.password ?? '');
-
         if (!email || !password) return null;
-
-        const response = await http.post(`${API_URL}/auth/login`, JSON.stringify({ email, password }), {
-          headers: { 'Content-Type': 'application/json' },
-        });
-
-        if (!response.ok) return null;
-
-        const result = unwrapApiResponse<BackendAuthResponse>(await response.json());
-        const user = result.user;
-        if (!user || !result.accessToken) return null;
-
-        return {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: result.activeOrganization.role,
-          organization: result.activeOrganization,
-          accessToken: result.accessToken,
-          accessTokenExpiresAt: getAccessTokenExpiresAt(result),
-          refreshToken: result.refreshToken,
-        };
+        const result = await authService.login({ email, password });
+        if (!result?.user || !result.accessToken) return null;
+        return mapAuthUser({ result });
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = (user as { role?: UserRole }).role;
-        token.organization = (user as { organization?: BackendAuthResponse['activeOrganization'] }).organization;
-        token.accessToken = (user as { accessToken?: string }).accessToken;
-        token.accessTokenExpiresAt = (
-          user as { accessTokenExpiresAt?: number }
-        ).accessTokenExpiresAt;
-        token.refreshToken = (user as { refreshToken?: string }).refreshToken;
+        token.role = user.role;
+        token.organization = user.organization;
+        token.accessToken = user.accessToken;
+        token.accessTokenExpiresAt = user.accessTokenExpiresAt;
+        token.refreshToken = user.refreshToken;
         token.error = undefined;
       }
-
       if (
         typeof token.accessTokenExpiresAt === 'number' &&
         Date.now() < token.accessTokenExpiresAt - TOKEN_REFRESH_BUFFER_MS
-      ) {
+      )
         return token;
-      }
-
-      return refreshAccessToken(token);
+      return refreshAccessToken({ token });
     },
     session({ session, token }) {
       if (session.user) {
         session.user.id = token.sub ?? '';
-        session.user.role = (token.role as UserRole | undefined) ?? UserRole.VIEWER;
-        session.user.organization = token.organization as BackendAuthResponse['activeOrganization'] | undefined;
+        session.user.role = token.role ?? UserRole.VIEWER;
+        session.user.organization = token.organization;
       }
       session.accessToken = typeof token.accessToken === 'string' ? token.accessToken : undefined;
       session.error = token.error === 'RefreshTokenError' ? 'RefreshTokenError' : undefined;
-
       return session;
     },
   },
@@ -141,11 +61,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
 
 export async function getServerAccessToken() {
   const session = await auth();
-
-  if (!session?.accessToken || session.error === 'RefreshTokenError') {
-    return null;
-  }
-
+  if (!session?.accessToken || session.error === 'RefreshTokenError') return null;
   return session.accessToken;
 }
 

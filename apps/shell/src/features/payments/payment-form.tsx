@@ -1,19 +1,20 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Box, Checkbox, FormControlLabel, MenuItem } from '@mui/material';
+import { useMutation } from '@tanstack/react-query';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
+
+import { FormInput } from '@packages/ui-react';
+import { useToast } from '@packages/ui-react';
+
 import { ApiErrorNotice } from '@/components/ui/api-error-notice';
-import { AppDatePicker } from '@/components/ui/form/date-picker';
 import { Button } from '@/components/ui/button';
 import { useFormDialog } from '@/components/ui/dialog/form-dialog';
+import { DatePicker } from '@/components/ui/form/date-picker';
 import { FormActions, FormGrid } from '@/components/ui/form/layout';
-import { AppInput } from '@/components/ui/form/input';
-import { AppSelect } from '@/components/ui/form/select';
-import { useToast } from '@packages/ui-react';
 import { applyApiFieldErrors } from '@/lib/forms/errors';
 import { autoAllocatePayment, recordDebtPayment } from '@/services/payment.client';
 
@@ -72,7 +73,6 @@ export function PaymentForm({
     },
   });
   const {
-    register,
     control,
     handleSubmit,
     reset,
@@ -104,10 +104,11 @@ export function PaymentForm({
       sx={{ display: 'grid', gap: 2 }}
     >
       <FormGrid>
-        <AppInput
+        <FormInput
           label="Số tiền *"
           type="number"
-          {...register('amount')}
+          control={control}
+          name={'amount'}
           error={Boolean(errors.amount)}
           helperText={errors.amount?.message}
         />
@@ -115,7 +116,7 @@ export function PaymentForm({
           control={control}
           name="paidAt"
           render={({ field }) => (
-            <AppDatePicker
+            <DatePicker
               error={Boolean(errors.paidAt)}
               helperText={errors.paidAt?.message}
               label="Ngày thanh toán"
@@ -125,28 +126,32 @@ export function PaymentForm({
             />
           )}
         />
-        <AppSelect
+        <FormInput
+          select
           label="Phương thức *"
-          {...register('method')}
+          control={control}
+          name={'method'}
           error={Boolean(errors.method)}
           helperText={errors.method?.message}
         >
           <MenuItem value="BANK_TRANSFER">Chuyển khoản</MenuItem>
           <MenuItem value="CASH">Tiền mặt</MenuItem>
           <MenuItem value="OTHER">Khác</MenuItem>
-        </AppSelect>
-        <AppInput
+        </FormInput>
+        <FormInput
           label="Mã tham chiếu"
-          {...register('referenceNo')}
+          control={control}
+          name={'referenceNo'}
           error={Boolean(errors.referenceNo)}
           helperText={errors.referenceNo?.message}
         />
       </FormGrid>
-      <AppInput
+      <FormInput
         label="Ghi chú"
         multiline
         rows={3}
-        {...register('note')}
+        control={control}
+        name={'note'}
         error={Boolean(errors.note)}
         helperText={errors.note?.message}
       />

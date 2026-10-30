@@ -1,1 +1,1 @@
-export { AppSelect } from '@packages/ui-react';
+export { SelectField } from '@packages/ui-react';

@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { type FormEvent, useState } from 'react';
 import { useTranslations } from 'next-intl';
+
 import { DataTableToolbar } from '@/components/tables/toolbar';
+import { DatePicker } from '@/components/ui/form/date-picker';
 import { FilterActions } from '@/components/ui/form/filter-actions';
-import { AppDatePicker } from '@/components/ui/form/date-picker';
-import { AppInput } from '@/components/ui/form/input';
+import { Input } from '@/components/ui/form/input';
 import { Select } from '@/components/ui/form/select';
 
 type Filters = {
@@ -44,7 +45,7 @@ export function DocumentFilters({
       columns={{ xs: '1fr', sm: 'repeat(2, minmax(0, 1fr))', lg: 'repeat(4, minmax(0, 1fr))' }}
       onSubmit={submit}
     >
-      <AppInput
+      <Input
         defaultValue={filters.q}
         label={t('search')}
         name="q"
@@ -62,8 +63,8 @@ export function DocumentFilters({
         placeholder={t('status')}
         value={status}
       />
-      <AppDatePicker label={t('dueDateFrom')} onChange={setDueDateFrom} value={dueDateFrom} />
-      <AppDatePicker label={t('dueDateTo')} onChange={setDueDateTo} value={dueDateTo} />
+      <DatePicker label={t('dueDateFrom')} onChange={setDueDateFrom} value={dueDateFrom} />
+      <DatePicker label={t('dueDateTo')} onChange={setDueDateTo} value={dueDateTo} />
       <FilterActions
         onReset={() => {
           setDueDateFrom('');

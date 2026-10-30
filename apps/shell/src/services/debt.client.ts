@@ -10,5 +10,7 @@ export function updateDebt(id: string, input: unknown) {
 }
 
 export function listPartnerDebtItems<T>(query: URLSearchParams, signal?: AbortSignal) {
-  return apiClient.get<T>(buildApiRouteWithQuery(shellApiRoutes.debts.collection, query), { signal });
+  return apiClient.get<T>(buildApiRouteWithQuery(shellApiRoutes.debts.collection, query), {
+    signal,
+  });
 }

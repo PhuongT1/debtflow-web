@@ -1,4 +1,5 @@
-import { type OrganizationKind, type UserRole } from '@/lib/domain/enums';
+import type { AuthOrganization } from '@/services/auth/auth.types';
+import { type UserRole } from '@/lib/domain/enums';
 
 declare module 'next-auth' {
   interface Session {
@@ -8,14 +9,15 @@ declare module 'next-auth' {
       email?: string | null;
       image?: string | null;
       role: UserRole;
-      organization?: { id: string; name: string; slug: string; kind: OrganizationKind; role: UserRole; membershipId: string };
+      organization?: AuthOrganization;
     };
     accessToken?: string;
-    organization?: { id: string; name: string; slug: string; kind: OrganizationKind; role: UserRole; membershipId: string };
+    organization?: AuthOrganization;
     error?: 'RefreshTokenError';
   }
 
   interface User {
+    organization?: AuthOrganization;
     role?: UserRole;
     accessToken?: string;
     accessTokenExpiresAt?: number;
@@ -25,6 +27,7 @@ declare module 'next-auth' {
 
 declare module 'next-auth/jwt' {
   interface JWT {
+    organization?: AuthOrganization;
     role?: UserRole;
     accessToken?: string;
     accessTokenExpiresAt?: number;

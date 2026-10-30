@@ -10,6 +10,7 @@ Use configured aliases for cross-feature imports and declared package exports fo
 - Respect package `exports`. A subpath is valid only when the package deliberately publishes it; do not assume a particular package or subpath exists.
 - Each workspace must declare the runtime packages it imports in its own `package.json`; package-manager hoisting is not a declaration.
 - Use type-only imports for types. Keep side-effect imports deliberate, such as the framework-owned global stylesheet.
+- Enforce the project's configured import grouping in ESLint, including type imports in their source group. Do not rely on an AI instruction alone.
 - Group new imports coherently: directives first, third-party/framework imports, public workspace packages, app aliases, then local modules. Keep relative order for imports whose side effects depend on order. Do not re-sort unrelated files.
 
 ## Public entry files

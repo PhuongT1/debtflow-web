@@ -20,6 +20,15 @@ Compare equivalent computed type/color/spacing roles across affected consumers; 
 - Reuse one icon family, optical size and stroke convention. Semantic icon tiles use paired foreground/tint roles with adequate contrast; do not use strong status fills as decorative backgrounds by default.
 - A Select, menu or anchored desktop picker must not dim the page like a modal. Preserve its transparent dismissal layer, portal, focus and outside-click/Escape behavior. Scope tinted backdrops to genuinely modal surfaces, including intentionally modal mobile pickers; never apply a colored backdrop globally to invisible layers.
 
+## MUI component implementation
+
+Apply this section only when MUI is installed.
+
+- Consume palette, typography, shape and elevation through the configured MUI theme (`useTheme`, `styled`, semantic props or a supported `sx` theme callback). Map framework-neutral tokens once in the theme owner; do not import their visual values into components. Add typed semantic roles in that owner when MUI has no suitable role, rather than copying literals or constructing a parallel theme.
+- Client theme hooks require a client boundary. Server Components must use serializable semantic props or a client presentation primitive; never pass a theme callback through a server/client boundary.
+- Prefer supported component props, such as `Typography.variant`, `Stack.spacing/direction/alignItems` and `Button.size/color/variant`. Use `sx` for remaining layout/responsive needs; do not forward unsupported system props to the DOM or wrap each CSS property in another component.
+- Name controls by responsibility: an unbound input/select/date picker and a form-library-bound field are different APIs. Preserve semantic names for application shells and feature components; do not add generic `App`/`Item` prefixes or suffixes to indistinguishable controls. Keep props/types beside the owning form capability.
+
 ## Table density
 
 - Expose named sizes at the shared table owner when consumers need different density. Keep header/body padding, controls and skeletons consistent with the selected size; avoid per-screen pixel overrides.

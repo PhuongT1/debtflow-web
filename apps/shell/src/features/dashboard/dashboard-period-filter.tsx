@@ -1,13 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import dayjs from 'dayjs';
-import { Box, MenuItem, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import { Box, MenuItem, Typography } from '@mui/material';
+import dayjs from 'dayjs';
 import { useTranslations } from 'next-intl';
-import { AppDatePicker } from '@/components/ui/form/date-picker';
+
 import { Button } from '@/components/ui/button';
-import { AppSelect } from '@/components/ui/form/select';
+import { DatePicker } from '@/components/ui/form/date-picker';
+import { SelectField } from '@/components/ui/form/select';
 
 type DashboardPeriodFilterProps = {
   dateFrom: string;
@@ -87,7 +88,7 @@ export function DashboardPeriodFilter({ dateFrom, dateTo }: DashboardPeriodFilte
         width: '100%',
       }}
     >
-      <AppSelect
+      <SelectField
         label={t('period')}
         onChange={(event) => selectPreset(event.target.value as Preset)}
         value={preset}
@@ -97,8 +98,8 @@ export function DashboardPeriodFilter({ dateFrom, dateTo }: DashboardPeriodFilte
         <MenuItem value="last7Days">{t('last7Days')}</MenuItem>
         <MenuItem value="thisMonth">{t('thisMonth')}</MenuItem>
         <MenuItem value="lastMonth">{t('lastMonth')}</MenuItem>
-      </AppSelect>
-      <AppDatePicker
+      </SelectField>
+      <DatePicker
         label={t('fromDate')}
         onChange={(value) => {
           setFrom(value);
@@ -106,7 +107,7 @@ export function DashboardPeriodFilter({ dateFrom, dateTo }: DashboardPeriodFilte
         }}
         value={from}
       />
-      <AppDatePicker
+      <DatePicker
         label={t('toDate')}
         onChange={(value) => {
           setTo(value);

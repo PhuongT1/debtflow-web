@@ -76,5 +76,6 @@ jobs:
       - run: npm run format:check
       - run: npm run lint:packages
       - run: npm run check:architecture
+      - run: npm run test:ui-conventions
       - run: npm run test:party-conventions
       - run: npm run test:overlays

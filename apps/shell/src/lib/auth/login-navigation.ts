@@ -1,9 +1,13 @@
 import { headers } from 'next/headers';
+
 import { buildLoginUrl } from '@packages/platform-sdk';
+
 import { shellEnv } from '@/lib/config/environment';
 
+import type { LoginReturnToOptions } from './auth.types';
+
 /** Only application pages on explicitly trusted origins can be login targets. */
-export function resolveLoginReturnTo(value: string | undefined): string {
+export function resolveLoginReturnTo({ value }: LoginReturnToOptions): string {
   if (!value || value.startsWith('//')) return '/';
 
   try {
@@ -34,6 +38,8 @@ export function resolveLoginReturnTo(value: string | undefined): string {
 
 export async function getRequestedLoginUrl(): Promise<string> {
   const requestHeaders = await headers();
-  const returnTo = resolveLoginReturnTo(requestHeaders.get('x-debtflow-return-to') ?? undefined);
+  const returnTo = resolveLoginReturnTo({
+    value: requestHeaders.get('x-debtflow-return-to') ?? undefined,
+  });
   return buildLoginUrl(shellEnv.AUTH_URL, returnTo);
 }

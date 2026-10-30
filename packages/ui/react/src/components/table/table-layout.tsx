@@ -1,7 +1,6 @@
 'use client';
 
-import { designTokens } from '@packages/ui-tokens';
-import { Box, type SxProps, type Theme } from '@mui/material';
+import { Box, type SxProps, type Theme, useTheme } from '@mui/material';
 
 export type TableLayoutProps = {
   children: React.ReactNode;
@@ -12,6 +11,7 @@ export type TableLayoutProps = {
 
 /** Keeps a table's content and optional footer within one bordered surface. */
 export function TableLayout({ children, fillAvailable = false, footer, sx }: TableLayoutProps) {
+  const theme = useTheme();
   return (
     <Box
       sx={[
@@ -19,8 +19,8 @@ export function TableLayout({ children, fillAvailable = false, footer, sx }: Tab
           bgcolor: 'background.paper',
           border: '1px solid',
           borderColor: 'divider',
-          borderRadius: `${designTokens.radius.lg}px`,
-          boxShadow: designTokens.shadow.surface,
+          borderRadius: 1.5,
+          boxShadow: theme.customShadows.surface,
           display: 'flex',
           flex: fillAvailable ? '1 1 0' : undefined,
           flexDirection: 'column',

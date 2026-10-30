@@ -2,9 +2,11 @@
 
 import { Box, MenuItem, Typography } from '@mui/material';
 import { useTranslations } from 'next-intl';
+
 import { AppPagination } from '@packages/ui-react';
-import { AppSelect } from '@/components/ui/form/select';
 import { TablePaginationBar } from '@packages/ui-react';
+
+import { SelectField } from '@/components/ui/form/select';
 
 export function DocumentPagination({
   page,
@@ -35,7 +37,7 @@ export function DocumentPagination({
         <Typography color="text.secondary" sx={{ whiteSpace: 'nowrap' }} variant="body2">
           {t('rowsPerPage')}
         </Typography>
-        <AppSelect
+        <SelectField
           disabled={loading}
           size="small"
           sx={{ minWidth: 92, width: 92 }}
@@ -47,7 +49,7 @@ export function DocumentPagination({
               {size}
             </MenuItem>
           ))}
-        </AppSelect>
+        </SelectField>
         <AppPagination
           disabled={loading}
           page={page}

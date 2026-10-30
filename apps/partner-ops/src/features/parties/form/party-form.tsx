@@ -3,25 +3,29 @@
 import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Box, MenuItem } from '@mui/material';
-import { Controller, useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { PartyType } from '@/lib/domain';
-import { useSaveParty } from '../hooks/use-save-party';
-import { toPartyRequest } from './to-party-request';
-import {
-  createPartyFormSchema,
-  type PartyFormInput,
-  type PartyFormValues,
-  type PartyFormInitialValues,
-} from './schema';
+import { Controller, useForm } from 'react-hook-form';
+
+import { FormInput } from '@packages/ui-react';
+import { useToast } from '@packages/ui-react';
+
 import { ApiErrorNotice } from '@/components/ui/api-error-notice';
 import { Button } from '@/components/ui/button';
-import { FormActions, FormGrid } from '@/components/ui/form/layout';
-import { AppInput } from '@/components/ui/form/input';
-import { AppSelect } from '@/components/ui/form/select';
 import { useFormDialog } from '@/components/ui/dialog/form-dialog';
-import { useToast } from '@packages/ui-react';
+import { FormActions, FormGrid } from '@/components/ui/form/layout';
+import { SelectField } from '@/components/ui/form/select';
+import { PartyType } from '@/lib/domain';
 import { applyApiFieldErrors } from '@/lib/form-errors';
+
+import { useSaveParty } from '../hooks/use-save-party';
+
+import {
+  createPartyFormSchema,
+  type PartyFormInitialValues,
+  type PartyFormInput,
+  type PartyFormValues,
+} from './schema';
+import { toPartyRequest } from './to-party-request';
 
 export function PartyForm({
   users = [],
@@ -41,7 +45,6 @@ export function PartyForm({
   const mutation = useSaveParty();
   const {
     control,
-    register,
     handleSubmit,
     setError,
     trigger,
@@ -97,7 +100,7 @@ export function PartyForm({
           control={control}
           name="type"
           render={({ field }) => (
-            <AppSelect
+            <SelectField
               label={t('type')}
               {...field}
               error={Boolean(errors.type)}
@@ -107,47 +110,53 @@ export function PartyForm({
               <MenuItem value={PartyType.CUSTOMER}>{t('customer')}</MenuItem>
               <MenuItem value={PartyType.SUPPLIER}>{t('supplier')}</MenuItem>
               <MenuItem value={PartyType.BOTH}>{t('both')}</MenuItem>
-            </AppSelect>
+            </SelectField>
           )}
         />
-        <AppInput
+        <FormInput
           label={t('code')}
           placeholder={t('codePlaceholder')}
-          {...register('code')}
+          control={control}
+          name="code"
           error={Boolean(errors.code)}
           helperText={errors.code?.message}
         />
-        <AppInput
+        <FormInput
           label={t('name')}
           placeholder={t('namePlaceholder')}
-          {...register('name')}
+          control={control}
+          name="name"
           error={Boolean(errors.name)}
           helperText={errors.name?.message}
         />
-        <AppInput
+        <FormInput
           label={t('phone')}
-          {...register('phone')}
+          control={control}
+          name="phone"
           error={Boolean(errors.phone)}
           helperText={errors.phone?.message}
         />
-        <AppInput
+        <FormInput
           label={t('email')}
           type="email"
-          {...register('email')}
+          control={control}
+          name="email"
           error={Boolean(errors.email)}
           helperText={errors.email?.message}
         />
-        <AppInput
+        <FormInput
           label={t('taxCode')}
-          {...register('taxCode')}
+          control={control}
+          name="taxCode"
           error={Boolean(errors.taxCode)}
           helperText={errors.taxCode?.message}
         />
-        <AppInput
+        <FormInput
           label={t('creditLimit')}
           placeholder="500000000"
           type="number"
-          {...register('creditLimit')}
+          control={control}
+          name="creditLimit"
           error={Boolean(errors.creditLimit)}
           helperText={errors.creditLimit?.message}
         />
@@ -155,7 +164,7 @@ export function PartyForm({
           control={control}
           name="assignedToId"
           render={({ field }) => (
-            <AppSelect
+            <SelectField
               label={t('assignedTo')}
               {...field}
               error={Boolean(errors.assignedToId)}
@@ -172,37 +181,41 @@ export function PartyForm({
                   {user.name}
                 </MenuItem>
               ))}
-            </AppSelect>
+            </SelectField>
           )}
         />
       </FormGrid>
-      <AppInput
+      <FormInput
         label={t('address')}
-        {...register('address')}
+        control={control}
+        name="address"
         error={Boolean(errors.address)}
         helperText={errors.address?.message}
       />
       <FormGrid>
-        <AppInput
+        <FormInput
           label={t('provinceCode')}
           placeholder={t('provinceCodePlaceholder')}
-          {...register('provinceCode')}
+          control={control}
+          name="provinceCode"
           error={Boolean(errors.provinceCode)}
           helperText={errors.provinceCode?.message}
         />
-        <AppInput
+        <FormInput
           label={t('provinceName')}
           placeholder={t('provinceNamePlaceholder')}
-          {...register('provinceName')}
+          control={control}
+          name="provinceName"
           error={Boolean(errors.provinceName)}
           helperText={errors.provinceName?.message}
         />
       </FormGrid>
-      <AppInput
+      <FormInput
         label={t('note')}
         multiline
         rows={3}
-        {...register('note')}
+        control={control}
+        name="note"
         error={Boolean(errors.note)}
         helperText={errors.note?.message}
       />

@@ -58,7 +58,9 @@
     "rules:scenarios": "node --test tooling/rules-kit/scenarios.test.mjs",
     "rules:doctor": "node tooling/rules-kit/doctor.mjs",
     "test:overlays": "node --test tooling/e2e/overlay-*.test.mjs",
-    "test:party-conventions": "node --test tooling/e2e/party-conventions.test.mjs"
+    "test:party-conventions": "node --test tooling/e2e/party-conventions.test.mjs",
+    "test:auth": "node --test tooling/e2e/auth-login.test.mjs",
+    "test:ui-conventions": "node --test tooling/eslint/conventions.test.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
@@ -67,6 +69,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^9.39.5",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-simple-import-sort": "^14.0.0",
     "prettier": "^3.9.6",
     "rimraf": "^6.0.1",
     "typescript": "^5.8.3",

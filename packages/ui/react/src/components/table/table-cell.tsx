@@ -1,9 +1,9 @@
 'use client';
 
-import { designTokens } from '@packages/ui-tokens';
 import { createContext, useContext } from 'react';
-import { TableCell, type SxProps, type TableCellProps, type Theme } from '@mui/material';
-import type { FixedTableSide } from './types';
+import { type SxProps, TableCell, type TableCellProps, type Theme, useTheme } from '@mui/material';
+
+import type { FixedCellStyleOptions, FixedTableSide } from './types';
 
 type FixedColumnShadows = { left: boolean; right: boolean };
 
@@ -14,16 +14,17 @@ export type DataTableCellProps = TableCellProps & {
   fixedOffset?: number | string;
 };
 
-function getFixedCellSx(
-  fixed?: FixedTableSide,
-  fixedOffset: number | string = 0,
+function getFixedCellSx({
+  theme,
+  fixed,
+  fixedOffset = 0,
   showShadow = false,
-): SxProps<Theme> | undefined {
+}: FixedCellStyleOptions): SxProps<Theme> | undefined {
   if (!fixed) return undefined;
 
   return {
     '&.MuiTableCell-head': {
-      bgcolor: designTokens.color.surfaceInset,
+      bgcolor: 'background.inset',
       zIndex: 4,
     },
     bgcolor: 'background.paper',
@@ -31,8 +32,8 @@ function getFixedCellSx(
       xs: 'none',
       sm: showShadow
         ? fixed === 'left'
-          ? designTokens.shadow.fixedLeft
-          : designTokens.shadow.fixedRight
+          ? theme.customShadows.fixedLeft
+          : theme.customShadows.fixedRight
         : 'none',
     },
     [fixed]: { xs: 'auto', sm: fixedOffset },
@@ -43,13 +44,19 @@ function getFixedCellSx(
 
 /** A table cell that remains visible while the parent table scrolls horizontally. */
 export function DataTableCell({ fixed, fixedOffset, sx, ...props }: DataTableCellProps) {
+  const theme = useTheme();
   const shadows = useContext(FixedColumnContext);
 
   return (
     <TableCell
       {...props}
       sx={[
-        getFixedCellSx(fixed, fixedOffset, fixed === 'left' ? shadows.left : shadows.right),
+        getFixedCellSx({
+          theme,
+          fixed,
+          fixedOffset,
+          showShadow: fixed === 'left' ? shadows.left : shadows.right,
+        }),
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     />

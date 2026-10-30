@@ -1,23 +1,26 @@
 'use client';
 
-import { partnerListLayout } from '@packages/platform-registry';
-
 import { useEffect, useMemo } from 'react';
-import { useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { MenuItem } from '@mui/material';
+import { useTranslations } from 'next-intl';
 import { Controller, useForm } from 'react-hook-form';
-import { AppDatePicker } from '@/components/ui/form/date-picker';
-import { AppInput } from '@/components/ui/form/input';
-import { AppSelect } from '@/components/ui/form/select';
+
+import { partnerListLayout } from '@packages/platform-registry';
+import { FormInput } from '@packages/ui-react';
+
 import { DataTableToolbar } from '@/components/tables/toolbar';
+import { DatePicker } from '@/components/ui/form/date-picker';
 import { FilterActions } from '@/components/ui/form/filter-actions';
+import { SelectField } from '@/components/ui/form/select';
 import { partnerPlatform } from '@/lib/platform/client';
-import { getPartyListFilters } from '../model/party-filters';
-import { createPartyFilterSchema, type PartyFilterValues } from './filter.schema';
-import type { UserSummary } from '@/models/user';
 import { appRoutes } from '@/lib/routing/routes';
+import type { UserSummary } from '@/models/user';
+
+import { getPartyListFilters } from '../model/party-filters';
+
+import { createPartyFilterSchema, type PartyFilterValues } from './filter.schema';
 
 type PartyListToolbarProps = {
   activeUsers: UserSummary[];
@@ -45,7 +48,6 @@ export function PartyListToolbar({ activeUsers }: PartyListToolbarProps) {
   const {
     control,
     handleSubmit,
-    register,
     reset,
     formState: { errors },
   } = useForm<PartyFilterValues>({
@@ -86,22 +88,23 @@ export function PartyListToolbar({ activeUsers }: PartyListToolbarProps) {
       columns={partnerListLayout.toolbarColumns}
       onSubmit={handleSubmit(applyFilters)}
     >
-      <AppInput
+      <FormInput
         autoComplete="off"
         label={t('search')}
         placeholder={t('searchPlaceholder')}
-        {...register('q')}
+        control={control}
+        name={'q'}
       />
       <Controller
         control={control}
         name="type"
         render={({ field }) => (
-          <AppSelect label={t('type')} {...field} value={field.value ?? ''}>
+          <SelectField label={t('type')} {...field} value={field.value ?? ''}>
             <MenuItem value="">{t('all')}</MenuItem>
             <MenuItem value="CUSTOMER">{t('customer')}</MenuItem>
             <MenuItem value="SUPPLIER">{t('supplier')}</MenuItem>
             <MenuItem value="BOTH">{t('both')}</MenuItem>
-          </AppSelect>
+          </SelectField>
         )}
       />
 
@@ -109,21 +112,21 @@ export function PartyListToolbar({ activeUsers }: PartyListToolbarProps) {
         control={control}
         name="assignedToId"
         render={({ field }) => (
-          <AppSelect label={t('owner')} {...field} value={field.value ?? ''}>
+          <SelectField label={t('owner')} {...field} value={field.value ?? ''}>
             <MenuItem value="">{t('all')}</MenuItem>
             {activeUsers.map((user) => (
               <MenuItem key={user.id} value={user.id}>
                 {user.name}
               </MenuItem>
             ))}
-          </AppSelect>
+          </SelectField>
         )}
       />
       <Controller
         control={control}
         name="createdFrom"
         render={({ field }) => (
-          <AppDatePicker
+          <DatePicker
             error={Boolean(errors.createdFrom)}
             helperText={errors.createdFrom?.message}
             label={t('createdFrom')}
@@ -136,7 +139,7 @@ export function PartyListToolbar({ activeUsers }: PartyListToolbarProps) {
         control={control}
         name="createdTo"
         render={({ field }) => (
-          <AppDatePicker
+          <DatePicker
             error={Boolean(errors.createdTo)}
             helperText={errors.createdTo?.message}
             label={t('createdTo')}

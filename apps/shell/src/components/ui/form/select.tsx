@@ -1,6 +1,7 @@
 import { Autocomplete, type TextFieldProps } from '@mui/material';
-import { AppInput } from './input';
 import type { SxProps, Theme } from '@mui/material/styles';
+
+import { Input } from './input';
 
 export type SelectOption = {
   disabled?: boolean;
@@ -65,7 +66,7 @@ function SelectInput({
       onChange={(_event, next) => onChange(next?.value ?? '')}
       options={[...options]}
       renderInput={(params) => (
-        <AppInput
+        <Input
           {...params}
           slotProps={{
             ...params.slotProps,
@@ -114,7 +115,7 @@ function MultipleSelectInput({
       onChange={(_event, next) => onChange(next.map((option) => option.value))}
       options={[...options]}
       renderInput={(params) => (
-        <AppInput
+        <Input
           {...params}
           slotProps={{
             ...params.slotProps,
@@ -157,4 +158,4 @@ export function Select(props: SelectProps) {
   );
 }
 
-export { AppSelect } from '@packages/ui-react';
+export { SelectField } from '@packages/ui-react';

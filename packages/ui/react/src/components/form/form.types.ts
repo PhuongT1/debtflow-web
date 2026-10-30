@@ -1,12 +1,12 @@
-import type { ReactNode } from 'react';
-import type { DatePickerProps } from '@mui/x-date-pickers/DatePicker';
 import type { TextFieldProps } from '@mui/material';
+import type { DatePickerProps as MuiDatePickerProps } from '@mui/x-date-pickers/DatePicker';
+import type { ReactNode } from 'react';
 
-export type AppInputProps = TextFieldProps;
-export type AppSelectProps = TextFieldProps;
+export type InputProps = TextFieldProps;
+export type SelectFieldProps = TextFieldProps;
 
-export interface AppDatePickerProps extends Omit<
-  DatePickerProps,
+export interface DatePickerProps extends Omit<
+  MuiDatePickerProps,
   'label' | 'value' | 'defaultValue' | 'onChange' | 'format'
 > {
   label: string;
@@ -16,3 +16,10 @@ export interface AppDatePickerProps extends Omit<
   helperText?: ReactNode;
   required?: boolean;
 }
+
+/** @deprecated Use InputProps. */
+export type AppInputProps = InputProps;
+/** @deprecated Use SelectFieldProps. */
+export type AppSelectProps = SelectFieldProps;
+/** @deprecated Use DatePickerProps. */
+export type AppDatePickerProps = DatePickerProps;

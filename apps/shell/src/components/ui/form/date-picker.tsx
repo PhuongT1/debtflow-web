@@ -1,1 +1,1 @@
-export { AppDatePicker, fromDateInput, toDateInput } from '@packages/ui-react';
+export { DatePicker, fromDateInput, toDateInput } from '@packages/ui-react';

@@ -179,3 +179,18 @@ In production environments sharing a common root domain:
 
 - Configure cookie domain on Shell: `Domain=.debtflow.vn`
 - Session cookies are automatically dispatched to `app.debtflow.vn`, `partner.debtflow.vn`, and `payments.debtflow.vn`.
+
+## Login source map
+
+| Responsibility                                        | Canonical source                                                                          |
+| ----------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Login route and trusted destination                   | `apps/shell/src/app/(auth)/login/page.tsx`, `apps/shell/src/lib/auth/login-navigation.ts` |
+| Form rendering                                        | `apps/shell/src/features/auth/login/login-form.tsx`                                       |
+| Form state, submission and post-login navigation      | `apps/shell/src/features/auth/login/use-login-form.ts`                                    |
+| Validation, default/demo values and props             | `apps/shell/src/features/auth/login/schema.ts`, `login.types.ts`                          |
+| Browser NextAuth adapter                              | `apps/shell/src/lib/auth/client.ts` — the only browser `signIn('credentials', ...)` call  |
+| Backend login/refresh requests and response contracts | `apps/shell/src/services/auth/`                                                           |
+| NextAuth provider/callback composition                | `apps/shell/src/lib/auth/session.ts`                                                      |
+| User mapping, token expiration and refresh policy     | `apps/shell/src/lib/auth/tokens.ts`, `auth.types.ts`                                      |
+
+The form calls its feature hook; the hook calls the NextAuth adapter with an object of credentials. NextAuth handles CSRF and session cookies, then its server provider calls the auth service. Neither the form nor its hook calls the backend login endpoint directly. The service owns JSON serialization; session/token modules own authentication policy. Local and approved cross-origin return destinations retain query parameters and fragments. Run `npm run test:auth` for adapter, service, token and redirect regression checks.

@@ -1,14 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { MenuItem, Box, Button as MuiButton } from '@mui/material';
+import { Box, Button as MuiButton, MenuItem } from '@mui/material';
 import { useTranslations } from 'next-intl';
+
 import { DataTableToolbar } from '@/components/tables/toolbar';
 import { FilterActions } from '@/components/ui/form/filter-actions';
-import { AppInput } from '@/components/ui/form/input';
-import { AppSelect } from '@/components/ui/form/select';
-import { CollectionStatus, DebtStatus } from '@/lib/domain/enums';
+import { Input } from '@/components/ui/form/input';
+import { SelectField } from '@/components/ui/form/select';
 import type { CatalogOptions } from '@/features/catalog/catalog.types';
+import { CollectionStatus, DebtStatus } from '@/lib/domain/enums';
 
 type DebtListToolbarProps = {
   activeUsers: Array<{ id: string; name: string }>;
@@ -37,18 +38,18 @@ export function DebtListToolbar({ activeUsers, catalog, filters }: DebtListToolb
     <DataTableToolbar
       columns={{ xs: '1fr', sm: 'repeat(2, minmax(0, 1fr))', lg: 'repeat(4, minmax(0, 1fr))' }}
     >
-      <AppInput
+      <Input
         defaultValue={filters.q ?? ''}
         label={t('search')}
         name="q"
         placeholder={t('searchPlaceholder')}
       />
-      <AppSelect defaultValue={filters.type ?? ''} label={t('type')} name="type">
+      <SelectField defaultValue={filters.type ?? ''} label={t('type')} name="type">
         <MenuItem value="">{t('all')}</MenuItem>
         <MenuItem value="RECEIVABLE">{t('receivable')}</MenuItem>
         <MenuItem value="PAYABLE">{t('payable')}</MenuItem>
-      </AppSelect>
-      <AppSelect
+      </SelectField>
+      <SelectField
         defaultValue={filters.outstanding ?? ''}
         label={t('settlement')}
         name="outstanding"
@@ -56,22 +57,22 @@ export function DebtListToolbar({ activeUsers, catalog, filters }: DebtListToolb
         <MenuItem value="">{t('all')}</MenuItem>
         <MenuItem value="true">{t('unsettled')}</MenuItem>
         <MenuItem value="false">{t('settled')}</MenuItem>
-      </AppSelect>
-      <AppSelect defaultValue={filters.dueRange ?? ''} label={t('dueDate')} name="dueRange">
+      </SelectField>
+      <SelectField defaultValue={filters.dueRange ?? ''} label={t('dueDate')} name="dueRange">
         <MenuItem value="">{t('all')}</MenuItem>
         <MenuItem value="today">{t('today')}</MenuItem>
         <MenuItem value="tomorrow">{t('tomorrow')}</MenuItem>
         <MenuItem value="next_7_days">{t('next7Days')}</MenuItem>
         <MenuItem value="this_month">{t('thisMonth')}</MenuItem>
-      </AppSelect>
-      <AppSelect defaultValue={filters.categoryId ?? ''} label={t('category')} name="categoryId">
+      </SelectField>
+      <SelectField defaultValue={filters.categoryId ?? ''} label={t('category')} name="categoryId">
         <MenuItem value="">{t('all')}</MenuItem>
         {catalog.categories.map((item) => (
           <MenuItem key={item.id} value={item.id}>
             {item.name}
           </MenuItem>
         ))}
-      </AppSelect>
+      </SelectField>
       <Box sx={{ alignSelf: 'end', display: 'flex', gap: 1, gridColumn: { lg: 'span 2' } }}>
         <MuiButton
           onClick={() => setShowDetails((value) => !value)}
@@ -97,7 +98,7 @@ export function DebtListToolbar({ activeUsers, catalog, filters }: DebtListToolb
             pt: 0.5,
           }}
         >
-          <AppSelect
+          <SelectField
             defaultValue={filters.salesChannel ?? ''}
             label={t('channel')}
             name="salesChannel"
@@ -106,24 +107,24 @@ export function DebtListToolbar({ activeUsers, catalog, filters }: DebtListToolb
             <MenuItem value="STORE">{t('store')}</MenuItem>
             <MenuItem value="ONLINE">{t('online')}</MenuItem>
             <MenuItem value="WHOLESALE">{t('wholesale')}</MenuItem>
-          </AppSelect>
-          <AppSelect defaultValue={filters.brandId ?? ''} label={t('brand')} name="brandId">
+          </SelectField>
+          <SelectField defaultValue={filters.brandId ?? ''} label={t('brand')} name="brandId">
             <MenuItem value="">{t('all')}</MenuItem>
             {catalog.brands.map((item) => (
               <MenuItem key={item.id} value={item.id}>
                 {item.name}
               </MenuItem>
             ))}
-          </AppSelect>
-          <AppSelect defaultValue={filters.productId ?? ''} label={t('product')} name="productId">
+          </SelectField>
+          <SelectField defaultValue={filters.productId ?? ''} label={t('product')} name="productId">
             <MenuItem value="">{t('all')}</MenuItem>
             {catalog.products.map((item) => (
               <MenuItem key={item.id} value={item.id}>
                 {item.name}
               </MenuItem>
             ))}
-          </AppSelect>
-          <AppSelect
+          </SelectField>
+          <SelectField
             defaultValue={filters.provinceCode ?? ''}
             label={t('province')}
             name="provinceCode"
@@ -134,16 +135,16 @@ export function DebtListToolbar({ activeUsers, catalog, filters }: DebtListToolb
                 {item.provinceName ?? item.provinceCode}
               </MenuItem>
             ))}
-          </AppSelect>
-          <AppSelect defaultValue={filters.status ?? ''} label={t('status')} name="status">
+          </SelectField>
+          <SelectField defaultValue={filters.status ?? ''} label={t('status')} name="status">
             <MenuItem value="">{t('all')}</MenuItem>
             {Object.values(DebtStatus).map((item) => (
               <MenuItem key={item} value={item}>
                 {statusLabels[item]}
               </MenuItem>
             ))}
-          </AppSelect>
-          <AppSelect
+          </SelectField>
+          <SelectField
             defaultValue={filters.collectionStatus ?? ''}
             label={t('collection')}
             name="collectionStatus"
@@ -154,8 +155,8 @@ export function DebtListToolbar({ activeUsers, catalog, filters }: DebtListToolb
                 {collectionLabels[item]}
               </MenuItem>
             ))}
-          </AppSelect>
-          <AppSelect
+          </SelectField>
+          <SelectField
             defaultValue={filters.assignedToId ?? ''}
             label={t('owner')}
             name="assignedToId"
@@ -166,21 +167,21 @@ export function DebtListToolbar({ activeUsers, catalog, filters }: DebtListToolb
                 {user.name}
               </MenuItem>
             ))}
-          </AppSelect>
-          <AppSelect defaultValue={filters.aging ?? ''} label={t('aging')} name="aging">
+          </SelectField>
+          <SelectField defaultValue={filters.aging ?? ''} label={t('aging')} name="aging">
             <MenuItem value="">{t('all')}</MenuItem>
             <MenuItem value="not_due">{t('notDue')}</MenuItem>
             <MenuItem value="1_7">{t('aging1to7')}</MenuItem>
             <MenuItem value="8_30">{t('aging8to30')}</MenuItem>
             <MenuItem value="31_60">{t('aging31to60')}</MenuItem>
             <MenuItem value="60_plus">{t('aging60Plus')}</MenuItem>
-          </AppSelect>
-          <AppSelect defaultValue={filters.followUp ?? ''} label={t('followUp')} name="followUp">
+          </SelectField>
+          <SelectField defaultValue={filters.followUp ?? ''} label={t('followUp')} name="followUp">
             <MenuItem value="">{t('all')}</MenuItem>
             <MenuItem value="overdue">{t('overdueFollowUp')}</MenuItem>
             <MenuItem value="today">{t('today')}</MenuItem>
             <MenuItem value="upcoming">{t('upcoming')}</MenuItem>
-          </AppSelect>
+          </SelectField>
         </Box>
       ) : null}
     </DataTableToolbar>

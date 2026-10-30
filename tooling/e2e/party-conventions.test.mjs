@@ -28,8 +28,9 @@ export const client = [axios, useQuery, partyService];
   assert.equal(boundaryErrors.length, 6);
   const [good] = await lint.lintText(
     `
-import { useParties } from '../hooks/use-parties';
 import type { PartyListParams } from '@/services/parties/party.types';
+
+import { useParties } from '../hooks/use-parties';
 export function useExample(params: PartyListParams) { return useParties(params); }
 `,
     { filePath: join(app, 'src/features/parties/list/example.tsx') },

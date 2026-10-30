@@ -1,15 +1,18 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Box, LinearProgress, MenuItem, Paper, Typography } from '@mui/material';
-import { AppPagination } from '@packages/ui-react';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
-import { AppIcon } from '@/components/ui/app-icon';
+
+import { AppPagination } from '@packages/ui-react';
 import { TableLayout, TablePaginationBar } from '@packages/ui-react';
+
+import { AppIcon } from '@/components/ui/app-icon';
 import { Button } from '@/components/ui/button';
-import { AppSelect } from '@/components/ui/form/select';
+import { SelectField } from '@/components/ui/form/select';
 import { listPartyDebtSummaries } from '@/services/party.client';
+
 import { PartnerSummaryFilters } from './filters';
 import { PartnerSummaryTable } from './table';
 import type { PartnerSummaryPage } from './types';
@@ -122,7 +125,7 @@ export function PartnerSummary({ users }: Props) {
             <Typography color="text.secondary" variant="body2">
               {t('rowsPerPage')}
             </Typography>
-            <AppSelect
+            <SelectField
               aria-label={t('rowsPerPage')}
               disabled={isFetching}
               onChange={(event) => url.changePageSize(Number(event.target.value))}
@@ -134,7 +137,7 @@ export function PartnerSummary({ users }: Props) {
                   {size}
                 </MenuItem>
               ))}
-            </AppSelect>
+            </SelectField>
             <AppPagination
               disabled={isFetching}
               onPageChange={url.changePage}

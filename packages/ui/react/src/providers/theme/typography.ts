@@ -1,7 +1,13 @@
-import { designTokens } from '@packages/ui-tokens';
 import type { ThemeOptions } from '@mui/material';
 
+import { designTokens } from '@packages/ui-tokens';
+
 export const typography = {
+  headerTitle: designTokens.typography.headerTitle,
+  headerSubtitle: designTokens.typography.headerSubtitle,
+  identity: designTokens.typography.identity,
+  locale: designTokens.typography.locale,
+  caption: designTokens.typography.caption,
   fontFamily: designTokens.typography.fontFamily,
   h1: {
     fontSize: '2rem',

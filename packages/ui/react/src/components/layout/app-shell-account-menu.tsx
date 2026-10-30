@@ -1,10 +1,11 @@
 'use client';
-import type { AppShellAccountMenuProps } from './app-shell.types';
 
 import { useState } from 'react';
 import { Avatar, Box, Divider, ListItemIcon, Menu, MenuItem, Typography } from '@mui/material';
-import { designTokens } from '@packages/ui-tokens';
+
 import { AppIcon } from '../../icons/app-icon';
+
+import type { AppShellAccountMenuProps } from './app-shell.types';
 
 export function AppShellAccountMenu({
   identity,
@@ -41,8 +42,10 @@ export function AppShellAccountMenu({
         }}
       >
         <Box sx={{ display: { xs: 'none', sm: 'block' }, textAlign: 'right' }}>
-          <Typography sx={designTokens.typography.identity}>{displayName}</Typography>
-          <Typography color="text.secondary" noWrap sx={designTokens.typography.caption}>
+          <Typography component="p" variant="identity">
+            {displayName}
+          </Typography>
+          <Typography color="text.secondary" noWrap component="p" variant="caption">
             {identity.organization
               ? `${identity.organization.kind === 'BUSINESS' ? (locale === 'en' ? 'Business' : 'Doanh nghiệp') : locale === 'en' ? 'Personal shop' : 'Shop cá nhân'} · ${identity.organization.name}`
               : locale === 'en'
@@ -53,7 +56,7 @@ export function AppShellAccountMenu({
         <Avatar
           sx={{
             bgcolor: 'primary.light',
-            color: designTokens.color.primaryText,
+            color: 'text.brand',
             fontSize: 12,
             fontWeight: 800,
             height: 32,
@@ -100,7 +103,7 @@ export function AppShellAccountMenu({
             </Typography>
           ) : null}
           {identity.role ? (
-            <Typography color={designTokens.color.primaryText} sx={{ fontSize: 10.5, fontWeight: 800, mt: 0.75 }}>
+            <Typography color={'text.brand'} sx={{ fontSize: 10.5, fontWeight: 800, mt: 0.75 }}>
               {identity.role}
             </Typography>
           ) : null}

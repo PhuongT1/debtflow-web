@@ -1,12 +1,13 @@
 'use client';
-import { designTokens } from '@packages/ui-tokens';
-import type { AppShellNavigationProps } from '../next.types';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Box, List, ListItemButton, Tooltip, Typography } from '@mui/material';
+
 import { getNavigationLabel, navigationItems } from '@packages/platform-navigation';
+
 import { AppIcon } from '../../../icons/app-icon';
+import type { AppShellNavigationProps } from '../next.types';
 
 export function AppShellNavigation({
   collapsed,
@@ -19,7 +20,7 @@ export function AppShellNavigation({
   return (
     <Box
       sx={{
-        bgcolor: designTokens.color.navigation,
+        bgcolor: 'background.navigation',
         height: '100%',
         overflowY: 'auto',
         p: collapsed ? 1 : 1.5,
@@ -64,8 +65,8 @@ export function AppShellNavigation({
                     selected={active}
                     aria-current={active ? 'page' : undefined}
                     sx={{
-                      borderRadius: `${designTokens.radius.lg}px`,
-                      color: active ? designTokens.color.primaryText : 'text.secondary',
+                      borderRadius: 1.5,
+                      color: active ? 'text.brand' : 'text.secondary',
                       gap: 1.4,
                       justifyContent: collapsed ? 'center' : 'flex-start',
                       minHeight: 44,
@@ -80,7 +81,7 @@ export function AppShellNavigation({
                     <Box
                       sx={{
                         alignItems: 'center',
-                        color: active ? designTokens.color.primaryText : 'text.secondary',
+                        color: active ? 'text.brand' : 'text.secondary',
                         display: 'flex',
                       }}
                     >

@@ -1,18 +1,19 @@
-import { useFieldArray, useWatch, type Control, type UseFormRegister } from 'react-hook-form';
 import { Box, MenuItem } from '@mui/material';
+import { type Control, useFieldArray, useWatch } from 'react-hook-form';
+
+import { FormInput } from '@packages/ui-react';
+
 import { Button } from '@/components/ui/button';
-import { AppInput } from '@/components/ui/form/input';
-import { AppSelect } from '@/components/ui/form/select';
 import type { CatalogOptions } from '@/features/catalog/catalog.types';
+
 import type { DebtFormInput } from './schema';
 
 type DebtLineItemsProps = {
   catalog: CatalogOptions;
   control: Control<DebtFormInput>;
-  register: UseFormRegister<DebtFormInput>;
 };
 
-export function DebtLineItems({ catalog, control, register }: DebtLineItemsProps) {
+export function DebtLineItems({ catalog, control }: DebtLineItemsProps) {
   const { append, fields, remove } = useFieldArray({ control, name: 'items' });
   const items = useWatch({ control, name: 'items' }) ?? [];
   const total = items.reduce(
@@ -60,7 +61,7 @@ export function DebtLineItems({ catalog, control, register }: DebtLineItemsProps
               },
             }}
           >
-            <AppSelect label="Mặt hàng" {...register(`items.${index}.productId` as const)}>
+            <FormInput select label="Mặt hàng" control={control} name={`items.${index}.productId`}>
               <MenuItem value="">Chọn mặt hàng</MenuItem>
               {catalog.products.map((product) => (
                 <MenuItem key={product.id} value={product.id}>
@@ -69,16 +70,18 @@ export function DebtLineItems({ catalog, control, register }: DebtLineItemsProps
                     .join(' · ')}
                 </MenuItem>
               ))}
-            </AppSelect>
-            <AppInput
+            </FormInput>
+            <FormInput
               label="Số lượng"
               type="number"
-              {...register(`items.${index}.quantity` as const)}
+              control={control}
+              name={`items.${index}.quantity`}
             />
-            <AppInput
+            <FormInput
               label="Đơn giá"
               type="number"
-              {...register(`items.${index}.unitPrice` as const)}
+              control={control}
+              name={`items.${index}.unitPrice`}
             />
             <Button onClick={() => remove(index)} size="small" type="button" variant="secondary">
               Bỏ

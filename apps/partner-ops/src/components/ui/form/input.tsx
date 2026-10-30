@@ -1,1 +1,1 @@
-export { AppInput } from '@packages/ui-react';
+export { Input } from '@packages/ui-react';

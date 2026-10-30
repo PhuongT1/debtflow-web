@@ -1,11 +1,18 @@
-import { themeSchemes, type ThemeMode } from '@packages/ui-tokens';
 import type { PaletteOptions } from '@mui/material/styles';
+
+import { type ThemeMode, themeSchemes } from '@packages/ui-tokens';
 
 function createPalette(mode: ThemeMode): PaletteOptions {
   const { color } = themeSchemes[mode];
   return {
     mode,
-    background: { default: color.background, paper: color.surface },
+    background: {
+      default: color.background,
+      paper: color.surface,
+      navigation: color.navigation,
+      inset: color.surfaceInset,
+      raised: color.surfaceRaised,
+    },
     primary: {
       main: color.primary,
       dark: color.primaryDark,
@@ -17,7 +24,12 @@ function createPalette(mode: ThemeMode): PaletteOptions {
     success: { main: color.success },
     warning: { main: color.warning },
     error: { main: color.error },
-    text: { primary: color.text, secondary: color.textSecondary, disabled: color.textDisabled },
+    text: {
+      primary: color.text,
+      brand: color.primaryText,
+      secondary: color.textSecondary,
+      disabled: color.textDisabled,
+    },
     divider: color.divider,
     action: {
       hover: color.surfaceHover,

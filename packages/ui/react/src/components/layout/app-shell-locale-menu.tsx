@@ -1,10 +1,11 @@
 'use client';
-import type { AppLocale } from '@packages/platform-contracts';
-import type { AppShellLocaleMenuProps } from './app-shell.types';
 
 import { useId, useState } from 'react';
-import { Button, Box, Menu, MenuItem } from '@mui/material';
-import { designTokens } from '@packages/ui-tokens';
+import { Box, Button, Menu, MenuItem } from '@mui/material';
+
+import type { AppLocale } from '@packages/platform-contracts';
+
+import type { AppShellLocaleMenuProps } from './app-shell.types';
 
 export function AppShellLocaleMenu({ locale, onLocaleChange }: AppShellLocaleMenuProps) {
   const menuId = useId();
@@ -28,7 +29,7 @@ export function AppShellLocaleMenu({ locale, onLocaleChange }: AppShellLocaleMen
         sx={{
           bgcolor: 'action.hover',
           borderRadius: 2,
-          ...designTokens.typography.locale,
+          typography: 'locale',
           minWidth: 64,
           px: 1.25,
           py: 0.5,

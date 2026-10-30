@@ -1,18 +1,19 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Box, MenuItem } from '@mui/material';
+import { useMutation } from '@tanstack/react-query';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { ApiErrorNotice } from '@/components/ui/api-error-notice';
-import { AppDatePicker } from '@/components/ui/form/date-picker';
-import { Button } from '@/components/ui/button';
-import { FormActions, FormGrid } from '@/components/ui/form/layout';
-import { AppInput } from '@/components/ui/form/input';
-import { AppSelect } from '@/components/ui/form/select';
+
+import { FormInput } from '@packages/ui-react';
 import { useToast } from '@packages/ui-react';
+
+import { ApiErrorNotice } from '@/components/ui/api-error-notice';
+import { Button } from '@/components/ui/button';
+import { DatePicker } from '@/components/ui/form/date-picker';
+import { FormActions, FormGrid } from '@/components/ui/form/layout';
 import { applyApiFieldErrors } from '@/lib/forms/errors';
 import { updateDebt } from '@/services/debt.client';
 
@@ -63,7 +64,6 @@ export function CollectionForm({
     },
   });
   const {
-    register,
     control,
     handleSubmit,
     setError,
@@ -91,9 +91,11 @@ export function CollectionForm({
       )}
       sx={{ display: 'grid', gap: 2 }}
     >
-      <AppSelect
+      <FormInput
+        select
         label="Trạng thái thu tiền *"
-        {...register('collectionStatus')}
+        control={control}
+        name={'collectionStatus'}
         error={Boolean(errors.collectionStatus)}
         helperText={errors.collectionStatus?.message}
       >
@@ -102,10 +104,12 @@ export function CollectionForm({
         <MenuItem value="PROMISED">Khách hẹn trả</MenuItem>
         <MenuItem value="DISPUTED">Đang tranh chấp</MenuItem>
         <MenuItem value="ESCALATED">Cần escalated</MenuItem>
-      </AppSelect>
-      <AppSelect
+      </FormInput>
+      <FormInput
+        select
         label="Sale phụ trách"
-        {...register('assignedToId')}
+        control={control}
+        name={'assignedToId'}
         error={Boolean(errors.assignedToId)}
         helperText={errors.assignedToId?.message}
       >
@@ -115,12 +119,12 @@ export function CollectionForm({
             {user.name}
           </MenuItem>
         ))}
-      </AppSelect>
+      </FormInput>
       <Controller
         control={control}
         name="nextFollowUpAt"
         render={({ field }) => (
-          <AppDatePicker
+          <DatePicker
             error={Boolean(errors.nextFollowUpAt)}
             helperText={errors.nextFollowUpAt?.message}
             label="Hẹn follow-up tiếp theo"
@@ -129,36 +133,41 @@ export function CollectionForm({
           />
         )}
       />
-      <AppInput
+      <FormInput
         label="Ghi chú thu tiền"
         multiline
         rows={3}
-        {...register('followUpNote')}
+        control={control}
+        name={'followUpNote'}
         error={Boolean(errors.followUpNote)}
         helperText={errors.followUpNote?.message}
       />
       <FormGrid>
-        <AppInput
+        <FormInput
           label="Mã hóa đơn"
-          {...register('invoiceNo')}
+          control={control}
+          name={'invoiceNo'}
           error={Boolean(errors.invoiceNo)}
           helperText={errors.invoiceNo?.message}
         />
-        <AppInput
+        <FormInput
           label="Mã đơn hàng"
-          {...register('orderNo')}
+          control={control}
+          name={'orderNo'}
           error={Boolean(errors.orderNo)}
           helperText={errors.orderNo?.message}
         />
-        <AppInput
+        <FormInput
           label="Hợp đồng"
-          {...register('contractNo')}
+          control={control}
+          name={'contractNo'}
           error={Boolean(errors.contractNo)}
           helperText={errors.contractNo?.message}
         />
-        <AppInput
+        <FormInput
           label="PO"
-          {...register('poNo')}
+          control={control}
+          name={'poNo'}
           error={Boolean(errors.poNo)}
           helperText={errors.poNo?.message}
         />

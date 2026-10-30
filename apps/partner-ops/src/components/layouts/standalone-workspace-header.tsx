@@ -3,12 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import type { AppLocale, CoreIdentity } from '@packages/platform-contracts';
-import { useLocale, useTranslations } from 'next-intl';
-import { signOutFromPlatform, setStoredLocale } from '@packages/platform-sdk';
-import { SignOutDialog } from '@packages/ui-react';
-import { navigationItems } from '@packages/platform-navigation';
-import { designTokens } from '@packages/ui-tokens';
 import {
   Avatar,
   Box,
@@ -21,8 +15,15 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { AppIcon } from '@/components/ui/app-icon';
+import { useLocale, useTranslations } from 'next-intl';
+
+import type { AppLocale, CoreIdentity } from '@packages/platform-contracts';
+import { navigationItems } from '@packages/platform-navigation';
+import { setStoredLocale, signOutFromPlatform } from '@packages/platform-sdk';
+import { SignOutDialog } from '@packages/ui-react';
+
 import { LanguageSelector } from '@/components/layouts/language-selector';
+import { AppIcon } from '@/components/ui/app-icon';
 
 type StandaloneWorkspaceHeaderProps = {
   identity: CoreIdentity;
@@ -80,16 +81,20 @@ export function StandaloneWorkspaceHeader({
         }}
       >
         <Stack spacing={0}>
-          <Typography sx={designTokens.typography.headerTitle}>{tHeader('title')}</Typography>
-          <Typography color="text.secondary" sx={designTokens.typography.headerSubtitle}>
+          <Typography component="p" variant="headerTitle">
+            {tHeader('title')}
+          </Typography>
+          <Typography color="text.secondary" component="p" variant="headerSubtitle">
             {tHeader('subtitle')}
           </Typography>
         </Stack>
         <Stack direction="row" spacing={1.25} sx={{ alignItems: 'center' }}>
           <LanguageSelector locale={locale} onChange={handleSwitchLanguage} />
           <Stack spacing={0} sx={{ alignItems: 'flex-end' }}>
-            <Typography sx={designTokens.typography.identity}>{identity.name}</Typography>
-            <Typography color="text.secondary" sx={designTokens.typography.caption}>
+            <Typography component="p" variant="identity">
+              {identity.name}
+            </Typography>
+            <Typography color="text.secondary" component="p" variant="caption">
               {identity.role}
             </Typography>
           </Stack>
@@ -104,7 +109,7 @@ export function StandaloneWorkspaceHeader({
             <Avatar
               sx={{
                 bgcolor: 'primary.light',
-                color: designTokens.color.primaryText,
+                color: 'text.brand',
                 fontSize: 13,
                 fontWeight: 800,
                 height: 32,
@@ -143,7 +148,7 @@ export function StandaloneWorkspaceHeader({
               <Typography color="text.secondary" noWrap sx={{ fontSize: 12 }}>
                 {identity.email}
               </Typography>
-              <Typography color={designTokens.color.primaryText} sx={{ fontSize: 10.5, fontWeight: 800, mt: 0.75 }}>
+              <Typography color={'text.brand'} sx={{ fontSize: 10.5, fontWeight: 800, mt: 0.75 }}>
                 {identity.role}
               </Typography>
             </Box>

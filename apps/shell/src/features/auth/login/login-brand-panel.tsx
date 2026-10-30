@@ -1,8 +1,8 @@
 'use client';
 
-import { designTokens } from '@packages/ui-tokens';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { useTranslations } from 'next-intl';
+
 import { AppIcon, type AppIconName } from '@/components/ui/app-icon';
 
 function FeatureIcon({ icon }: { icon: AppIconName }) {
@@ -10,7 +10,7 @@ function FeatureIcon({ icon }: { icon: AppIconName }) {
     <Box
       sx={(theme) => ({
         backgroundColor: `color-mix(in srgb, ${(theme.vars ?? theme).palette.primary.contrastText} 12%, transparent)`,
-        borderRadius: '8px',
+        borderRadius: 1,
         color: 'primary.contrastText',
         display: 'grid',
         flex: '0 0 auto',
@@ -25,12 +25,13 @@ function FeatureIcon({ icon }: { icon: AppIconName }) {
 }
 
 export function LoginBrandPanel() {
+  const theme = useTheme();
   const t = useTranslations('Login');
 
   return (
     <Box
       sx={{
-        background: designTokens.effect.brandPanel,
+        background: theme.brandPanel,
         color: 'primary.contrastText',
         display: { xs: 'none', md: 'flex' },
         flexDirection: 'column',

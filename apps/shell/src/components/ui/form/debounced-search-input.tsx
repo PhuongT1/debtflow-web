@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { InputAdornment } from '@mui/material';
+
 import { AppIcon } from '../app-icon';
-import { AppInput } from './input';
+
+import { Input } from './input';
 
 type Props = {
   delay?: number;
@@ -26,7 +28,7 @@ export function DebouncedSearchInput({ delay = 400, onSearch, placeholder, value
   }, [delay, draft, onSearch, value]);
 
   return (
-    <AppInput
+    <Input
       aria-label={placeholder}
       onChange={(event) => setDraft(event.target.value)}
       placeholder={placeholder}
