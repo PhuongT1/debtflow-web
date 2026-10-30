@@ -4,7 +4,7 @@
   width: 100%;
 }
 .page {
-  min-height: calc(100vh - 104px);
+  min-height: var(--df-workspace-min-height, calc(100vh - 104px));
   display: flex;
   flex-direction: column;
   gap: 16px;

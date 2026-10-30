@@ -2,11 +2,14 @@
 
 import { Box, Skeleton, Typography } from '@mui/material';
 import { useTranslations } from 'next-intl';
-import { DataTable, DataTablePagination, type DataTableColumn } from '@packages/ui-react';
-import { Page, PageHeader, MetricGrid } from '@/components/ui/page/page';
-import { Card } from '@/components/ui/page/card';
+
+import { DataTable, type DataTableColumn, DataTablePagination } from '@packages/ui-react';
+import { designTokens } from '@packages/ui-tokens';
+
 import { tablePageLayouts } from '@/components/tables/page-layouts';
 import type { TablePageSkeletonProps } from '@/components/tables/page-layouts.types';
+import { Card } from '@/components/ui/page/card';
+import { MetricGrid, Page, PageHeader } from '@/components/ui/page/page';
 
 /** Render route geometry using the same table, density and footer as loaded screens. */
 export function TablePageSkeleton({ kind = 'debts', label }: TablePageSkeletonProps) {
@@ -38,7 +41,11 @@ export function TablePageSkeleton({ kind = 'debts', label }: TablePageSkeletonPr
       aria-busy="true"
       aria-label={label ?? t('loading')}
       data-table-page-skeleton={kind}
-      sx={{ height: '100%', minHeight: 0, p: kind === 'payments' ? 1.5 : 0 }}
+      sx={{
+        height: '100%',
+        minHeight: 0,
+        p: kind === 'payments' ? designTokens.layout.contentPadding : 0,
+      }}
     >
       <Page fillAvailable>
         {kind === 'payments' ? (

@@ -34,7 +34,29 @@
   --df-shell-sidebar-expanded: 264px;
   --df-shell-sidebar-collapsed: 84px;
 }
-
+:root {
+  --df-content-padding: 12px;
+}
+@media (min-width: 600px) {
+  :root {
+    --df-content-padding: 16px;
+  }
+}
+@media (min-width: 900px) {
+  :root {
+    --df-content-padding: 24px;
+  }
+}
+@media (min-width: 1200px) {
+  :root {
+    --df-content-padding: 28px;
+  }
+}
+@media (min-width: 1536px) {
+  :root {
+    --df-content-padding: 32px;
+  }
+}
 :root {
   --df-table-small-row-height: 48px;
   --df-table-small-padding-y: 6px;
@@ -47,7 +69,8 @@
   --df-table-large-padding-x: 20px;
 }
 
-:root, :root.light {
+:root,
+:root.light {
   color-scheme: light;
   --df-color-background: #f6f7fb;
   --df-color-navigation: #eff6ff;
@@ -89,41 +112,41 @@
 @media (prefers-color-scheme: dark) {
   :root:not(.light):not(.dark) {
     color-scheme: dark;
-  --df-color-background: #101625;
-  --df-color-navigation: #172033;
-  --df-color-surface: #172033;
-  --df-color-surface-raised: #222c40;
-  --df-color-surface-inset: #131b2b;
-  --df-color-surface-hover: #263249;
-  --df-color-text: #eef2f8;
-  --df-color-text-secondary: #b2bed0;
-  --df-color-text-disabled: #7f8ba0;
-  --df-color-divider: #344057;
-  --df-color-disabled-surface: #253047;
-  --df-color-backdrop: rgba(3, 7, 18, 0.72);
-  --df-color-secondary: #c4b5fd;
-  --df-color-info: #7dd3fc;
-  --df-color-info-light: #15374a;
-  --df-color-success: #75d6ad;
-  --df-color-warning: #f8cb70;
-  --df-color-error: #ffaaa2;
-  --df-color-error-surface: #42262d;
-  --df-color-error-border: #82434c;
-  --df-color-primary: #155dfc;
-  --df-color-primary-dark: #1447e6;
-  --df-color-primary-light: rgba(81, 162, 255, 0.14);
-  --df-color-primary-contrast: #ffffff;
-  --df-color-primary-text: #8ec5ff;
-  --df-color-primary-selected: rgba(142, 197, 255, 0.16);
-  --df-shadow-surface: 0 2px 6px rgba(0, 0, 0, 0.16), 0 12px 28px -8px rgba(0, 0, 0, 0.24);
-  --df-shadow-floating: 0 0 2px rgba(0, 0, 0, 0.32), 0 12px 32px -4px rgba(0, 0, 0, 0.44);
-  --df-shadow-dialog: 0 0 2px rgba(0, 0, 0, 0.4), 0 24px 64px -12px rgba(0, 0, 0, 0.64);
-  --df-shadow-primary: 0 8px 20px -8px rgba(21, 93, 252, 0.48);
-  --df-shadow-fixed-left: 3px 0 8px rgba(0, 0, 0, 0.28);
-  --df-shadow-fixed-right: -3px 0 8px rgba(0, 0, 0, 0.28);
-  --df-effect-primary-gradient: linear-gradient(135deg, #1447e6, #155dfc);
-  --df-effect-primary-hover-gradient: linear-gradient(135deg, #193cb8, #1447e6);
-  --df-effect-brand-panel: linear-gradient(145deg, #193cb8, #155dfc);
+    --df-color-background: #101625;
+    --df-color-navigation: #172033;
+    --df-color-surface: #172033;
+    --df-color-surface-raised: #222c40;
+    --df-color-surface-inset: #131b2b;
+    --df-color-surface-hover: #263249;
+    --df-color-text: #eef2f8;
+    --df-color-text-secondary: #b2bed0;
+    --df-color-text-disabled: #7f8ba0;
+    --df-color-divider: #344057;
+    --df-color-disabled-surface: #253047;
+    --df-color-backdrop: rgba(3, 7, 18, 0.72);
+    --df-color-secondary: #c4b5fd;
+    --df-color-info: #7dd3fc;
+    --df-color-info-light: #15374a;
+    --df-color-success: #75d6ad;
+    --df-color-warning: #f8cb70;
+    --df-color-error: #ffaaa2;
+    --df-color-error-surface: #42262d;
+    --df-color-error-border: #82434c;
+    --df-color-primary: #155dfc;
+    --df-color-primary-dark: #1447e6;
+    --df-color-primary-light: rgba(81, 162, 255, 0.14);
+    --df-color-primary-contrast: #ffffff;
+    --df-color-primary-text: #8ec5ff;
+    --df-color-primary-selected: rgba(142, 197, 255, 0.16);
+    --df-shadow-surface: 0 2px 6px rgba(0, 0, 0, 0.16), 0 12px 28px -8px rgba(0, 0, 0, 0.24);
+    --df-shadow-floating: 0 0 2px rgba(0, 0, 0, 0.32), 0 12px 32px -4px rgba(0, 0, 0, 0.44);
+    --df-shadow-dialog: 0 0 2px rgba(0, 0, 0, 0.4), 0 24px 64px -12px rgba(0, 0, 0, 0.64);
+    --df-shadow-primary: 0 8px 20px -8px rgba(21, 93, 252, 0.48);
+    --df-shadow-fixed-left: 3px 0 8px rgba(0, 0, 0, 0.28);
+    --df-shadow-fixed-right: -3px 0 8px rgba(0, 0, 0, 0.28);
+    --df-effect-primary-gradient: linear-gradient(135deg, #1447e6, #155dfc);
+    --df-effect-primary-hover-gradient: linear-gradient(135deg, #193cb8, #1447e6);
+    --df-effect-brand-panel: linear-gradient(145deg, #193cb8, #155dfc);
   }
 }
 

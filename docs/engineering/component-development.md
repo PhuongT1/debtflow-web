@@ -72,14 +72,16 @@ Within a named group, `fields.tsx`, `schema.ts` or `content.tsx` is clearer than
 
 Use shared controls before adding feature-specific alternatives. The [Debtflow UI conventions](../../.ai-rules/project/frameworks/react/ui-and-accessibility.md#shared-ui-conventions) map public components to their theme/token owners and local sizes. The [UI package guide](../../packages/ui/react/README.md) shows their usage.
 
-| Review point | What to check | Canonical requirement |
-| --- | --- | --- |
-| Theme and icons | Semantic surface/text/border/shadow roles, readable light/dark states and one icon family; no scattered color overrides | [Theme layers and control states](../../.ai-rules/core/frameworks/react/ui-and-accessibility/styling.md#theme-layers-and-control-states) |
-| Reusable controls | Supported props, refs, slots and caller overrides survive wrappers | [Wrappers](../../.ai-rules/core/frameworks/react/ui-and-accessibility/wrappers.md) |
-| Table size | Shared named density, matching skeleton/header padding, no accidental cell margins or clipped long content | [Table density](../../.ai-rules/core/frameworks/react/ui-and-accessibility/styling.md#table-density) |
-| Open-state behavior | Anchored Select/picker does not tint the page; modal backdrop, focus and dismissal behave correctly | [React verification](../../.ai-rules/core/frameworks/react/verification.md) |
+| Review point        | What to check                                                                                                           | Canonical requirement                                                                                                                    |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Theme and icons     | Semantic surface/text/border/shadow roles, readable light/dark states and one icon family; no scattered color overrides | [Theme layers and control states](../../.ai-rules/core/frameworks/react/ui-and-accessibility/styling.md#theme-layers-and-control-states) |
+| Reusable controls   | Supported props, refs, slots and caller overrides survive wrappers                                                      | [Wrappers](../../.ai-rules/core/frameworks/react/ui-and-accessibility/wrappers.md)                                                       |
+| Table size          | Shared named density, matching skeleton/header padding, no accidental cell margins or clipped long content              | [Table density](../../.ai-rules/core/frameworks/react/ui-and-accessibility/styling.md#table-density)                                     |
+| Open-state behavior | Anchored Select/picker does not tint the page; modal backdrop, focus and dismissal behave correctly                     | [React verification](../../.ai-rules/core/frameworks/react/verification.md)                                                              |
 
 These extend existing styling/wrapper/verification rules; they are not separate per-component policies. Check the affected states in the browser, including relevant standalone/embedded and light/dark modes.
+
+Main-content gutters are owned by [shared layout tokens](../../packages/ui/tokens/src/layout.ts): 12/16/24/28/32px at the MUI xs/sm/md/lg/xl breakpoints. Shell owns ordinary screens; an embedded app owns its own content padding, while Shell keeps its remote outlet at zero. Embedded skeleton frames use the same values through container queries. Angular reads the generated `--df-content-padding` variable. Do not add a second page-level gutter.
 
 ## Verify a skeleton against the real screen
 

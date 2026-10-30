@@ -17,9 +17,7 @@
 }
 
 .workspace-header__content,
-.workspace-nav__content,
-.workspace-main,
-.embedded-workspace-main {
+.workspace-nav__content {
   box-sizing: border-box;
   width: min(100% - 48px, 1440px);
   margin: 0 auto;
@@ -198,14 +196,20 @@
 
 .workspace-main,
 .embedded-workspace-main {
-  padding-block: 12px 24px;
+  width: 100%;
+  margin: 0;
+  padding: var(--df-content-padding);
+}
+
+.embedded-workspace-main {
+  --df-workspace-min-height: calc(
+    100dvh - var(--df-shell-header-height) - var(--df-content-padding) - var(--df-content-padding)
+  );
 }
 
 @media (max-width: 760px) {
   .workspace-header__content,
-  .workspace-nav__content,
-  .workspace-main,
-  .embedded-workspace-main {
+  .workspace-nav__content {
     width: min(100% - 32px, 1440px);
   }
 

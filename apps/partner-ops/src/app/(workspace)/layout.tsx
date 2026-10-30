@@ -1,11 +1,14 @@
-import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { Box } from '@mui/material';
+
+import { buildLoginUrl } from '@packages/platform-sdk';
+import { designTokens } from '@packages/ui-tokens';
+
 import { StandaloneWorkspaceHeader } from '@/components/layouts/standalone-workspace-header';
 import { EmbeddedPlatformBridge } from '@/components/platform/embedded-platform-bridge';
 import { getCoreIdentity } from '@/lib/core-session';
 import { partnerOpsEnv } from '@/lib/env';
-import { buildLoginUrl } from '@packages/platform-sdk';
 
 export const dynamic = 'force-dynamic';
 
@@ -56,7 +59,7 @@ export default async function ProtectedLayout({ children }: { children: React.Re
           minHeight: 0,
           minWidth: 0,
           overflow: 'hidden',
-          p: { xs: 1.25, md: 1.5 },
+          p: designTokens.layout.contentPadding,
         }}
       >
         <Box sx={{ display: 'flex', flex: '1 1 auto', minHeight: 0, minWidth: 0 }}>{children}</Box>

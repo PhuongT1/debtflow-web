@@ -1,4 +1,7 @@
+import { layoutTokens } from './layout';
+
 export const designTokens = {
+  layout: layoutTokens,
   typography: {
     fontFamily: 'Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
     body: { fontSize: 16, fontWeight: 400, lineHeight: 1.55 },

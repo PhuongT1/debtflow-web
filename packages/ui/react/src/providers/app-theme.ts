@@ -10,6 +10,7 @@ import { buttonComponents } from './theme/components/buttons';
 // Compose the shared theme from tokens and responsibility-specific overrides.
 
 export const appTheme = createTheme({
+  breakpoints: { values: designTokens.layout.breakpoints },
   cssVariables: { colorSchemeSelector: 'class' },
   colorSchemes,
   shape: {

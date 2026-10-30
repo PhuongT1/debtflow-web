@@ -1,14 +1,17 @@
 'use client';
-import type { AppShellProps } from '../next.types';
 
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Box, Drawer } from '@mui/material';
-import { designTokens } from '@packages/ui-tokens';
-import { navigationItems } from '@packages/platform-navigation';
+
 import type { AppLocale } from '@packages/platform-contracts';
+import { navigationItems } from '@packages/platform-navigation';
 import { getStoredLocale, setStoredLocale } from '@packages/platform-sdk';
+import { designTokens } from '@packages/ui-tokens';
+
 import { AppShellHeader } from '../../../components/layout/app-shell-header';
+import type { AppShellProps } from '../next.types';
+
 import { AppShellNavigation } from './app-shell-navigation';
 
 const SIDEBAR_COOKIE = 'debt-flow-sidebar-collapsed';
@@ -124,7 +127,7 @@ export function AppShell({
             minHeight: 0,
             minWidth: 0,
             overflow: 'auto',
-            p: isComposedOutlet ? 0 : { xs: 1.25, md: 1.5 },
+            p: isComposedOutlet ? 0 : designTokens.layout.contentPadding,
           }}
         >
           {children}

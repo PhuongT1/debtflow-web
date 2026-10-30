@@ -13,6 +13,7 @@
     "check": "node generate-css.mjs --check"
   },
   "devDependencies": {
+    "prettier": "^3.9.6",
     "typescript": "^5.8.3"
   }
 }

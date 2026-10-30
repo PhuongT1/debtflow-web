@@ -1,12 +1,31 @@
 'use client';
 
-import { designTokens } from '@packages/ui-tokens';
-import { useVisibleSkeletonRows } from './use-visible-skeleton-rows';
 import { Box, Skeleton, Typography } from '@mui/material';
-import { DataTableContent } from './content';
+
+import { designTokens } from '@packages/ui-tokens';
+
 import { TableLayout } from '../table-layout';
+
+import { DataTableContent } from './content';
 import type { DataTableColumn, ListPageSkeletonProps } from './types';
+import { useVisibleSkeletonRows } from './use-visible-skeleton-rows';
 export type { ListPageSkeletonLayout } from './types';
+
+const framePadding = {
+  p: designTokens.layout.contentPadding.xs,
+  ...Object.fromEntries(
+    Object.entries(designTokens.layout.breakpoints)
+      .filter(([, value]) => value > 0)
+      .map(([key, value]) => [
+        `@container page-viewport (min-width: ${value}px)`,
+        {
+          p: designTokens.layout.contentPadding[
+            key as keyof typeof designTokens.layout.contentPadding
+          ],
+        },
+      ]),
+  ),
+};
 
 /** Viewport queries mirror an iframe viewport even when rendered in a wider host. */
 export function ListPageSkeleton({ layout, label, frame = false }: ListPageSkeletonProps) {
@@ -184,16 +203,7 @@ export function ListPageSkeleton({ layout, label, frame = false }: ListPageSkele
         overflow: 'hidden',
       }}
     >
-      <Box
-        sx={{
-          height: '100%',
-          boxSizing: 'border-box',
-          p: 1.25,
-          '@container page-viewport (min-width: 900px)': { p: 1.5 },
-        }}
-      >
-        {view}
-      </Box>
+      <Box sx={[{ height: '100%', boxSizing: 'border-box' }, framePadding]}>{view}</Box>
     </Box>
   ) : (
     view
