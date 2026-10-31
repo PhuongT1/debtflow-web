@@ -77,7 +77,7 @@
       }}</span>
       <label
         >{{ t('history.rows') }}
-        <select [value]="result().pageSize" (change)="go(1, +$any($event.target).value)">
+        <select [value]="result().pageSize" (change)="changePageSize($event)">
           <option>10</option>
           <option>20</option>
           <option>50</option>

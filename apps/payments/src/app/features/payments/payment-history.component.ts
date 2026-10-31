@@ -7,6 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import type { Subscription } from 'rxjs';
 
 import {
   type AppLocale,
@@ -86,6 +87,10 @@ export class PaymentHistoryComponent {
     return keys[value] ? this.t(keys[value]) : value;
   }
 
+  protected changePageSize(event: Event) {
+    if (event.target instanceof HTMLSelectElement) this.go(1, Number(event.target.value));
+  }
+
   protected go(page: number, pageSize = this.result().pageSize) {
     const url = new URL(window.location.href);
     url.searchParams.set('page', String(page));
@@ -117,10 +122,13 @@ export class PaymentHistoryComponent {
     );
   }
 
+  private listSubscription?: Subscription;
+
   private load(page: number, pageSize: number, partyId = this.partyId()) {
+    this.listSubscription?.unsubscribe();
     this.loading.set(true);
     this.error.set('');
-    this.api
+    this.listSubscription = this.api
       .list(page, pageSize, partyId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({

@@ -1,7 +1,9 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { firstValueFrom, of } from 'rxjs';
+import { firstValueFrom, of, Subject } from 'rxjs';
+
+import type { PaginatedResult, PaymentRecord } from '@packages/platform-contracts';
 
 import { PaymentApiService, PaymentHistoryComponent } from './features/payments';
 
@@ -74,5 +76,39 @@ describe('PaymentApiService', () => {
       hasPreviousPage: false,
     });
     http.verify();
+  });
+});
+
+describe('Payment list navigation', () => {
+  it('keeps the newest page when an older request completes later', async () => {
+    const first = new Subject<PaginatedResult<PaymentRecord>>();
+    const second = new Subject<PaginatedResult<PaymentRecord>>();
+    let calls = 0;
+    await TestBed.configureTestingModule({
+      imports: [PaymentHistoryComponent],
+      providers: [
+        {
+          provide: PaymentApiService,
+          useValue: {
+            list: () => (calls++ === 0 ? first : second),
+            remove: () => of(undefined),
+          },
+        },
+      ],
+    }).compileComponents();
+    const originalUrl = window.location.href;
+    const fixture = TestBed.createComponent(PaymentHistoryComponent);
+    try {
+      fixture.detectChanges();
+      window.history.replaceState(null, '', '?page=2');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+      second.next({ items: [], total: 40, page: 2, pageSize: 20 });
+      first.next({ items: [], total: 40, page: 1, pageSize: 20 });
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('footer').textContent).toContain('2/2');
+    } finally {
+      fixture.destroy();
+      window.history.replaceState(null, '', originalUrl);
+    }
   });
 });
