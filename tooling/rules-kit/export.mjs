@@ -56,7 +56,14 @@ export async function exportRules(destination, { withViewer = false } = {}) {
   }
   const tools = join(output, 'tooling/rules-kit');
   await mkdir(tools, { recursive: true });
-  for (const file of ['workflows.mjs', 'setup.mjs', 'clients.mjs', 'doctor.mjs'])
+  for (const file of [
+    'workflows.mjs',
+    'setup.mjs',
+    'clients.mjs',
+    'doctor.mjs',
+    'capabilities.mjs',
+    'generated-paths.mjs',
+  ])
     await writeFile(join(tools, file), await readFile(join(directory, file)), { flag: 'wx' });
   await syncWorkflows(output);
   await syncToolkit(output);

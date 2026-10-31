@@ -1,6 +1,6 @@
-// Intentionally over 230 lines: keep workspace identity, dependency and entrypoint checks in one validation pass.
+import { directories, packageDirectories, sourceFiles } from './frontend-workspace-files.mjs';
 import { builtinModules } from 'node:module';
-import { readFile, readdir } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import ts from 'typescript';
 
@@ -21,41 +21,12 @@ const forbiddenNeutralDependencies = new Set([
   '@mui/material',
 ]);
 const builtins = new Set([...builtinModules, ...builtinModules.map((name) => `node:${name}`)]);
-const sourceExtensions = /\.(?:ts|tsx|js|jsx|mjs|cjs)$/;
 const importPatterns = [
   /(?:import|export)\s+(?:type\s+)?(?:[^"']*?\s+from\s+)?["']([^"']+)["']/g,
   /import\s*\(\s*["']([^"']+)["']\s*\)/g,
   /require\s*\(\s*["']([^"']+)["']\s*\)/g,
 ];
 const errors = [];
-async function directories(parent) {
-  return (await readdir(parent, { withFileTypes: true }))
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => path.join(parent, entry.name));
-}
-async function packageDirectories(parent) {
-  const packages = [];
-  for (const directory of await directories(parent)) {
-    try {
-      await readFile(path.join(directory, 'package.json'), 'utf8');
-      packages.push(directory);
-    } catch (error) {
-      if (error?.code !== 'ENOENT') throw error;
-      packages.push(...(await packageDirectories(directory)));
-    }
-  }
-  return packages;
-}
-async function sourceFiles(directory) {
-  const files = [];
-  for (const entry of await readdir(directory, { withFileTypes: true })) {
-    if (['node_modules', '.next', '.angular', 'dist', 'coverage'].includes(entry.name)) continue;
-    const absolute = path.join(directory, entry.name);
-    if (entry.isDirectory()) files.push(...(await sourceFiles(absolute)));
-    else if (sourceExtensions.test(entry.name)) files.push(absolute);
-  }
-  return files;
-}
 function isNamedPublicFacade(file, directory, source, specifier) {
   if (file !== path.join(directory, 'src/index.ts')) return false;
   const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true);

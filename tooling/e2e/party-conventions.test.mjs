@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { ESLint } from 'eslint';
-import { readFile, mkdtemp, writeFile, rm } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
-import ts from 'typescript';
+import { fileURLToPath } from 'node:url';
+import { loadPure } from './party-test-modules.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const app = join(root, 'apps/partner-ops');
@@ -37,21 +37,6 @@ export function useExample(params: PartyListParams) { return useParties(params);
   );
   assert.equal(good.errorCount, 0, JSON.stringify(good.messages));
 });
-
-async function loadPure(source) {
-  const text = await readFile(join(app, 'src', source), 'utf8');
-  const compiled = ts.transpileModule(text, {
-    compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
-  }).outputText;
-  const temporary = await mkdtemp(join(root, 'node_modules/.party-contract-'));
-  try {
-    const file = join(temporary, 'module.mjs');
-    await writeFile(file, compiled);
-    return await import(pathToFileURL(file).href);
-  } finally {
-    await rm(temporary, { recursive: true, force: true });
-  }
-}
 
 test('query identity ignores URL order/unknown fields and preserves invalidation prefixes', async () => {
   const { getPartyListFilters, normalizePartyListFilters } = await loadPure(
@@ -185,49 +170,4 @@ test('paginated responses preserve API metadata and reject missing/invalid metad
   ]) {
     assert.throws(() => parsePaginatedResponse(body), /Invalid paginated/);
   }
-});
-
-test('REST provider preserves operation, ID encoding, cancellation and payload contracts', async () => {
-  const { createRestPartyService } = await loadPure('services/parties/providers/rest.ts');
-  const calls = [];
-  const meta = {
-    page: 2,
-    pageSize: 10,
-    total: 21,
-    totalPages: 3,
-    hasNextPage: true,
-    hasPreviousPage: true,
-  };
-  const service = createRestPartyService({
-    request: async (config) => {
-      calls.push(config);
-      return { id: 'party-1' };
-    },
-    requestPage: async (config) => {
-      calls.push(config);
-      return { items: [], meta };
-    },
-  });
-  const signal = new AbortController().signal;
-  const params = { page: '2', pageSize: '10' };
-  assert.deepEqual(await service.list(params, signal), { items: [], meta });
-  assert.deepEqual(calls[0], { url: '/parties', params, signal });
-  await service.detail({ id: 'a/b' }, signal);
-  assert.deepEqual(calls[1], { url: '/parties/a%2Fb', signal });
-  const data = { name: 'Example', type: 'CUSTOMER' };
-  await service.create({ data });
-  await service.update({ id: 'a/b', data });
-  await service.remove({ id: 'a/b' });
-  assert.deepEqual(calls.slice(2), [
-    { url: '/parties', method: 'POST', data },
-    { url: '/parties/a%2Fb', method: 'PATCH', data },
-    { url: '/parties/a%2Fb', method: 'DELETE' },
-  ]);
-  const failure = new Error('network');
-  const failing = createRestPartyService({
-    request: async () => {
-      throw failure;
-    },
-  });
-  await assert.rejects(failing.detail({ id: 'party-1' }), (error) => error === failure);
 });

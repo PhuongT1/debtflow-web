@@ -58,7 +58,7 @@
     "rules:scenarios": "node --test tooling/rules-kit/scenarios.test.mjs",
     "rules:doctor": "node tooling/rules-kit/doctor.mjs",
     "test:overlays": "node --test tooling/e2e/overlay-*.test.mjs",
-    "test:party-conventions": "node --test tooling/e2e/party-conventions.test.mjs",
+    "test:party-conventions": "node --test tooling/e2e/party-conventions.test.mjs tooling/e2e/party-provider.test.mjs",
     "test:auth": "node --test tooling/e2e/auth-login.test.mjs",
     "test:ui-conventions": "node --test tooling/eslint/conventions.test.mjs"
   },

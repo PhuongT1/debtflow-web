@@ -40,7 +40,7 @@ node tooling/rules-kit/export.mjs --output /tmp/frontend-rule-kit
 
 To include the optional dependency-free documentation viewer, add `--with-viewer`. The export supplies neutral branding and a rules-only source configuration, not this project's app/docs roots. In the new project run `node tooling/rules-viewer/server.mjs` or `node tooling/rules-viewer/build.mjs`. No app dependencies or framework migration are required. Configure `tooling/rules-viewer/site.config.mjs` to include that project's additional documentation; the same setting controls development and static publication.
 
-1. Review the generated kit. Copy its `.ai-rules/` and the runtime tools `tooling/rules-kit/workflows.mjs`, `setup.mjs` and `clients.mjs` to the target project without overwriting existing instructions blindly; merge the short `AGENTS.md` entry if needed. Include `tooling/rules-viewer/` when exporting with the viewer.
+1. Review the generated kit. Copy its `.ai-rules/` and the complete exported `tooling/rules-kit/` runtime directory (including helper modules) to the target project without overwriting existing instructions blindly; merge the short `AGENTS.md` entry if needed. Include `tooling/rules-viewer/` when exporting with the viewer.
 2. Fill `.ai-rules/project/README.md` from that project's manifests and source. Record JavaScript/TypeScript mode, actual React/Next.js router/Angular architecture, installed libraries, ownership, aliases and executable checks.
 3. Add local topic modules only for real requirements. A small app may need only its profile; a monorepo may link owner-specific instructions. Do not copy Debtflow's `project/` layer.
 4. Connect the tool's project entry and try one small task. Review actual rule reads, the patch and verification evidence.
