@@ -9,6 +9,8 @@ import { AppPagination, DataTablePagination as SharedTablePagination } from '@pa
 import { PageSizeSelect } from '@/components/tables/page-size-select';
 import { partnerPlatform } from '@/lib/platform/client';
 
+import type { DataTablePaginationProps } from './data-table-pagination.types';
+
 export function DataTablePagination({
   page,
   pageSize,
@@ -16,14 +18,7 @@ export function DataTablePagination({
   hrefByPage,
   pageSizeOptions,
   loading = false,
-}: {
-  page: number;
-  pageSize: number;
-  total: number;
-  hrefByPage: Record<number, string>;
-  pageSizeOptions: Array<{ size: number; href: string }>;
-  loading?: boolean;
-}) {
+}: DataTablePaginationProps) {
   const t = useTranslations('Pagination');
   const router = useRouter();
   const totalPages = Math.max(1, Math.ceil(total / pageSize));

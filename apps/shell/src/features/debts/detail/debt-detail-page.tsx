@@ -1,3 +1,5 @@
+import { getLocale, getTranslations } from 'next-intl/server';
+
 import { DataTable, type DataTableColumn } from '@/components/tables';
 import { Badge } from '@/components/ui/badge';
 import { ConfirmActionButton } from '@/components/ui/dialog/confirm-action-button';
@@ -7,20 +9,22 @@ import { DetailList } from '@/components/ui/page/detail-list';
 import { MetricGrid, Page, PageHeader, PageSplit } from '@/components/ui/page/page';
 import { SectionCard } from '@/components/ui/page/section-card';
 import { CollectionForm } from '@/features/debts/forms/collection-form';
-import { PaymentForm } from '@/features/payments/payment-form';
+import { PaymentForm } from '@/features/payments';
 import { formatMoney } from '@/lib/presentation/formatters';
 import { hrefWithPage, hrefWithPageSize } from '@/lib/routing/pagination';
 import { getDebt } from '@/services/debt.server';
 import { listUserOptions } from '@/services/user.server';
 
-type Params = { params: Promise<{ id: string }> };
+import type { DebtDetailPageProps } from './debt-detail-page.types';
+import { DebtItems } from './debt-items';
 
-export default async function DebtDetailPage({
-  params,
-  searchParams,
-}: Params & {
-  searchParams: Promise<Record<string, string | undefined>>;
-}) {
+export type Params = { params: Promise<{ id: string }> };
+
+export default async function DebtDetailPage({ params, searchParams }: DebtDetailPageProps) {
+  const locale = await getLocale();
+
+  const ui = await getTranslations('Workspace');
+
   const filters = await searchParams;
   const page = Math.max(1, Number(filters.page ?? 1));
   const pageSize = Math.min(100, Math.max(1, Number(filters.pageSize ?? 20)));
@@ -36,29 +40,31 @@ export default async function DebtDetailPage({
   const paymentColumns: Array<DataTableColumn<(typeof payments)[number]>> = [
     {
       key: 'paidAt',
-      title: 'Ngày',
-      render: (payment) => payment.paidAt.toLocaleDateString('vi-VN'),
+      title: ui('date'),
+      render: (payment) => payment.paidAt.toLocaleDateString(locale),
     },
     {
       key: 'amount',
-      title: 'Số tiền',
+      title: ui('amount'),
       align: 'right',
-      render: (payment) => <span className="font-semibold">{formatMoney(payment.amount)}</span>,
+      render: (payment) => (
+        <span className="font-semibold">{formatMoney(payment.amount, locale)}</span>
+      ),
     },
-    { key: 'method', title: 'Phương thức', render: (payment) => payment.method },
-    { key: 'referenceNo', title: 'Tham chiếu', render: (payment) => payment.referenceNo ?? '-' },
+    { key: 'method', title: ui('method'), render: (payment) => payment.method },
+    { key: 'referenceNo', title: ui('reference'), render: (payment) => payment.referenceNo ?? '-' },
     {
       key: 'createdBy',
-      title: 'Người ghi nhận',
+      title: ui('recordedBy'),
       render: (payment) => payment.createdBy?.name ?? '-',
     },
     {
       key: 'actions',
-      title: 'Thao tác',
+      title: ui('actions'),
       render: (payment) => (
         <ConfirmActionButton
           endpoint={`/api/payments/${payment.id}`}
-          confirmMessage="Bạn chắc chắn muốn xóa thanh toán này? Số dư công nợ sẽ được tính lại."
+          confirmMessage={ui('deleteThisPaymentTheDebtBalanceWillBeRecalculated')}
         />
       ),
     },
@@ -69,17 +75,17 @@ export default async function DebtDetailPage({
       <PageHeader
         actions={
           <HelpModal
-            title="Cách xử lý một khoản công nợ"
-            description="Trang này là nơi sale làm việc với một khoản nợ cụ thể: ghi nhận khách trả tiền và đặt lịch nhắc tiếp."
+            title={ui('howToManageADebtRecord')}
+            description={ui('recordCustomerPaymentsAndScheduleRemindersForThisDebt')}
             steps={[
-              'Kiểm tra số Còn lại để biết khách còn nợ bao nhiêu.',
-              'Nếu khách vừa trả tiền, nhập vào Ghi nhận thanh toán. Hệ thống tự cập nhật còn lại.',
-              'Nếu khách chưa trả, cập nhật Trạng thái thu tiền và Hẹn follow-up tiếp theo.',
-              'Nếu khách hẹn trả hoặc tranh chấp, ghi rõ vào Ghi chú thu tiền để người khác nắm được.',
+              ui('checkTheRemainingBalanceToSeeWhatIsStill'),
+              ui('recordAPaymentWhenTheCustomerPaysTheBalance'),
+              ui('ifTheCustomerHasNotPaidUpdateTheCollection'),
+              ui('recordPaymentPromisesAndDisputesInTheCollectionNotes'),
             ]}
             tips={[
-              'Không ghi đè số tiền gốc. Mọi lần trả tiền nên là một dòng thanh toán riêng.',
-              'Khi còn lại bằng 0, trạng thái công nợ tự chuyển sang PAID.',
+              ui('keepTheOriginalAmountRecordEachPaymentSeparately'),
+              ui('whenTheRemainingBalanceReachesZeroTheDebtBecomes'),
             ]}
           />
         }
@@ -89,24 +95,33 @@ export default async function DebtDetailPage({
           </Badge>
         }
         description={debt.title}
-        parent="Công nợ"
+        parent={ui('debts')}
         parentHref="/debts"
         title={debt.code}
       />
 
       <MetricGrid>
-        <StatCard icon="debts" label="Tổng công nợ" value={formatMoney(debt.originalAmount)} />
+        <StatCard
+          icon="debts"
+          label={ui('totalDebt')}
+          value={formatMoney(debt.originalAmount, locale)}
+        />
         <StatCard
           icon="payments"
-          label="Đã thanh toán"
-          value={formatMoney(debt.paidAmount)}
+          label={ui('paid')}
+          value={formatMoney(debt.paidAmount, locale)}
           tone="green"
         />
-        <StatCard icon="aging" label="Còn lại" value={formatMoney(remaining)} tone="amber" />
+        <StatCard
+          icon="aging"
+          label={ui('remaining')}
+          value={formatMoney(remaining, locale)}
+          tone="amber"
+        />
         <StatCard
           icon="calendar"
-          label="Ngày đến hạn"
-          value={debt.dueDate.toLocaleDateString('vi-VN')}
+          label={ui('dueDate')}
+          value={debt.dueDate.toLocaleDateString(locale)}
           tone={isOverdue ? 'red' : 'blue'}
         />
       </MetricGrid>
@@ -114,8 +129,8 @@ export default async function DebtDetailPage({
       <PageSplit
         aside={
           <SectionCard
-            title="Ghi nhận thanh toán"
-            description="Mặc định tự cấn trừ các hóa đơn cùng đối tác theo hạn thanh toán"
+            title={ui('recordPayment')}
+            description={ui('automaticallyAllocateAcrossThisPartnerSInvoicesByDue')}
           >
             <PaymentForm
               debtId={debt.id}
@@ -127,59 +142,40 @@ export default async function DebtDetailPage({
         }
         asideWidth={420}
       >
-        <SectionCard title="Thông tin công nợ" description="Chứng từ, phụ trách và lịch theo dõi">
+        <SectionCard
+          title={ui('debtInformation')}
+          description={ui('documentsOwnerAndFollowUpSchedule')}
+        >
           <DetailList
             columns={2}
             items={[
-              { label: 'Đối tác', value: debt.party.name },
-              { label: 'Sale phụ trách', value: debt.assignedTo?.name },
+              { label: ui('partners'), value: debt.party.name },
+              { label: ui('accountOwner'), value: debt.assignedTo?.name },
               {
-                label: 'Chứng từ',
+                label: ui('documents'),
                 value: [debt.invoiceNo, debt.orderNo, debt.contractNo, debt.poNo]
                   .filter(Boolean)
                   .join(' · '),
               },
-              { label: 'Trạng thái thu tiền', value: debt.collectionStatus },
-              { label: 'Hẹn follow-up', value: debt.nextFollowUpAt?.toLocaleDateString('vi-VN') },
-              { label: 'Loại', value: debt.type === 'RECEIVABLE' ? 'Phải thu' : 'Phải trả' },
-              { label: 'Ngày phát sinh', value: debt.issueDate.toLocaleDateString('vi-VN') },
-              { label: 'Ghi chú thu tiền', value: debt.followUpNote },
-              { label: 'Mô tả', value: debt.description },
+              { label: ui('collectionStatus'), value: debt.collectionStatus },
+              { label: ui('followUp'), value: debt.nextFollowUpAt?.toLocaleDateString(locale) },
+              {
+                label: ui('type'),
+                value: debt.type === 'RECEIVABLE' ? ui('receivable') : ui('payable'),
+              },
+              { label: ui('issueDate'), value: debt.issueDate.toLocaleDateString(locale) },
+              { label: ui('collectionNotes'), value: debt.followUpNote },
+              { label: ui('description'), value: debt.description },
             ]}
           />
         </SectionCard>
       </PageSplit>
 
-      {(debt.items?.length ?? 0) > 0 ? (
-        <SectionCard
-          title="Hàng hóa trong chứng từ"
-          description="Dòng hàng được lưu cùng công nợ để lọc và báo cáo theo ngành hàng."
-        >
-          <div className="grid gap-2">
-            {debt.items?.map((item) => (
-              <div
-                className="grid gap-2 rounded-lg border border-border p-3 sm:grid-cols-[minmax(0,1fr)_auto_auto]"
-                key={item.id}
-              >
-                <div>
-                  <p className="font-semibold">{item.productName}</p>
-                  <p className="text-sm text-slate-500">
-                    {[item.brandName, item.categoryName].filter(Boolean).join(' · ')}
-                  </p>
-                </div>
-                <p className="text-sm text-slate-600">
-                  {item.quantity.toString()} {item.unit}
-                </p>
-                <p className="font-semibold">{formatMoney(item.lineAmount)}</p>
-              </div>
-            ))}
-          </div>
-        </SectionCard>
-      ) : null}
+      <DebtItems items={debt.items} />
 
       <SectionCard
-        title="Cập nhật thu tiền / follow-up"
-        description="Quản lý trạng thái và lịch nhắc tiếp theo"
+        title={ui('updateCollectionFollowUp')}
+        description={ui('manageStatusAndTheNextReminder')}
       >
         <CollectionForm
           debtId={debt.id}
@@ -198,9 +194,9 @@ export default async function DebtDetailPage({
       </SectionCard>
 
       <DataTable
-        title="Lịch sử thanh toán"
+        title={ui('paymentHistory')}
         columns={paymentColumns}
-        emptyMessage="Công nợ này chưa có thanh toán"
+        emptyMessage={ui('noPaymentsRecordedForThisDebt')}
         hrefForPage={(nextPage) => hrefWithPage(`/debts/${debt.id}`, filters, nextPage)}
         hrefForPageSize={(pageSize) => hrefWithPageSize(`/debts/${debt.id}`, filters, pageSize)}
         paginationMeta={{ page, pageSize, total: payments.length }}

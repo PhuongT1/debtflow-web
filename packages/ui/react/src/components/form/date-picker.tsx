@@ -41,7 +41,6 @@ export function DatePicker({
         switchViewIcon: ControlChevronIcon,
         ...slots,
       }}
-      format="DD/MM/YYYY"
       label={label}
       onChange={(nextValue) => onChange(toDateInput(nextValue))}
       slotProps={{

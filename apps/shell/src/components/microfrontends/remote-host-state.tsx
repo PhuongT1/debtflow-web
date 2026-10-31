@@ -29,11 +29,13 @@ export function RemoteLoadingState({ kind = 'table', children }: RemoteLoadingSt
 }
 
 export function RemoteErrorState({ message, retry }: RemoteErrorStateProps) {
+  const ui = useTranslations('Workspace');
+
   return (
     <Alert
       action={
         <Button color="inherit" onClick={retry} size="small">
-          Thử lại
+          {ui('retry')}
         </Button>
       }
       severity="error"

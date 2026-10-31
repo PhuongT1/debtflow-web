@@ -155,7 +155,6 @@
     "discardDescription": "Các thay đổi chưa lưu sẽ bị mất.",
     "keepEditing": "Tiếp tục chỉnh sửa",
     "discard": "Bỏ thay đổi",
-
     "overlayUnavailable": "Không thể mở hộp thoại. Vui lòng thử lại.",
     "close": "Đóng",
     "help": "Hướng dẫn",
@@ -178,5 +177,25 @@
     "requestFailed": "Không thể thực hiện thao tác.",
     "networkError": "Không thể kết nối máy chủ.",
     "timeout": "Yêu cầu đã quá thời gian chờ."
+  },
+  "Workspace": {
+    "debtFlowPartners": "Debt Flow · Đối tác",
+    "openWorkspace": "Mở workspace",
+    "partnerOperationsNavigation": "Điều hướng Partner Operations",
+    "overview": "Giới thiệu",
+    "partners": "Đối tác",
+    "theCustomerAndSupplierApplicationInDebtFlow": "Micro frontend quản lý khách hàng và nhà cung cấp trong hệ thống Debt Flow.",
+    "customerAndSupplierDirectory": "Danh mục khách hàng và nhà cung cấp",
+    "searchFilterAndPaginatePartnerRecords": "Tìm kiếm, lọc và phân trang dữ liệu đối tác",
+    "manageCreditLimitsContactsAndAccountOwners": "Quản lý hạn mức, liên hệ và người phụ trách",
+    "managePartnersIndependentlyWithSharedAccess": "Quản lý đối tác, độc lập và tập trung.",
+    "partnerOpsManagesCustomersAndSuppliersInDebtFlow": "Partner Ops là micro frontend phụ trách khách hàng và nhà cung cấp trong hệ thống Debt Flow. Đăng nhập và phiên làm việc được Platform quản lý tập trung.",
+    "checkApplicationStatus": "Kiểm tra trạng thái ứng dụng",
+    "partnerOperationsAreas": "Các khu vực của Partner Operations",
+    "loadingData": "Đang tải dữ liệu",
+    "loadingDashboard": "Đang tải dashboard",
+    "loadingDetails": "Đang tải chi tiết",
+    "loadingForm": "Đang tải biểu mẫu",
+    "noRecordsFound": "Không có dữ liệu"
   }
 }

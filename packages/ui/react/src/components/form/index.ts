@@ -9,3 +9,5 @@ export { DatePicker } from './date-picker';
 export { FormInput } from './form-input';
 export type { InputProps, SelectFieldProps, DatePickerProps } from './form.types';
 export type { FormInputProps } from './form-input.types';
+
+export { isFormFieldPath } from './field-errors';

@@ -1,8 +1,11 @@
-import { getTranslations } from 'next-intl/server';
+import { useLocale } from 'next-intl';
+import { getLocale, getTranslations } from 'next-intl/server';
 
 import { SectionCard } from '@/components/ui/page/section-card';
 import { formatMoney } from '@/lib/presentation/formatters';
 import type { DashboardTradeSummary } from '@/services/dashboard.server';
+
+import type { TradeMetricProps } from './dashboard-trade-summary.types';
 
 type DashboardTradeSummaryCardProps = {
   dateFrom: string;
@@ -15,6 +18,8 @@ export async function DashboardTradeSummaryCard({
   dateTo,
   trade,
 }: DashboardTradeSummaryCardProps) {
+  const locale = await getLocale();
+
   const t = await getTranslations('Dashboard');
   const period = trade.period;
 
@@ -52,10 +57,10 @@ export async function DashboardTradeSummaryCard({
       </div>
       <p className="mt-3 text-sm text-slate-600">
         {t('periodSummary', {
-          sales: formatMoney(period.sales.amount),
-          purchases: formatMoney(period.purchases.amount),
-          cashIn: formatMoney(period.cashIn.amount),
-          cashOut: formatMoney(period.cashOut.amount),
+          sales: formatMoney(period.sales.amount, locale),
+          purchases: formatMoney(period.purchases.amount, locale),
+          cashIn: formatMoney(period.cashIn.amount, locale),
+          cashOut: formatMoney(period.cashOut.amount, locale),
         })}
       </p>
       {period.categorySales.length > 0 ? (
@@ -63,7 +68,9 @@ export async function DashboardTradeSummaryCard({
           {period.categorySales.map((item) => (
             <div className="rounded-lg bg-slate-50 p-3" key={item.category}>
               <p className="text-xs font-bold text-slate-600">{item.category}</p>
-              <p className="mt-1 text-base font-black text-slate-950">{formatMoney(item.amount)}</p>
+              <p className="mt-1 text-base font-black text-slate-950">
+                {formatMoney(item.amount, locale)}
+              </p>
               <p className="text-xs text-slate-500">{t('creditSalesInPeriod')}</p>
             </div>
           ))}
@@ -73,19 +80,9 @@ export async function DashboardTradeSummaryCard({
   );
 }
 
-function TradeMetric({
-  amount,
-  count,
-  label,
-  tone,
-  unit,
-}: {
-  amount: Parameters<typeof formatMoney>[0];
-  count: number;
-  label: string;
-  tone: 'amber' | 'blue' | 'green' | 'red';
-  unit: string;
-}) {
+function TradeMetric({ amount, count, label, tone, unit }: TradeMetricProps) {
+  const locale = useLocale();
+
   const classes = {
     amber: 'bg-amber-50 text-amber-950',
     blue: 'bg-blue-50 text-blue-950',
@@ -96,7 +93,7 @@ function TradeMetric({
   return (
     <div className={'rounded-lg p-4 ' + classes[tone]}>
       <p className="text-sm font-bold">{label}</p>
-      <p className="mt-2 text-xl font-black">{formatMoney(amount)}</p>
+      <p className="mt-2 text-xl font-black">{formatMoney(amount, locale)}</p>
       <p className="mt-1 text-xs opacity-75">
         {count} {unit}
       </p>

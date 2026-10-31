@@ -18,22 +18,14 @@ import { AppDialog } from '@/components/ui/dialog/dialog';
 import { FormDialog } from '@/components/ui/dialog/form-dialog';
 import { DebtForm } from '@/features/debts/forms/debt/debt-form';
 
+import type { PartnerDocumentsDialogProps } from './dialog.types';
 import { DocumentFilters } from './filters';
 import { DocumentPagination } from './pagination';
 import { PartnerDebtsTable } from './table';
 import { DocumentTabs } from './tabs';
-import type { PartnerDocumentUser } from './types';
 import { usePartnerDocuments } from './use-partner-documents';
 
-export function PartnerDocumentsDialog({
-  partyId,
-  partyName,
-  users,
-}: {
-  partyId: string;
-  partyName: string;
-  users: PartnerDocumentUser[];
-}) {
+export function PartnerDocumentsDialog({ partyId, partyName, users }: PartnerDocumentsDialogProps) {
   const locale = useLocale();
   const t = useTranslations('Debts');
   const {

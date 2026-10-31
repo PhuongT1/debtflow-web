@@ -8,7 +8,7 @@ import { DataTableCell, DataTableContainer } from '@packages/ui-react';
 import { Badge } from '@/components/ui/badge';
 import { TruncatedText } from '@/components/ui/clamped-text';
 import { FormDialog } from '@/components/ui/dialog/form-dialog';
-import { PaymentForm } from '@/features/payments/payment-form';
+import { PaymentForm } from '@/features/payments';
 import { formatMoney } from '@/lib/presentation/formatters';
 
 import type { PartnerDebtPage } from './types';
@@ -93,13 +93,13 @@ export function PartnerDebtsTable({ debts, locale, onPaymentRecorded, t }: Props
                 {new Date(debt.dueDate).toLocaleDateString(locale)}
               </TableCell>
               <TableCell align="right" sx={{ whiteSpace: 'nowrap' }}>
-                {formatMoney(debt.originalAmount)}
+                {formatMoney(debt.originalAmount, locale)}
               </TableCell>
               <TableCell align="right" sx={{ whiteSpace: 'nowrap' }}>
-                {formatMoney(debt.paidAmount)}
+                {formatMoney(debt.paidAmount, locale)}
               </TableCell>
               <TableCell align="right" sx={{ fontWeight: 700, whiteSpace: 'nowrap' }}>
-                {formatMoney(remainingAmount)}
+                {formatMoney(remainingAmount, locale)}
               </TableCell>
               <TableCell sx={{ whiteSpace: 'nowrap' }}>
                 <Badge tone={statusTone[debt.status]}>{t(statusKey[debt.status])}</Badge>

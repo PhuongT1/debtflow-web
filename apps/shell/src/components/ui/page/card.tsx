@@ -2,7 +2,7 @@ import { Box, Card as MuiCard, CardContent, Typography } from '@mui/material';
 
 import { AppIconBadge } from '@packages/ui-react';
 
-import { type AppIconName } from '@/components/ui/app-icon';
+import type { StatCardProps } from './card.types';
 
 export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
@@ -17,19 +17,7 @@ export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElemen
   );
 }
 
-export function StatCard({
-  label,
-  value,
-  hint,
-  tone = 'blue',
-  icon = 'dashboard',
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-  tone?: 'blue' | 'green' | 'amber' | 'red';
-  icon?: AppIconName;
-}) {
+export function StatCard({ label, value, hint, tone = 'blue', icon = 'dashboard' }: StatCardProps) {
   const paletteTones = {
     blue: 'primary',
     green: 'success',

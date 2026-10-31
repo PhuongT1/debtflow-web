@@ -1,19 +1,27 @@
 import Link from 'next/link';
 import { Box, Button, Chip, Stack, Typography } from '@mui/material';
 import type { Metadata } from 'next';
+import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
-export const metadata: Metadata = {
-  title: 'Partner Operations | Debt Flow',
-  description: 'Micro frontend quản lý khách hàng và nhà cung cấp trong hệ thống Debt Flow.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const ui = await getTranslations('Workspace');
 
-const capabilities = [
-  'Danh mục khách hàng và nhà cung cấp',
-  'Tìm kiếm, lọc và phân trang dữ liệu đối tác',
-  'Quản lý hạn mức, liên hệ và người phụ trách',
-];
+  return {
+    title: 'Partner Operations | Debt Flow',
+    description: ui('theCustomerAndSupplierApplicationInDebtFlow'),
+  };
+}
 
 export default function PartnerOpsLandingPage() {
+  const ui = useTranslations('Workspace');
+
+  const capabilities = [
+    ui('customerAndSupplierDirectory'),
+    ui('searchFilterAndPaginatePartnerRecords'),
+    ui('manageCreditLimitsContactsAndAccountOwners'),
+  ];
+
   return (
     <Box
       component="section"
@@ -38,7 +46,7 @@ export default function PartnerOpsLandingPage() {
             mt: 2.25,
           }}
         >
-          Quản lý đối tác, độc lập và tập trung.
+          {ui('managePartnersIndependentlyWithSharedAccess')}
         </Typography>
         <Typography
           color="text.secondary"
@@ -49,8 +57,7 @@ export default function PartnerOpsLandingPage() {
             mt: 2.5,
           }}
         >
-          Partner Ops là micro frontend phụ trách khách hàng và nhà cung cấp trong hệ thống Debt
-          Flow. Đăng nhập và phiên làm việc được Platform quản lý tập trung.
+          {ui('partnerOpsManagesCustomersAndSuppliersInDebtFlow')}
         </Typography>
         <Stack component="ul" spacing={1.25} sx={{ color: 'text.secondary', mt: 3.5, pl: 2.5 }}>
           {capabilities.map((capability) => (
@@ -61,10 +68,10 @@ export default function PartnerOpsLandingPage() {
         </Stack>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} sx={{ mt: 4 }}>
           <Button component={Link} href="/parties" size="large" variant="contained">
-            Mở workspace
+            {ui('openWorkspace')}
           </Button>
           <Button component="a" href="/api/health" size="large" variant="outlined">
-            Kiểm tra trạng thái ứng dụng
+            {ui('checkApplicationStatus')}
           </Button>
         </Stack>
       </Box>

@@ -37,7 +37,3 @@ export async function listPartyOptions(signal?: AbortSignal) {
   );
   return result.items;
 }
-
-export function updateParty(partyId: string, input: unknown) {
-  return apiClient.patch(shellApiRoutes.parties.detail(partyId), input);
-}

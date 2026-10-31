@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Box, Typography } from '@mui/material';
+import { useLocale, useTranslations } from 'next-intl';
 
 import { Badge } from '@/components/ui/badge';
 import { SectionCard } from '@/components/ui/page/section-card';
@@ -19,6 +20,10 @@ export function DashboardActionQueue({
   emptyMessage,
   title,
 }: DashboardActionQueueProps) {
+  const locale = useLocale();
+
+  const ui = useTranslations('Workspace');
+
   return (
     <SectionCard description={description} title={title}>
       <div className="grid gap-2.5">
@@ -61,12 +66,12 @@ export function DashboardActionQueue({
                     {debt.party.name}
                   </Typography>
                 </div>
-                <Badge tone="blue">{formatMoney(debt.remainingAmount)}</Badge>
+                <Badge tone="blue">{formatMoney(debt.remainingAmount, locale)}</Badge>
               </div>
               <Typography color="text.secondary" sx={{ mt: 1, fontSize: 12 }}>
-                Hạn: {debt.dueDate.toLocaleDateString('vi-VN')}
+                {ui('due')} {debt.dueDate.toLocaleDateString(locale)}
                 {debt.nextFollowUpAt
-                  ? ` · Nhắc: ${debt.nextFollowUpAt.toLocaleDateString('vi-VN')}`
+                  ? ui('followUpDate', { value1: debt.nextFollowUpAt.toLocaleDateString(locale) })
                   : ''}
               </Typography>
             </Box>

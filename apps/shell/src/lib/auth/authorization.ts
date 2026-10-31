@@ -8,6 +8,6 @@ export function canAccess(userRole: UserRole, minimumRole: UserRole) {
 
 export function assertRole(userRole: UserRole | undefined, minimumRole: UserRole) {
   if (!userRole || !canAccess(userRole, minimumRole)) {
-    throw new Error('Bạn không có quyền thực hiện thao tác này');
+    throw new Error('FORBIDDEN');
   }
 }

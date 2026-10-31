@@ -7,7 +7,9 @@ import { useTranslations } from 'next-intl';
 import { AppIcon } from '@/components/ui/app-icon';
 import { Button } from '@/components/ui/button';
 
-export function FilterActions({ resetHref, onReset }: { resetHref: string; onReset?: () => void }) {
+import type { FilterActionsProps } from './filter-actions.types';
+
+export function FilterActions({ resetHref, onReset }: FilterActionsProps) {
   const t = useTranslations('Filters');
   const resetButton = onReset ? (
     <Button

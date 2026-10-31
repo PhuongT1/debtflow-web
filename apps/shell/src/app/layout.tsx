@@ -3,10 +3,9 @@ import './globals.css';
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import type { Metadata, Viewport } from 'next';
-import { getLocale } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 
 import type { AppLocale } from '@packages/platform-contracts';
-import { AppProviders } from '@packages/ui-react';
 import { themeSchemes } from '@packages/ui-tokens';
 
 import { ShellIntlProvider } from '@/i18n/shell-intl-provider';
@@ -18,11 +17,15 @@ export const viewport: Viewport = {
   ],
 };
 
-export const metadata: Metadata = {
-  title: 'Sales Debt Management',
-  description: 'Quản lý công nợ phải thu và phải trả',
-  icons: { icon: '/icon.svg', shortcut: '/icon.svg' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const ui = await getTranslations('Workspace');
+
+  return {
+    title: 'Sales Debt Management',
+    description: ui('manageAccountsReceivableAndAccountsPayable'),
+    icons: { icon: '/icon.svg', shortcut: '/icon.svg' },
+  };
+}
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const locale = (await getLocale()) as AppLocale;
@@ -32,9 +35,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       <body>
         <InitColorSchemeScript attribute="class" defaultMode="system" />
         <AppRouterCacheProvider>
-          <ShellIntlProvider initialLocale={locale}>
-            <AppProviders>{children}</AppProviders>
-          </ShellIntlProvider>
+          <ShellIntlProvider initialLocale={locale}>{children}</ShellIntlProvider>
         </AppRouterCacheProvider>
       </body>
     </html>

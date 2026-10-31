@@ -2,13 +2,14 @@
 
 import { Box } from '@mui/material';
 import { useLocale } from 'next-intl';
-import type { ReactNode } from 'react';
 
 import { setStoredLocale } from '@packages/platform-sdk';
 import { AppLocaleMenu } from '@packages/ui-react';
 
+import type { PublicPageLayoutProps } from './public-page-layout.types';
+
 /** Shared frame for login and public pages, including the global language selector. */
-export function PublicPageLayout({ children }: { children: ReactNode }) {
+export function PublicPageLayout({ children }: PublicPageLayoutProps) {
   const locale = useLocale() === 'en' ? 'en' : 'vi';
 
   return (

@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react';
 import { Alert, Snackbar } from '@mui/material';
 
-export function ApiErrorNotice({ error }: { error: Error | null }) {
+import type { ApiErrorNoticeProps } from './api-error-notice.types';
+
+export function ApiErrorNotice({ error }: ApiErrorNoticeProps) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {

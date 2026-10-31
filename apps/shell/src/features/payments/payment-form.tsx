@@ -1,9 +1,10 @@
 'use client';
-
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, Checkbox, FormControlLabel, MenuItem } from '@mui/material';
+import { Alert, Box, Checkbox, FormControlLabel, MenuItem } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -18,22 +19,31 @@ import { FormActions, FormGrid } from '@/components/ui/form/layout';
 import { applyApiFieldErrors } from '@/lib/forms/errors';
 import { autoAllocatePayment, recordDebtPayment } from '@/services/payment.client';
 
-const paymentFormSchema = z.object({
-  amount: z
-    .string()
-    .trim()
-    .min(1, 'Vui lòng nhập số tiền thanh toán')
-    .refine((value) => Number.isFinite(Number(value)), 'Vui lòng nhập số hợp lệ')
-    .refine((value) => Number(value) > 0, 'Số tiền thanh toán phải lớn hơn 0'),
-  paidAt: z.string().min(1, 'Vui lòng chọn ngày thanh toán'),
-  method: z.enum(['BANK_TRANSFER', 'CASH', 'OTHER']),
-  referenceNo: z.string().trim().optional(),
-  note: z.string().trim().optional(),
-  autoAllocate: z.boolean(),
-});
+import type { PaymentFormProps } from './payment-form.types';
 
-type PaymentFormInput = z.input<typeof paymentFormSchema>;
-type PaymentFormValues = z.output<typeof paymentFormSchema>;
+function createPaymentFormSchema(ui: (key: string) => string) {
+  const paymentFormSchema = z.object({
+    amount: z
+      .string({
+        required_error: ui('enterAPaymentAmount'),
+        invalid_type_error: ui('enterAValidNumber'),
+      })
+      .trim()
+      .min(1, ui('enterAPaymentAmount'))
+      .refine((value) => Number.isFinite(Number(value)), ui('enterAValidNumber'))
+      .refine((value) => Number(value) > 0, ui('thePaymentAmountMustBeGreaterThanZero')),
+    paidAt: z.string().min(1, ui('selectAPaymentDate')),
+    method: z.enum(['BANK_TRANSFER', 'CASH', 'OTHER']),
+    referenceNo: z.string().trim().optional(),
+    note: z.string().trim().optional(),
+    autoAllocate: z.boolean(),
+  });
+
+  return paymentFormSchema;
+}
+
+type PaymentFormInput = z.input<ReturnType<typeof createPaymentFormSchema>>;
+type PaymentFormValues = z.output<ReturnType<typeof createPaymentFormSchema>>;
 
 export function PaymentForm({
   debtId,
@@ -41,13 +51,10 @@ export function PaymentForm({
   partyId,
   type,
   onSuccess,
-}: {
-  debtId: string;
-  remainingAmount: number;
-  partyId: string;
-  type: 'PAYABLE' | 'RECEIVABLE';
-  onSuccess?: () => void;
-}) {
+}: PaymentFormProps) {
+  const ui = useTranslations('Workspace');
+
+  const paymentFormSchema = createPaymentFormSchema(ui);
   const today = new Date().toISOString().slice(0, 10);
   const router = useRouter();
   const { closeDialog } = useFormDialog();
@@ -68,7 +75,7 @@ export function PaymentForm({
       });
       closeDialog();
       onSuccess?.();
-      showToast({ message: 'Đã ghi nhận thanh toán thành công.' });
+      showToast({ message: ui('paymentRecordedSuccessfully') });
       router.refresh();
     },
   });
@@ -77,12 +84,14 @@ export function PaymentForm({
     handleSubmit,
     reset,
     setError,
-    formState: { errors },
+    trigger,
+    getValues,
+    formState: { errors, isSubmitted },
   } = useForm<PaymentFormInput, unknown, PaymentFormValues>({
     resolver: zodResolver(
       paymentFormSchema.refine(
         (value) => value.autoAllocate || Number(value.amount) <= remainingAmount,
-        { message: 'Số tiền thanh toán không được lớn hơn số còn lại', path: ['amount'] },
+        { message: ui('thePaymentAmountCannotExceedTheRemainingBalance'), path: ['amount'] },
       ),
     ),
     defaultValues: {
@@ -94,18 +103,24 @@ export function PaymentForm({
     },
   });
 
+  useEffect(() => {
+    if (isSubmitted) void trigger();
+  }, [ui, trigger, isSubmitted]);
+
   return (
     <Box
       component="form"
       noValidate
       onSubmit={handleSubmit((values) =>
-        mutation.mutate(values, { onError: (error) => applyApiFieldErrors(error, setError) }),
+        mutation.mutate(values, {
+          onError: (error) => applyApiFieldErrors(error, setError, getValues()),
+        }),
       )}
       sx={{ display: 'grid', gap: 2 }}
     >
       <FormGrid>
         <FormInput
-          label="Số tiền *"
+          label={ui('amountText')}
           type="number"
           control={control}
           name={'amount'}
@@ -119,7 +134,7 @@ export function PaymentForm({
             <DatePicker
               error={Boolean(errors.paidAt)}
               helperText={errors.paidAt?.message}
-              label="Ngày thanh toán"
+              label={ui('paymentDate')}
               onChange={field.onChange}
               required
               value={field.value}
@@ -128,18 +143,18 @@ export function PaymentForm({
         />
         <FormInput
           select
-          label="Phương thức *"
+          label={ui('methodText')}
           control={control}
           name={'method'}
           error={Boolean(errors.method)}
           helperText={errors.method?.message}
         >
-          <MenuItem value="BANK_TRANSFER">Chuyển khoản</MenuItem>
-          <MenuItem value="CASH">Tiền mặt</MenuItem>
-          <MenuItem value="OTHER">Khác</MenuItem>
+          <MenuItem value="BANK_TRANSFER">{ui('bankTransfer')}</MenuItem>
+          <MenuItem value="CASH">{ui('cash')}</MenuItem>
+          <MenuItem value="OTHER">{ui('other')}</MenuItem>
         </FormInput>
         <FormInput
-          label="Mã tham chiếu"
+          label={ui('referenceNumber')}
           control={control}
           name={'referenceNo'}
           error={Boolean(errors.referenceNo)}
@@ -147,7 +162,7 @@ export function PaymentForm({
         />
       </FormGrid>
       <FormInput
-        label="Ghi chú"
+        label={ui('notes')}
         multiline
         rows={3}
         control={control}
@@ -163,14 +178,17 @@ export function PaymentForm({
             control={
               <Checkbox checked={field.value} onChange={(_, checked) => field.onChange(checked)} />
             }
-            label="Tự cấn trừ các công nợ cùng đối tác (FIFO: đến hạn sớm trước)"
+            label={ui('allocateAutomaticallyAcrossThisPartnerSDebtsEarliestDue')}
           />
         )}
       />
+      {errors.root?.server?.message ? (
+        <Alert severity="error">{errors.root.server.message}</Alert>
+      ) : null}
       <ApiErrorNotice error={mutation.error} />
       <FormActions>
         <Button loading={mutation.isPending} type="submit">
-          Ghi nhận thanh toán
+          {ui('recordPayment')}
         </Button>
       </FormActions>
     </Box>

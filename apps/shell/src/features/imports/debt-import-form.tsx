@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Alert, Box, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 
 import { useToast } from '@packages/ui-react';
@@ -17,6 +18,8 @@ type ImportFormValues = {
 };
 
 export function DebtImportForm() {
+  const ui = useTranslations('Workspace');
+
   const [message, setMessage] = useState<string | null>(null);
   const { showToast } = useToast();
   const mutation = useMutation({
@@ -25,7 +28,10 @@ export function DebtImportForm() {
       return importDebtWorkbook(values.file[0]);
     },
     onSuccess: (data) => {
-      const successMessage = `Đã import ${data.createdDebts} công nợ, tạo mới ${data.createdParties} khách hàng.`;
+      const successMessage = ui('importSummary', {
+        value1: data.createdDebts,
+        value2: data.createdParties,
+      });
       setMessage(successMessage);
       showToast({ message: successMessage });
     },
@@ -46,20 +52,21 @@ export function DebtImportForm() {
       sx={{ display: 'grid', gap: 2 }}
     >
       <Button component="label" variant="secondary">
-        Chọn file Excel
+        {ui('chooseAnExcelFile')}
         <input
           accept=".xlsx"
           hidden
           type="file"
           {...register('file', {
-            required: 'Vui lòng chọn file Excel .xlsx',
-            validate: (files) => files?.[0]?.name.endsWith('.xlsx') || 'Chỉ hỗ trợ file .xlsx',
+            required: ui('pleaseChooseAnXlsxExcelFile'),
+            validate: (files) =>
+              files?.[0]?.name.endsWith('.xlsx') || ui('onlyXlsxFilesAreSupported'),
           })}
         />
       </Button>
       {selectedFile ? (
         <Typography sx={{ color: 'text.secondary', fontWeight: 700 }}>
-          Đã chọn: {selectedFile.name}
+          {ui('selected')} {selectedFile.name}
         </Typography>
       ) : null}
       {errors.file ? <Alert severity="error">{errors.file.message}</Alert> : null}
@@ -67,7 +74,7 @@ export function DebtImportForm() {
       {message ? <Alert severity="success">{message}</Alert> : null}
       <FormActions>
         <Button loading={mutation.isPending} type="submit">
-          Import công nợ
+          {ui('importDebts')}
         </Button>
       </FormActions>
     </Box>

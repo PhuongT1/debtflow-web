@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Box, Tooltip, Typography, type TypographyProps } from '@mui/material';
 
+import type { ClampedTextProps } from './clamped-text.types';
+
 type TruncatedTextProps = Omit<TypographyProps, 'children' | 'component' | 'noWrap'> & {
   children: React.ReactNode;
   title: string;
@@ -62,15 +64,7 @@ export function TruncatedText({ children, title, ...props }: TruncatedTextProps)
   );
 }
 
-export function ClampedText({
-  children,
-  lines = 2,
-  title,
-}: {
-  children: React.ReactNode;
-  lines?: number;
-  title: string;
-}) {
+export function ClampedText({ children, lines = 2, title }: ClampedTextProps) {
   return (
     <Tooltip enterDelay={500} title={title}>
       <Box

@@ -1,18 +1,8 @@
-import { Box, Card, CardContent, type SxProps, type Theme, Typography } from '@mui/material';
+import { Box, Card, CardContent, Typography } from '@mui/material';
 
-export function SectionCard({
-  title,
-  description,
-  action,
-  children,
-  contentSx,
-}: {
-  title?: string;
-  description?: string;
-  action?: React.ReactNode;
-  children: React.ReactNode;
-  contentSx?: SxProps<Theme>;
-}) {
+import type { SectionCardProps } from './section-card.types';
+
+export function SectionCard({ title, description, action, children, contentSx }: SectionCardProps) {
   return (
     <Card elevation={0} sx={{ overflow: 'hidden' }}>
       {title || description || action ? (

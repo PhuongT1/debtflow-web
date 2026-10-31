@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, MenuItem } from '@mui/material';
+import { Alert, Box, MenuItem } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -19,25 +19,11 @@ import { applyApiFieldErrors } from '@/lib/form-errors';
 
 import { useSaveParty } from '../hooks/use-save-party';
 
-import {
-  createPartyFormSchema,
-  type PartyFormInitialValues,
-  type PartyFormInput,
-  type PartyFormValues,
-} from './schema';
+import type { PartyFormProps } from './party-form.types';
+import { createPartyFormSchema, type PartyFormInput, type PartyFormValues } from './schema';
 import { toPartyRequest } from './to-party-request';
 
-export function PartyForm({
-  users = [],
-  initialValues,
-  partyId,
-  submitLabel,
-}: {
-  users?: Array<{ id: string; name: string; email: string }>;
-  initialValues?: PartyFormInitialValues;
-  partyId?: string;
-  submitLabel?: string;
-}) {
+export function PartyForm({ users = [], initialValues, partyId, submitLabel }: PartyFormProps) {
   const t = useTranslations('PartyForm');
   const partyFormSchema = createPartyFormSchema(t);
   const { closeDialog, setGuard } = useFormDialog();
@@ -47,6 +33,7 @@ export function PartyForm({
     control,
     handleSubmit,
     setError,
+    getValues,
     trigger,
     formState: { errors, isSubmitted, isDirty },
   } = useForm<PartyFormInput, unknown, PartyFormValues>({
@@ -89,7 +76,7 @@ export function PartyForm({
               closeDialog(partyId ? t('updated') : t('created'), { id: party.id });
               showToast({ message: partyId ? t('updated') : t('created') });
             },
-            onError: (error) => applyApiFieldErrors(error, setError),
+            onError: (error) => applyApiFieldErrors(error, setError, getValues()),
           },
         ),
       )}
@@ -219,6 +206,9 @@ export function PartyForm({
         error={Boolean(errors.note)}
         helperText={errors.note?.message}
       />
+      {errors.root?.server?.message ? (
+        <Alert severity="error">{errors.root.server.message}</Alert>
+      ) : null}
       <ApiErrorNotice error={mutation.error} />
       <FormActions>
         <Button loading={mutation.isPending} type="submit">

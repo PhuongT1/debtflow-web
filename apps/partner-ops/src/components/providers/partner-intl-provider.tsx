@@ -7,16 +7,13 @@ import { NextIntlClientProvider } from 'next-intl';
 
 import type { AppLocale } from '@packages/platform-contracts';
 import { getStoredLocale, subscribePlatformEvent } from '@packages/platform-sdk';
+import { AppProviders } from '@packages/ui-react';
+
+import type { PartnerIntlProviderProps } from './partner-intl-provider.types';
 
 const messages = { en, vi } as const;
 
-export function PartnerIntlProvider({
-  children,
-  initialLocale,
-}: {
-  children: React.ReactNode;
-  initialLocale: AppLocale;
-}) {
+export function PartnerIntlProvider({ children, initialLocale }: PartnerIntlProviderProps) {
   const [locale, setLocale] = useState<AppLocale>(initialLocale);
 
   useEffect(() => {
@@ -28,7 +25,7 @@ export function PartnerIntlProvider({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages[locale]} timeZone="Asia/Ho_Chi_Minh">
-      {children}
+      <AppProviders locale={locale}>{children}</AppProviders>
     </NextIntlClientProvider>
   );
 }

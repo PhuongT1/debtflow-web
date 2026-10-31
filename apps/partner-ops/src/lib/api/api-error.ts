@@ -1,3 +1,4 @@
+import type { ApiClientErrorOptions } from './api-error.types';
 export type ApiFieldError = {
   field: string;
   message: string;
@@ -9,14 +10,7 @@ export class ApiClientError extends Error {
   status: number;
   messageKey?: 'sessionExpired' | 'requestFailed' | 'networkError' | 'timeout';
 
-  constructor(
-    message: string,
-    options: {
-      fieldErrors?: ApiFieldError[];
-      status: number;
-      messageKey?: ApiClientError['messageKey'];
-    },
-  ) {
+  constructor(message: string, options: ApiClientErrorOptions) {
     super(message);
     this.name = 'ApiClientError';
     this.fieldErrors = options.fieldErrors ?? [];

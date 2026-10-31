@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Box, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 
 import { useToast } from '@packages/ui-react';
 
@@ -13,18 +14,11 @@ import { Button } from '@/components/ui/button';
 import { AppDialog } from '@/components/ui/dialog/dialog';
 import { apiClient } from '@/lib/api/client';
 
-type ConfirmIntent = 'delete' | 'warning' | 'info';
+import type { ConfirmActionButtonProps, IntentIconProps } from './confirm-action-button.types';
 
-const intentConfig: Record<
-  ConfirmIntent,
-  { color: 'error' | 'warning' | 'primary'; title: string }
-> = {
-  delete: { color: 'error', title: 'Xác nhận xóa' },
-  warning: { color: 'warning', title: 'Xác nhận thao tác' },
-  info: { color: 'primary', title: 'Xác nhận' },
-};
+export type ConfirmIntent = 'delete' | 'warning' | 'info';
 
-function IntentIcon({ intent }: { intent: ConfirmIntent }) {
+function IntentIcon({ intent }: IntentIconProps) {
   return (
     <AppIcon name={intent === 'delete' ? 'delete' : intent === 'warning' ? 'warning' : 'info'} />
   );
@@ -32,21 +26,26 @@ function IntentIcon({ intent }: { intent: ConfirmIntent }) {
 
 export function ConfirmActionButton({
   endpoint,
-  label = 'Xóa',
-  confirmMessage = 'Bạn chắc chắn muốn xóa dữ liệu này?',
+  label: labelInput,
+  confirmMessage: confirmMessageInput,
   title,
   intent = 'delete',
   invalidateQueryKey,
   refreshRoute = true,
-}: {
-  endpoint: string;
-  label?: string;
-  confirmMessage?: string;
-  title?: string;
-  intent?: ConfirmIntent;
-  invalidateQueryKey?: readonly unknown[];
-  refreshRoute?: boolean;
-}) {
+}: ConfirmActionButtonProps) {
+  const ui = useTranslations('Workspace');
+  const label = labelInput ?? ui('delete');
+  const confirmMessage = confirmMessageInput ?? ui('areYouSureYouWantToDeleteThisRecord');
+
+  const intentConfig: Record<
+    ConfirmIntent,
+    { color: 'error' | 'warning' | 'primary'; title: string }
+  > = {
+    delete: { color: 'error', title: ui('confirmDeletion') },
+    warning: { color: 'warning', title: ui('confirmAction') },
+    info: { color: 'primary', title: ui('confirm') },
+  };
+
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -56,7 +55,7 @@ export function ConfirmActionButton({
     mutationFn: () => apiClient.delete(endpoint),
     onSuccess: () => {
       setOpen(false);
-      showToast({ message: `${label} dữ liệu thành công.` });
+      showToast({ message: ui('actionSucceeded', { value1: label }) });
       if (invalidateQueryKey) void queryClient.invalidateQueries({ queryKey: invalidateQueryKey });
       if (refreshRoute) router.refresh();
     },
@@ -100,7 +99,7 @@ export function ConfirmActionButton({
                 {title ?? config.title}
               </Typography>
               <Typography color="text.secondary" variant="body2">
-                Thao tác này cần bạn xác nhận trước khi tiếp tục.
+                {ui('pleaseConfirmBeforeContinuing')}
               </Typography>
             </Box>
           </Box>
@@ -111,7 +110,7 @@ export function ConfirmActionButton({
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5 }}>
           <Button disabled={mutation.isPending} onClick={() => setOpen(false)} variant="secondary">
-            Hủy
+            {ui('cancel')}
           </Button>
           <Button
             loading={mutation.isPending}

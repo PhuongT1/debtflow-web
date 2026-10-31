@@ -6,7 +6,9 @@ import { useTranslations } from 'next-intl';
 
 import { getApiErrorMessage } from '@/lib/api/api-error';
 
-export function ApiErrorNotice({ error }: { error: Error | null }) {
+import type { ApiErrorNoticeProps } from './api-error-notice.types';
+
+export function ApiErrorNotice({ error }: ApiErrorNoticeProps) {
   const t = useTranslations('Api');
   const [open, setOpen] = useState(false);
 

@@ -11,6 +11,7 @@ import { TableLayout, TablePaginationBar } from '@packages/ui-react';
 import { AppIcon } from '@/components/ui/app-icon';
 import { Button } from '@/components/ui/button';
 import { SelectField } from '@/components/ui/form/select';
+import { queryKeys } from '@/lib/query/query-keys';
 import { listPartyDebtSummaries } from '@/services/party.client';
 
 import { PartnerSummaryFilters } from './filters';
@@ -27,7 +28,7 @@ export function PartnerSummary({ users }: Props) {
   const [isFocusMode, setIsFocusMode] = useState(false);
   const url = usePartnerSummaryParams();
   const { data: summary, isFetching } = useQuery({
-    queryKey: ['partner-summary', url.params],
+    queryKey: queryKeys.partnerSummary.list(url.params),
     queryFn: ({ signal }) => listPartyDebtSummaries<PartnerSummaryPage>(url.params, signal),
     placeholderData: keepPreviousData,
   });

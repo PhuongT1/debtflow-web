@@ -1,6 +1,7 @@
 'use client';
 
 import { Box, Typography } from '@mui/material';
+import { useTranslations } from 'next-intl';
 
 import {
   AppPaginationLinks,
@@ -9,6 +10,8 @@ import {
 
 import { PageSizeSelect } from '@/components/tables/page-size-select';
 
+import type { DataTablePaginationProps } from './data-table-pagination.types';
+
 export function DataTablePagination({
   page,
   pageSize,
@@ -16,14 +19,9 @@ export function DataTablePagination({
   hrefByPage,
   pageSizeOptions,
   loading = false,
-}: {
-  page: number;
-  pageSize: number;
-  total: number;
-  hrefByPage: Record<number, string>;
-  pageSizeOptions: Array<{ size: number; href: string }>;
-  loading?: boolean;
-}) {
+}: DataTablePaginationProps) {
+  const ui = useTranslations('Workspace');
+
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const safePage = Math.min(Math.max(1, page), totalPages);
   const from = total === 0 ? 0 : (safePage - 1) * pageSize + 1;
@@ -33,7 +31,7 @@ export function DataTablePagination({
       loading={loading}
       summary={
         <Typography color="text.secondary" variant="body2">
-          Hiển thị {from}-{to} / {total} dòng
+          {ui('show')} {from}-{to} / {total} {ui('rows')}
         </Typography>
       }
     >

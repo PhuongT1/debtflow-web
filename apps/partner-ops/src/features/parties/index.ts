@@ -4,3 +4,5 @@ export { PartyDetails } from './detail/party-details';
 export { PartyForm } from './form/party-form';
 export { createPartyFormSchema } from './form/schema';
 export { useDeleteParty } from './hooks/use-delete-party';
+
+export { useParty } from './hooks/use-party';

@@ -1,4 +1,5 @@
 import { MenuItem } from '@mui/material';
+import { useTranslations } from 'next-intl';
 import { Controller, type FieldErrors, type UseFormReturn } from 'react-hook-form';
 
 import { FormInput } from '@packages/ui-react';
@@ -27,29 +28,31 @@ export function DebtFormFields({
   parties,
   users,
 }: DebtFormFieldsProps) {
+  const ui = useTranslations('Workspace');
+
   return (
     <FormGrid>
       <FormInput
         select
-        label="Loại công nợ *"
+        label={ui('debtType')}
         control={control}
         name={'type'}
         error={Boolean(errors.type)}
         helperText={errors.type?.message}
       >
-        <MenuItem value="RECEIVABLE">Phải thu</MenuItem>
-        <MenuItem value="PAYABLE">Phải trả</MenuItem>
+        <MenuItem value="RECEIVABLE">{ui('receivable')}</MenuItem>
+        <MenuItem value="PAYABLE">{ui('payable')}</MenuItem>
       </FormInput>
       <FormInput
         select
         disabled={lockParty}
-        label="Đối tác *"
+        label={ui('partner')}
         control={control}
         name={'partyId'}
         error={Boolean(errors.partyId)}
         helperText={errors.partyId?.message}
       >
-        <MenuItem value="">Chọn đối tác</MenuItem>
+        <MenuItem value="">{ui('selectAPartner')}</MenuItem>
         {parties.map((party) => (
           <MenuItem key={party.id} value={party.id}>
             {party.name}
@@ -58,25 +61,25 @@ export function DebtFormFields({
       </FormInput>
       <FormInput
         select
-        label="Kênh bán / nguồn hàng"
+        label={ui('salesPurchasingChannel')}
         control={control}
         name={'salesChannel'}
         error={Boolean(errors.salesChannel)}
         helperText={errors.salesChannel?.message}
       >
-        <MenuItem value="STORE">Tại quầy</MenuItem>
-        <MenuItem value="ONLINE">Online</MenuItem>
-        <MenuItem value="WHOLESALE">Bán sỉ</MenuItem>
+        <MenuItem value="STORE">{ui('inStore')}</MenuItem>
+        <MenuItem value="ONLINE">{ui('online')}</MenuItem>
+        <MenuItem value="WHOLESALE">{ui('wholesale')}</MenuItem>
       </FormInput>
       <FormInput
         select
-        label="Sale phụ trách"
+        label={ui('accountOwner')}
         control={control}
         name={'assignedToId'}
         error={Boolean(errors.assignedToId)}
         helperText={errors.assignedToId?.message}
       >
-        <MenuItem value="">Theo khách hàng / chưa gán</MenuItem>
+        <MenuItem value="">{ui('useTheCustomerOwnerUnassigned')}</MenuItem>
         {users.map((user) => (
           <MenuItem key={user.id} value={user.id}>
             {user.name}
@@ -84,15 +87,15 @@ export function DebtFormFields({
         ))}
       </FormInput>
       <FormInput
-        label="Tiêu đề *"
-        placeholder="Công nợ hóa đơn..."
+        label={ui('title')}
+        placeholder={ui('invoiceDebt')}
         control={control}
         name={'title'}
         error={Boolean(errors.title)}
         helperText={errors.title?.message}
       />
       <FormInput
-        label="Mã hóa đơn"
+        label={ui('invoiceNumber')}
         placeholder="INV-..."
         control={control}
         name={'invoiceNo'}
@@ -100,7 +103,7 @@ export function DebtFormFields({
         helperText={errors.invoiceNo?.message}
       />
       <FormInput
-        label="Mã đơn hàng"
+        label={ui('orderNumber')}
         placeholder="SO-..."
         control={control}
         name={'orderNo'}
@@ -108,7 +111,7 @@ export function DebtFormFields({
         helperText={errors.orderNo?.message}
       />
       <FormInput
-        label="Hợp đồng / PO"
+        label={ui('contractPo')}
         placeholder="HD-..."
         control={control}
         name={'contractNo'}
@@ -116,13 +119,14 @@ export function DebtFormFields({
         helperText={errors.contractNo?.message}
       />
       <FormInput
-        label="Tổng công nợ *"
+        label={ui('totalDebtText')}
         type="number"
         control={control}
         name={'originalAmount'}
         error={Boolean(errors.originalAmount)}
         helperText={
-          errors.originalAmount?.message ?? (lineItemTotal > 0 ? 'Tự tính từ dòng hàng' : undefined)
+          errors.originalAmount?.message ??
+          (lineItemTotal > 0 ? ui('calculatedFromLineItems') : undefined)
         }
       />
       <Controller
@@ -132,7 +136,7 @@ export function DebtFormFields({
           <DatePicker
             error={Boolean(errors.issueDate)}
             helperText={errors.issueDate?.message}
-            label="Ngày phát sinh"
+            label={ui('issueDate')}
             onChange={field.onChange}
             required
             value={field.value}
@@ -146,7 +150,7 @@ export function DebtFormFields({
           <DatePicker
             error={Boolean(errors.dueDate)}
             helperText={errors.dueDate?.message}
-            label="Ngày đến hạn"
+            label={ui('dueDate')}
             onChange={field.onChange}
             required
             value={field.value}
@@ -160,7 +164,7 @@ export function DebtFormFields({
           <DatePicker
             error={Boolean(errors.nextFollowUpAt)}
             helperText={errors.nextFollowUpAt?.message}
-            label="Hẹn follow-up"
+            label={ui('followUp')}
             onChange={field.onChange}
             value={field.value}
           />

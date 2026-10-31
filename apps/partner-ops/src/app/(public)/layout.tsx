@@ -1,8 +1,13 @@
 import Link from 'next/link';
 import { Box, Button, Stack, Typography } from '@mui/material';
+import { useTranslations } from 'next-intl';
+
+import type { PublicLayoutProps } from './layout.types';
 
 /** Public, SEO-friendly shell. It deliberately has no session dependency. */
-export default function PublicLayout({ children }: { children: React.ReactNode }) {
+export default function PublicLayout({ children }: PublicLayoutProps) {
+  const ui = useTranslations('Workspace');
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100dvh' }}>
       <Box
@@ -26,18 +31,18 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           }}
         >
           <Stack spacing={0}>
-            <Typography sx={{ fontSize: 16, fontWeight: 800 }}>Debt Flow · Đối tác</Typography>
+            <Typography sx={{ fontSize: 16, fontWeight: 800 }}>{ui('debtFlowPartners')}</Typography>
             <Typography color="text.secondary" sx={{ fontSize: 12 }}>
               Partner Operations
             </Typography>
           </Stack>
           <Button component={Link} href="/parties" size="small" variant="outlined">
-            Mở workspace
+            {ui('openWorkspace')}
           </Button>
         </Box>
         <Box
           component="nav"
-          aria-label="Điều hướng Partner Operations"
+          aria-label={ui('partnerOperationsNavigation')}
           sx={{ borderTop: '1px solid', borderColor: 'divider' }}
         >
           <Stack
@@ -53,10 +58,10 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             }}
           >
             <Button component={Link} href="/" size="small" variant="contained">
-              Giới thiệu
+              {ui('overview')}
             </Button>
             <Button component={Link} href="/parties" size="small" variant="text">
-              Đối tác
+              {ui('partners')}
             </Button>
           </Stack>
         </Box>

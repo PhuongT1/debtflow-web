@@ -11,16 +11,17 @@ import {
 } from '@mui/material';
 import { useTranslations } from 'next-intl';
 
-import type { OverlayRequest } from '@packages/platform-contracts';
 import { useOverlaySurface } from '@packages/ui-react';
 
-import { AppIcon, type AppIconName } from '@/components/ui/app-icon';
+import { AppIcon } from '@/components/ui/app-icon';
 import { Button } from '@/components/ui/button';
 import { AppDialog } from '@/components/ui/dialog/dialog';
 
+import type { FormDialogProps, SetGuardGuardOptions } from './form-dialog.types';
+
 const FormDialogContext = createContext<{
   closeDialog: (message?: string, data?: Record<string, unknown>) => void;
-  setGuard: (guard: { dirty: boolean; pending: boolean }) => void;
+  setGuard: (guard: SetGuardGuardOptions) => void;
 }>({
   closeDialog: () => undefined,
   setGuard: () => undefined,
@@ -42,19 +43,7 @@ export function FormDialog({
   remote,
   onCompleted,
   surface = false,
-}: {
-  buttonLabel: string;
-  buttonIcon?: AppIconName;
-  buttonSize?: 'small' | 'medium';
-  buttonVariant?: 'primary' | 'secondary' | 'danger';
-  iconOnly?: boolean;
-  title: string;
-  description?: string;
-  children: React.ReactNode;
-  remote?: OverlayRequest;
-  onCompleted?: () => void;
-  surface?: boolean;
-}) {
+}: FormDialogProps) {
   const t = useTranslations('Common');
   const overlay = useOverlaySurface();
   const [open, setOpen] = useState(surface);

@@ -10,6 +10,7 @@ import {
   ListItem,
   Typography,
 } from '@mui/material';
+import { useTranslations } from 'next-intl';
 
 import { AppIcon } from '@/components/ui/app-icon';
 import { Button } from '@/components/ui/button';
@@ -23,6 +24,8 @@ type HelpModalProps = {
 };
 
 export function HelpModal({ title, description, steps, tips = [] }: HelpModalProps) {
+  const ui = useTranslations('Workspace');
+
   const [open, setOpen] = useState(false);
 
   return (
@@ -34,7 +37,7 @@ export function HelpModal({ title, description, steps, tips = [] }: HelpModalPro
         variant="secondary"
         onClick={() => setOpen(true)}
       >
-        Hướng dẫn
+        {ui('help')}
       </Button>
 
       <AppDialog fullWidth maxWidth="sm" open={open} onClose={() => setOpen(false)}>
@@ -46,7 +49,7 @@ export function HelpModal({ title, description, steps, tips = [] }: HelpModalPro
             {description}
           </Typography>
           <IconButton
-            aria-label="Đóng hướng dẫn"
+            aria-label={ui('closeHelp')}
             onClick={() => setOpen(false)}
             sx={{ position: 'absolute', right: 12, top: 12 }}
           >
@@ -54,7 +57,7 @@ export function HelpModal({ title, description, steps, tips = [] }: HelpModalPro
           </IconButton>
         </DialogTitle>
         <DialogContent dividers>
-          <Typography sx={{ fontWeight: 800 }}>Làm theo thứ tự</Typography>
+          <Typography sx={{ fontWeight: 800 }}>{ui('followTheseSteps')}</Typography>
           <List>
             {steps.map((step, index) => (
               <ListItem
@@ -85,7 +88,7 @@ export function HelpModal({ title, description, steps, tips = [] }: HelpModalPro
           </List>
           {tips.length > 0 ? (
             <>
-              <Typography sx={{ fontWeight: 800, mt: 2 }}>Mẹo dùng nhanh</Typography>
+              <Typography sx={{ fontWeight: 800, mt: 2 }}>{ui('quickTips')}</Typography>
               <List>
                 {tips.map((tip) => (
                   <ListItem

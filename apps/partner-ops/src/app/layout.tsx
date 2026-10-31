@@ -6,7 +6,6 @@ import type { Metadata, Viewport } from 'next';
 import { getLocale } from 'next-intl/server';
 
 import type { AppLocale } from '@packages/platform-contracts';
-import { AppProviders } from '@packages/ui-react';
 import { themeSchemes } from '@packages/ui-tokens';
 
 import { PartnerIntlProvider } from '@/components/providers/partner-intl-provider';
@@ -33,9 +32,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       <body data-platform-origin={partnerOpsEnv.PLATFORM_ORIGIN}>
         <InitColorSchemeScript attribute="class" defaultMode="system" />
         <AppRouterCacheProvider>
-          <PartnerIntlProvider initialLocale={locale}>
-            <AppProviders>{children}</AppProviders>
-          </PartnerIntlProvider>
+          <PartnerIntlProvider initialLocale={locale}>{children}</PartnerIntlProvider>
         </AppRouterCacheProvider>
       </body>
     </html>

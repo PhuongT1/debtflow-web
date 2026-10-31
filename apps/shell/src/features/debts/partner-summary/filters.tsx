@@ -16,6 +16,8 @@ type Props = {
 };
 
 export function PartnerSummaryFilters({ applyFilters, clearFilters, params }: Props) {
+  const ui = useTranslations('Workspace');
+
   const t = useTranslations('Debts');
   const [filters, setFilters] = useState<PartnerSummaryFilters>({
     q: params.q ?? '',
@@ -67,9 +69,9 @@ export function PartnerSummaryFilters({ applyFilters, clearFilters, params }: Pr
             }))
           }
           options={[
-            { label: 'Khách hàng', value: 'CUSTOMER' },
-            { label: 'Nhà cung cấp', value: 'SUPPLIER' },
-            { label: 'Cả hai', value: 'BOTH' },
+            { label: ui('customer'), value: 'CUSTOMER' },
+            { label: ui('supplier'), value: 'SUPPLIER' },
+            { label: ui('both'), value: 'BOTH' },
           ]}
           placeholder={t('allPartnerTypes')}
           value={filters.type ?? ''}
@@ -83,8 +85,8 @@ export function PartnerSummaryFilters({ applyFilters, clearFilters, params }: Pr
             }))
           }
           options={[
-            { label: 'Khách đang nợ bạn', value: 'RECEIVABLE' },
-            { label: 'Bạn đang nợ nhà cung cấp', value: 'PAYABLE' },
+            { label: ui('customersOweYou'), value: 'RECEIVABLE' },
+            { label: ui('youOweSuppliers'), value: 'PAYABLE' },
           ]}
           placeholder={t('allBalances')}
           value={filters.balanceType ?? ''}

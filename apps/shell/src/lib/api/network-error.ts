@@ -7,7 +7,6 @@ const BACKEND_UNAVAILABLE_MESSAGE_FRAGMENTS = [
   'Backend API',
   'fetch failed',
   NETWORK_TRANSPORT_ERROR_CODES.connectionRefused,
-  'kết nối',
   'connect',
 ] as const;
 

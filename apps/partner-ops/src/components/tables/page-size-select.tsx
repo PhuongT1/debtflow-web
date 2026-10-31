@@ -7,13 +7,9 @@ import { useTranslations } from 'next-intl';
 import { SelectField } from '@/components/ui/form/select';
 import { partnerPlatform } from '@/lib/platform/client';
 
-export function PageSizeSelect({
-  pageSize,
-  options,
-}: {
-  pageSize: number;
-  options: Array<{ size: number; href: string }>;
-}) {
+import type { PageSizeSelectProps } from './page-size-select.types';
+
+export function PageSizeSelect({ pageSize, options }: PageSizeSelectProps) {
   const t = useTranslations('Pagination');
   const router = useRouter();
   if (options.length === 0) return null;

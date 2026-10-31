@@ -29,7 +29,10 @@ export interface IframeHostProps {
   loadingFallback?: ReactNode;
   overlayViews: Record<string, string>;
 }
-export type EmbeddedOverlayHostProps = Pick<OverlayHostProps, 'owner' | 'views'>;
+export type EmbeddedOverlayHostProps = Pick<
+  Extract<OverlayHostProps, { owner: unknown }>,
+  'owner' | 'views'
+>;
 export interface RemoteRuntimeManifest {
   schemaVersion: 1;
   name: string;

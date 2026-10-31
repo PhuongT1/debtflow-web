@@ -14,7 +14,13 @@ import { PlatformDialog } from './dialog';
 import type { OverlayHostProps } from './overlay.types';
 
 /** React UI adapter. The SDK owns the framework-independent message state machine. */
-export function OverlayHost({ owner, views, closeLabel, loadingLabel }: OverlayHostProps) {
+export function OverlayHost({
+  owner,
+  ownerWindow,
+  views,
+  closeLabel,
+  loadingLabel,
+}: OverlayHostProps) {
   const viewKey = JSON.stringify(Object.entries(views).sort(([a], [b]) => a.localeCompare(b)));
   const viewEntries = useMemo(() => JSON.parse(viewKey) as Array<[string, string]>, [viewKey]);
   const [runtime, setRuntime] = useState<OverlayRuntime>();
@@ -34,7 +40,8 @@ export function OverlayHost({ owner, views, closeLabel, loadingLabel }: OverlayH
     setSession(undefined);
   };
   useEffect(() => {
-    if (!owner.current?.contentWindow) return;
+    const target = ownerWindow ?? owner?.current?.contentWindow;
+    if (!target) return;
     // Only a semantic registration change replaces the session, not a parent re-render.
     ready.current = false;
     pendingResult.current = null;
@@ -43,8 +50,8 @@ export function OverlayHost({ owner, views, closeLabel, loadingLabel }: OverlayH
     setSession(undefined);
     const host = createOverlayHostBridge({
       owner: {
-        target: owner.current.contentWindow,
-        origin: new URL(owner.current.src, location.href).origin,
+        target,
+        origin: ownerWindow ? location.origin : new URL(owner!.current!.src, location.href).origin,
       },
       views: Object.fromEntries(viewEntries),
       baseUrl: location.href,
@@ -83,7 +90,7 @@ export function OverlayHost({ owner, views, closeLabel, loadingLabel }: OverlayH
       host.dispose();
       bridge.current = null;
     };
-  }, [owner, viewEntries]);
+  }, [owner, ownerWindow, viewEntries]);
   return (
     <>
       <Snackbar

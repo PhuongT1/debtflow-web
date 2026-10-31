@@ -13,12 +13,16 @@ export type PlatformDialogProps = DialogProps & {
   onCompleted?: (result: OverlayResult) => void;
   errorLabel?: string;
 };
-export interface OverlayHostProps {
-  owner: RefObject<HTMLIFrameElement | null>;
+interface OverlayHostLabels {
   views: Record<string, string>;
   closeLabel: string;
   loadingLabel: string;
 }
+export type OverlayHostProps = OverlayHostLabels &
+  (
+    | { owner: RefObject<HTMLIFrameElement | null>; ownerWindow?: never }
+    | { ownerWindow: Window; owner?: never }
+  );
 export interface OverlaySurfaceProps {
   hostOrigin: string;
   children: ReactNode;

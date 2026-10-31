@@ -1,13 +1,15 @@
 import Link from 'next/link';
 import { Box, Breadcrumbs, Link as MuiLink, Typography } from '@mui/material';
 
-export function Page({
-  children,
-  fillAvailable = false,
-}: {
-  children: React.ReactNode;
-  fillAvailable?: boolean;
-}) {
+import type {
+  MetricGridProps,
+  PageGridProps,
+  PageHeaderProps,
+  PageProps,
+  PageSplitProps,
+} from './page.types';
+
+export function Page({ children, fillAvailable = false }: PageProps) {
   return (
     <Box
       sx={{
@@ -34,15 +36,7 @@ export function PageHeader({
   parentHref = '/',
   badge,
   compact = false,
-}: {
-  title: React.ReactNode;
-  description?: React.ReactNode;
-  actions?: React.ReactNode;
-  parent?: string;
-  parentHref?: string;
-  badge?: React.ReactNode;
-  compact?: boolean;
-}) {
+}: PageHeaderProps) {
   return (
     <Box
       component="header"
@@ -118,13 +112,7 @@ export function PageHeader({
   );
 }
 
-export function PageGrid({
-  children,
-  columns = 2,
-}: {
-  children: React.ReactNode;
-  columns?: 2 | 3;
-}) {
+export function PageGrid({ children, columns = 2 }: PageGridProps) {
   return (
     <Box
       sx={{
@@ -141,13 +129,7 @@ export function PageGrid({
   );
 }
 
-export function MetricGrid({
-  children,
-  columns = 4,
-}: {
-  children: React.ReactNode;
-  columns?: 4 | 5;
-}) {
+export function MetricGrid({ children, columns = 4 }: MetricGridProps) {
   return (
     <Box
       sx={{
@@ -165,15 +147,7 @@ export function MetricGrid({
   );
 }
 
-export function PageSplit({
-  aside,
-  children,
-  asideWidth = 360,
-}: {
-  aside: React.ReactNode;
-  children: React.ReactNode;
-  asideWidth?: number;
-}) {
+export function PageSplit({ aside, children, asideWidth = 360 }: PageSplitProps) {
   return (
     <Box
       sx={{

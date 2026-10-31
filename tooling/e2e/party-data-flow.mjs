@@ -1,5 +1,18 @@
 import assert from 'node:assert/strict';
 
+// Exercise locale events while a modal intentionally blocks the header controls.
+async function setDraftLocale(page, locale) {
+  for (const frame of page.frames()) {
+    await frame.evaluate((nextLocale) => {
+      document.cookie = `df_locale=${nextLocale}; Path=/`;
+      window.dispatchEvent(
+        new CustomEvent('debtflow:v1:locale:changed', { detail: { locale: nextLocale } }),
+      );
+    }, locale);
+  }
+}
+const surfaceSelector = 'iframe[data-overlay-session]:not([data-overlay-session="idle"])';
+
 /** Uses real reads and mocked writes; never creates or deletes a business record. */
 export async function verifyPartyDataFlow(page, shellUrl = 'http://localhost:3000') {
   const writes = [];
@@ -10,7 +23,8 @@ export async function verifyPartyDataFlow(page, shellUrl = 'http://localhost:300
   const pattern = '**/api/parties';
   const mockWrite = async (route) => {
     const request = route.request();
-    if (request.method() !== 'POST') return route.continue();
+    if (request.method() === 'GET') return route.continue();
+    if (request.method() !== 'POST') return route.abort();
     writes.push({ body: request.postDataJSON(), headers: request.headers() });
     const attempt = writes.length;
     await route.fulfill({
@@ -39,18 +53,16 @@ export async function verifyPartyDataFlow(page, shellUrl = 'http://localhost:300
     const frame = page.frameLocator('iframe[title="partner-ops"]');
     await frame.getByRole('heading', { name: 'Customers / Suppliers', exact: true }).waitFor();
     await frame.getByRole('button', { name: 'Add partner', exact: true }).click();
-    const dialog = frame.getByRole('dialog');
+    const dialog = page.frameLocator(surfaceSelector);
     await dialog.getByRole('button', { name: 'Create partner', exact: true }).click();
     await dialog.getByText('Enter a partner name', { exact: true }).waitFor();
     assert.equal(writes.length, 0, 'Invalid form must not send a request');
     await dialog.getByRole('textbox', { name: 'Name *', exact: true }).fill('Mock transport check');
 
     // Changing locale must preserve the draft and retranslate active validation.
-    await page.getByRole('button', { name: 'Choose language', exact: true }).click();
-    await page.getByRole('menuitem', { name: '🇻🇳 Tiếng Việt (VI)', exact: true }).click();
+    await setDraftLocale(page, 'vi');
     assert.equal(await dialog.locator('input[name="name"]').inputValue(), 'Mock transport check');
-    await page.getByRole('button', { name: 'Chọn ngôn ngữ', exact: true }).click();
-    await page.getByRole('menuitem', { name: '🇬🇧 English (EN)', exact: true }).click();
+    await setDraftLocale(page, 'en');
 
     await dialog.getByRole('button', { name: 'Create partner', exact: true }).click();
     await dialog.getByText('Name already exists', { exact: true }).waitFor();
@@ -68,7 +80,7 @@ export async function verifyPartyDataFlow(page, shellUrl = 'http://localhost:300
         new URL(response.url()).pathname === '/api/parties',
     );
     await dialog.getByRole('button', { name: 'Create partner', exact: true }).click();
-    await dialog.waitFor({ state: 'hidden' });
+    await page.getByRole('dialog').waitFor({ state: 'hidden' });
     await refreshed;
     assert.ok(reads > readsBeforeSuccess, 'Success must invalidate the list');
     assert.equal(writes.length, 3);
@@ -91,8 +103,7 @@ export async function verifyPartyDataFlow(page, shellUrl = 'http://localhost:300
   } finally {
     page.off('request', onRequest);
     await page.unroute(pattern, mockWrite);
-    await page.getByRole('button', { name: /Choose language|Chọn ngôn ngữ/ }).click();
-    await page.getByRole('menuitem', { name: '🇻🇳 Tiếng Việt (VI)', exact: true }).click();
+    await setDraftLocale(page, 'vi');
   }
 }
 
@@ -100,20 +111,40 @@ export async function verifyPartyDataFlow(page, shellUrl = 'http://localhost:300
 export async function verifyPartyActions(page, shellUrl = 'http://localhost:3000') {
   const writes = [];
   const pattern = '**/api/parties/*';
-  let holdDelete;
-  let releaseDelete;
-  const deleteGate = new Promise((resolve) => {
-    releaseDelete = resolve;
+  let releaseDelete = () => undefined;
+  let seenDelete;
+  const deleteStarted = new Promise((resolve) => {
+    seenDelete = resolve;
   });
+  let pendingResponse = Promise.resolve();
   const mockWrite = async (route) => {
     const request = route.request();
     const method = request.method();
     if (method === 'GET') return route.continue();
-    // Fail closed: no mutation to this domain may reach the backend.
     if (!['PATCH', 'DELETE'].includes(method)) return route.abort();
     writes.push({ method, path: new URL(request.url()).pathname, body: request.postDataJSON() });
-    if (method === 'DELETE' && holdDelete) await deleteGate;
     const attempt = writes.filter((write) => write.method === method).length;
+    if (method === 'DELETE' && attempt === 1) {
+      let completed;
+      pendingResponse = new Promise((resolve) => {
+        completed = resolve;
+      });
+      const gate = new Promise((resolve) => {
+        releaseDelete = resolve;
+      });
+      seenDelete();
+      await gate;
+      try {
+        await route.fulfill({
+          status: 503,
+          contentType: 'application/json',
+          body: JSON.stringify({ message: 'Mock write failure' }),
+        });
+      } finally {
+        completed();
+      }
+      return;
+    }
     await route.fulfill({
       status: attempt === 1 ? 503 : 200,
       contentType: 'application/json',
@@ -128,34 +159,35 @@ export async function verifyPartyActions(page, shellUrl = 'http://localhost:3000
     await page.getByRole('button', { name: /Choose language|Chọn ngôn ngữ/ }).click();
     await page.getByRole('menuitem', { name: '🇬🇧 English (EN)', exact: true }).click();
     const frame = page.frameLocator('iframe[title="partner-ops"]');
-    const row = frame.getByRole('row').nth(1);
-    await row.getByRole('button', { name: 'View', exact: true }).click();
-    const dialog = frame.getByRole('dialog');
-    await dialog.locator('input[name="name"]').fill('Mock edited name');
-    await dialog.getByRole('button', { name: 'Save changes', exact: true }).click();
-    await dialog.getByText('Mock write failure', { exact: true }).first().waitFor();
-    assert.equal(await dialog.locator('input[name="name"]').inputValue(), 'Mock edited name');
+    await frame.getByRole('heading', { name: 'Customers / Suppliers', exact: true }).waitFor();
+    const row = frame.getByRole('row').nth(2);
+    const dialog = page.frameLocator(surfaceSelector);
     const listRefreshed = () =>
       page.waitForResponse(
         (response) =>
           response.request().method() === 'GET' &&
           new URL(response.url()).pathname === '/api/parties',
       );
+    await row.getByRole('button', { name: 'View', exact: true }).click();
+    await dialog.locator('input[name="name"]').fill('Mock edited name');
+    await dialog.getByRole('button', { name: 'Save changes', exact: true }).click();
+    await dialog.getByText('Mock write failure', { exact: true }).first().waitFor();
+    assert.equal(await dialog.locator('input[name="name"]').inputValue(), 'Mock edited name');
     let refreshed = listRefreshed();
     await dialog.getByRole('button', { name: 'Save changes', exact: true }).click();
-    await dialog.waitFor({ state: 'hidden' });
+    await page.getByRole('dialog').waitFor({ state: 'hidden' });
     await refreshed;
     assert.equal(writes[0].method, 'PATCH');
     assert.equal(writes[0].body.name, 'Mock edited name');
     assert.equal(writes[0].path, writes[1].path);
-
     await row.getByRole('button', { name: 'Delete', exact: true }).click();
     await dialog.getByRole('button', { name: 'Cancel', exact: true }).click();
+    await page.getByRole('dialog').waitFor({ state: 'hidden' });
     assert.equal(writes.filter((write) => write.method === 'DELETE').length, 0);
     await row.getByRole('button', { name: 'Delete', exact: true }).click();
-    holdDelete = true;
     await dialog.getByRole('button', { name: 'Delete', exact: true }).click();
-    await dialog.getByRole('button', { name: 'Cancel', exact: true }).waitFor();
+    await deleteStarted;
+    await dialog.locator('button:disabled').filter({ hasText: 'Cancel' }).waitFor();
     assert.equal(
       await dialog.getByRole('button', { name: 'Cancel', exact: true }).isDisabled(),
       true,
@@ -164,7 +196,7 @@ export async function verifyPartyActions(page, shellUrl = 'http://localhost:3000
     await dialog.getByText('Mock write failure', { exact: true }).first().waitFor();
     refreshed = listRefreshed();
     await dialog.getByRole('button', { name: 'Delete', exact: true }).click();
-    await dialog.waitFor({ state: 'hidden' });
+    await page.getByRole('dialog').waitFor({ state: 'hidden' });
     await refreshed;
     assert.equal(writes.filter((write) => write.method === 'DELETE').length, 2);
     assert.equal(writes.length, 4);
@@ -178,8 +210,8 @@ export async function verifyPartyActions(page, shellUrl = 'http://localhost:3000
     };
   } finally {
     releaseDelete();
+    await pendingResponse;
     await page.unroute(pattern, mockWrite);
-    await page.getByRole('button', { name: /Choose language|Chọn ngôn ngữ/ }).click();
-    await page.getByRole('menuitem', { name: '🇻🇳 Tiếng Việt (VI)', exact: true }).click();
+    await setDraftLocale(page, 'vi');
   }
 }

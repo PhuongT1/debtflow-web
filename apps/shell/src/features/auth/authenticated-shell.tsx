@@ -6,12 +6,18 @@ import { useTranslations } from 'next-intl';
 import { signOutFromPlatform } from '@packages/platform-sdk';
 import { AppShell, SignOutDialog } from '@packages/ui-react';
 
-export function AuthenticatedShell(props: ComponentProps<typeof AppShell>) {
+import { ShellOverlays } from '@/components/microfrontends/shell-overlays';
+
+type AuthenticatedShellProps = ComponentProps<typeof AppShell> & {
+  overlayViews?: Record<string, string>;
+};
+
+export function AuthenticatedShell({ overlayViews = {}, ...props }: AuthenticatedShellProps) {
   const t = useTranslations('SignOut');
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <>
+    <ShellOverlays views={overlayViews}>
       <AppShell {...props} onSignOut={() => setIsOpen(true)} />
       {isOpen ? (
         <SignOutDialog
@@ -23,6 +29,6 @@ export function AuthenticatedShell(props: ComponentProps<typeof AppShell>) {
           onConfirm={() => signOutFromPlatform(window.location.origin)}
         />
       ) : null}
-    </>
+    </ShellOverlays>
   );
 }

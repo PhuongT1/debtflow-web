@@ -155,7 +155,6 @@
     "discardDescription": "Your unsaved changes will be lost.",
     "keepEditing": "Keep editing",
     "discard": "Discard",
-
     "overlayUnavailable": "Unable to open this dialog. Please try again.",
     "close": "Close",
     "help": "Help",
@@ -178,5 +177,25 @@
     "requestFailed": "The request could not be completed.",
     "networkError": "Unable to connect to the server.",
     "timeout": "The request timed out."
+  },
+  "Workspace": {
+    "debtFlowPartners": "Debt Flow · Partners",
+    "openWorkspace": "Open workspace",
+    "partnerOperationsNavigation": "Partner Operations navigation",
+    "overview": "Overview",
+    "partners": "Partners",
+    "theCustomerAndSupplierApplicationInDebtFlow": "The customer and supplier application in Debt Flow.",
+    "customerAndSupplierDirectory": "Customer and supplier directory",
+    "searchFilterAndPaginatePartnerRecords": "Search, filter and paginate partner records",
+    "manageCreditLimitsContactsAndAccountOwners": "Manage credit limits, contacts and account owners",
+    "managePartnersIndependentlyWithSharedAccess": "Manage partners independently, with shared access.",
+    "partnerOpsManagesCustomersAndSuppliersInDebtFlow": "Partner Ops manages customers and suppliers in Debt Flow. The Platform manages sign-in and sessions centrally.",
+    "checkApplicationStatus": "Check application status",
+    "partnerOperationsAreas": "Partner Operations areas",
+    "loadingData": "Loading data",
+    "loadingDashboard": "Loading dashboard",
+    "loadingDetails": "Loading details",
+    "loadingForm": "Loading form",
+    "noRecordsFound": "No records found"
   }
 }

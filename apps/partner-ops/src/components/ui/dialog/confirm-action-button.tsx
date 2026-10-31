@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { Box, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import { useTranslations } from 'next-intl';
 
-import type { OverlayRequest } from '@packages/platform-contracts';
 import { useOverlaySurface } from '@packages/ui-react';
 import { useToast } from '@packages/ui-react';
 
@@ -13,7 +12,9 @@ import { AppIcon } from '@/components/ui/app-icon';
 import { Button } from '@/components/ui/button';
 import { AppDialog } from '@/components/ui/dialog/dialog';
 
-type ConfirmIntent = 'delete' | 'warning' | 'info';
+import type { ConfirmActionButtonProps, IntentIconProps } from './confirm-action-button.types';
+
+export type ConfirmIntent = 'delete' | 'warning' | 'info';
 
 const intentConfig: Record<
   ConfirmIntent,
@@ -24,7 +25,7 @@ const intentConfig: Record<
   info: { color: 'primary', title: 'infoTitle' },
 };
 
-function IntentIcon({ intent }: { intent: ConfirmIntent }) {
+function IntentIcon({ intent }: IntentIconProps) {
   return (
     <AppIcon name={intent === 'delete' ? 'delete' : intent === 'warning' ? 'warning' : 'info'} />
   );
@@ -42,19 +43,7 @@ export function ConfirmActionButton({
   remote,
   onCompleted,
   surface = false,
-}: {
-  onConfirm: () => Promise<unknown>;
-  label?: string;
-  confirmMessage?: string;
-  title?: string;
-  intent?: ConfirmIntent;
-  isPending: boolean;
-  error: Error | null;
-  onReset: () => void;
-  remote?: OverlayRequest;
-  onCompleted?: () => void;
-  surface?: boolean;
-}) {
+}: ConfirmActionButtonProps) {
   const t = useTranslations('ConfirmAction');
   const overlay = useOverlaySurface();
   const [open, setOpen] = useState(surface);

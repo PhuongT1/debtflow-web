@@ -2,6 +2,11 @@ import 'server-only';
 
 import { apiServer, type Money, toDate, toMoney } from '@/lib/api/server';
 
+import type {
+  GetDashboardPeriodOptions,
+  NormalizeTradeMetricMetricOptions,
+} from './dashboard.server.types';
+
 export type DashboardQueueDebt = {
   id: string;
   code: string;
@@ -91,7 +96,7 @@ function normalizeSummary(summary?: RawSummary): DebtSummary {
   };
 }
 
-function normalizeTradeMetric(metric?: { amount?: unknown; count?: number }): TradeMetric {
+function normalizeTradeMetric(metric?: NormalizeTradeMetricMetricOptions): TradeMetric {
   return { amount: toMoney(metric?.amount), count: metric?.count ?? 0 };
 }
 
@@ -121,10 +126,7 @@ function normalizeQueue(debts: RawQueueDebt[] | undefined): DashboardQueueDebt[]
   }));
 }
 
-export async function getDashboard(period: {
-  dateFrom: string;
-  dateTo: string;
-}): Promise<Dashboard> {
+export async function getDashboard(period: GetDashboardPeriodOptions): Promise<Dashboard> {
   const dashboard = await apiServer.get<RawDashboard>('dashboard', { query: period });
   const actionCenter = dashboard.actionCenter;
 

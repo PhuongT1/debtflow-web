@@ -2,10 +2,13 @@
 
 import { createContext, useContext, useMemo, useState } from 'react';
 import { DialogContent, DialogTitle, IconButton, Tooltip, Typography } from '@mui/material';
+import { useTranslations } from 'next-intl';
 
-import { AppIcon, type AppIconName } from '@/components/ui/app-icon';
+import { AppIcon } from '@/components/ui/app-icon';
 import { Button } from '@/components/ui/button';
 import { AppDialog } from '@/components/ui/dialog/dialog';
+
+import type { FormDialogProps } from './form-dialog.types';
 
 const FormDialogContext = createContext<{ closeDialog: () => void }>({
   closeDialog: () => undefined,
@@ -24,19 +27,12 @@ export function FormDialog({
   title,
   description,
   children,
-}: {
-  buttonLabel: string;
-  buttonIcon?: AppIconName;
-  buttonSize?: 'small' | 'medium';
-  buttonVariant?: 'primary' | 'secondary' | 'danger';
-  iconOnly?: boolean;
-  title: string;
-  description?: string;
-  children: React.ReactNode;
-}) {
+}: FormDialogProps) {
+  const ui = useTranslations('Workspace');
+
   const [open, setOpen] = useState(false);
   const dialogContext = useMemo(() => ({ closeDialog: () => setOpen(false) }), []);
-  const triggerIcon = buttonIcon ?? (buttonLabel.toLowerCase().includes('sửa') ? 'edit' : 'add');
+  const triggerIcon = buttonIcon ?? 'add';
   const trigger = iconOnly ? (
     <Tooltip title={buttonLabel}>
       <IconButton
@@ -74,7 +70,7 @@ export function FormDialog({
             </Typography>
           ) : null}
           <IconButton
-            aria-label="Đóng"
+            aria-label={ui('close')}
             onClick={() => setOpen(false)}
             sx={{ position: 'absolute', right: 12, top: 12 }}
           >

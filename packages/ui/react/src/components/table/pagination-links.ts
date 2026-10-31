@@ -1,16 +1,11 @@
+import type { CreateTablePaginationLinksProps } from './pagination-links.types';
 export function createTablePaginationLinks({
   page,
   pageSize,
   total,
   hrefForPage,
   hrefForPageSize,
-}: {
-  page: number;
-  pageSize: number;
-  total: number;
-  hrefForPage: (page: number) => string;
-  hrefForPageSize?: (pageSize: number) => string;
-}) {
+}: CreateTablePaginationLinksProps) {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const safePage = Math.min(Math.max(1, page), totalPages);
   const pages = [

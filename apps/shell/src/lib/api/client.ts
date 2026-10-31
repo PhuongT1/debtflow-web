@@ -7,6 +7,8 @@ import { getLocalizedApiErrorMessage } from '@/lib/api/error-message';
 import { http } from '@/lib/api/http';
 import { unwrapApiResponse } from '@/lib/api/response';
 
+import type { ApiClientErrorOptions } from './client.types';
+
 export const DEFAULT_CLIENT_TIMEOUT_MS = 20_000;
 
 export type ApiFieldError = { field: string; message: string; code?: string };
@@ -17,7 +19,7 @@ export class ApiClientError extends Error {
   fieldErrors: ApiFieldError[];
   status: number;
 
-  constructor(message: string, options: { fieldErrors?: ApiFieldError[]; status: number }) {
+  constructor(message: string, options: ApiClientErrorOptions) {
     super(message);
     this.name = 'ApiClientError';
     this.fieldErrors = options.fieldErrors ?? [];

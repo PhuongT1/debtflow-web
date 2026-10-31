@@ -19,7 +19,19 @@ export type PartyListResponse = PaginatedResponse<Party>;
 export type PartyDetailParams = Pick<Party, 'id'>;
 export type PartyDetailResponse = Pick<
   Party,
-  'id' | 'code' | 'name' | 'phone' | 'email' | 'taxCode' | 'address' | 'note' | 'creditLimit'
+  | 'id'
+  | 'type'
+  | 'code'
+  | 'name'
+  | 'phone'
+  | 'email'
+  | 'taxCode'
+  | 'address'
+  | 'note'
+  | 'creditLimit'
+  | 'assignedToId'
+  | 'provinceCode'
+  | 'provinceName'
 > & {
   assignedTo?: Pick<UserSummary, 'id' | 'name' | 'email'> | null;
   debts: PartyDebt[];

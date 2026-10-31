@@ -8,6 +8,8 @@ import { TablePaginationBar } from '@packages/ui-react';
 
 import { SelectField } from '@/components/ui/form/select';
 
+import type { DocumentPaginationProps } from './pagination.types';
+
 export function DocumentPagination({
   page,
   pageSize,
@@ -15,14 +17,7 @@ export function DocumentPagination({
   onPageChange,
   onPageSizeChange,
   loading = false,
-}: {
-  page: number;
-  pageSize: number;
-  total: number;
-  onPageChange: (page: number) => void;
-  onPageSizeChange: (pageSize: number) => void;
-  loading?: boolean;
-}) {
+}: DocumentPaginationProps) {
   const t = useTranslations('Debts');
   const from = total === 0 ? 0 : (page - 1) * pageSize + 1;
   const to = Math.min(total, page * pageSize);

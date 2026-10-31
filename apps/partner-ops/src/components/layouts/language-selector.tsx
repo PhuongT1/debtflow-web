@@ -1,14 +1,9 @@
 'use client';
 
-import type { AppLocale } from '@packages/platform-contracts';
 import { AppLocaleMenu } from '@packages/ui-react';
 
-export function LanguageSelector({
-  locale,
-  onChange,
-}: {
-  locale: AppLocale;
-  onChange: (locale: AppLocale) => void;
-}) {
+import type { LanguageSelectorProps } from './language-selector.types';
+
+export function LanguageSelector({ locale, onChange }: LanguageSelectorProps) {
   return <AppLocaleMenu locale={locale} onLocaleChange={onChange} />;
 }

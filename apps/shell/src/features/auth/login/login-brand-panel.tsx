@@ -5,7 +5,9 @@ import { useTranslations } from 'next-intl';
 
 import { AppIcon, type AppIconName } from '@/components/ui/app-icon';
 
-function FeatureIcon({ icon }: { icon: AppIconName }) {
+import type { FeatureIconProps } from './login-brand-panel.types';
+
+function FeatureIcon({ icon }: FeatureIconProps) {
   return (
     <Box
       sx={(theme) => ({

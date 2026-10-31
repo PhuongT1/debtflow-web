@@ -1,12 +1,8 @@
 import { Box } from '@mui/material';
 
-export function FormGrid({
-  children,
-  columns = 2,
-}: {
-  children: React.ReactNode;
-  columns?: 1 | 2 | 3;
-}) {
+import type { FormActionsProps, FormGridProps } from './layout.types';
+
+export function FormGrid({ children, columns = 2 }: FormGridProps) {
   return (
     <Box
       sx={{
@@ -23,7 +19,7 @@ export function FormGrid({
   );
 }
 
-export function FormActions({ children }: { children: React.ReactNode }) {
+export function FormActions({ children }: FormActionsProps) {
   return (
     <Box
       sx={{

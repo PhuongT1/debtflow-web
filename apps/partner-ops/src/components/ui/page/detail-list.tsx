@@ -1,12 +1,8 @@
 import { Box, Typography } from '@mui/material';
 
-export function DetailList({
-  items,
-  columns = 1,
-}: {
-  items: Array<{ label: string; value: React.ReactNode }>;
-  columns?: 1 | 2;
-}) {
+import type { DetailListProps } from './detail-list.types';
+
+export function DetailList({ items, columns = 1 }: DetailListProps) {
   return (
     <Box
       sx={{

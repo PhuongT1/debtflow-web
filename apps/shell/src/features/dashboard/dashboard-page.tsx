@@ -16,7 +16,9 @@ import { API_URL } from '@/lib/config/environment';
 import { formatMoney } from '@/lib/presentation/formatters';
 import { getDashboard } from '@/services/dashboard.server';
 
-function ActionMetric({ children, href }: { children: React.ReactNode; href: string }) {
+import type { ActionMetricProps, DashboardPageProps } from './dashboard-page.types';
+
+function ActionMetric({ children, href }: ActionMetricProps) {
   return (
     <Link
       className="block rounded-lg outline-offset-4 focus:outline focus:outline-2 focus:outline-blue-600"
@@ -27,11 +29,9 @@ function ActionMetric({ children, href }: { children: React.ReactNode; href: str
   );
 }
 
-export default async function DashboardPage({
-  searchParams,
-}: {
-  searchParams: Promise<Record<string, string | undefined>>;
-}) {
+export default async function DashboardPage({ searchParams }: DashboardPageProps) {
+  const ui = await getTranslations('Workspace');
+
   const period = getDashboardPeriod(await searchParams);
   const [dashboard, t, locale] = await Promise.all([
     getDashboard(period),
@@ -53,17 +53,17 @@ export default async function DashboardPage({
         actions={
           <>
             <HelpModal
-              title="Dùng trung tâm công nợ mỗi ngày"
-              description="Màn hình này ưu tiên các việc ảnh hưởng trực tiếp đến tiền mặt của shop."
+              title={ui('useTheDebtCenterEveryDay')}
+              description={ui('focusOnTheTasksThatDirectlyAffectYourCash')}
               steps={[
-                'Xử lý Phải thu quá hạn và Cần thu hôm nay trước để bảo vệ dòng tiền.',
-                'Kiểm tra Phải trả quá hạn để không trễ hẹn với nhà cung cấp.',
-                'Xem Dòng tiền 7 ngày để chủ động chuẩn bị tiền nhập hàng.',
-                'Mở từng khoản để ghi nhận thanh toán hoặc đặt lịch nhắc khách.',
+                ui('handleOverdueReceivablesAndAmountsDueTodayFirstTo'),
+                ui('checkOverduePayablesToKeepYourSupplierCommitments'),
+                ui('reviewThe7DayCashFlowToPlanInventory'),
+                ui('openARecordToRecordPaymentOrScheduleA'),
               ]}
               tips={[
-                'Mỗi đơn bán thiếu và mỗi hóa đơn nhập hàng nên tạo một công nợ có ngày đến hạn.',
-                'Không dùng tổng tiền ghi tay: số còn lại được tính từ công nợ gốc trừ các lần thanh toán.',
+                ui('createADebtRecordWithADueDateFor'),
+                ui('theRemainingBalanceIsCalculatedFromTheOriginalDebt'),
               ]}
             />
             <Button component={Link} href={API_URL + '/exports/debts'}>
@@ -85,7 +85,7 @@ export default async function DashboardPage({
             icon="debts"
             label={t('customerOwes')}
             tone="blue"
-            value={formatMoney(actionCenter.receivable.outstanding.remaining)}
+            value={formatMoney(actionCenter.receivable.outstanding.remaining, locale)}
           />
         </ActionMetric>
         <ActionMetric href="/debts?type=PAYABLE&outstanding=true">
@@ -97,7 +97,7 @@ export default async function DashboardPage({
             icon="download"
             label={t('youOweSupplier')}
             tone="amber"
-            value={formatMoney(actionCenter.payable.outstanding.remaining)}
+            value={formatMoney(actionCenter.payable.outstanding.remaining, locale)}
           />
         </ActionMetric>
         <ActionMetric href="/debts?type=RECEIVABLE&outstanding=true&overdue=true">
@@ -106,7 +106,7 @@ export default async function DashboardPage({
             icon="calendar"
             label={t('receivableOverdue')}
             tone="red"
-            value={formatMoney(actionCenter.receivable.overdue.remaining)}
+            value={formatMoney(actionCenter.receivable.overdue.remaining, locale)}
           />
         </ActionMetric>
         <ActionMetric href="/debts?type=PAYABLE&outstanding=true&overdue=true">
@@ -115,7 +115,7 @@ export default async function DashboardPage({
             icon="calendar"
             label={t('payableOverdue')}
             tone="red"
-            value={formatMoney(actionCenter.payable.overdue.remaining)}
+            value={formatMoney(actionCenter.payable.overdue.remaining, locale)}
           />
         </ActionMetric>
       </MetricGrid>
@@ -134,7 +134,7 @@ export default async function DashboardPage({
           >
             <p className="text-sm font-bold text-emerald-800">{t('expectedIn')}</p>
             <p className="mt-2 text-xl font-black text-emerald-950">
-              {formatMoney(actionCenter.cashFlow.expectedIn)}
+              {formatMoney(actionCenter.cashFlow.expectedIn, locale)}
             </p>
             <p className="mt-1 text-xs text-emerald-700">
               {t('dueCount', { count: actionCenter.receivable.dueNextSevenDays.count })}
@@ -146,7 +146,7 @@ export default async function DashboardPage({
           >
             <p className="text-sm font-bold text-amber-800">{t('expectedOut')}</p>
             <p className="mt-2 text-xl font-black text-amber-950">
-              {formatMoney(actionCenter.cashFlow.expectedOut)}
+              {formatMoney(actionCenter.cashFlow.expectedOut, locale)}
             </p>
             <p className="mt-1 text-xs text-amber-700">
               {t('dueCount', { count: actionCenter.payable.dueNextSevenDays.count })}
@@ -155,7 +155,7 @@ export default async function DashboardPage({
           <div className="rounded-lg bg-slate-100 p-4">
             <p className="text-sm font-bold text-slate-700">{t('netCashFlow')}</p>
             <p className="mt-2 text-xl font-black text-slate-950">
-              {formatMoney(actionCenter.cashFlow.net)}
+              {formatMoney(actionCenter.cashFlow.net, locale)}
             </p>
             <p className="mt-1 text-xs text-slate-600">{t('netDescription')}</p>
           </div>
@@ -202,7 +202,7 @@ export default async function DashboardPage({
                     {payment.paidAt.toLocaleDateString(locale === 'en' ? 'en-US' : 'vi-VN')}
                   </p>
                 </div>
-                <Badge tone="green">{formatMoney(payment.amount)}</Badge>
+                <Badge tone="green">{formatMoney(payment.amount, locale)}</Badge>
               </Link>
             ))
           )}

@@ -8,6 +8,7 @@ import { listUserOptions } from '@/services/user.server';
 import { PartnerSummaryServer } from '../partner-summary/partner-summary-server';
 
 import { DebtList } from './debt-list';
+import type { DebtsPageProps } from './debts-page.types';
 import { DebtsPageHeader } from './page-header';
 
 const debtViews = [
@@ -25,11 +26,7 @@ const debtViews = [
   },
 ] as const;
 
-export default async function DebtsPage({
-  searchParams,
-}: {
-  searchParams: Promise<Record<string, string | undefined>>;
-}) {
+export default async function DebtsPage({ searchParams }: DebtsPageProps) {
   const [filters, users, t] = await Promise.all([
     searchParams,
     listUserOptions(),

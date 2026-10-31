@@ -18,11 +18,13 @@ import type { PartyDebt } from '@/models/party';
 
 import { useParty } from '../hooks/use-party';
 
+import type { PartyDetailsProps } from './party-details.types';
+
 function remainingAmount(debt: PartyDebt) {
   return Number(debt.originalAmount) - Number(debt.paidAmount);
 }
 
-export function PartyDetails({ partyId }: { partyId: string }) {
+export function PartyDetails({ partyId }: PartyDetailsProps) {
   const t = useTranslations('PartyDetails');
   const apiText = useTranslations('Api');
   const format = useFormatter();

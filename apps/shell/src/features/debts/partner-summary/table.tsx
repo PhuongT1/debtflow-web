@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 import { type DataTableColumn, DataTableContent, SortableTableHeader } from '@packages/ui-react';
 
@@ -21,6 +21,8 @@ type Props = {
 };
 
 export function PartnerSummaryTable({ changeSort, isFetching, params, summary, users }: Props) {
+  const locale = useLocale();
+
   const t = useTranslations('Debts');
   const sortableTitle = (sortBy: PartnerSummaryParams['sortBy'], label: string) => (
     <SortableTableHeader
@@ -51,7 +53,7 @@ export function PartnerSummaryTable({ changeSort, isFetching, params, summary, u
       align: 'right',
       render: (party) => (
         <Box component="span" sx={{ color: 'error.main', fontWeight: 800, whiteSpace: 'nowrap' }}>
-          {formatMoney(party.balance?.receivable ?? 0)}
+          {formatMoney(party.balance?.receivable ?? 0, locale)}
         </Box>
       ),
     },
@@ -61,7 +63,7 @@ export function PartnerSummaryTable({ changeSort, isFetching, params, summary, u
       align: 'right',
       render: (party) => (
         <Box component="span" sx={{ color: 'error.main', fontWeight: 800, whiteSpace: 'nowrap' }}>
-          {formatMoney(party.balance?.payable ?? 0)}
+          {formatMoney(party.balance?.payable ?? 0, locale)}
         </Box>
       ),
     },

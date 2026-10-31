@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { queryKeys } from '@/lib/query/query-keys';
 import { listPartnerDebtItems } from '@/services/debt.client';
 
 import type { PartnerDebtFilters, PartnerDebtPage } from './types';
@@ -48,7 +49,7 @@ export function usePartnerDocuments(partyId: string) {
   }, [filters, page, pageSize, partyId]);
   const debtQuery = useQuery({
     enabled: isOpen,
-    queryKey: ['debts', 'partner-documents', apiQuery.toString()],
+    queryKey: queryKeys.partnerDocuments.list(apiQuery),
     queryFn: ({ signal }) => listPartnerDebtItems<PartnerDebtPage>(apiQuery, signal),
     placeholderData: keepPreviousData,
   });
@@ -93,7 +94,7 @@ export function usePartnerDocuments(partyId: string) {
       partnerDebtDueDateTo: undefined,
     });
   const refresh = () =>
-    void queryClient.invalidateQueries({ queryKey: ['debts', 'partner-documents'] });
+    void queryClient.invalidateQueries({ queryKey: queryKeys.partnerDocuments.all });
   const filterKey = [filters.q, filters.status, filters.dueDateFrom, filters.dueDateTo].join('|');
 
   return {

@@ -1,8 +1,15 @@
 import { Box, Paper } from '@mui/material';
+import { useTranslations } from 'next-intl';
 
 import { AppSkeleton } from '@/components/ui/skeleton';
 
-function PageHeadingSkeleton({ actions = true }: { actions?: boolean }) {
+import type {
+  FormPageSkeletonProps,
+  PageHeadingSkeletonProps,
+  SkeletonRowsProps,
+} from './page-skeleton.types';
+
+function PageHeadingSkeleton({ actions = true }: PageHeadingSkeletonProps) {
   return (
     <Box sx={{ alignItems: 'center', display: 'flex', gap: 2, justifyContent: 'space-between' }}>
       <AppSkeleton height={32} sx={{ width: { xs: 220, sm: 340 } }} />
@@ -16,7 +23,7 @@ function PageHeadingSkeleton({ actions = true }: { actions?: boolean }) {
   );
 }
 
-function SkeletonRows({ count = 8 }: { count?: number }) {
+function SkeletonRows({ count = 8 }: SkeletonRowsProps) {
   return (
     <Box sx={{ display: 'grid' }}>
       {Array.from({ length: count }, (_, row) => (
@@ -49,8 +56,10 @@ function SkeletonRows({ count = 8 }: { count?: number }) {
 export { TablePageSkeleton } from './table-page-skeleton';
 
 export function DashboardPageSkeleton() {
+  const ui = useTranslations('Workspace');
+
   return (
-    <Box aria-busy="true" aria-label="Đang tải dashboard" sx={{ display: 'grid', gap: 2 }}>
+    <Box aria-busy="true" aria-label={ui('loadingDashboard')} sx={{ display: 'grid', gap: 2 }}>
       <PageHeadingSkeleton />
       <Box
         sx={{
@@ -79,8 +88,10 @@ export function DashboardPageSkeleton() {
 }
 
 export function DetailPageSkeleton() {
+  const ui = useTranslations('Workspace');
+
   return (
-    <Box aria-busy="true" aria-label="Đang tải chi tiết" sx={{ display: 'grid', gap: 2 }}>
+    <Box aria-busy="true" aria-label={ui('loadingDetails')} sx={{ display: 'grid', gap: 2 }}>
       <PageHeadingSkeleton />
       <Box
         sx={{
@@ -96,7 +107,10 @@ export function DetailPageSkeleton() {
   );
 }
 
-export function FormPageSkeleton({ label = 'Đang tải biểu mẫu' }: { label?: string } = {}) {
+export function FormPageSkeleton({ label: labelInput }: FormPageSkeletonProps = {}) {
+  const ui = useTranslations('Workspace');
+  const label = labelInput ?? ui('loadingForm');
+
   return (
     <Box aria-busy="true" aria-label={label} sx={{ display: 'grid', gap: 2 }}>
       <PageHeadingSkeleton />

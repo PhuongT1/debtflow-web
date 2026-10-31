@@ -1,14 +1,8 @@
 import { Box, Tooltip } from '@mui/material';
 
-export function ClampedText({
-  children,
-  lines = 2,
-  title,
-}: {
-  children: React.ReactNode;
-  lines?: number;
-  title: string;
-}) {
+import type { ClampedTextProps } from './clamped-text.types';
+
+export function ClampedText({ children, lines = 2, title }: ClampedTextProps) {
   return (
     <Tooltip enterDelay={500} title={title}>
       <Box

@@ -30,13 +30,6 @@ type StandaloneWorkspaceHeaderProps = {
   platformOrigin: string;
 };
 
-const standaloneNavigation = [
-  { href: '/', label: 'Giới thiệu' },
-  ...navigationItems
-    .filter((item) => item.owner === 'partner-ops')
-    .map(({ href }) => ({ href, label: 'Đối tác' })),
-];
-
 function isActive(pathname: string, href: string) {
   return href === '/' ? pathname === href : pathname === href || pathname.startsWith(href + '/');
 }
@@ -50,6 +43,15 @@ export function StandaloneWorkspaceHeader({
   identity,
   platformOrigin,
 }: StandaloneWorkspaceHeaderProps) {
+  const ui = useTranslations('Workspace');
+
+  const standaloneNavigation = [
+    { href: '/', label: ui('overview') },
+    ...navigationItems
+      .filter((item) => item.owner === 'partner-ops')
+      .map(({ href }) => ({ href, label: ui('partners') })),
+  ];
+
   const pathname = usePathname();
   const [accountAnchor, setAccountAnchor] = useState<HTMLElement | null>(null);
   const [isSignOutOpen, setIsSignOutOpen] = useState(false);
@@ -180,11 +182,11 @@ export function StandaloneWorkspaceHeader({
       ) : null}
       <Box
         component="nav"
-        aria-label="Điều hướng Partner Operations"
+        aria-label={ui('partnerOperationsNavigation')}
         sx={{ borderTop: '1px solid', borderColor: 'divider' }}
       >
         <Stack
-          aria-label="Các khu vực của Partner Operations"
+          aria-label={ui('partnerOperationsAreas')}
           direction="row"
           spacing={0.5}
           sx={{

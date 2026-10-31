@@ -2,18 +2,14 @@ import { notFound } from 'next/navigation';
 
 import { microfrontendManifest } from '@packages/platform-registry';
 
-import {
-  ComposedApplication,
-  type SearchValues,
-} from '@/components/microfrontends/composed-application';
+import { ComposedApplication } from '@/components/microfrontends/composed-application';
+
+import type { MainLayoutMicrofrontendPageProps } from './page.types';
 
 export default async function MainLayoutMicrofrontendPage({
   params,
   searchParams,
-}: {
-  params: Promise<{ mfe: string[] }>;
-  searchParams: Promise<SearchValues>;
-}) {
+}: MainLayoutMicrofrontendPageProps) {
   const [{ mfe }, query] = await Promise.all([params, searchParams]);
   const pathname = '/' + mfe.join('/');
   const application = microfrontendManifest.applications

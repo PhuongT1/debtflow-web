@@ -10,13 +10,15 @@ import { EmbeddedPlatformBridge } from '@/components/platform/embedded-platform-
 import { getCoreIdentity } from '@/lib/core-session';
 import { partnerOpsEnv } from '@/lib/env';
 
+import type { ProtectedLayoutProps } from './layout.types';
+
 export const dynamic = 'force-dynamic';
 
 function loginUrlFor(returnTo: string | null) {
   return buildLoginUrl(partnerOpsEnv.PLATFORM_ORIGIN, returnTo ?? '/');
 }
 
-export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
+export default async function ProtectedLayout({ children }: ProtectedLayoutProps) {
   const [identity, requestHeaders] = await Promise.all([getCoreIdentity(), headers()]);
 
   if (!identity) {

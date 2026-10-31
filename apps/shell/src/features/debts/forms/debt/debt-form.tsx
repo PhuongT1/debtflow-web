@@ -3,8 +3,9 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box } from '@mui/material';
+import { Alert, Box } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { useForm, useWatch } from 'react-hook-form';
 
 import { FormInput } from '@packages/ui-react';
@@ -15,13 +16,15 @@ import { Button } from '@/components/ui/button';
 import { useFormDialog } from '@/components/ui/dialog/form-dialog';
 import { FormActions } from '@/components/ui/form/layout';
 import { applyApiFieldErrors } from '@/lib/forms/errors';
+import { queryKeys } from '@/lib/query/query-keys';
 import { getCatalogOptions } from '@/services/catalog.client';
 import { createDebt } from '@/services/debt.client';
 import { listPartyOptions } from '@/services/party.client';
 
+import type { DebtFormProps } from './debt-form.types';
 import { DebtFormFields } from './fields';
 import { DebtLineItems } from './line-items';
-import { type DebtFormInput, debtFormSchema, type DebtFormValues } from './schema';
+import { createDebtFormSchema, type DebtFormInput, type DebtFormValues } from './schema';
 
 export type { DebtFormInput } from './schema';
 
@@ -37,25 +40,22 @@ export function DebtForm({
   defaultPartyId,
   lockParty = false,
   onSuccess,
-}: {
-  parties?: Array<{ id: string; name: string }>;
-  users?: Array<{ id: string; name: string; email: string }>;
-  defaultPartyId?: string;
-  lockParty?: boolean;
-  onSuccess?: () => void;
-}) {
+}: DebtFormProps) {
+  const ui = useTranslations('Workspace');
+
+  const debtFormSchema = createDebtFormSchema(ui);
   const today = new Date().toISOString().slice(0, 10);
   const router = useRouter();
   const { closeDialog } = useFormDialog();
   const { showToast } = useToast();
   const catalogQuery = useQuery({
-    queryKey: ['catalog-options'],
+    queryKey: queryKeys.catalog.options(),
     queryFn: getCatalogOptions,
     staleTime: 5 * 60_000,
   });
   const partyOptionsQuery = useQuery({
     enabled: initialParties === undefined,
-    queryKey: ['parties', 'options'],
+    queryKey: queryKeys.parties.options(),
     queryFn: ({ signal }) => listPartyOptions(signal),
     staleTime: 5 * 60_000,
   });
@@ -65,7 +65,7 @@ export function DebtForm({
     onSuccess: () => {
       closeDialog();
       onSuccess?.();
-      showToast({ message: 'Đã tạo công nợ thành công.' });
+      showToast({ message: ui('debtCreatedSuccessfully') });
       router.refresh();
     },
   });
@@ -73,8 +73,10 @@ export function DebtForm({
     control,
     handleSubmit,
     setError,
+    trigger,
+    getValues,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitted },
   } = useForm<DebtFormInput, unknown, DebtFormValues>({
     resolver: zodResolver(debtFormSchema),
     defaultValues: {
@@ -104,12 +106,18 @@ export function DebtForm({
     if (lineItemTotal > 0) setValue('originalAmount', String(lineItemTotal));
   }, [lineItemTotal, setValue]);
 
+  useEffect(() => {
+    if (isSubmitted) void trigger();
+  }, [ui, trigger, isSubmitted]);
+
   return (
     <Box
       component="form"
       noValidate
       onSubmit={handleSubmit((values) =>
-        mutation.mutate(values, { onError: (error) => applyApiFieldErrors(error, setError) }),
+        mutation.mutate(values, {
+          onError: (error) => applyApiFieldErrors(error, setError, getValues()),
+        }),
       )}
       sx={{ display: 'grid', gap: 2 }}
     >
@@ -126,15 +134,15 @@ export function DebtForm({
         control={control}
       />
       <FormInput
-        label="Ghi chú thu tiền"
-        placeholder="VD: Khách hẹn thanh toán thứ Sáu"
+        label={ui('collectionNotes')}
+        placeholder={ui('forExampleCustomerPromisedToPayOnFriday')}
         control={control}
         name={'followUpNote'}
         error={Boolean(errors.followUpNote)}
         helperText={errors.followUpNote?.message}
       />
       <FormInput
-        label="Mô tả"
+        label={ui('description')}
         multiline
         rows={3}
         control={control}
@@ -142,10 +150,13 @@ export function DebtForm({
         error={Boolean(errors.description)}
         helperText={errors.description?.message}
       />
+      {errors.root?.server?.message ? (
+        <Alert severity="error">{errors.root.server.message}</Alert>
+      ) : null}
       <ApiErrorNotice error={mutation.error} />
       <FormActions>
         <Button disabled={parties.length === 0} loading={mutation.isPending} type="submit">
-          Tạo công nợ
+          {ui('createDebt')}
         </Button>
       </FormActions>
     </Box>

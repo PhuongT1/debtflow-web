@@ -11,7 +11,7 @@ export type { DataTableColumn, DataTableSkeletonSpec } from './data-table.types'
 export function DataTable<Row extends { id: React.Key }>({
   columns,
   rows,
-  emptyMessage = 'Không có dữ liệu',
+  emptyMessage: emptyMessageInput,
   page,
   pageSize,
   total,
@@ -23,6 +23,9 @@ export function DataTable<Row extends { id: React.Key }>({
   rowKey = 'id',
   ...rest
 }: DataTableProps<Row>) {
+  const ui = useTranslations('Workspace');
+  const emptyMessage = emptyMessageInput ?? ui('noRecordsFound');
+
   const t = useTranslations('Table');
   const meta = { page, pageSize, total };
   const links = createTablePaginationLinks({ ...meta, hrefForPage, hrefForPageSize });

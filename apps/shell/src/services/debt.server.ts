@@ -1,8 +1,8 @@
 import 'server-only';
 
-import { debtQuerySchema } from '@/features/debts/model/debt.schema';
 import { apiServer, type Money, toDate, toMoney } from '@/lib/api/server';
 import { DebtStatus } from '@/lib/domain/enums';
+import { debtQuerySchema } from '@/services/debt.schema';
 
 type UserSummary = { id: string; name: string; email: string };
 type PartySummary = { id: string; name: string };
@@ -125,11 +125,11 @@ export async function getDebtAgingReport(input: Record<string, unknown> = {}) {
   const debts = await listDebts({ ...input, page: 1, pageSize: 1000 });
   const now = new Date();
   const buckets = {
-    notDue: { label: 'Chưa đến hạn', amount: toMoney(0), count: 0 },
-    day1To7: { label: 'Quá hạn 1-7 ngày', amount: toMoney(0), count: 0 },
-    day8To30: { label: 'Quá hạn 8-30 ngày', amount: toMoney(0), count: 0 },
-    day31To60: { label: 'Quá hạn 31-60 ngày', amount: toMoney(0), count: 0 },
-    day60Plus: { label: 'Quá hạn trên 60 ngày', amount: toMoney(0), count: 0 },
+    notDue: { label: 'notYetDue', amount: toMoney(0), count: 0 },
+    day1To7: { label: 'overdue17Days', amount: toMoney(0), count: 0 },
+    day8To30: { label: 'overdue830Days', amount: toMoney(0), count: 0 },
+    day31To60: { label: 'overdue3160Days', amount: toMoney(0), count: 0 },
+    day60Plus: { label: 'overdueOver60Days', amount: toMoney(0), count: 0 },
   };
 
   debts.items

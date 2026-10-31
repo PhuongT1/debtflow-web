@@ -3,13 +3,9 @@
 import { Tab, Tabs } from '@mui/material';
 import { useTranslations } from 'next-intl';
 
-export function DocumentTabs({
-  value,
-  onChange,
-}: {
-  value: '' | 'RECEIVABLE' | 'PAYABLE';
-  onChange: (value: '' | 'RECEIVABLE' | 'PAYABLE') => void;
-}) {
+import type { DocumentTabsProps } from './tabs.types';
+
+export function DocumentTabs({ value, onChange }: DocumentTabsProps) {
   const t = useTranslations('Debts');
   return (
     <Tabs value={value} onChange={(_, nextValue) => onChange(nextValue)} sx={{ minHeight: 40 }}>

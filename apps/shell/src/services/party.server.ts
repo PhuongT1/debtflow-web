@@ -1,7 +1,7 @@
 import 'server-only';
 
-import { partyQuerySchema } from '@/features/parties/model/party.schema';
 import { apiServer, type Money, toDate, toMoney } from '@/lib/api/server';
+import { partyQuerySchema } from '@/services/party.schema';
 
 type UserSummary = { id: string; name: string; email: string };
 

@@ -9,22 +9,16 @@ import { FilterActions } from '@/components/ui/form/filter-actions';
 import { Input } from '@/components/ui/form/input';
 import { Select } from '@/components/ui/form/select';
 
-type Filters = {
+import type { DocumentFiltersProps } from './filters.types';
+
+export type Filters = {
   dueDateFrom: string;
   dueDateTo: string;
   q: string;
   status: string;
 };
 
-export function DocumentFilters({
-  filters,
-  onApply,
-  onReset,
-}: {
-  filters: Filters;
-  onApply: (filters: Filters) => void;
-  onReset: () => void;
-}) {
+export function DocumentFilters({ filters, onApply, onReset }: DocumentFiltersProps) {
   const t = useTranslations('Debts');
   const [dueDateFrom, setDueDateFrom] = useState(filters.dueDateFrom);
   const [dueDateTo, setDueDateTo] = useState(filters.dueDateTo);

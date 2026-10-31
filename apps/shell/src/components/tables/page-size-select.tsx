@@ -2,23 +2,22 @@
 
 import { useRouter } from 'next/navigation';
 import { MenuItem, Typography } from '@mui/material';
+import { useTranslations } from 'next-intl';
 
 import { SelectField } from '@/components/ui/form/select';
 
-export function PageSizeSelect({
-  pageSize,
-  options,
-}: {
-  pageSize: number;
-  options: Array<{ size: number; href: string }>;
-}) {
+import type { PageSizeSelectProps } from './page-size-select.types';
+
+export function PageSizeSelect({ pageSize, options }: PageSizeSelectProps) {
+  const ui = useTranslations('Workspace');
+
   const router = useRouter();
   if (options.length === 0) return null;
 
   return (
     <>
       <Typography color="text.secondary" variant="body2">
-        Số dòng
+        {ui('rowsPerPage')}
       </Typography>
       <SelectField
         size="small"

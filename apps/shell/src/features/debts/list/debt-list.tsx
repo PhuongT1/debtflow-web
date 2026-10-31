@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 
 import { DataTable } from '@/components/tables';
 import { hrefWithPage, hrefWithPageSize } from '@/lib/routing/pagination';
@@ -6,15 +6,11 @@ import { getCatalogOptions } from '@/services/catalog.server';
 import { listDebts } from '@/services/debt.server';
 
 import { getDebtListColumns } from './columns';
+import type { DebtListProps } from './debt-list.types';
 import { DebtListToolbar } from './toolbar';
 
-export async function DebtList({
-  filters,
-  users,
-}: {
-  filters: Record<string, string | undefined>;
-  users: Array<{ id: string; name: string }>;
-}) {
+export async function DebtList({ filters, users }: DebtListProps) {
+  const locale = await getLocale();
   const [debts, catalog, t] = await Promise.all([
     listDebts(filters),
     getCatalogOptions(),
@@ -22,7 +18,7 @@ export async function DebtList({
   ]);
   return (
     <DataTable
-      columns={getDebtListColumns(t)}
+      columns={getDebtListColumns(t, locale)}
       emptyMessage={t('empty')}
       fillHeight
       hrefForPage={(page) => hrefWithPage('/debts', filters, page)}

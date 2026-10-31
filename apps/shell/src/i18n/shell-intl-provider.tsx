@@ -1,23 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import en from '@messages/en.json';
+import vi from '@messages/vi.json';
 import { NextIntlClientProvider } from 'next-intl';
 
 import type { AppLocale } from '@packages/platform-contracts';
 import { getStoredLocale, subscribePlatformEvent } from '@packages/platform-sdk';
+import { AppProviders } from '@packages/ui-react';
 
-import en from '../../messages/en.json';
-import vi from '../../messages/vi.json';
+import type { ShellIntlProviderProps } from './shell-intl-provider.types';
 
 const messages = { en, vi } as const;
 
-export function ShellIntlProvider({
-  children,
-  initialLocale,
-}: {
-  children: React.ReactNode;
-  initialLocale: AppLocale;
-}) {
+export function ShellIntlProvider({ children, initialLocale }: ShellIntlProviderProps) {
   const [locale, setLocale] = useState<AppLocale>(initialLocale);
 
   useEffect(() => {
@@ -33,7 +29,7 @@ export function ShellIntlProvider({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages[locale]} timeZone="Asia/Ho_Chi_Minh">
-      {children}
+      <AppProviders locale={locale}>{children}</AppProviders>
     </NextIntlClientProvider>
   );
 }

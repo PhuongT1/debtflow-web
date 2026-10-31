@@ -1,4 +1,5 @@
 'use client';
+
 import { useEffect } from 'react';
 import { Alert, Box } from '@mui/material';
 import { useTranslations } from 'next-intl';
@@ -10,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { ConfirmActionButton } from '@/components/ui/dialog/confirm-action-button';
 import { FormDialog } from '@/components/ui/dialog/form-dialog';
 import { HelpModal } from '@/components/ui/dialog/help-modal';
-import { createPartyFormSchema, PartyForm, useDeleteParty } from '@/features/parties';
+import { createPartyFormSchema, PartyForm, useDeleteParty, useParty } from '@/features/parties';
 import { useActiveUsers } from '@/hooks/use-active-users';
 
 import type { OverlayContentProps } from './content.types';
@@ -29,19 +30,39 @@ function PartyFormSurface({ input }: OverlayContentProps) {
   const t = useTranslations('Parties');
   const formText = useTranslations('PartyForm');
   const users = useActiveUsers();
+  const partyId = typeof input.partyId === 'string' ? input.partyId : undefined;
+  const party = useParty({ id: partyId ?? '' });
+  const isLoading = users.isPending || (Boolean(partyId) && party.isPending);
   const markReady = useOverlaySurface()?.markReady;
   useEffect(() => {
-    if (!users.isPending) markReady?.();
-  }, [users.isPending, markReady]);
+    if (!isLoading) markReady?.();
+  }, [isLoading, markReady]);
   const parsed = createPartyFormSchema(formText)
     .partial()
-    .safeParse(input.initialValues ?? {});
-  const partyId = typeof input.partyId === 'string' ? input.partyId : undefined;
+    .safeParse(
+      party.data
+        ? {
+            ...party.data,
+            name: party.data.name || undefined,
+            code: party.data.code ?? '',
+            phone: party.data.phone ?? '',
+            email: party.data.email ?? '',
+            taxCode: party.data.taxCode ?? '',
+            address: party.data.address ?? '',
+            note: party.data.note ?? '',
+            assignedToId: party.data.assignedToId ?? '',
+            creditLimit: party.data.creditLimit?.toString() ?? '',
+            provinceCode: party.data.provinceCode ?? '',
+            provinceName: party.data.provinceName ?? '',
+          }
+        : (input.initialValues ?? {}),
+    );
   const title = partyId
     ? t('viewDialog', { name: parsed.success ? (parsed.data.name ?? '') : '' })
     : t('add');
-  if (users.isPending) return null;
-  if (!parsed.success || users.isError) return <InvalidSurface />;
+  if (isLoading) return null;
+  if (!parsed.success || users.isError || (Boolean(partyId) && party.isError))
+    return <InvalidSurface />;
   return (
     <FormDialog
       surface
@@ -50,6 +71,7 @@ function PartyFormSurface({ input }: OverlayContentProps) {
       description={partyId ? t('viewDescription') : t('addDescription')}
     >
       <PartyForm
+        key={partyId ?? 'new'}
         users={users.data ?? []}
         partyId={partyId}
         initialValues={parsed.data}

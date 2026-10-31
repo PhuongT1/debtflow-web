@@ -1,4 +1,5 @@
 'use client';
+
 import { createPlatformClient } from '@packages/platform-sdk';
 
 /** Share one integration client across navigation, locale synchronization and overlay requests. */

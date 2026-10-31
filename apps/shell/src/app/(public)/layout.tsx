@@ -1,7 +1,7 @@
-import type { ReactNode } from 'react';
-
 import { PublicPageLayout } from '@/components/layouts/public-page-layout';
 
-export default function PublicLayout({ children }: { children: ReactNode }) {
+import type { PublicLayoutProps } from './layout.types';
+
+export default function PublicLayout({ children }: PublicLayoutProps) {
   return <PublicPageLayout>{children}</PublicPageLayout>;
 }

@@ -2,8 +2,9 @@
 
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, MenuItem } from '@mui/material';
+import { Alert, Box, MenuItem } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -16,6 +17,8 @@ import { DatePicker } from '@/components/ui/form/date-picker';
 import { FormActions, FormGrid } from '@/components/ui/form/layout';
 import { applyApiFieldErrors } from '@/lib/forms/errors';
 import { updateDebt } from '@/services/debt.client';
+
+import type { CollectionFormProps } from './collection-form.types';
 
 const collectionFormSchema = z.object({
   collectionStatus: z.enum(['NEW', 'CONTACTED', 'PROMISED', 'DISPUTED', 'ESCALATED']),
@@ -36,30 +39,15 @@ function withoutEmptyValues(values: CollectionFormValues) {
   );
 }
 
-export function CollectionForm({
-  debtId,
-  defaults,
-  users,
-}: {
-  debtId: string;
-  defaults: {
-    assignedToId?: string | null;
-    collectionStatus: string;
-    nextFollowUpAt?: Date | null;
-    followUpNote?: string | null;
-    invoiceNo?: string | null;
-    orderNo?: string | null;
-    contractNo?: string | null;
-    poNo?: string | null;
-  };
-  users: Array<{ id: string; name: string; email: string }>;
-}) {
+export function CollectionForm({ debtId, defaults, users }: CollectionFormProps) {
+  const ui = useTranslations('Workspace');
+
   const router = useRouter();
   const { showToast } = useToast();
   const mutation = useMutation({
     mutationFn: (values: CollectionFormValues) => updateDebt(debtId, withoutEmptyValues(values)),
     onSuccess: () => {
-      showToast({ message: 'Đã cập nhật trạng thái thu tiền.' });
+      showToast({ message: ui('collectionStatusUpdated') });
       router.refresh();
     },
   });
@@ -67,6 +55,7 @@ export function CollectionForm({
     control,
     handleSubmit,
     setError,
+    getValues,
     formState: { errors },
   } = useForm<CollectionFormValues>({
     resolver: zodResolver(collectionFormSchema),
@@ -87,33 +76,35 @@ export function CollectionForm({
       component="form"
       noValidate
       onSubmit={handleSubmit((values) =>
-        mutation.mutate(values, { onError: (error) => applyApiFieldErrors(error, setError) }),
+        mutation.mutate(values, {
+          onError: (error) => applyApiFieldErrors(error, setError, getValues()),
+        }),
       )}
       sx={{ display: 'grid', gap: 2 }}
     >
       <FormInput
         select
-        label="Trạng thái thu tiền *"
+        label={ui('collectionStatusText')}
         control={control}
         name={'collectionStatus'}
         error={Boolean(errors.collectionStatus)}
         helperText={errors.collectionStatus?.message}
       >
-        <MenuItem value="NEW">Mới</MenuItem>
-        <MenuItem value="CONTACTED">Đã liên hệ</MenuItem>
-        <MenuItem value="PROMISED">Khách hẹn trả</MenuItem>
-        <MenuItem value="DISPUTED">Đang tranh chấp</MenuItem>
-        <MenuItem value="ESCALATED">Cần escalated</MenuItem>
+        <MenuItem value="NEW">{ui('new')}</MenuItem>
+        <MenuItem value="CONTACTED">{ui('contacted')}</MenuItem>
+        <MenuItem value="PROMISED">{ui('promisedPayment')}</MenuItem>
+        <MenuItem value="DISPUTED">{ui('disputed')}</MenuItem>
+        <MenuItem value="ESCALATED">{ui('escalationNeeded')}</MenuItem>
       </FormInput>
       <FormInput
         select
-        label="Sale phụ trách"
+        label={ui('accountOwner')}
         control={control}
         name={'assignedToId'}
         error={Boolean(errors.assignedToId)}
         helperText={errors.assignedToId?.message}
       >
-        <MenuItem value="">Chưa gán</MenuItem>
+        <MenuItem value="">{ui('unassigned')}</MenuItem>
         {users.map((user) => (
           <MenuItem key={user.id} value={user.id}>
             {user.name}
@@ -127,14 +118,14 @@ export function CollectionForm({
           <DatePicker
             error={Boolean(errors.nextFollowUpAt)}
             helperText={errors.nextFollowUpAt?.message}
-            label="Hẹn follow-up tiếp theo"
+            label={ui('nextFollowUp')}
             onChange={field.onChange}
             value={field.value}
           />
         )}
       />
       <FormInput
-        label="Ghi chú thu tiền"
+        label={ui('collectionNotes')}
         multiline
         rows={3}
         control={control}
@@ -144,21 +135,21 @@ export function CollectionForm({
       />
       <FormGrid>
         <FormInput
-          label="Mã hóa đơn"
+          label={ui('invoiceNumber')}
           control={control}
           name={'invoiceNo'}
           error={Boolean(errors.invoiceNo)}
           helperText={errors.invoiceNo?.message}
         />
         <FormInput
-          label="Mã đơn hàng"
+          label={ui('orderNumber')}
           control={control}
           name={'orderNo'}
           error={Boolean(errors.orderNo)}
           helperText={errors.orderNo?.message}
         />
         <FormInput
-          label="Hợp đồng"
+          label={ui('contract')}
           control={control}
           name={'contractNo'}
           error={Boolean(errors.contractNo)}
@@ -172,10 +163,13 @@ export function CollectionForm({
           helperText={errors.poNo?.message}
         />
       </FormGrid>
+      {errors.root?.server?.message ? (
+        <Alert severity="error">{errors.root.server.message}</Alert>
+      ) : null}
       <ApiErrorNotice error={mutation.error} />
       <FormActions>
         <Button loading={mutation.isPending} type="submit">
-          Cập nhật thu tiền
+          {ui('updateCollection')}
         </Button>
       </FormActions>
     </Box>

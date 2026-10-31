@@ -1,3 +1,5 @@
+import { getTranslations } from 'next-intl/server';
+
 import { DataTable, type DataTableColumn } from '@/components/tables';
 import { applyTableLayout } from '@/components/tables/page-layouts';
 import { Badge } from '@/components/ui/badge';
@@ -7,18 +9,18 @@ import { Page, PageHeader } from '@/components/ui/page/page';
 import { hrefWithPage, hrefWithPageSize } from '@/lib/routing/pagination';
 import { listUsers } from '@/services/user.server';
 
-export async function UsersPage({
-  searchParams,
-}: {
-  searchParams: Promise<Record<string, string | undefined>>;
-}) {
+import type { UsersPageProps } from './users-page.types';
+
+export async function UsersPage({ searchParams }: UsersPageProps) {
+  const ui = await getTranslations('Workspace');
+
   const filters = await searchParams;
   const result = await listUsers(filters);
   const { items: users, page, pageSize, total } = result;
   const columns: Array<DataTableColumn<(typeof users)[number]>> = [
     {
       key: 'name',
-      title: 'Tên',
+      title: ui('name'),
       render: (user) => <span className="font-semibold">{user.name}</span>,
     },
     { key: 'email', title: 'Email', render: (user) => user.email },
@@ -41,14 +43,14 @@ export async function UsersPage({
         </Badge>
       ),
     },
-    { key: 'status', title: 'Trạng thái', render: (user) => user.status },
+    { key: 'status', title: ui('status'), render: (user) => user.status },
     {
       key: 'actions',
-      title: 'Thao tác',
+      title: ui('actions'),
       render: (user) => (
         <ConfirmActionButton
           endpoint={`/api/users/${user.id}`}
-          confirmMessage="Bạn chắc chắn muốn vô hiệu hóa user này?"
+          confirmMessage={ui('disableThisUser')}
         />
       ),
     },
@@ -57,20 +59,18 @@ export async function UsersPage({
   return (
     <Page fillAvailable>
       <PageHeader
-        title="Phân quyền"
-        description="Quản lý vai trò OWNER, ADMIN, ACCOUNTANT và VIEWER."
+        title={ui('permissions')}
+        description={ui('manageOwnerAdminAccountantAndViewerRoles')}
         actions={
           <HelpModal
-            title="Cách hiểu phân quyền"
-            description="Phân quyền giúp tránh sửa nhầm dữ liệu công nợ."
+            title={ui('understandingPermissions')}
+            description={ui('permissionsHelpPreventUnintendedChangesToDebtRecords')}
             steps={[
-              'ADMIN dùng cho chủ shop/quản lý, có quyền hủy công nợ.',
-              'ACCOUNTANT dùng cho người nhập công nợ, ghi nhận thanh toán, import/export.',
-              'VIEWER chỉ xem báo cáo và danh sách, phù hợp cho người cần theo dõi.',
+              ui('adminIsForShopOwnersAndManagersAndCan'),
+              ui('accountantCanEnterDebtsRecordPaymentsAndImportExport'),
+              ui('viewerCanViewReportsAndLists'),
             ]}
-            tips={[
-              'Hiện màn hình này mới xem danh sách user. Chức năng tạo/sửa user nên làm tiếp ở phase sau.',
-            ]}
+            tips={[ui('thisScreenCurrentlyListsUsersUserCreationAndEditing')]}
           />
         }
       />
@@ -78,7 +78,7 @@ export async function UsersPage({
       <DataTable
         columns={applyTableLayout(columns, 'users')}
         tableSx={{ tableLayout: 'fixed' }}
-        emptyMessage="Không có user"
+        emptyMessage={ui('noUsersFound')}
         fillHeight
         hrefForPage={(nextPage) => hrefWithPage('/users', filters, nextPage)}
         hrefForPageSize={(pageSize) => hrefWithPageSize('/users', filters, pageSize)}

@@ -8,6 +8,7 @@ import { partyService } from '@/services/parties';
 
 export function useParty({ id }: PartyDetailParams) {
   return useQuery({
+    enabled: Boolean(id),
     queryKey: queryKeys.parties.detail(id),
     queryFn: ({ signal }) => partyService.detail({ id }, signal),
   });

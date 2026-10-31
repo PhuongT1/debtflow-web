@@ -8,8 +8,8 @@ import { DataTableToolbar } from '@/components/tables/toolbar';
 import { FilterActions } from '@/components/ui/form/filter-actions';
 import { Input } from '@/components/ui/form/input';
 import { SelectField } from '@/components/ui/form/select';
-import type { CatalogOptions } from '@/features/catalog/catalog.types';
 import { CollectionStatus, DebtStatus } from '@/lib/domain/enums';
+import type { CatalogOptions } from '@/services/catalog.types';
 
 type DebtListToolbarProps = {
   activeUsers: Array<{ id: string; name: string }>;

@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getTranslations } from 'next-intl/server';
 
 import { DEFAULT_LOCALE, LOCALE_COOKIE_NAME } from '@packages/platform-contracts';
 
 import { http } from '@/lib/api/http';
 import { getServerAccessToken } from '@/lib/auth/session';
 import { API_URL } from '@/lib/config/environment';
+
+import type { ProxyRequestContextOptions } from './route.types';
 
 const HOP_BY_HOP_HEADERS = new Set([
   'connection',
@@ -23,15 +26,14 @@ function buildBackendUrl(path: string[], search: string) {
   return url;
 }
 
-async function proxyRequest(
-  request: NextRequest,
-  context: { params: Promise<{ path: string[] }> },
-) {
+async function proxyRequest(request: NextRequest, context: ProxyRequestContextOptions) {
+  const ui = await getTranslations('Workspace');
+
   const accessToken = await getServerAccessToken();
 
   if (!accessToken) {
     return NextResponse.json(
-      { message: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.' },
+      { message: ui('yourSessionHasExpiredPleaseSignInAgain') },
       { status: 401 },
     );
   }
@@ -71,8 +73,7 @@ async function proxyRequest(
   } catch {
     return NextResponse.json(
       {
-        message:
-          'Không thể kết nối đến máy chủ Backend API. Vui lòng kiểm tra lại dịch vụ Backend.',
+        message: ui('unableToConnectToTheBackendApiPleaseCheck'),
       },
       { status: 503 },
     );

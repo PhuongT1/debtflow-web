@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import { FormDialog } from '@/components/ui/dialog/form-dialog';
@@ -8,20 +9,10 @@ import { API_URL } from '@/lib/config/environment';
 
 import { DebtForm } from '../forms/debt/debt-form';
 
-type Translate = (key: string) => string;
-type UserOption = { id: string; name: string; email: string };
+import type { DebtsPageHeaderProps } from './page-header.types';
 
-const HELP_STEPS = [
-  'Chọn khách hàng, chọn loại Phải thu nếu khách nợ mình hoặc Phải trả nếu mình nợ nhà cung cấp.',
-  'Nhập số tiền, ngày phát sinh, ngày đến hạn và mã hóa đơn/đơn hàng nếu có.',
-  'Gán sale phụ trách và đặt ngày follow-up nếu cần gọi khách nhắc thanh toán.',
-  'Sau khi khách trả một phần, vào chi tiết công nợ để ghi nhận thanh toán.',
-];
-
-const HELP_TIPS = [
-  'Dùng bộ lọc để xem riêng công nợ của từng sale hoặc các khoản quá hạn lâu.',
-  'Nếu khách đang tranh chấp, chuyển trạng thái thu tiền sang Tranh chấp để manager dễ thấy.',
-];
+export type Translate = (key: string) => string;
+export type UserOption = { id: string; name: string; email: string };
 
 function buildExportHref(filters: Record<string, string | undefined>) {
   const search = new URLSearchParams();
@@ -33,15 +24,20 @@ function buildExportHref(filters: Record<string, string | undefined>) {
   return `${API_URL}/exports/debts?${search}`;
 }
 
-export function DebtsPageHeader({
-  filters,
-  t,
-  users,
-}: {
-  filters: Record<string, string | undefined>;
-  t: Translate;
-  users: UserOption[];
-}) {
+export function DebtsPageHeader({ filters, t, users }: DebtsPageHeaderProps) {
+  const ui = useTranslations('Workspace');
+
+  const HELP_STEPS = [
+    ui('chooseACustomerThenReceivableIfTheyOweYou'),
+    ui('enterTheAmountIssueDateDueDateAndAny'),
+    ui('assignAnAccountOwnerAndAFollowUpDate'),
+    ui('afterAPartialPaymentOpenTheDebtDetailsTo'),
+  ];
+  const HELP_TIPS = [
+    ui('useFiltersToReviewDebtsByAccountOwnerOr'),
+    ui('forDisputedDebtsSetTheCollectionStatusToDisputed'),
+  ];
+
   return (
     <PageHeader
       title={t('title')}
@@ -56,8 +52,8 @@ export function DebtsPageHeader({
             <DebtForm users={users} />
           </FormDialog>
           <HelpModal
-            title="Cách quản lý công nợ"
-            description="Mỗi khoản bán thiếu hoặc khoản mình cần trả nên là một công nợ riêng để theo dõi rõ ràng."
+            title={ui('howToManageDebts')}
+            description={ui('trackEachCreditSaleOrAmountPayableAsA')}
             steps={HELP_STEPS}
             tips={HELP_TIPS}
           />

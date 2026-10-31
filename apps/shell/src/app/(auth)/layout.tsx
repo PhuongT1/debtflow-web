@@ -1,7 +1,7 @@
-import type { ReactNode } from 'react';
-
 import { PublicPageLayout } from '@/components/layouts/public-page-layout';
 
-export default function AuthLayout({ children }: { children: ReactNode }) {
+import type { AuthLayoutProps } from './layout.types';
+
+export default function AuthLayout({ children }: AuthLayoutProps) {
   return <PublicPageLayout>{children}</PublicPageLayout>;
 }

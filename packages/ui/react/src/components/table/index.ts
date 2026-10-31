@@ -29,3 +29,5 @@ export type {
 } from './data-table';
 
 export type { DataTableSize } from './data-table';
+
+export type { CreateTablePaginationLinksProps } from './pagination-links.types';

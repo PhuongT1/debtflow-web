@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Box } from '@mui/material';
+import { useTranslations } from 'next-intl';
 
 import { MFE_ROUTE_SYNC_CAPABILITY } from '@packages/platform-contracts';
 import { getStoredLocale } from '@packages/platform-sdk';
@@ -21,6 +22,8 @@ export function IframeHost({
   loadingFallback,
   overlayViews,
 }: IframeHostProps) {
+  const ui = useTranslations('Workspace');
+
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -130,7 +133,7 @@ export function IframeHost({
         onError={() =>
           setState({
             status: 'error',
-            message: 'Không thể tải micro frontend.',
+            message: ui('unableToLoadTheApplication'),
           })
         }
         onLoad={() => remote.requestReady()}

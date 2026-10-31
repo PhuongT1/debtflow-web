@@ -1,7 +1,9 @@
 import { Autocomplete, type TextFieldProps } from '@mui/material';
 import type { SxProps, Theme } from '@mui/material/styles';
+import { useTranslations } from 'next-intl';
 
 import { Input } from './input';
+import type { MultipleSelectInputProps, SingleSelectInputProps } from './select.types';
 
 export type SelectOption = {
   disabled?: boolean;
@@ -24,7 +26,7 @@ type SelectProps = {
   value: string | string[];
 };
 
-type SelectInputProps = Pick<
+export type SelectInputProps = Pick<
   SelectProps,
   | 'allowClear'
   | 'disabled'
@@ -39,7 +41,7 @@ type SelectInputProps = Pick<
 function SelectInput({
   allowClear = false,
   disabled,
-  noOptionsText = 'Không có dữ liệu',
+  noOptionsText: noOptionsTextInput,
   options,
   placeholder,
   searchable = false,
@@ -47,11 +49,10 @@ function SelectInput({
   sx,
   onChange,
   value: selectedValue,
-}: SelectInputProps & {
-  multiple: false;
-  onChange: (value: string) => void;
-  value: string;
-}) {
+}: SingleSelectInputProps) {
+  const ui = useTranslations('Workspace');
+  const noOptionsText = noOptionsTextInput ?? ui('noRecordsFound');
+
   const value = options.find((option) => option.value === selectedValue) ?? null;
 
   return (
@@ -86,7 +87,7 @@ function SelectInput({
 function MultipleSelectInput({
   allowClear = false,
   disabled,
-  noOptionsText = 'Không có dữ liệu',
+  noOptionsText: noOptionsTextInput,
   options,
   placeholder,
   searchable = true,
@@ -94,11 +95,10 @@ function MultipleSelectInput({
   sx,
   onChange,
   value,
-}: SelectInputProps & {
-  multiple: true;
-  onChange: (value: string[]) => void;
-  value: string[];
-}) {
+}: MultipleSelectInputProps) {
+  const ui = useTranslations('Workspace');
+  const noOptionsText = noOptionsTextInput ?? ui('noRecordsFound');
+
   const selected = options.filter((option) => value.includes(option.value));
 
   return (

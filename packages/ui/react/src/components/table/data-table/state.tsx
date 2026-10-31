@@ -1,21 +1,10 @@
 import { Box, TableRow, Typography } from '@mui/material';
-import type { ReactNode } from 'react';
 
 import { DataTableCell } from '../table-cell';
 
-export function DataTableState({
-  columns,
-  fillHeight,
-  message,
-  hint,
-  icon,
-}: {
-  columns: number;
-  fillHeight?: boolean;
-  message: ReactNode;
-  hint?: ReactNode;
-  icon?: ReactNode;
-}) {
+import type { DataTableStateProps } from './state.types';
+
+export function DataTableState({ columns, fillHeight, message, hint, icon }: DataTableStateProps) {
   return (
     <TableRow sx={{ height: fillHeight ? '100%' : undefined }}>
       <DataTableCell colSpan={columns} sx={{ borderBottom: 0, p: 0, verticalAlign: 'middle' }}>

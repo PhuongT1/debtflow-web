@@ -1,4 +1,5 @@
 import type { SxProps, Theme } from '@mui/material';
+import { useLocale, useTranslations } from 'next-intl';
 
 import {
   createTablePaginationLinks,
@@ -47,7 +48,7 @@ export function DataTable<Row>({
   dataSource,
   title,
   footer,
-  emptyMessage = 'Không có dữ liệu',
+  emptyMessage: emptyMessageInput,
   paginationMeta,
   hrefForPage,
   hrefForPageSize,
@@ -58,6 +59,11 @@ export function DataTable<Row>({
   size = 'small',
   ...rest
 }: DataTableProps<Row>) {
+  const locale = useLocale();
+
+  const ui = useTranslations('Workspace');
+  const emptyMessage = emptyMessageInput ?? ui('noRecordsFound');
+
   const links = createTablePaginationLinks({ ...paginationMeta, hrefForPage, hrefForPageSize });
   const renderSlot = (slot?: TableSlot<Row>) =>
     typeof slot === 'function' ? slot(dataSource) : slot;
@@ -67,13 +73,13 @@ export function DataTable<Row>({
       size={size}
       dataSource={dataSource}
       emptyMessage={emptyMessage}
-      emptyHint="Thử đổi bộ lọc hoặc tạo dữ liệu mới."
+      emptyHint={ui('tryChangingFiltersOrAddingARecord')}
       fillHeight={fillHeight}
       loading={loading}
       skeletonRowCount={Math.min(10, Math.max(5, paginationMeta.pageSize))}
       {...rest}
       title={renderSlot(title)}
-      description={`${paginationMeta.total.toLocaleString('vi-VN')} bản ghi`}
+      description={ui('recordsCount', { value1: paginationMeta.total.toLocaleString(locale) })}
       footer={renderSlot(footer)}
       renderHeader={(column) =>
         column.sortKey && sort ? (

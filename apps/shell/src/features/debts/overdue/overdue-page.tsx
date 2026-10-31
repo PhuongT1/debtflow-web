@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { getLocale, getTranslations } from 'next-intl/server';
 
 import { DataTable, type DataTableColumn } from '@/components/tables';
 import { applyTableLayout } from '@/components/tables/page-layouts';
@@ -10,56 +11,62 @@ import { formatMoney } from '@/lib/presentation/formatters';
 import { hrefWithPage, hrefWithPageSize } from '@/lib/routing/pagination';
 import { listDebts } from '@/services/debt.server';
 
-export async function OverduePage({
-  searchParams,
-}: {
-  searchParams: Promise<Record<string, string | undefined>>;
-}) {
+import type { OverduePageProps } from './overdue-page.types';
+
+export async function OverduePage({ searchParams }: OverduePageProps) {
+  const locale = await getLocale();
+
+  const ui = await getTranslations('Workspace');
+
   const filters = await searchParams;
   const debts = await listDebts({ ...filters, overdue: true });
   const columns: Array<DataTableColumn<(typeof debts.items)[number]>> = [
     {
       key: 'code',
-      title: 'Mã',
+      title: ui('code'),
       render: (debt) => (
         <Link className="font-semibold text-blue-600" href={`/debts/${debt.id}`}>
           {debt.code}
         </Link>
       ),
     },
-    { key: 'party', title: 'Đối tác', render: (debt) => debt.party.name },
+    { key: 'party', title: ui('partners'), render: (debt) => debt.party.name },
     {
       key: 'type',
-      title: 'Loại',
-      render: (debt) => (debt.type === 'RECEIVABLE' ? 'Phải thu' : 'Phải trả'),
+      title: ui('type'),
+      render: (debt) => (debt.type === 'RECEIVABLE' ? ui('receivable') : ui('payable')),
     },
     {
       key: 'remaining',
-      title: 'Còn lại',
+      title: ui('remaining'),
       align: 'right',
-      render: (debt) => formatMoney(debt.originalAmount.minus(debt.paidAmount)),
+      render: (debt) => formatMoney(debt.originalAmount.minus(debt.paidAmount), locale),
     },
     {
       key: 'dueDate',
-      title: 'Ngày đến hạn',
-      render: (debt) => debt.dueDate.toLocaleDateString('vi-VN'),
+      title: ui('dueDate'),
+      render: (debt) => debt.dueDate.toLocaleDateString(locale),
     },
     {
       key: 'late',
-      title: 'Trễ',
+      title: ui('overdue'),
       render: (debt) => {
         const lateDays = Math.max(1, Math.ceil((Date.now() - debt.dueDate.getTime()) / 86400000));
-        return <Badge tone="red">{lateDays} ngày</Badge>;
+        return (
+          <Badge tone="red">
+            {lateDays} {ui('days')}
+          </Badge>
+        );
       },
     },
     {
       key: 'actions',
-      title: 'Thao tác',
+      title: ui('actions'),
       render: (debt) => (
         <ConfirmActionButton
           endpoint={`/api/debts/${debt.id}`}
-          label="Hủy"
-          confirmMessage="Bạn chắc chắn muốn hủy công nợ này? Công nợ đã có thanh toán sẽ không hủy được."
+          label={ui('cancel')}
+          confirmMessage={ui('cancelThisDebtDebtsWithRecordedPaymentsCannotBe')}
         />
       ),
     },
@@ -68,21 +75,21 @@ export async function OverduePage({
   return (
     <Page fillAvailable>
       <PageHeader
-        title="Danh sách nợ quá hạn"
-        description="Các khoản đã quá hạn và chưa tất toán."
+        title={ui('overdueDebts')}
+        description={ui('overdueRecordsWithAnOutstandingBalance')}
         actions={
           <HelpModal
-            title="Cách xử lý nợ quá hạn"
-            description="Đây là danh sách sale nên mở đầu tiên khi cần thu tiền."
+            title={ui('howToHandleOverdueDebts')}
+            description={ui('startHereWhenFollowingUpOnUnpaidAmounts')}
             steps={[
-              'Ưu tiên khoản trễ nhiều ngày và số tiền còn lại lớn.',
-              'Bấm vào mã công nợ để xem chi tiết khách và ghi chú thu tiền.',
-              'Gọi khách, sau đó cập nhật trạng thái: đã liên hệ, khách hẹn trả, tranh chấp hoặc escalated.',
-              'Đặt ngày follow-up để không quên gọi lại.',
+              ui('prioritizeTheOldestDebtsAndLargestOutstandingBalances'),
+              ui('openADebtCodeToReviewPartnerDetailsAnd'),
+              ui('callTheCustomerThenUpdateTheCollectionStatusContacted'),
+              ui('setAFollowUpDateSoYouRememberTo'),
             ]}
             tips={[
-              'Danh sách này chỉ tính khoản chưa PAID và chưa CANCELLED.',
-              'Không cần tự tính ngày trễ như Excel, hệ thống tính sẵn.',
+              ui('thisListExcludesPaidAndCancelledDebts'),
+              ui('theSystemCalculatesOverdueDaysForYou'),
             ]}
           />
         }
@@ -91,7 +98,7 @@ export async function OverduePage({
       <DataTable
         columns={applyTableLayout(columns, 'overdue')}
         tableSx={{ tableLayout: 'fixed' }}
-        emptyMessage="Không có nợ quá hạn"
+        emptyMessage={ui('noOverdueDebts')}
         fillHeight
         hrefForPage={(page) => hrefWithPage('/overdue', filters, page)}
         hrefForPageSize={(pageSize) => hrefWithPageSize('/overdue', filters, pageSize)}

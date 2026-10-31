@@ -1,3 +1,4 @@
+import type { ToPartnerSummaryPageSourceOptions } from './types.types';
 export type PartnerDebtSummary = {
   id: string;
   name: string;
@@ -18,7 +19,7 @@ export type PartnerSummaryPage = {
   pageSize: number;
 };
 
-type SourcePartner = Omit<PartnerDebtSummary, 'balance'> & {
+export type SourcePartner = Omit<PartnerDebtSummary, 'balance'> & {
   balance?: { receivable?: unknown; payable?: unknown };
 };
 
@@ -26,12 +27,9 @@ function toAmount(value: unknown) {
   return value == null ? '0' : String(value);
 }
 
-export function toPartnerSummaryPage(source: {
-  items: SourcePartner[];
-  page: number;
-  pageSize: number;
-  total: number;
-}): PartnerSummaryPage {
+export function toPartnerSummaryPage(
+  source: ToPartnerSummaryPageSourceOptions,
+): PartnerSummaryPage {
   return {
     ...source,
     items: source.items.map((party) => ({

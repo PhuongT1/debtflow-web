@@ -18,7 +18,7 @@ const statusTone: Record<DebtStatus, 'slate' | 'blue' | 'amber' | 'green' | 'red
   CANCELLED: 'red',
 };
 
-export function getDebtListColumns(t: Translate): Array<DataTableColumn<Debt>> {
+export function getDebtListColumns(t: Translate, locale: string): Array<DataTableColumn<Debt>> {
   const debtTypeLabels: Record<DebtType, string> = {
     RECEIVABLE: t('receivable'),
     PAYABLE: t('payable'),
@@ -97,7 +97,7 @@ export function getDebtListColumns(t: Translate): Array<DataTableColumn<Debt>> {
       align: 'right',
       render: (debt) => (
         <span className="font-semibold">
-          {formatMoney(debt.originalAmount.minus(debt.paidAmount))}
+          {formatMoney(debt.originalAmount.minus(debt.paidAmount), locale)}
         </span>
       ),
     },
@@ -108,7 +108,7 @@ export function getDebtListColumns(t: Translate): Array<DataTableColumn<Debt>> {
         const lateDays = Math.floor((Date.now() - debt.dueDate.getTime()) / 86_400_000);
         return (
           <div>
-            <p>{debt.dueDate.toLocaleDateString()}</p>
+            <p>{debt.dueDate.toLocaleDateString(locale)}</p>
             {lateDays > 0 && debt.status !== DebtStatus.PAID ? (
               <p className="text-xs font-semibold text-red-600">
                 {t('lateDays', { days: lateDays })}
@@ -136,7 +136,7 @@ export function getDebtListColumns(t: Translate): Array<DataTableColumn<Debt>> {
           </Badge>
           {debt.nextFollowUpAt ? (
             <p className="mt-1 text-xs text-slate-500">
-              {t('followUpOn', { date: debt.nextFollowUpAt.toLocaleDateString() })}
+              {t('followUpOn', { date: debt.nextFollowUpAt.toLocaleDateString(locale) })}
             </p>
           ) : null}
         </div>
