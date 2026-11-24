@@ -1,22 +1,17 @@
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 
 import { type AppLocale, DEFAULT_LOCALE, LOCALE_COOKIE_NAME } from '@packages/platform-contracts';
 import { getApplicationOverlayViews, microfrontendManifest } from '@packages/platform-registry';
 
 import { AuthenticatedShell } from '@/features/auth';
-import { getRequestedLoginUrl } from '@/lib/auth/login-navigation';
-import { auth } from '@/lib/auth/session';
+import { requirePageSession } from '@/lib/auth/session';
 
 import type { DashboardLayoutProps } from './layout.types';
 
 export const dynamic = 'force-dynamic';
 
 export default async function DashboardLayout({ children }: DashboardLayoutProps) {
-  const [session, cookieStore] = await Promise.all([auth(), cookies()]);
-  if (!session?.user || session.error === 'RefreshTokenError') {
-    redirect(await getRequestedLoginUrl());
-  }
+  const [session, cookieStore] = await Promise.all([requirePageSession(), cookies()]);
 
   const rawLocale = cookieStore.get(LOCALE_COOKIE_NAME)?.value;
   const initialLocale: AppLocale =

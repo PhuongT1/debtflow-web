@@ -1,11 +1,10 @@
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import { FormDialog } from '@/components/ui/dialog/form-dialog';
 import { HelpModal } from '@/components/ui/dialog/help-modal';
 import { PageHeader } from '@/components/ui/page/page';
-import { API_URL } from '@/lib/config/environment';
+import { buildApiRouteWithQuery, shellApiRoutes } from '@/lib/api/routes';
 
 import { DebtForm } from '../forms/debt/debt-form';
 
@@ -21,7 +20,7 @@ function buildExportHref(filters: Record<string, string | undefined>) {
     if (value) search.set(key, value);
   }
 
-  return `${API_URL}/exports/debts?${search}`;
+  return buildApiRouteWithQuery(shellApiRoutes.exports.debts, search);
 }
 
 export function DebtsPageHeader({ filters, t, users }: DebtsPageHeaderProps) {
@@ -57,7 +56,7 @@ export function DebtsPageHeader({ filters, t, users }: DebtsPageHeaderProps) {
             steps={HELP_STEPS}
             tips={HELP_TIPS}
           />
-          <Button component={Link} href={buildExportHref(filters)} variant="secondary">
+          <Button component="a" href={buildExportHref(filters)} variant="secondary">
             {t('export')}
           </Button>
         </>

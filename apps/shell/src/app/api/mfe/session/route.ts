@@ -1,16 +1,16 @@
 import { NextResponse } from 'next/server';
 import { getTranslations } from 'next-intl/server';
 
-import { auth } from '@/lib/auth/session';
+import { auth, getUsableSession } from '@/lib/auth/session';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export const GET = auth(async (request) => {
   const ui = await getTranslations('Workspace');
 
-  const session = await auth();
+  const session = getUsableSession(request.auth);
 
-  if (!session?.user || session.error === 'RefreshTokenError') {
+  if (!session) {
     return NextResponse.json(
       { message: ui('yourSessionIsInvalid') },
       { status: 401, headers: { 'Cache-Control': 'no-store' } },
@@ -28,4 +28,4 @@ export async function GET() {
     },
     { headers: { 'Cache-Control': 'no-store' } },
   );
-}
+});

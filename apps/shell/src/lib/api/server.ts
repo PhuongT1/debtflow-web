@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 import { type AppLocale, DEFAULT_LOCALE, LOCALE_COOKIE_NAME } from '@packages/platform-contracts';
 
@@ -6,7 +7,8 @@ import { getLocalizedApiErrorMessage } from '@/lib/api/error-message';
 import { http } from '@/lib/api/http';
 import { isBackendUnavailableError } from '@/lib/api/network-error';
 import { unwrapApiResponse } from '@/lib/api/response';
-import { getServerAccessToken } from '@/lib/auth/session';
+import { getRequestedLoginUrl } from '@/lib/auth/login-navigation';
+import { requirePageSession } from '@/lib/auth/session';
 import { API_URL } from '@/lib/config/environment';
 
 export class Money {
@@ -58,16 +60,13 @@ async function getServerApiResource<T>(
   options: ServerApiGetOptions = {},
 ): Promise<T> {
   const url = new URL(path.replace(/^\/+/, ''), API_URL.endsWith('/') ? API_URL : `${API_URL}/`);
-  const [accessToken, cookieStore] = await Promise.all([getServerAccessToken(), cookies()]);
+  const [{ accessToken }, cookieStore] = await Promise.all([requirePageSession(), cookies()]);
   const headers = new Headers();
 
   const requestedLocale = cookieStore.get(LOCALE_COOKIE_NAME)?.value;
   const locale: AppLocale =
     requestedLocale === 'en' || requestedLocale === 'vi' ? requestedLocale : DEFAULT_LOCALE;
 
-  if (!accessToken) {
-    throw new Error(getLocalizedApiErrorMessage(locale, 'authenticationExpired'));
-  }
   headers.set('Authorization', `Bearer ${accessToken}`);
   headers.set('Accept-Language', locale);
 
@@ -86,6 +85,8 @@ async function getServerApiResource<T>(
     }
     throw error;
   }
+
+  if (response.status === 401) redirect(await getRequestedLoginUrl(true));
 
   const body = await response.json().catch(() => null);
 

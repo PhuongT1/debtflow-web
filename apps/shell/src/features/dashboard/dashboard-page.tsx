@@ -12,7 +12,7 @@ import { DashboardActionQueue } from '@/features/dashboard/dashboard-action-queu
 import { getDashboardPeriod } from '@/features/dashboard/dashboard-period';
 import { DashboardPeriodFilter } from '@/features/dashboard/dashboard-period-filter';
 import { DashboardTradeSummaryCard } from '@/features/dashboard/dashboard-trade-summary';
-import { API_URL } from '@/lib/config/environment';
+import { shellApiRoutes } from '@/lib/api/routes';
 import { formatMoney } from '@/lib/presentation/formatters';
 import { getDashboard } from '@/services/dashboard.server';
 
@@ -66,7 +66,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
                 ui('theRemainingBalanceIsCalculatedFromTheOriginalDebt'),
               ]}
             />
-            <Button component={Link} href={API_URL + '/exports/debts'}>
+            <Button component="a" href={shellApiRoutes.exports.debts}>
               {t('export')}
             </Button>
           </>

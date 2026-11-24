@@ -1,18 +1,12 @@
-import { redirect } from 'next/navigation';
-
 import { AuthenticatedShell } from '@/features/auth';
-import { getRequestedLoginUrl } from '@/lib/auth/login-navigation';
-import { auth } from '@/lib/auth/session';
+import { requirePageSession } from '@/lib/auth/session';
 
 import type { MinimalLayoutProps } from './layout.types';
 
 export const dynamic = 'force-dynamic';
 
 export default async function MinimalLayout({ children }: MinimalLayoutProps) {
-  const session = await auth();
-  if (!session?.user || session.error === 'RefreshTokenError') {
-    redirect(await getRequestedLoginUrl());
-  }
+  const session = await requirePageSession();
 
   return (
     <AuthenticatedShell

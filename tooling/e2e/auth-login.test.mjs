@@ -200,3 +200,46 @@ test('return destinations preserve approved app paths and reject unsafe origins 
     assert.equal(navigation.resolveLoginReturnTo({ value }), '/', String(value));
   }
 });
+
+test('backend 401 can request fresh credentials without losing the safe return URL', async () => {
+  const loginUrl = new URL(await navigation.getRequestedLoginUrl(true));
+  assert.equal(loginUrl.searchParams.get('callbackUrl'), '/');
+  assert.equal(loginUrl.searchParams.get('reauth'), '1');
+});
+
+test('page auth and data reads share one render session and redirect for a missing token', async () => {
+  let reads = 0;
+  mocks.auth = async () => {
+    reads += 1;
+    return { user: { id: 'user-1' } };
+  };
+  const session = await loadModule('lib/auth/session.ts', {
+    react: 'export const cache = (fn) => { let result; return () => result ??= fn(); };',
+    'next-auth': 'export default () => ({ auth: () => globalThis.__loginTestMocks.auth() });',
+    'next-auth/providers/credentials': 'export default (config) => config;',
+    'next/navigation': 'export const redirect = (url) => { throw new Error(url); };',
+    '@/lib/domain/enums': 'export const UserRole = { VIEWER: "VIEWER" };',
+    '@/services/auth': 'export const authService = {};',
+    './tokens':
+      'export const mapAuthUser = () => {}; export const refreshAccessToken = () => {}; export const TOKEN_REFRESH_BUFFER_MS = 60_000;',
+    './login-navigation':
+      'export const getRequestedLoginUrl = async () => "/login?callbackUrl=%2F";',
+  });
+  assert.deepEqual(session.getUsableSession({ user: { id: 'user-1' }, accessToken: 'fixture' }), {
+    user: { id: 'user-1' },
+    accessToken: 'fixture',
+  });
+  assert.equal(
+    session.getUsableSession({
+      user: { id: 'user-1' },
+      accessToken: 'stale',
+      error: 'RefreshTokenError',
+    }),
+    null,
+  );
+  await Promise.all([
+    assert.rejects(session.requirePageSession(), { message: '/login?callbackUrl=%2F' }),
+    assert.rejects(session.requirePageSession(), { message: '/login?callbackUrl=%2F' }),
+  ]);
+  assert.equal(reads, 1);
+});

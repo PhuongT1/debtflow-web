@@ -127,6 +127,13 @@ All credentials are entered at the Shell's `/login`. The login page verifies the
 existing session before rendering the form. An authenticated user is immediately
 redirected to the validated `returnTo` URL, or to `/` if no safe target was supplied.
 
+Protected Shell layouts and their server-side API calls share one session result per render.
+A missing or expired session redirects the page to the central login and retains the requested path
+and query. When the backend rejects a token with HTTP 401, the login page allows the user to enter
+credentials again even if the Shell cookie still exists. Browser calls to the Shell BFF and MFE
+session endpoint keep HTTP 401 responses for callers to handle. These route handlers preserve
+NextAuth refresh cookies and send private responses with `Cache-Control: no-store`.
+
 - Shell protected pages preserve the requested path and query in `returnTo`.
 - Partner Ops protected pages preserve their full standalone URL. Its `/login`
   alias forwards to central login with `/parties` on the Partner Ops origin as the

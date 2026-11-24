@@ -1,9 +1,13 @@
+import { cache } from 'react';
+import { redirect } from 'next/navigation';
+import type { Session } from 'next-auth';
 import NextAuth, { type NextAuthConfig } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
 import { UserRole } from '@/lib/domain/enums';
 import { authService } from '@/services/auth';
 
+import { getRequestedLoginUrl } from './login-navigation';
 import { mapAuthUser, refreshAccessToken, TOKEN_REFRESH_BUFFER_MS } from './tokens';
 
 export const authConfig = {
@@ -59,13 +63,18 @@ export const authConfig = {
 
 export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
 
-export async function getServerAccessToken() {
-  const session = await auth();
-  if (!session?.accessToken || session.error === 'RefreshTokenError') return null;
-  return session.accessToken;
+export function getUsableSession(session: Session | null) {
+  if (!session?.user?.id || !session.accessToken || session.error === 'RefreshTokenError') {
+    return null;
+  }
+  return { user: session.user, accessToken: session.accessToken };
 }
 
-export async function getCurrentUser() {
-  const session = await auth();
-  return session?.user;
+// React caches only within the current server render. Layout and page use the same refresh result.
+const getPageSession = cache(async () => getUsableSession(await auth()));
+
+export async function requirePageSession() {
+  const session = await getPageSession();
+  if (!session) redirect(await getRequestedLoginUrl());
+  return session;
 }

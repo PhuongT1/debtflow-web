@@ -11,6 +11,9 @@ export const shellApiRoutes = {
     detail: (debtId: string) => '/api/debts/' + encodeURIComponent(debtId),
     payments: (debtId: string) => '/api/debts/' + encodeURIComponent(debtId) + '/payments',
   },
+  exports: {
+    debts: '/api/exports/debts',
+  },
   imports: {
     debtWorkbook: '/api/imports/debts',
   },
