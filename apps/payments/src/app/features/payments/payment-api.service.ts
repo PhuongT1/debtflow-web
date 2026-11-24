@@ -7,6 +7,7 @@ import {
   type ApiEnvelope,
   type PaginatedResult,
   type PaymentRecord,
+  type PaymentReversalResponse,
   unwrapApiResponse,
 } from '@packages/platform-contracts';
 @Injectable({ providedIn: 'root' })
@@ -22,6 +23,10 @@ export class PaymentApiService {
       .pipe(map((response) => unwrapApiResponse<PaginatedResult<PaymentRecord>>(response)));
   }
   remove(id: string) {
-    return this.http.delete(environment.apiBasePath + '/payments/' + id);
+    return this.http
+      .delete<ApiEnvelope<PaymentReversalResponse>>(
+        environment.apiBasePath + '/payments/' + encodeURIComponent(id),
+      )
+      .pipe(map((response) => unwrapApiResponse<PaymentReversalResponse>(response)));
   }
 }

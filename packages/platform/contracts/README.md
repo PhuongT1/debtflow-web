@@ -27,3 +27,8 @@ import type { ApiEnvelope, CoreIdentity } from '@packages/platform-contracts';
 `PaginationMeta` describes API metadata: `page`, `pageSize`, `total`, `totalPages`, `hasNextPage`, `hasPreviousPage`. `PaginatedResponse<T>` groups `{ items: T[], meta: PaginationMeta }` for consumers that preserve this metadata. The backend wire envelope is `data: T[]` with `meta.pagination`; transport adapters own that normalization.
 
 The existing flat `PaginatedResult<T>` and `unwrapApiResponse` remain compatible for current consumers. Do not change an existing owner's response shape implicitly.
+
+## Payment commands
+
+`CreatePaymentRequest` and `AllocatePaymentRequest` send amounts as decimal strings.
+`PaymentReversalResponse` represents the ID and restored debt count returned by the API.

@@ -14,7 +14,7 @@ type DebtFormFieldsProps = Pick<
   'control'
 > & {
   errors: FieldErrors<DebtFormInput>;
-  lineItemTotal: number;
+  lineItemTotal: string;
   lockParty: boolean;
   parties: Array<{ id: string; name: string }>;
   users: Array<{ id: string; name: string; email: string }>;
@@ -123,10 +123,11 @@ export function DebtFormFields({
         type="number"
         control={control}
         name={'originalAmount'}
+        slotProps={{ htmlInput: { readOnly: lineItemTotal !== '0.00' } }}
         error={Boolean(errors.originalAmount)}
         helperText={
           errors.originalAmount?.message ??
-          (lineItemTotal > 0 ? ui('calculatedFromLineItems') : undefined)
+          (lineItemTotal !== '0.00' ? ui('calculatedFromLineItems') : undefined)
         }
       />
       <Controller

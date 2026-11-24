@@ -36,6 +36,8 @@ const messages = {
     'history.deleteConfirm':
       'Bạn chắc chắn muốn xóa thanh toán này? Số dư công nợ sẽ được tính lại.',
     'history.deleteError': 'Không thể xóa thanh toán. Vui lòng thử lại.',
+    'history.reconciliationRequired':
+      'Hãy đối soát các khoản phân bổ trước khi đảo phiếu thanh toán.',
     'history.loadError': 'Không thể tải lịch sử thanh toán.',
     'method.cash': 'Tiền mặt',
     'method.bankTransfer': 'Chuyển khoản',
@@ -76,6 +78,7 @@ const messages = {
     'history.deleteConfirm':
       'Are you sure you want to delete this payment? The debt balance will be recalculated.',
     'history.deleteError': 'Failed to delete payment. Please try again.',
+    'history.reconciliationRequired': 'Reconcile the allocations before reversing this payment.',
     'history.loadError': 'Could not load payment history.',
     'method.cash': 'Cash',
     'method.bankTransfer': 'Bank transfer',

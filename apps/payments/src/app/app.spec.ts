@@ -77,6 +77,21 @@ describe('PaymentApiService', () => {
     });
     http.verify();
   });
+
+  it('encodes the payment ID and unwraps the reversal response', async () => {
+    TestBed.configureTestingModule({
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    });
+    const service = TestBed.inject(PaymentApiService);
+    const http = TestBed.inject(HttpTestingController);
+    const result = firstValueFrom(service.remove('payment/id'));
+    const request = http.expectOne({ method: 'DELETE', url: '/api/payments/payment%2Fid' });
+
+    request.flush({ success: true, data: { id: 'payment/id', restoredDebtCount: 2 } });
+
+    await expect(result).resolves.toEqual({ id: 'payment/id', restoredDebtCount: 2 });
+    http.verify();
+  });
 });
 
 describe('Payment list navigation', () => {

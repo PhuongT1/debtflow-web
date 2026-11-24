@@ -21,6 +21,9 @@ export {
 
 // Payments domain
 export {
+  type CreatePaymentRequest,
+  type AllocatePaymentRequest,
+  type PaymentReversalResponse,
   type PaymentMethod,
   type PaymentDebtSummary,
   type PaymentAllocationRecord,

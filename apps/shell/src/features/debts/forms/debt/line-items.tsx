@@ -7,6 +7,7 @@ import { FormInput } from '@packages/ui-react';
 import { Button } from '@/components/ui/button';
 import type { CatalogOptions } from '@/services/catalog.types';
 
+import { sumDebtLineAmounts } from './line-item-totals';
 import type { DebtFormInput } from './schema';
 
 type DebtLineItemsProps = {
@@ -21,10 +22,7 @@ export function DebtLineItems({ catalog, control }: DebtLineItemsProps) {
 
   const { append, fields, remove } = useFieldArray({ control, name: 'items' });
   const items = useWatch({ control, name: 'items' }) ?? [];
-  const total = items.reduce(
-    (sum, item) => sum + (Number(item.quantity) || 0) * (Number(item.unitPrice) || 0),
-    0,
-  );
+  const total = sumDebtLineAmounts(items);
 
   return (
     <Box sx={{ display: 'grid', gap: 1.25 }}>
@@ -102,10 +100,8 @@ export function DebtLineItems({ catalog, control }: DebtLineItemsProps) {
             {new Intl.NumberFormat(locale, {
               style: 'currency',
               currency: 'VND',
-              maximumFractionDigits: 0,
-            }).format(
-              (Number(items[index]?.quantity) || 0) * (Number(items[index]?.unitPrice) || 0),
-            )}
+              maximumFractionDigits: 2,
+            }).format(sumDebtLineAmounts([items[index] ?? {}]))}
           </p>
         </Box>
       ))}
@@ -115,7 +111,7 @@ export function DebtLineItems({ catalog, control }: DebtLineItemsProps) {
           {new Intl.NumberFormat(locale, {
             style: 'currency',
             currency: 'VND',
-            maximumFractionDigits: 0,
+            maximumFractionDigits: 2,
           }).format(total)}
         </p>
       ) : null}

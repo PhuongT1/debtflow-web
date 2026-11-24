@@ -29,3 +29,22 @@ export interface PaymentRecord {
   party: { id: string; name: string };
   allocations: PaymentAllocationRecord[];
 }
+
+/** Amounts in payment commands are decimal text on the API wire. */
+export interface CreatePaymentRequest {
+  amount: string;
+  paidAt: string;
+  method?: PaymentMethod;
+  referenceNo?: string;
+  note?: string;
+}
+
+export interface AllocatePaymentRequest extends CreatePaymentRequest {
+  partyId: string;
+  type: PaymentRecord['type'];
+}
+
+export interface PaymentReversalResponse {
+  id: string;
+  restoredDebtCount: number;
+}

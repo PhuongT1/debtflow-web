@@ -23,6 +23,7 @@ import { listPartyOptions } from '@/services/party.client';
 
 import type { DebtFormProps } from './debt-form.types';
 import { DebtFormFields } from './fields';
+import { sumDebtLineAmounts } from './line-item-totals';
 import { DebtLineItems } from './line-items';
 import { createDebtFormSchema, type DebtFormInput, type DebtFormValues } from './schema';
 
@@ -97,13 +98,10 @@ export function DebtForm({
     },
   });
   const lineItems = useWatch({ control, name: 'items' });
-  const lineItemTotal = (lineItems ?? []).reduce(
-    (sum, item) => sum + (Number(item.quantity) || 0) * (Number(item.unitPrice) || 0),
-    0,
-  );
+  const lineItemTotal = sumDebtLineAmounts(lineItems ?? []);
 
   useEffect(() => {
-    if (lineItemTotal > 0) setValue('originalAmount', String(lineItemTotal));
+    if (lineItemTotal !== '0.00') setValue('originalAmount', lineItemTotal);
   }, [lineItemTotal, setValue]);
 
   useEffect(() => {

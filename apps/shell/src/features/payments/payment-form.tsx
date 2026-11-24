@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { useFormDialog } from '@/components/ui/dialog/form-dialog';
 import { DatePicker } from '@/components/ui/form/date-picker';
 import { FormActions, FormGrid } from '@/components/ui/form/layout';
+import { MONEY_DECIMAL_PATTERN, normalizePositiveDecimal } from '@/lib/forms/decimal';
 import { applyApiFieldErrors } from '@/lib/forms/errors';
 import { autoAllocatePayment, recordDebtPayment } from '@/services/payment.client';
 
@@ -30,8 +31,12 @@ function createPaymentFormSchema(ui: (key: string) => string) {
       })
       .trim()
       .min(1, ui('enterAPaymentAmount'))
-      .refine((value) => Number.isFinite(Number(value)), ui('enterAValidNumber'))
-      .refine((value) => Number(value) > 0, ui('thePaymentAmountMustBeGreaterThanZero')),
+      .transform((value, context) => {
+        const amount = normalizePositiveDecimal(value, MONEY_DECIMAL_PATTERN);
+        if (amount) return amount;
+        context.addIssue({ code: z.ZodIssueCode.custom, message: ui('enterAValidNumber') });
+        return z.NEVER;
+      }),
     paidAt: z.string().min(1, ui('selectAPaymentDate')),
     method: z.enum(['BANK_TRANSFER', 'CASH', 'OTHER']),
     referenceNo: z.string().trim().optional(),

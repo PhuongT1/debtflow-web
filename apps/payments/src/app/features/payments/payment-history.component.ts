@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -107,7 +108,15 @@ export class PaymentHistoryComponent {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => this.load(this.result().page, this.result().pageSize),
-        error: () => this.error.set(this.t('history.deleteError')),
+        error: (error: unknown) => {
+          const conflict =
+            error instanceof HttpErrorResponse &&
+            error.status === 409 &&
+            error.error?.code === 'INCONSISTENT_PAYMENT_BALANCE';
+          this.error.set(
+            this.t(conflict ? 'history.reconciliationRequired' : 'history.deleteError'),
+          );
+        },
       });
   }
 
