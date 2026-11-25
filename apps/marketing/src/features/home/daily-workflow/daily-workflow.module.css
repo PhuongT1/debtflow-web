@@ -1,0 +1,121 @@
+.section {
+  padding: clamp(1.25rem, 4vw, 3.5rem);
+  border-radius: 1.35rem;
+  color: #f7f8ff;
+  background: radial-gradient(ellipse at top right, #394bac, #1d286f 55%, #151e55);
+}
+
+.intro p {
+  margin-top: 0.75rem;
+  color: #e3e7ff;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block: 1.35rem;
+}
+
+.controls button {
+  padding: 0.55rem 0.9rem;
+  border: 1px solid #9daefa;
+  border-radius: 2rem;
+  background: #273881;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background: #3d52ad;
+}
+
+.controls button[aria-pressed='true'] {
+  border-color: #ffda54;
+  background: #ffda54;
+  color: #211c35;
+}
+
+.panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+  overflow: clip;
+  border-radius: 1rem;
+  color: var(--marketing-ink);
+  background: #f7f8ff;
+}
+
+.image {
+  position: relative;
+  min-height: 19rem;
+  background: #29387d;
+}
+
+.image img {
+  object-fit: cover;
+}
+
+.copy {
+  padding: clamp(1rem, 3.5vw, 2.5rem);
+}
+
+.copy h3 {
+  margin: 0 0 0.65rem;
+  font-size: clamp(1.35rem, 2.8vw, 2.1rem);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.copy p {
+  color: var(--marketing-muted);
+}
+
+.copy ol {
+  display: grid;
+  gap: 0.55rem;
+  margin-block: 1.25rem;
+  padding-left: 1.55rem;
+}
+
+.copy li {
+  padding-left: 0.2rem;
+}
+
+.copy li::marker {
+  color: var(--marketing-action);
+  font-weight: 800;
+}
+
+.action {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 760px) {
+  .panel {
+    grid-template-columns: 1fr;
+  }
+
+  .image {
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .section {
+      animation: reveal-workflow linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 42%;
+    }
+  }
+}
+
+@keyframes reveal-workflow {
+  from {
+    opacity: 0.45;
+    transform: translateY(1rem);
+  }
+}

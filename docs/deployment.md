@@ -1,6 +1,6 @@
 # Production Deployment & Hosting Guide
 
-This document outlines the independent deployment strategy for all micro frontend applications and shared assets within the **Debt Flow Web** workspace.
+This document outlines the independent deployment strategy for the public website, micro frontend applications and shared assets within the **Debt Flow Web** workspace.
 
 ---
 
@@ -18,7 +18,7 @@ Each application in `apps/` is independently buildable, deployable, and scalable
 
 Vercel natively supports NPM/Turborepo monorepos via `turbo.json`. **No complex CLI commands or override scripts are required.**
 
-In Vercel, create three separate projects pointing to the same repository with the following standard settings:
+In Vercel, create separate projects pointing to the same repository with the following standard settings:
 
 ### Project 1: `@debtflow/shell` (Host)
 
@@ -58,7 +58,11 @@ In Vercel, create three separate projects pointing to the same repository with t
 
 ---
 
-## 3. Custom Server / Nginx / Docker Deployment
+## 3. Marketing Hosting
+
+Use the same repository with Root Directory `apps/marketing` and the Next.js preset. Follow the [Marketing workspace guide](../apps/marketing/README.md#kiểm-tra-và-triển-khai) for public origins and build commands.
+
+## 4. Custom Server / Nginx / Docker Deployment
 
 When deploying to private cloud or VPS environments (Docker / Kubernetes):
 

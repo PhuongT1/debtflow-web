@@ -1,0 +1,31 @@
+.section {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 1.5rem clamp(2rem, 7vw, 6rem);
+  align-items: start;
+}
+.list details {
+  padding-block: 1rem;
+  border-bottom: 1px solid var(--marketing-border);
+}
+
+.list details:first-child {
+  border-top: 1px solid var(--marketing-border);
+}
+
+.list summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.list p {
+  margin-block-start: 0.65rem;
+}
+.list p {
+  color: var(--marketing-muted);
+}
+@media (max-width: 800px) {
+  .section {
+    grid-template-columns: 1fr;
+  }
+}

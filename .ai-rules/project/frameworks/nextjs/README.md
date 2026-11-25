@@ -1,9 +1,9 @@
 # Debtflow Next.js Extension
 
-**Activate:** Next.js routing, layering, aliases or locale integration in Shell/Partner Ops.
+**Activate:** Next.js routing, layering, aliases or locale integration in Shell, Partner Ops or Marketing.
 
 - Resolve Next.js from the affected app before using upstream guides or tools. Use version-matched official docs when bundled docs are unavailable. Runtime MCP and newer canary skills have their own prerequisites; do not assume they exist on this project or upgrade dependencies merely to use them.
-- Both apps use App Router. Preserve the current no-locale-route-segments model unless the task explicitly changes it.
+- These apps use App Router. Preserve the current no-locale-route-segments model unless the task explicitly changes it.
 - `@/` resolves to the owning app's `src/`, never another app or the workspace root. Cross-feature consumers use deliberate feature public surfaces.
 - Routes in `src/app/` own framework composition; domain workflows live in `src/features/`. Reusable presentation is in app components or public `@packages/ui-react` exports. Existing Shell endpoint adapters remain in `services/`; do not add a duplicate transport layer.
 - Preserve standalone and embedded composition, SDK navigation/session contracts and the actual feature dependency direction.

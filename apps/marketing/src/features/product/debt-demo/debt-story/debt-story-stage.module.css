@@ -1,0 +1,106 @@
+.scene {
+  display: grid;
+  gap: 0.8rem;
+  min-height: clamp(16rem, 24vw, 20rem);
+  align-content: center;
+  padding: clamp(0.65rem, 2.7vw, 1.8rem);
+}
+
+.receivable,
+.event {
+  min-width: 0;
+  padding: clamp(0.65rem, 2vw, 1.1rem);
+  border: 1px solid #d4e0ce;
+  border-radius: 0.9rem;
+  background: #fffdf6;
+  box-shadow: 0 10px 20px #244b2c12;
+}
+
+.sceneHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem 0.65rem;
+}
+
+.sceneHeader h3 {
+  margin: 0;
+  font-size: clamp(1.05rem, 2.7vw, 1.9rem);
+  letter-spacing: -0.035em;
+}
+
+.sceneHeader span,
+.totals dt,
+.event p {
+  color: #4d6758;
+  font-size: 0.8rem;
+}
+
+.sceneHeader .status {
+  padding: 0.2rem 0.58rem;
+  border-radius: 1.5rem;
+  color: #294d36;
+  background: #e7efdf;
+  font-weight: 700;
+}
+
+.scene[data-scene='overdue'] .status,
+.scene[data-scene='overdue'] .eventIcon {
+  color: #78321a;
+  background: #f7e4d5;
+}
+
+.scene[data-scene='partially-paid'] .event {
+  border-color: #86ac73;
+  background: #f5fce9;
+}
+
+.totals {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 0.35rem;
+  margin-block: 0.8rem 0.65rem;
+}
+
+.totals dd {
+  font-size: clamp(0.88rem, 2.35vw, 1.6rem);
+  font-weight: 750;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+
+.bar {
+  height: 0.5rem;
+  overflow: hidden;
+  border-radius: 0.8rem;
+  background: #e7edde;
+}
+
+.bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #2e653e, #80a948);
+  transform-origin: left;
+}
+
+.event {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.eventIcon {
+  display: grid;
+  flex: 0 0 1.65rem;
+  height: 1.65rem;
+  place-items: center;
+  border-radius: 50%;
+  background: #e2edd7;
+  color: #2d593a;
+  font-weight: 750;
+}
+
+.event strong {
+  font-size: clamp(0.86rem, 1.6vw, 1rem);
+}

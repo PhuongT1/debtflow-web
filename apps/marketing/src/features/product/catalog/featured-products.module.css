@@ -1,0 +1,17 @@
+.section {
+  padding: clamp(1.15rem, 3vw, 2.45rem);
+  margin-block: clamp(1.35rem, 4vw, 3rem);
+  border: 1px solid #dfe5ff;
+  border-radius: 1.35rem;
+  background: linear-gradient(135deg, #eef2ff, #f1ebff);
+}
+
+.section h2 {
+  color: #1c2b6c;
+}
+
+.section p {
+  max-width: 52ch;
+  margin-top: 0.55rem;
+  color: var(--marketing-muted);
+}

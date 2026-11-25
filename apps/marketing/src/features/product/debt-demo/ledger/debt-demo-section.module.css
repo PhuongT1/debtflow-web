@@ -1,0 +1,24 @@
+.section {
+  background: #1c2a70;
+  color: #fff;
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: center;
+  gap: clamp(1.55rem, 5vw, 5.5rem);
+  padding-block: clamp(2.7rem, 6vw, 5.4rem);
+}
+
+.inner > div:first-child p {
+  margin-top: 0.9rem;
+  color: #e5ebff;
+  max-width: 35ch;
+}
+
+@media (max-width: 800px) {
+  .inner {
+    grid-template-columns: 1fr;
+  }
+}

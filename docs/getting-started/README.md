@@ -4,13 +4,14 @@ Read this page first. It explains the workspace, where documentation belongs, an
 
 ## Understand the workspace
 
-Debtflow is an npm monorepo with three independently runnable apps:
+Debtflow is an npm monorepo with four independently runnable apps:
 
 | App         | Responsibility                                     | Local port |
 | ----------- | -------------------------------------------------- | ---------- |
 | Shell       | Platform composition, dashboard and authentication | 3000       |
 | Partner Ops | Customers, suppliers and parties                   | 3001       |
 | Payments    | Payment workflows                                  | 3002       |
+| Marketing   | Public product website and campaign pages          | 3003       |
 
 `apps/` owns application features. `packages/` holds shared public contracts, integration helpers and presentation. See the [workspace map](../architecture/workspace.md) for exact folders; do not import another app's private source.
 

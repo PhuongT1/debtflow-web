@@ -16,6 +16,10 @@ Read [Partner Ops architecture](../../apps/partner-ops/.ai-rules/architecture.md
 
 `apps/payments` is the Angular payments application. Its `package.json` defines its independent development/build commands. Follow [Payments owner instructions](../../apps/payments/AGENTS.md) and the [Angular standard](../../.ai-rules/core/frameworks/angular/README.md).
 
+## Marketing
+
+`apps/marketing` owns public product and campaign pages. It has an independent Next.js build and links to Shell for sign-in. See the [Marketing workspace guide](../../apps/marketing/README.md) for routes, commands and Vercel configuration.
+
 ## Before a cross-app edit
 
 Map actual consumers and public contracts first. Source location alone does not establish safe scope. Apply [MFE boundaries](../../.ai-rules/core/standards/microfrontend.md) and [shared-code impact rules](../../.ai-rules/core/execution/shared-code.md).

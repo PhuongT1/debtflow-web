@@ -1,0 +1,109 @@
+.preview {
+  min-width: 0;
+  overflow: hidden;
+  overflow: clip;
+  border: 1px solid #d8ddd6;
+  border-radius: 1.25rem;
+  background: #fdfdfa;
+  color: #23332b;
+  box-shadow: 0 1.25rem 3rem #081b1340;
+}
+
+.header,
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem clamp(0.75rem, 3vw, 1.5rem);
+}
+
+.header {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #e5e9e1;
+}
+
+.header p {
+  font-weight: 760;
+}
+.header span,
+.filters span,
+.records span {
+  color: #57655e;
+  font-size: 0.75rem;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 1rem;
+  padding: 1rem clamp(0.75rem, 3vw, 1.5rem);
+  background: #eef2eb;
+}
+
+.summary dt {
+  font-size: 0.75rem;
+}
+.summary dd {
+  margin-top: 0.25rem;
+  font-size: clamp(0.94rem, 2.1vw, 1.55rem);
+  font-weight: 760;
+  letter-spacing: -0.035em;
+}
+
+.filters span {
+  margin-inline-start: auto;
+}
+.filters button {
+  padding: 0.5rem 0.85rem;
+  border: 1px solid transparent;
+  border-radius: 1rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.84rem;
+  cursor: pointer;
+}
+
+.filters button:hover {
+  border-color: #a6b9ab;
+}
+.filters button[aria-pressed='true'] {
+  background: #dce9dd;
+  color: #16442e;
+  font-weight: 700;
+}
+
+.records {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.records thead {
+  background: #f5f6f1;
+  color: #54645a;
+  font-size: 0.75rem;
+}
+.records th,
+.records td {
+  padding: 0.6rem clamp(0.65rem, 2vw, 1.5rem);
+  border-top: 1px solid #e5e9e1;
+}
+.records td,
+.records thead th:last-child {
+  text-align: right;
+}
+.records tbody th {
+  font-weight: 500;
+}
+.records strong {
+  display: block;
+  font-size: clamp(0.78rem, 1.45vw, 0.94rem);
+}
+.records span {
+  display: block;
+}
+.records .overdue {
+  color: #94421f;
+  font-weight: 700;
+}

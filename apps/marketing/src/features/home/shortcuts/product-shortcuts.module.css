@@ -1,0 +1,80 @@
+.shortcuts ul {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.shortcuts li {
+  display: flex;
+  min-width: 0;
+}
+
+.shortcuts a {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  padding: clamp(0.52rem, 1.45vw, 1rem);
+  border: 1px solid #e1e5fa;
+  border-radius: 0.9rem;
+  background: #fff;
+  text-decoration: none;
+}
+
+.shortcuts a:hover {
+  border-color: #788bdb;
+  background: #f3f5ff;
+}
+
+.symbol {
+  display: grid;
+  flex: 0 0 clamp(1.8rem, 3.25vw, 2.85rem);
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 0.65rem;
+  background: #dce6ff;
+  color: #2745a2;
+  font-size: 1.2rem;
+  font-weight: 780;
+}
+
+[data-tone='violet'] .symbol {
+  background: #eee2ff;
+  color: #63299c;
+}
+
+[data-tone='green'] .symbol {
+  background: #d6f3e6;
+  color: #006546;
+}
+
+[data-tone='amber'] .symbol {
+  background: #fff1c0;
+  color: #74430b;
+}
+
+.copy {
+  display: grid;
+  gap: 0.15rem;
+  line-height: 1.25;
+}
+
+.copy > span {
+  color: var(--marketing-muted);
+  font-size: 0.79rem;
+}
+
+@media (max-width: 850px) {
+  .shortcuts ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .copy strong {
+    font-size: 0.89rem;
+  }
+}

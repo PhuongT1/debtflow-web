@@ -1,0 +1,44 @@
+name: Marketing
+
+on:
+  pull_request:
+    paths:
+      - 'apps/marketing/**'
+      - 'packages/**'
+      - 'scripts/**'
+      - 'tooling/**'
+      - '.nvmrc'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'eslint.config.mjs'
+      - 'prettier.config.mjs'
+      - '.prettierignore'
+      - '.editorconfig'
+      - '.github/workflows/marketing.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'apps/marketing/**'
+      - 'packages/**'
+      - 'scripts/**'
+      - 'tooling/**'
+      - '.nvmrc'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'eslint.config.mjs'
+      - 'prettier.config.mjs'
+      - '.prettierignore'
+      - '.editorconfig'
+      - '.github/workflows/marketing.yml'
+
+jobs:
+  check-marketing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run check:marketing

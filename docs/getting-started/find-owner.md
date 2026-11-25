@@ -5,6 +5,7 @@
 | Port 3000, global composition, native dashboard/auth routes | Shell                           | [Shell instructions](../../apps/shell/AGENTS.md), route and handler                    |
 | Port 3001, parties/customers/suppliers                      | Partner Ops                     | [Partner Ops instructions](../../apps/partner-ops/AGENTS.md), feature entry and caller |
 | Port 3002, payment UI                                       | Payments                        | [Payments instructions](../../apps/payments/AGENTS.md), component/service              |
+| Port 3003, public product and campaign pages                | Marketing                       | [Marketing instructions](../../apps/marketing/AGENTS.md), public route and content     |
 | Cross-app React presentation                                | Shared React UI                 | Public export and actual consumers                                                     |
 | Shared types, navigation, tokens, registry, SDK             | Relevant neutral/shared package | [Package map](../architecture/packages.md), imports and public exports                 |
 

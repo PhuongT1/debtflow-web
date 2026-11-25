@@ -6,6 +6,7 @@ debtflow-web/
     shell/          Next.js platform host, port 3000
     partner-ops/    Next.js parties domain, port 3001
     payments/       Angular payments app, port 3002
+    marketing/      Next.js public product website, port 3003
   packages/
     platform/       Framework-neutral platform capabilities
       contracts/    Shared types, constants and validators
@@ -22,7 +23,7 @@ debtflow-web/
 
 ## Runtime ownership
 
-Shell owns platform composition. Partner Ops and Payments remain independently deployable applications. A shared workspace does not permit imports from one app's private source into another.
+Shell owns platform composition. Partner Ops and Payments are independently deployable remotes. Marketing is an independently deployable public website. A shared workspace does not permit imports from one app's private source into another.
 
 Use [application ownership](apps.md) to locate domain code, [package boundaries](packages.md) for cross-app changes, and [owner instructions](../../apps/shell/AGENTS.md) before implementation.
 

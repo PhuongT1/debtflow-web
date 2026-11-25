@@ -5,6 +5,13 @@ export default {
   semi: true,
   overrides: [
     {
+      // Preserve blank lines between npm script groups.
+      files: './package.json',
+      options: {
+        parser: 'json',
+      },
+    },
+    {
       files: '*.html',
       options: {
         parser: 'angular',

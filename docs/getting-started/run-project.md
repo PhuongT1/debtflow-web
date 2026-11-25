@@ -31,7 +31,7 @@ npm ci
 npm run dev:all
 ```
 
-Keep this terminal running. The root scripts start Shell on 3000, Partner Ops on 3001, and Payments on 3002. Open [Shell](http://localhost:3000) in your browser. Backend/environment provisioning is separate; request the team's environment configuration if a required service is unavailable.
+Keep this terminal running. The root scripts start Shell on 3000, Partner Ops on 3001, Payments on 3002 and Marketing on 3003. Open [Shell](http://localhost:3000) in your browser. Backend/environment provisioning is separate; request the team's environment configuration if a required service is unavailable.
 
 For a smaller development session, choose the matching command:
 
@@ -40,6 +40,7 @@ For a smaller development session, choose the matching command:
 | Shell alone            | `npm run dev:shell`                              |
 | Partner Ops alone      | `npm run dev:partner-ops`                        |
 | Payments alone         | `npm run dev:payments`                           |
+| Marketing alone        | `npm run dev:marketing`                          |
 | Shell with Partner Ops | `npm run dev:partner-stack`                      |
 | Shell with Payments    | `npm run dev:payments-stack`                     |
 | This documentation     | `npm run rules:viewer` → `http://127.0.0.1:4317` |

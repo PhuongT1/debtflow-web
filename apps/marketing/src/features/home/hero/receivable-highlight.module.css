@@ -1,0 +1,102 @@
+.card {
+  display: grid;
+  align-content: center;
+  min-width: 0;
+  padding: clamp(1rem, 2.25vw, 1.6rem);
+  border-radius: 1.2rem;
+  color: #2f1c0c;
+  background: linear-gradient(135deg, #ffc537, #ffe480);
+  text-decoration: none;
+}
+
+.header,
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem 0.65rem;
+}
+
+.header > span,
+.remaining {
+  font-size: 0.8rem;
+}
+
+.partner {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.amount {
+  font-size: clamp(1.35rem, 2.2vw, 2.1rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+.track {
+  display: block;
+  overflow: hidden;
+  height: 0.55rem;
+  margin-block: 0.6rem 0.75rem;
+  border-radius: 1rem;
+  background: #ffe9a7;
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #236a4d;
+  transform-origin: left;
+}
+
+.payment {
+  width: fit-content;
+  padding: 0.23rem 0.55rem;
+  border-radius: 0.45rem;
+  background: #fff4c9;
+  color: #174d35;
+  font-size: 0.8rem;
+  font-weight: 730;
+}
+
+.action {
+  font-size: 0.8rem;
+  font-weight: 730;
+}
+
+.card:hover .action {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fill {
+    animation: record-payment 1.35s 0.35s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  }
+
+  .payment {
+    animation: show-payment 0.75s 1.25s both;
+  }
+
+  @keyframes record-payment {
+    from {
+      transform: scaleX(0);
+    }
+  }
+
+  @keyframes show-payment {
+    from {
+      opacity: 0.25;
+      transform: translateY(0.55rem);
+    }
+  }
+}
+
+@media (max-width: 560px) {
+  .card {
+    padding: 0.8rem;
+  }
+}
